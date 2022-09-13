@@ -1,0 +1,852 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AABBIsRequired" xml:space="preserve">
+    <value>{0} is required.</value>
+  </data>
+  <data name="AABetweenBBAndCC" xml:space="preserve">
+    <value>{0} must be between {1} and {2}.</value>
+  </data>
+  <data name="AAGreaterThanZero" xml:space="preserve">
+    <value>{0} should be greater than zero.</value>
+  </data>
+  <data name="AAGreaterThenOrEqualBB" xml:space="preserve">
+    <value>{0} should be greater than or equal to {1}.</value>
+  </data>
+  <data name="AAGreaterThenOrEqualToday" xml:space="preserve">
+    <value>{0} is Not less then today</value>
+  </data>
+  <data name="AAIsPrimaryCode" xml:space="preserve">
+    <value>{0} already exists. Please try another code.</value>
+  </data>
+  <data name="AAIsRequired" xml:space="preserve">
+    <value>{0} is required.</value>
+  </data>
+  <data name="AAIsValidRequired" xml:space="preserve">
+    <value>Valid {0} is required.</value>
+  </data>
+  <data name="AALesserThenOrEqualBB" xml:space="preserve">
+    <value>{0} should be lesser than or equal to {1}.</value>
+  </data>
+  <data name="AALessThenOrEqualBB" xml:space="preserve">
+    <value>{0} should be lesser than or equal to {1}.</value>
+  </data>
+  <data name="AAMustHaveRecord" xml:space="preserve">
+    <value>{0} must have atleast one record</value>
+  </data>
+  <data name="AANotLessThenBB" xml:space="preserve">
+    <value>{0} should not be less than {1}.</value>
+  </data>
+  <data name="AANotNull" xml:space="preserve">
+    <value>{0} cannot be null if status is Inactive</value>
+  </data>
+  <data name="ASISEqual" xml:space="preserve">
+    <value>{0}should be Equal to {1}.</value>
+  </data>
+  <data name="DeleteFailed" xml:space="preserve">
+    <value>Delete failed!</value>
+  </data>
+  <data name="GeneralException" xml:space="preserve">
+    <value>Problem with your request. Please contact system administrator.</value>
+  </data>
+  <data name="AAIsOneDayEntry" xml:space="preserve">
+    <value>The {0} is already given for this day.</value>
+  </data>
+  <data name="CannotDelete" xml:space="preserve">
+    <value>{0} having many child references, which cannot be deleted</value>
+  </data>
+  <data name="AAFileNotFound" xml:space="preserve">
+    <value>{0}File not found.</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>{0} already exist/added</value>
+  </data>
+  <data name="AALengthBBtoCC" xml:space="preserve">
+    <value>{0} Length must be between {1} and {2}.</value>
+  </data>
+  <data name="AAGreaterThenToday" xml:space="preserve">
+    <value>{0} is greater then today.</value>
+  </data>
+  <data name="AAIsExpired" xml:space="preserve">
+    <value>{0} was Expired!</value>
+  </data>
+  <data name="AAAlreadyExist" xml:space="preserve">
+    <value>Selected {0} already exists. Please try another {0}.</value>
+  </data>
+  <data name="AAGreaterThenBB" xml:space="preserve">
+    <value>{0} should be greater than {1}.</value>
+  </data>
+  <data name="OneAATwoBB" xml:space="preserve">
+    <value>One {0} can have only two {1}</value>
+  </data>
+  <data name="AALessEqualToday" xml:space="preserve">
+    <value>{0} should be less than or equal to current date</value>
+  </data>
+  <data name="AAIsPrimaryName" xml:space="preserve">
+    <value>{0} already exist. Please try another name.</value>
+  </data>
+  <data name="AAIsPerOrderBB" xml:space="preserve">
+    <value>The {0} is already given for this day. In case of emergency {1} you can proceed on your order.</value>
+  </data>
+  <data name="AAIsNocode" xml:space="preserve">
+    <value>There is no {0} for your hospital.</value>
+  </data>
+  <data name="AAIsDateExpire" xml:space="preserve">
+    <value>{0} approval date expires.</value>
+  </data>
+  <data name="AAPerMonthBB" xml:space="preserve">
+    <value>Entry already exists for the month</value>
+  </data>
+  <data name="AAShouldBeInBB" xml:space="preserve">
+    <value>{0} should be in {1}.</value>
+  </data>
+  <data name="AttendanceAlreadyAddedAABB" xml:space="preserve">
+    <value>Attendance already added for the selected Service {0} and Year &amp; Month {1} &amp; {2}.</value>
+  </data>
+  <data name="AttendanceNotEditable" xml:space="preserve">
+    <value>Only previous month record should be editable within 10th of current month.</value>
+  </data>
+  <data name="AAAllocationBB" xml:space="preserve">
+    <value>{0} already added for the selected {1}</value>
+  </data>
+  <data name="FeedbackAdded" xml:space="preserve">
+    <value>Service Satisfaction survey already added for the selected User area, Quarter &amp; Year</value>
+  </data>
+  <data name="AlreadyAddedSameDate" xml:space="preserve">
+    <value>{0} Already Added for the Same Effective Date.</value>
+  </data>
+  <data name="TestResultCompliance" xml:space="preserve">
+    <value>Status and Test Result does not match.</value>
+  </data>
+  <data name="AAIsAlreadyExistTwoField" xml:space="preserve">
+    <value>Record with same {0} and {1} already exist</value>
+  </data>
+  <data name="AAIsAlreadyUseDelete" xml:space="preserve">
+    <value>Record cannot be deleted as it is referred in another record</value>
+  </data>
+  <data name="AAIsAlreadyUseEdit" xml:space="preserve">
+    <value>This {0} already in use and cannot be edited</value>
+  </data>
+  <data name="ParameterDuplicate" xml:space="preserve">
+    <value>Rating already added for the selected parameter</value>
+  </data>
+  <data name="AACombination" xml:space="preserve">
+    <value>This Combination of {0} already exist.</value>
+  </data>
+  <data name="AlreadyExist" xml:space="preserve">
+    <value>Data Already Exist</value>
+  </data>
+  <data name="DuplicateInsert" xml:space="preserve">
+    <value>Records already inserted for selected service</value>
+  </data>
+  <data name="AAShouldBeGraterThenZero" xml:space="preserve">
+    <value>{0} should be greater than zero.</value>
+  </data>
+  <data name="RouteAlreadyAssigned" xml:space="preserve">
+    <value>This Route is already assigned and cannot be used!</value>
+  </data>
+  <data name="StatusCheck" xml:space="preserve">
+    <value>User area master status in Other services is still active. It must be made inactive to proceed further / Active User locations are available. Make it inactive to proceed further</value>
+  </data>
+  <data name="CheckStatus" xml:space="preserve">
+    <value>Check the {0} in the mentioned screen(s) _ {1}</value>
+  </data>
+  <data name="ScheduleNotPlanned" xml:space="preserve">
+    <value>Schedule not planned for the month</value>
+  </data>
+  <data name="BagHolderAlreadyAddedAABBCCDD" xml:space="preserve">
+    <value>Washing details already added for the selected {0}, {1} ,{2} and {3}.</value>
+  </data>
+  <data name="AAAlreadyAdded" xml:space="preserve">
+    <value>Entered {0} is already added/exist</value>
+  </data>
+  <data name="AARecordAlreadyAddedBBCCDDEE" xml:space="preserve">
+    <value>{0} record already added for the selected {1} , {2} &amp; {3} and {4}</value>
+  </data>
+  <data name="AAIscode" xml:space="preserve">
+    <value>There is {0} for your hospital.</value>
+  </data>
+  <data name="CSWRecordAlreadyAddedAABBCCDD" xml:space="preserve">
+    <value>CSWR record already added for the selected {0}, {1}, {2} and {3}.</value>
+  </data>
+  <data name="CWIRecordAlreadyAddedAABBCCDDEE" xml:space="preserve">
+    <value>Record already added for the selected {0} {1} {2} and {3}.</value>
+  </data>
+  <data name="ManpowerAlreadyAddedAABBCCDD" xml:space="preserve">
+    <value>Manpower Norms already added for the selected Service {0}, Hospital Category {1}</value>
+  </data>
+  <data name="WasteUnloadingcompletedforenteredAA" xml:space="preserve">
+    <value>Waste Unloading completed for entered {0}</value>
+  </data>
+  <data name="AADateInValid" xml:space="preserve">
+    <value>{0} is Invalid date format. Enter in correct format (DD-MM-YYYY)</value>
+  </data>
+  <data name="IncorrectAAEnterValidBB" xml:space="preserve">
+    <value>Incorrect {0} Enter valid {1}</value>
+  </data>
+  <data name="EnteredAAalreadyadded" xml:space="preserve">
+    <value>Entered {0} already added</value>
+  </data>
+  <data name="MiscellaneousBehavior" xml:space="preserve">
+    <value>Miscellaneous Behavior</value>
+  </data>
+  <data name="AAAlreadyExisting" xml:space="preserve">
+    <value>{0} already exists</value>
+  </data>
+  <data name="WSECRecordAlreadyAddedAABB" xml:space="preserve">
+    <value>WSEC Record Already added for the selected {0} and {1}.</value>
+  </data>
+  <data name="ScheduleAlreadyExists" xml:space="preserve">
+    <value>Schedule already exists and cannot be generated</value>
+  </data>
+  <data name="AAIsDependancy" xml:space="preserve">
+    <value>{0} depend on another screen cannot delete.</value>
+  </data>
+  <data name="AAalreadyinuseandcannotbedeletedoredited" xml:space="preserve">
+    <value>Record cannot be deleted as it is referred in another record!</value>
+  </data>
+  <data name="ProperNo" xml:space="preserve">
+    <value>This {0} not mached in this {1}</value>
+  </data>
+  <data name="WasteUnloadingWeight" xml:space="preserve">
+    <value>Weight is greater than Consignment Note weight</value>
+  </data>
+  <data name="InvalidSelection" xml:space="preserve">
+    <value>Invalid {0} Selection</value>
+  </data>
+  <data name="AAShouldBeGreaterThanPreviousBB" xml:space="preserve">
+    <value>Effective date for the latest {0} should be greater than previous {0} End date.</value>
+  </data>
+  <data name="AAGreaterThanOne" xml:space="preserve">
+    <value>{0} should be greater than One</value>
+  </data>
+  <data name="RemarksRequiredAABB" xml:space="preserve">
+    <value>Remarks required on Day {0} for Month {1}</value>
+  </data>
+  <data name="PasswordMisMatch" xml:space="preserve">
+    <value>{0} do not match</value>
+  </data>
+  <data name="AAEntryExist" xml:space="preserve">
+    <value>Entry already exists for the {0}.</value>
+  </data>
+  <data name="AAChangeCode" xml:space="preserve">
+    <value>{0} already exists.</value>
+  </data>
+  <data name="RouteCodeAlreadyAssigned" xml:space="preserve">
+    <value>Route code already assigned</value>
+  </data>
+  <data name="AAdateAlreadyExists" xml:space="preserve">
+    <value>This {0} is already exist. Please try another Date.</value>
+  </data>
+  <data name="AAalreadymappedtoadifferentBB" xml:space="preserve">
+    <value>{0} already mapped to a different {1}</value>
+  </data>
+  <data name="DuplicateAAExist" xml:space="preserve">
+    <value>Duplicate {0} exist</value>
+  </data>
+  <data name="AAIsAlreadyExist" xml:space="preserve">
+    <value>Record with same {0} already exist/added</value>
+  </data>
+  <data name="AlreadyUsed" xml:space="preserve">
+    <value>{0} already in use, cannot be deleted</value>
+  </data>
+  <data name="SelectedExist" xml:space="preserve">
+    <value>Selected {0} already added/exist</value>
+  </data>
+  <data name="AAShouldBePastMonth" xml:space="preserve">
+    <value>{0} should be done only for past month transaction.</value>
+  </data>
+  <data name="AATransactionClosed" xml:space="preserve">
+    <value>{0} Transaction is closed for current month.</value>
+  </data>
+  <data name="AABBExists" xml:space="preserve">
+    <value>This {0} and {1} combination already exists</value>
+  </data>
+  <data name="AADateNotFuture" xml:space="preserve">
+    <value>{0} cannot be a future date.</value>
+  </data>
+  <data name="MinimumCode" xml:space="preserve">
+    <value>{0} cannot be less than 3 characters</value>
+  </data>
+  <data name="SelectedAAalreadyapprove" xml:space="preserve">
+    <value>Selected {0} already approved</value>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Invalid {0}</value>
+  </data>
+  <data name="HospitalIdHack" xml:space="preserve">
+    <value>User Does Not Belongs To Access This Hospital</value>
+  </data>
+  <data name="AALesserThenBB" xml:space="preserve">
+    <value>{0} should be lesser than  {1}.</value>
+  </data>
+  <data name="AABBCCExists" xml:space="preserve">
+    <value>This {0},{1} and {2} combination is already exists</value>
+  </data>
+  <data name="InvalidLoginName" xml:space="preserve">
+    <value>The Login Name Is Invalid</value>
+  </data>
+  <data name="HospitalProfileRequired" xml:space="preserve">
+    <value>Please create {0} before creating Company Site Office Profile.</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Please create {0} before creating Company site office profile.</value>
+  </data>
+  <data name="InCorrectPassword" xml:space="preserve">
+    <value>{0} is incorrect</value>
+  </data>
+  <data name="AlreadyExistinBasePermission" xml:space="preserve">
+    <value>Selected {0} already exist in BasePermission. Please try another {0}.</value>
+  </data>
+  <data name="CWRSAlreadyExists" xml:space="preserve">
+    <value>CWRS record already/exist for the selected date</value>
+  </data>
+  <data name="AlreadyUsedInActive" xml:space="preserve">
+    <value>{0} already in use, cannot be InActive</value>
+  </data>
+  <data name="DuplicateErrorMessage" xml:space="preserve">
+    <value>Selected {0}  already exist/added</value>
+  </data>
+  <data name="ValidateDate" xml:space="preserve">
+    <value>Expiry date should be greater than Issue date</value>
+  </data>
+  <data name="AAaddedfortheentereddate" xml:space="preserve">
+    <value>{0} added for the entered date</value>
+  </data>
+  <data name="AAGreaterThanToday" xml:space="preserve">
+    <value>{0} should be greater than Today</value>
+  </data>
+  <data name="CodeValidation" xml:space="preserve">
+    <value>Entered {0}  already added/exist</value>
+  </data>
+  <data name="DWRSDATE" xml:space="preserve">
+    <value>CWRS record for the entered  {0} is already assigned to another DWRS record</value>
+  </data>
+  <data name="UniqueMust" xml:space="preserve">
+    <value>{0} should be unique</value>
+  </data>
+  <data name="EmailIdNotFound" xml:space="preserve">
+    <value>Email Id Not Found For The User</value>
+  </data>
+  <data name="AALengthBB" xml:space="preserve">
+    <value>{0} Length must be lesser than or equal to {1}.</value>
+  </data>
+  <data name="DueDateValidation" xml:space="preserve">
+    <value>{0} Not Allow Past Date</value>
+  </data>
+  <data name="AAGreaterThenOrEqualBBBB" xml:space="preserve">
+    <value>Closed Date should be greater than {0} .</value>
+  </data>
+  <data name="DefectDetailsDate" xml:space="preserve">
+    <value>Approved/Reject Date should be greater than or equal to Document </value>
+  </data>
+  <data name="DocumentDateValidation" xml:space="preserve">
+    <value>{0} Not Allow Future Date</value>
+  </data>
+  <data name="STDStatusChanged" xml:space="preserve">
+    <value>Selected {0} should be Greater than Previous {0}.</value>
+  </data>
+  <data name="FileFormat" xml:space="preserve">
+    <value>Invalid File Format.</value>
+  </data>
+  <data name="ToDateGreaterThanFromDate" xml:space="preserve">
+    <value>{0} should be greater than/equal to {1}.</value>
+  </data>
+  <data name="AssetNoDuplicate" xml:space="preserve">
+    <value>Invalid Asset No.</value>
+  </data>
+  <data name="ContractorDuplicate" xml:space="preserve">
+    <value>Invalid Supplier Name .</value>
+  </data>
+  <data name="DeductionGeneratedAABBCC" xml:space="preserve">
+    <value>Deduction Generated for {0},{1} and {2}.</value>
+  </data>
+  <data name="AAGreaterThenBBCC" xml:space="preserve">
+    <value>{0} should be greater than selected {1} {2}.</value>
+  </data>
+  <data name="ContractExpiredValidation" xml:space="preserve">
+    <value>Contract not expired and cannot be deleted</value>
+  </data>
+  <data name="OnlyFutureDateValidation" xml:space="preserve">
+    <value>{0} cannot be Current and Past Date.</value>
+  </data>
+  <data name="ResponseDateTimeValidation" xml:space="preserve">
+    <value>{0} cannot be Future Date.</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>{0} should be less or equal to Max cost and greater than or equal to  Min cost.</value>
+  </data>
+  <data name="EffectiveDatePV" xml:space="preserve">
+    <value> {0} should be greater than previous {0} .</value>
+  </data>
+  <data name="AARecordMissmatch" xml:space="preserve">
+    <value>{0} records miss match </value>
+  </data>
+  <data name="FilterProcess" xml:space="preserve">
+    <value> This {0} already have data for this specified Month &amp; Year</value>
+  </data>
+  <data name="ApprovedFilter" xml:space="preserve">
+    <value>At least select one {0} check box to proceed with Approved button</value>
+  </data>
+  <data name="DateNotGreaterThan" xml:space="preserve">
+    <value>{0} should not be greater than {1}.</value>
+  </data>
+  <data name="InvalidRecord" xml:space="preserve">
+    <value>{0} Invalid Record.</value>
+  </data>
+  <data name="DirectMessage" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AAUniqueBB" xml:space="preserve">
+    <value>{0} should be unique for {1}.</value>
+  </data>
+  <data name="AAShouldBeGreaterThanBBandAAShouldBeLessThanCC" xml:space="preserve">
+    <value>{0} Should Be GreaterThan {1} and {0} Should Be LessThan {2}</value>
+  </data>
+  <data name="DEDYearValidationMsg" xml:space="preserve">
+    <value>{0} already exist/added, cannot add record for the same year. Please edit.</value>
+  </data>
+  <data name="AAEntryExistAlready" xml:space="preserve">
+    <value>CCRS already added for the selected {0} and {1}</value>
+  </data>
+  <data name="AAEntryExistForSelectedBBCC" xml:space="preserve">
+    <value>{0} data for the selected {1} and {2} already exist</value>
+  </data>
+  <data name="AAAlreadyMapped" xml:space="preserve">
+    <value>Entered {0} already mapped to another {1}</value>
+  </data>
+  <data name="DeleteCheck" xml:space="preserve">
+    <value>Cannot be deleted because this {0} is already in use !</value>
+  </data>
+  <data name="ErrorGettingPAR" xml:space="preserve">
+    <value>Error retrieving linen PAR requirement</value>
+  </data>
+  <data name="IVAAGreaterThenBB" xml:space="preserve">
+    <value>Invalid {0} selected. New {1} should be greater than previous {2}</value>
+  </data>
+  <data name="AALessThanBB" xml:space="preserve">
+    <value>{0} should be lesser than  {1}.</value>
+  </data>
+  <data name="AAIsPrimaryLocation" xml:space="preserve">
+    <value>{0} already exist for this Location. Please try another Location.</value>
+  </data>
+  <data name="DateValidation" xml:space="preserve">
+    <value>Details already added for the selected date</value>
+  </data>
+  <data name="UniqueCodeMust" xml:space="preserve">
+    <value>{0} must be unique</value>
+  </data>
+  <data name="AlreadyMapped" xml:space="preserve">
+    <value>{0} Is Already Mapped.</value>
+  </data>
+  <data name="WorkGroupCode" xml:space="preserve">
+    <value>Historical Data Exists. Deletion not possible</value>
+  </data>
+  <data name="PenaltyGeneratedAABBCC" xml:space="preserve">
+    <value>Penalty Generated Already for the selected Service {0} and Year &amp; Month {1} &amp; {2}.</value>
+  </data>
+  <data name="Mapping" xml:space="preserve">
+    <value>This {0} already mapped in {1} and Cannot be Delete!</value>
+  </data>
+  <data name="GreaterThanIssueDate" xml:space="preserve">
+    <value>{0} should be greater than {1}.</value>
+  </data>
+  <data name="AAShouldNotBePastMonth" xml:space="preserve">
+    <value>Already Deduction closed for this  {0} date.</value>
+  </data>
+  <data name="AlreadyExistMonth" xml:space="preserve">
+    <value>{0} cannot be added for current or future period(month)</value>
+  </data>
+  <data name="AlreadyExistMonthAndYear" xml:space="preserve">
+    <value>{0}  and {1} is already exists Please try another</value>
+  </data>
+  <data name="AAWithinBB" xml:space="preserve">
+    <value>{0} and {1} should be within the selected year</value>
+  </data>
+  <data name="NextYear" xml:space="preserve">
+    <value>{0} Should be Next Year</value>
+  </data>
+  <data name="AANotCreatedFroMonth" xml:space="preserve">
+    <value>{0} not created for current month.</value>
+  </data>
+  <data name="AlreadyExistPeriod" xml:space="preserve">
+    <value>{0} already added for the selected period</value>
+  </data>
+  <data name="DeductionMappingDetailsAABBCC" xml:space="preserve">
+    <value>Deduction Transaction Mapping not generated for the selected {0} {1} and {2}.</value>
+  </data>
+  <data name="AACannotBeLessThanBB" xml:space="preserve">
+    <value>Selected {0} cannot be less than {1}.</value>
+  </data>
+  <data name="AANotCreated" xml:space="preserve">
+    <value>{0} not created</value>
+  </data>
+  <data name="AAEqualToday" xml:space="preserve">
+    <value>{0} should be equal to current date</value>
+  </data>
+  <data name="LinenDuplicate" xml:space="preserve">
+    <value>Duplicate {0} not allowed.</value>
+  </data>
+  <data name="AAlatterThenBB" xml:space="preserve">
+    <value>{0} should be latter than {1}.</value>
+  </data>
+  <data name="CannotAddRecord" xml:space="preserve">
+    <value>For previous month, Form A can be generated after {0}th of current month.</value>
+  </data>
+  <data name="AAWithInPlannedMonth" xml:space="preserve">
+    <value>{0} should be with in Planned month and equal to or greater than current date.</value>
+  </data>
+  <data name="AAIsAlreadyExistForThreeFields" xml:space="preserve">
+    <value>Record with same {0} ,{1} and {2} already exist</value>
+  </data>
+  <data name="WorkGroupCodeDeleteChildRecord" xml:space="preserve">
+    <value>Record cannot be deleted as it is referred in another record</value>
+  </data>
+  <data name="ABrandAlreadyused" xml:space="preserve">
+    <value>{0} already used</value>
+  </data>
+  <data name="DuplicateMonthExists" xml:space="preserve">
+    <value>Record already exists for same month</value>
+  </data>
+  <data name="WorkGroupCodeDeleteChildData" xml:space="preserve">
+    <value>Record cannot be deleted as it is referred in another record</value>
+  </data>
+  <data name="FilterTOP" xml:space="preserve">
+    <value>Same {0} could not be repeated.</value>
+  </data>
+  <data name="AAAlreadyExistForSelectedBB" xml:space="preserve">
+    <value>{0} already exist for this {1}.</value>
+  </data>
+  <data name="MakeInactive" xml:space="preserve">
+    <value>The Location can not be inactivated till the associated transaction(s) are closed</value>
+  </data>
+  <data name="MOHStateEngineerEmail" xml:space="preserve">
+    <value>JKN email id not available, Please enter the data in MOH Staff Master Screen</value>
+  </data>
+  <data name="MinimumCodeForAssetGroupDetails" xml:space="preserve">
+    <value>{0} cannot be less than 2 characters</value>
+  </data>
+  <data name="VRCCheckScreen" xml:space="preserve">
+    <value>Enter valid screen name.</value>
+  </data>
+  <data name="MakeInactiveForCompanyMst" xml:space="preserve">
+    <value>The {0} cannot be made Inactive till associated transaction(s) are closed</value>
+  </data>
+  <data name="RequiredTD" xml:space="preserve">
+    <value>Some {0 }are incorrect or have not been filled in. Please correct this to proceed.</value>
+  </data>
+  <data name="AAChangeVersion" xml:space="preserve">
+    <value>{0} should be greater than previous {1}.</value>
+  </data>
+  <data name="AAdatevalidationBB" xml:space="preserve">
+    <value>{0} should be grater than previous {1}</value>
+  </data>
+  <data name="AAIsUniqueDate" xml:space="preserve">
+    <value>{0} already exist.Please try another Date</value>
+  </data>
+  <data name="ValidateStockDate" xml:space="preserve">
+    <value>{0} is completed for the selected Date. Please select a Date greater than Adjustment Date.</value>
+  </data>
+  <data name="AAWithInPlannedYear" xml:space="preserve">
+    <value>{0} should be with in Planned year and greater than current date.</value>
+  </data>
+  <data name="AAInactive" xml:space="preserve">
+    <value>{0} cannot be change to Inactive status as it is referred in another screens.</value>
+  </data>
+  <data name="AABBCCDDEECombination" xml:space="preserve">
+    <value>This Combination of {0} ,{1},{2},{3},{4} already exist.</value>
+  </data>
+  <data name="MMBMCombination" xml:space="preserve">
+    <value>{0},{1},{2} and {3} cannot be duplicate.</value>
+  </data>
+  <data name="PlannerAssetTaskValidation" xml:space="preserve">
+    <value>The Asset &amp; {0} combination already exist.Please change to proceed.</value>
+  </data>
+  <data name="StatusCheckLocationCode" xml:space="preserve">
+    <value>User Location is still active in other services. It must be made inactive to proceed further.</value>
+  </data>
+  <data name="NoRecordsAvailable" xml:space="preserve">
+    <value>Previous Year record is not available for selected combination</value>
+  </data>
+  <data name="UploadEmptyRecord" xml:space="preserve">
+    <value>{0} Please upload valid data.</value>
+  </data>
+  <data name="AAGreaterThenBBlessthanCC" xml:space="preserve">
+    <value>{0} Should Be GreaterThan or equal to {1} and  LessThan or equal to {2}</value>
+  </data>
+  <data name="AALesserThanOrEqualBBAndGraterThanCC" xml:space="preserve">
+    <value>{0} should be lesser than or equal to {1} and greater than  {2}.</value>
+  </data>
+  <data name="CompanyInActiveCheck" xml:space="preserve">
+    <value>Record cannot be changed once Company is InActive</value>
+  </data>
+  <data name="FemsDataErrorCompleteAll" xml:space="preserve">
+    <value>Please fill  Mandatory fields across all pages in the grid prior to submission.</value>
+  </data>
+  <data name="ToEqualThanFromDate" xml:space="preserve">
+    <value>{0} should be greater equal to {1}.</value>
+  </data>
+  <data name="ToEqualFromDate" xml:space="preserve">
+    <value>{0} should be greater equal to {1}.</value>
+  </data>
+  <data name="InValidMessage" xml:space="preserve">
+    <value> Invalid {0} </value>
+  </data>
+  <data name="BEMSHEPPMCombinationExist" xml:space="preserve">
+    <value>Asset Type Code, Manufacturer, Make, Brand, Model and PPM Frequency combination already exist.</value>
+  </data>
+  <data name="AALessEqualCurrentDate" xml:space="preserve">
+    <value>{0} should be less than or equal to current date</value>
+  </data>
+  <data name="EmptyMsg" xml:space="preserve">
+    <value>{0} can not be empty!</value>
+  </data>
+  <data name="AAgreaterThanBBlessthanequalCC" xml:space="preserve">
+    <value>{0} should be greater than {1} and  less than or equal to {2}</value>
+  </data>
+  <data name="AAShouldNotBeSame" xml:space="preserve">
+    <value>{0} and {1} should not be same.</value>
+  </data>
+  <data name="AADateNotFutureInactiveStatus" xml:space="preserve">
+    <value>{0} Date cannot be future date in Status (Inactive)</value>
+  </data>
+  <data name="RecordModified" xml:space="preserve">
+    <value>Record already modified.</value>
+  </data>
+  <data name="CheckbyStaffname" xml:space="preserve">
+    <value>Valid {0} is required.</value>
+  </data>
+  <data name="LinenRepairDate" xml:space="preserve">
+    <value>{0} should be lesser than or equal to {1} &amp; greater than or equal to {2}</value>
+  </data>
+  <data name="RepirbyStaffname" xml:space="preserve">
+    <value>Valid {0} is required.</value>
+  </data>
+  <data name="MonthClosedTrasaction" xml:space="preserve">
+    <value>Transactions cannot be created for Closed months</value>
+  </data>
+  <data name="ValidateEffectiveFromDate" xml:space="preserve">
+    <value>{0} should be greater than or equal to User Department Code {1}.</value>
+  </data>
+  <data name="LinenTimeBetween" xml:space="preserve">
+    <value>Normal Linen should be raised between 8.00 A.M to 8.00 P.M in any given day.</value>
+  </data>
+  <data name="AATransactionLaps" xml:space="preserve">
+    <value>Transaction cannot be added for the current day.</value>
+  </data>
+  <data name="AAGreaterThanBBCC" xml:space="preserve">
+    <value>{0} should be greater than {1} {2}.</value>
+  </data>
+  <data name="AAshouldbewithinselectedBBandCC" xml:space="preserve">
+    <value>{0} should be within selected {1} and {2}.</value>
+  </data>
+  <data name="WeighingScaleNoUnique" xml:space="preserve">
+    <value>Weighing Scale No Should be Unique for all Waste Type</value>
+  </data>
+  <data name="AARecordAlreadyAddedBBCCDDEE1" xml:space="preserve">
+    <value>{0} record already added for the selected {1} , {2} &amp; {3} and {4}</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AARecordAlreadyAddedBBCCDDEEFF" xml:space="preserve">
+    <value>{0} record already added for the selected {1} , {2} , {3} &amp; {4} and {5}</value>
+  </data>
+  <data name="AccessMessage" xml:space="preserve">
+    <value>{0} user only allow to access BER2</value>
+  </data>
+  <data name="ValidationMessage" xml:space="preserve">
+    <value>Please save the {0}</value>
+  </data>
+  <data name="ActivityUnique" xml:space="preserve">
+    <value>Selected Activity and Sub activity already added/exist</value>
+  </data>
+  <data name="DedectionNotDoneFortheSelectedAABBCC" xml:space="preserve">
+    <value>Dedection transaction mapping not done for the selected {0} {1} and {2}.</value>
+  </data>
+  <data name="DeductionMappingIndicatorAABBCC" xml:space="preserve">
+    <value>All Indicators should be mapped for the selected {0} {1} and {2}.</value>
+  </data>
+  <data name="DeductionAdjustedAABBCC" xml:space="preserve">
+    <value>Deduction Adjustment Completed for {0},{1} and {2}.</value>
+  </data>
+  <data name="FINDeductionGeneratedAABBCC" xml:space="preserve">
+    <value>Deduction already  generated for selected {0},{1} and {2} combination, cannot be added.</value>
+  </data>
+  <data name="DeductionNotGeneratedAABBCC" xml:space="preserve">
+    <value>Deduction Not Generated for {0},{1} and {2}.</value>
+  </data>
+  <data name="AABBCCCombinationExist" xml:space="preserve">
+    <value>{0},{1},{2} combination already exist.</value>
+  </data>
+  <data name="AAgreaterThanEqualBBlessthanequalCC" xml:space="preserve">
+    <value>{0} should be greater than or equal to {1} and  less than or equal to {2}</value>
+  </data>
+  <data name="CombinationExist" xml:space="preserve">
+    <value>This combination already exist</value>
+  </data>
+  <data name="SP3RvendorApprovedDate" xml:space="preserve">
+    <value>{0} should be with in {1} and License End Date.</value>
+  </data>
+  <data name="DuplicateCombination" xml:space="preserve">
+    <value>Record already exist for the selected {0} and {1} , cannot be added.</value>
+  </data>
+  <data name="PAGenerated" xml:space="preserve">
+    <value>Penalty Assessment already generated for selected {0},{1} and {2} combination, cannot be added.</value>
+  </data>
+  <data name="DaysInMonthExceedsErrorMsg" xml:space="preserve">
+    <value>{0} should not exceeds days in the selected month</value>
+  </data>
+  <data name="FindEACDataGeneratedAABBCC" xml:space="preserve">
+    <value>EAC Data already  generated for selected {0},{1} and {2} combination, cannot be added.</value>
+  </data>
+  <data name="ValidateUser" xml:space="preserve">
+    <value>{0} User can only save the record.</value>
+  </data>
+  <data name="AAGreaterEqualToday" xml:space="preserve">
+    <value>{0} should be greater than or equal to current date</value>
+  </data>
+  <data name="ServiceRequestValidateAssetNo" xml:space="preserve">
+    <value>Open Service Requests exists for the Asset for the selected Request type 'BER'</value>
+  </data>
+  <data name="ServiceWorkLockedBasedOnStatus" xml:space="preserve">
+    <value>Service work should not be edited when the status is Closed or Cancelled or Not Done &amp; Closed.</value>
+  </data>
+  <data name="AAShouldLessThanHundred" xml:space="preserve">
+    <value>{0} value should be less than hundred.</value>
+  </data>
+  <data name="AAGreaterThanCurrentDate" xml:space="preserve">
+    <value>{0} should be greater than Current Date</value>
+  </data>
+  <data name="Cclssavevalidation" xml:space="preserve">
+    <value>Please save the record in Central Clean Linen store Screen First.</value>
+  </data>
+  <data name="AAGreaterThanBBLessThanCC" xml:space="preserve">
+    <value>{0} should be greater than or equal to {1} and less than {2}.</value>
+  </data>
+  <data name="AASelectedCodeExisting" xml:space="preserve">
+    <value>Selected {0} ({1}) already exists.</value>
+  </data>
+  <data name="AASelectedCodeValidRequired" xml:space="preserve">
+    <value>Selected {0} ({1}) is invalid.</value>
+  </data>
+  <data name="AAShouldNotBeInBB" xml:space="preserve">
+    <value>{0} should be in {1}.</value>
+  </data>
+</root>

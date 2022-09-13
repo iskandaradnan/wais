@@ -1,0 +1,402 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .green {
+        background-color: #dff0d8;
+    }
+
+    .pink {
+        background-color: #f2dede;
+    }
+
+    .buttonDisabled {
+        background-color: #E0E0E0;
+    }
+    /*.table > thead:first-child > tr:first-child > th:nth-child(2)
+     {
+        min-width: 120px;
+     }*/
+
+</style>
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="PlannerType" name="PlannerType" value="PPM" />
+    <input type="hidden" id="ServiceId" name="ServiceId" value="2" />
+    <input type="hidden" id="hdnStandardTaskDetId" name="hdnStandardTaskDetId">
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Maintenance Work</li>
+            <li class="active">Schedule Generation</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle-o" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        @if (ViewBag.ActionType == "ADD")
+        {<h4>Schedule Generation</h4>}
+        @if (ViewBag.ActionType == "EDIT")
+        {<h4>Schedule Generation</h4>}
+        @if (ViewBag.ActionType == "VIEW")
+        {<h4>Schedule Generation</h4>}
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+
+            <li class="active"><a href="#formppmplanner" data-toggle="tab">Schedule Generation</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2" onclick="SummaryData()">Print</a></li>
+        </ul>
+
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+            <form id="formppmplanner" name="formppmplanner" class="form-horizontal" novalidate>
+                <div class="row">
+                    @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerService" class="col-sm-6 control-label">Service</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Service" class="form-control" disabled>
+                                            <option value="null">Select </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerYear" class="col-sm-6 control-label">Year @*<span class="red">*</span>*@</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="Year" required onchange="GetWeekNo()" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerWorkOrderType" class="col-sm-6 control-label">Type Of Planner @*<span class="red">*</span>*@</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="TypeOfPlanner" onchange="GetWeekNo()" required class="form-control">
+                                        @*<option value="null">Select </option>*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerWorkGroup" class="col-sm-6 control-label">Work Group</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="WorkGroup" class="form-control" disabled>
+                                            <option value="null">Select </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Area Name </label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="Please Select" id="txtUserAreaCode" name="UserAreaCode" autocomplete="off" maxlength="25" tabindex="2" />
+                                    <input type="hidden" id="hdnUserAreaId" />
+
+                                    <div class="col-sm-12" id="divUserAreaFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Location Name </label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="Please Select" id="txtUserLocCode" name="UserLocCode" autocomplete="off" maxlength="25" tabindex="2" />                                        <input type="hidden" id="hdnUserLocationId" />
+                                    <input type="hidden" id="hdnUserLocId" />
+                                    <div class="col-sm-12" id="divUserLocFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="WeekNotobeGenerated" class="col-sm-6 control-label">Week No. To Be Generated</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="WeekNo" name="WeekNo" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="StartDate" class="col-sm-6 control-label">Start Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="StartDate" name="StartDate" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="EndDate" class="col-sm-6 control-label">End Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="EndDate" name="EndDate" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 " style="visibility:hidden">
+                        <div class="form-group">
+                            <label for="selWorkGroupfems" class="col-sm-6 control-label">Asset Classification  <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="selWorkGroupfems" name="selWorkGroup" required class="form-control">
+                                        <option value=1>Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg1">
+                        <div class="errormsgcenter" id="errorMessage1">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt30">
+                    <div class="col-sm-12 text-right">
+
+                        <button type="button" id="btnSaveFetch" onclick="Fetch_Generate('Fetch')" class="btn btn-primary customButton" tabindex="5">Fetch</button>
+                        <button type="button" id="btnSaveGenerate" onclick="Fetch_Generate('Generate')" class="btn btn-primary customButton" tabindex="5"><i class="fa fa-file-o" aria-hidden="true"></i>Generate</button>
+
+                        @if (ViewBag.ActionType == "ADD")
+                        {
+                            <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary customButton" tabindex="6"><i class="fa fa-plus" aria-hidden="true"  ></i>Skip Next week</button>
+                        }
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+
+                    </div>
+                </div>
+
+
+                <div class="content-area mt30">
+                    <div class="">
+                        <div class="table-responsive">
+                            <table id="dataTableCheckList" class="table table-fixedheader table-bordered">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="14%" id="PPMHeadHide" class="text-center">Asset No.</th>
+                                        <th width="14%" id="RIHeadHide" class="text-center">Area Code</th>
+                                        <th width="15%" class="text-center">Work Order No.</th>
+                                        @*<th width="15%" class="text-center">Work Group Code</th>*@
+                                        <th width="15%" class="text-center">Work Order Date</th>
+                                        <th width="14%" class="text-center">Target Date</th>
+                                        <th width="14%" class="text-center">Type of Planner</th>
+                                        <th width="14%" id="PPMHeadHide1" class="text-center">Asset Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ScheduleResultId"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="paginationfooter"></div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-2">
+            <div class="content_body">
+                <form class="form-horizontal">
+
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerYear" class="col-sm-6 control-label">Year </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Year_PPM" onchange="Year_PPM()" required class="form-control">
+                                            <option value="null">Select </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerYear" class="col-sm-6 control-label">Type Of Planner </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="TypeOfPlanner_PPM" onchange="TypeOfPlanner_PPM()" required class="form-control">
+                                            <option value="0">All </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="StkUpdateRegisterdataTable" class="table table-fixedheader table-bordered table-textarea " style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+
+                                            <th style="text-align: center;" width="5%">S.No</th>
+                                            <th style="text-align: center;" width="10%">Type Of Planner</th>
+                                            <th style="text-align: center;" width="7%">Year</th>
+                                            <th style="text-align: center;" width="7%">Week No.</th>
+                                            <th style="text-align: center;" width="12%">Start Date</th>
+                                            <th style="text-align: center;" width="12%">End Date</th>
+                                            <th style="text-align: center;" width="10%">Generated On</th>
+                                            <th style="text-align: center;" width="10%">Status</th>
+                                            <th style="text-align: center;" width="13%">Download</th>
+                                            <th style="text-align: center;" width="14%">Print</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                        @*<tr>
+                                                <td width="9%" style="text-align: center;" data-original-title="" title="">
+                                                    <div>
+                                                        <div>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td width="13%" style="text-align: center;" data-original-title="" title=""></td>
+
+                                                <td width="13%" style="text-align: center;" data-original-title="" title="">
+                                                    <div>
+                                                        <div>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td width="13%" style="text-align: center;" data-original-title="" title=""></td>
+                                                <td width="13%" style="text-align: center;" data-original-title="" title="">
+                                                    <div>
+                                                        <div>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td width="13%" style="text-align: center;" data-original-title="" title=""></td>
+                                                <td width="13%" style="text-align: center;" data-original-title="" title="">
+                                                    <div>
+                                                        <div>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td width="13%" style="text-align: center;" data-original-title="" title=""></td>
+
+
+
+
+
+
+                                            </tr>*@
+                                    </tbody>
+
+
+
+
+
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+    @*</div>*@
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+    </div>
+</div>
+@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/ScheduleGeneration.js")">
+        $('#selWorkGroupfems option:selected').val() = 1;
+
+    </script>
+    <script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    @*<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>*@
+<script src="~/js/PdfGeneration/html2pdf.bundle.js"></script>
+}
+

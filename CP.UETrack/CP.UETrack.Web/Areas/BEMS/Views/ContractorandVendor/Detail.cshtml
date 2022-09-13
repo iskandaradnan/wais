@@ -1,0 +1,273 @@
+﻿@{
+    ViewBag.Title = "BEMS-Contractor and Vendor Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/js/Common/bootstrap-multiselect.js"></script>
+@*<script src="~/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>*@
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>General Master</li>
+            <li class="active">Contractor & Vendor</li>
+            <!--<li class="active">General</li>-->
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Contractor & Vendor</h4>
+        @*<h4><span id="spnActionType">Add</span> Contractor & Vendor Master</h4>*@
+    </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#candvform" aria-controls="home" role="tab" data-toggle="tab">Contractor & Vendor</a></li>
+        <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+    </ul>
+
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="candvform">
+            <form class="form-horizontal" id="candvform">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contractor / Vendor Registration Number <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+
+                                    <input type="text" id="SSMRegistrationCode" pattern="^[a-zA-Z0-9\-\/]{3,25}$"
+                                           maxlength="25" class="form-control" name="SSMRegistrationCode" required autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contractor / Vendor Name <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" id="ContractorName" pattern="^[a-zA-Z0-9\-\(\)\/\&\s]+$" maxlength="50" class="form-control" name="ContractorName" required autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Status</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="Active">
+                                    <option selected="selected" value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Specialization Details</label>
+                            <div class="col-sm-6">
+                                <select id="Specialization" multiple="multiple" name="Flag" class="form-control multiSelectDDLwithoutSearch"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Address 1 <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <textarea maxlength="500" pattern="^[a-zA-Z0-9\-\:\/\,\.\(\)\&\#\s]+$" class="form-control wt-resize" style="height:70px;" id="Address" name="Address" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Address 2</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea maxlength="500" pattern="^[a-zA-Z0-9\-\:\/\,\.\(\)\&\#\s]+$" class="form-control wt-resize" style="height:70px;" id="Address2" form="usrform" name="Address"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Post Code <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="Postcode" maxlength="10" class="form-control" pattern="^[a-zA-Z0-9\s]+$" autocomplete="off" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">State <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" id="State" pattern="^[a-zA-Z0-9\-\(\)\s]+$" maxlength="50" class="form-control" name="State" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Country <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="CountryId" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Phone No. <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" pattern="^[0-9\\(\\)\\-\\+]+$" maxlength="15" class="form-control" style="text-align:right" autocomplete="off" id="ContactNo" name="ContactNo" @*maxlength="7"*@ required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Fax No.</label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="15" pattern="^[0-9\-\(\)\+]+$" class="form-control" id="FaxNo" name="FaxNo" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">No. of Users Access</label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="6" pattern="^[0-9]+$" class="form-control text-right" id="NoofUsersAccess" name="NoofUsersAccess" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea name="Remarks" id="Remarks" class="form-control  wt-resize" rows="4" maxlength="500" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="ContractorVendorList" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="5%" class="text-center">
+                                            <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                            <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                        </th>
+                                        <th style="text-align: center;" width="25%">Contact Person <span class="red">*</span></th>
+                                        <th style="text-align: center;" width="20%">Designation </th>
+                                        <th style="text-align: center;" width="20%">Contact No.</th>
+                                        <th style="text-align: center;" width="30%">Email </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ContactGrid"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt20">
+                    <div class="col-sm-3 ">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div>
+                                    <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    </div>
+                    <br />
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o"></i> Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o"></i> Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus"></i> Save & Add New </button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash"></i> Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat"></i> Reset</button>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+        <!-- 2nd Tab -->
+        <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+            <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+            </form>
+        </div>
+        </div>
+    @Html.Partial("~/Areas/BEMS/Views/ContractorandVendor/List.cshtml")
+</div>
+@*@if (ViewBag.ActionType == "View")
+    {
+        <script type="text/javascript">
+            $("#candvform :input:not(:button)").prop("disabled", true);
+            //  $("#Specialization").prop("disabled", false);
+            $("[name=Flag]").prop("disabled", true);
+            //setTimeout(function () {
+            //$('.multiSelectDDLwithoutSearch').multiselect('rebuild');
+            $(".multiselect-container").find("input").prop("disabled", true);
+            //}, 500)
+        </script>
+    }*@
+
+@section scripts{
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/ContractorandVendorController.js")"></script>
+<script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}

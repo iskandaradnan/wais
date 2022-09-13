@@ -1,0 +1,649 @@
+﻿
+@{
+    ViewBag.Title = "Work Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    @*<div class="col-sm-12">
+
+        <div class="content">*@
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>General Master</li>
+            <li>CRM</li>
+            <li class="active">Work Order</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+            <!--<li class="active">General</li>-->
+        </ol>
+             @*<h4>Work Order  </h4>*@
+        <div>
+            <h4 class="pull-left">Work Order</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divWOStatus" class="divWOStatus pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+
+            <li role="presentation" onclick="loadWorkOrderTab()"class="active"><a href="#crmworkorder" aria-controls="home" role="tab" data-toggle="tab">CRM Work Order</a></li>
+            <li role="presentation" onclick="loadAssessmentTab()"><a href="#CRMAssessment" aria-controls="profile" role="tab" data-toggle="tab">Assessment</a></li>
+            <li role="presentation" onclick="loadCompletionInfoTab()"><a href="#CRMCompletioninfo" aria-controls="profile" role="tab" data-toggle="tab">Completion Info</a></li>
+            <li role="presentation" onclick="loadProcessStatusTab()"><a href="#CRMProcessStatus" aria-controls="profile" role="tab" data-toggle="tab">Process Status</a></li>
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+        </ul>
+    </div>
+
+    <div>
+
+        <!-- Tab panes -->
+
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="crmworkorder">
+
+                <div class="content_body">
+                    <form class="form-horizontal" id="crmworkorderPage">
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="crmWorkReqTypService" class="col-sm-6 control-label">Service Name</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="crmWorkReqTypService" class="form-control ng-pristine ng-untouched ng-valid" autocomplete="off" disabled>
+                                        </div>
+                                        <input type="hidden" id="crmWorkReqTypService" />
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                        <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="sparePartItemCode" class="col-sm-6 control-label">Work Order No.</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmWorkWorkOrdNo" class="form-control ng-pristine ng-untouched ng-valid" autocomplete="off" disabled>
+                                            </div>
+                                            <input type="hidden" id="hdncrmWorkWorkOrdId" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="sparePartItemCode" class="col-sm-6 control-label">Request No.</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmWorkReqNo" class="form-control nospchar" autocomplete="off" disabled>
+                                            </div>
+                                            <input type="hidden" id="hdncrmWorkReqId" />
+                                            <div class="col-sm-6" id="RequestNoFetch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Work Order Date / Time</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmWorkWorkDat" class="form-control datatimepicker" autocomplete="off" required disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Request Type </label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <select id="crmWorkReqTyp" class="form-control" required><option value=null>Select</option></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset No.</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmWorkAssetNo" class="form-control nospchar" autocomplete="off" placeholder="Please Select" onkeyup="FetchAsset(event)" onpaste="FetchAsset(event)" change="FetchAsset(event)" oninput="FetchAsset(event)">
+                                            </div>
+                                            <input type="hidden" id="hdncrmWorkAssetId" />
+                                            <div class="col-sm-6" id="AssetFetch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Staff Assigned<span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmWorkStfAss" class="form-control" autocomplete="off" placeholder="Please Select" onkeyup="FetchStaff(event)" onpaste="FetchStaff(event)" change="FetchStaff(event)" oninput="FetchStaff(event)" required>
+                                            </div>
+                                            <input type="hidden" id="hdncrmWorkStfAssId" />
+                                            <input type="hidden" id="hdncrmWorkStfEmail" />
+                                            <input type="hidden" id="hdncrmWorkMailSts" />
+                                            <div class="col-sm-6" id="StaffFetch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Work Order Status</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <select id="crmWorkWrkOrdSts" class="form-control"></select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="hdncrmRequesterId" />
+                                    <input type="hidden" id="hdncrmRequesterEmail" />
+                                </div>
+                            </div>
+                            <div class="row" id="ManufactModel" @*style="display:none"*@>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Manufacturer</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmWorkManu" placeholder="Please Select" class="form-control " autocomplete="off" onkeyup="FetchManufacturer(event)" onpaste="FetchManufacturer(event)" change="FetchManufacturer(event)" oninput="FetchManufacturer(event)">
+                                            </div>
+                                            <input type="hidden" id="hdncrmWorkManuId" />
+                                            <div class="col-sm-6" id="ManuFetch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Model</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmWorkModel" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchModel(event)" onpaste="FetchModel(event)" change="FetchModel(event)" oninput="FetchModel(event)">
+                                            </div>
+                                            <input type="hidden" id="hdncrmWorkModId" />
+                                            <div class="col-sm-6" id="ModelFetch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="CrmWrkAreaLocDiv" style="display:none">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label id="labCrmWrkAreaCd" class="col-sm-6 control-label">Area Code</label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="hdnCrmWrkUsrAreaCdId" />
+                                                <input type="text" id="CrmWrkUsrAreaCd" class="form-control" autocomplete="off" onkeyup="FetchUserArea(event)" onpaste="FetchUserArea(event)" change="FetchUserArea(event)" oninput="FetchUserArea(event)" disabled>
+                                                <div class="col-sm-6" id="UserAreaCodeFetch"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Area Name</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="CrmWrkUsrAreaNam" class="form-control" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label id="labCrmWrkLocCd" class="col-sm-6 control-label">Location Code</label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="hdnCrmWrkUsrLocCdeId" />
+                                                <input type="text" id="CrmWrkUsrLocCde" class="form-control" placeholder="Please Select" autocomplete="off" onkeyup="FetchUserLocation(event)" onpaste="FetchUserLocation(event)" change="FetchUserLocation(event)" oninput="FetchUserLocation(event)">
+                                                <div class="col-sm-6" id="UserLocFetch"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Location Name</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="CrmReqUsrLocNam" class="form-control" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Work Order Details<span class="red"> *</span></label>
+                                        <div class="col-sm-9">
+                                            <div>
+                                                <textarea class="form-control wt-resize" id="crmWorkWrkOrdDet" style="height:70px" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                                <!-- ngIf: RescheduleErrorList.length > 0 -->
+                            </div>
+                            <div class="row mt30">
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-center">
+                                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button" id="btnSaveandAddNewEdit" class="btn btn-primary customButton hider" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton hider" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!--2nd Tab -->
+            <div role="tabpanel" class="tab-pane " id="CRMAssessment">
+                <div class="content_body">
+                    <form class="form-horizontal" id="CRMAssessmentPage">
+
+                        <input type="hidden" id="hdncrmAssTabAssId" value = ""/>
+                        <input type="hidden" id="TimestampcrmAssTab" name="Timestamp" value="null" />
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="StaffName" class="col-sm-6 control-label">Staff Name</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkAssStfName" class="form-control" autocomplete="off" disabled>
+                                        </div>
+                                        <input type="hidden" id="hdncrmAssTabStfId" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="Feedback" class="col-sm-3 control-label">Feedback <span class="red"> *</span></label>
+                                    <div class="col-sm-9">
+                                        <div>
+                                            <textarea class="form-control wt-resize" id="CRMWorkAssFeedback" style="height:70px" maxlength="500" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="AssessmentStartDate" class="col-sm-6 control-label">Assessment Start Date/Time <span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkAssStartdatTime" class="form-control datatimepicker" autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="AssessmentEndDate" class="col-sm-6 control-label">Assessment End Date/Time <span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkAssEnddatTime" class="form-control datatimepicker" autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="errorMsgAssm" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    @if (ViewBag.ActionType == "ADD")
+                                    {
+                                        <button type="button" id="btnSaveAssm" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    }
+                                    @if (ViewBag.ActionType == "EDIT")
+                                    {
+                                        <button type="button" id="btnEditAssm" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    }
+                                    @*<button type="button" id="btnEditAssm" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                                    <button type="button" id="btnCancelAssm" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!--3rd Tab -->
+            <div role="tabpanel" class="tab-pane" id="CRMCompletioninfo">
+                <div class="content_body">
+                    <form class="form-horizontal" id="CRMCompInfoPage">
+                        <input type="hidden" id="hdncrmCompTabCompInfoId" value="0"/>
+                        <input type="hidden" id="TimestampcrmCompTab" name="Timestamp" value="null" />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="StartDateTime" class="col-sm-6 control-label">Completion Start Date/Time<span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkCompInfoSrtDat" class="form-control datatimepicker" autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="EndDate" class="col-sm-6 control-label">Completion End Date/Time<span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkCompInfoEndDat" class="form-control datatimepicker" autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Completed By <span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkCompInfoCompBy" class="form-control" autocomplete="off" placeholder="Please Select" onkeyup="FetchCompletedStaff(event)" onpaste="FetchCompletedStaff(event)" change="FetchCompletedStaff(event)" oninput="FetchCompletedStaff(event)" required>
+                                        </div>
+                                        <input type="hidden" id="hdncrmCompTabCompbyId" />
+                                        <div class="col-sm-6" id="CompStfFetch"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Designation</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkCompInfoPos" class="form-control" autocomplete="off" disabled>
+                                        </div>
+                                        <input type="hidden" id="hdncrmCompTabPosId" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label for="Signature" class="col-sm-3 control-label">Completed Remarks<span class="red"> *</span></label>
+                                    <div class="col-sm-9">
+                                        <div>
+
+                                            <textarea class="form-control wt-resize" id="CRMWorkCompInfoCompRem" style="height:70px" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="HandoverDate" class="col-sm-6 control-label">Handover Date/Time<span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkCompInfoHanOvrDat" class="form-control datatimepicker" autocomplete="off" required >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label id="AcceptedBy" class="col-sm-6 control-label">Accepted By</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkCompInfoAccBy" class="form-control" disabled   autocomplete="off" placeholder="Please Select" onkeyup="FetchAcceptedStaff(event)" onpaste="FetchAcceptedStaff(event)" change="FetchAcceptedStaff(event)" oninput="FetchAcceptedStaff(event)">
+                                        </div>
+                                        <input type="hidden" id="hdncrmCompTabAccbyId" />
+                                        <div class="col-sm-6" id="AccptStfFetch"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label id="lblCRMWorkCompInfoClorem" for="Signature" class="col-sm-3 control-label">Closing Remarks</label>
+                                    <div class="col-sm-9">
+                                        <div>
+                                            
+                                            <textarea class="form-control wt-resize" id="CRMWorkCompInfoRem"disabled style="height:70px"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div id="errorMsgComInfo" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    @if (ViewBag.ActionType == "ADD")
+                                    {
+                                        <button type="button" id="btnSaveComp" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    }
+                                    @if (ViewBag.ActionType == "EDIT")
+                                    {
+                                        <button type="button" id="btnEditComp" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    }
+
+                                    @*<button type="button" id="btnEditComp" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                                    <button type="button" id="btnCancelComp" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--4th Tab -->
+            <div role="tabpanel" class="tab-pane " id="CRMProcessStatus">
+                <div class="content_body">
+                    <form class="form-horizontal" id="CRMProcessStatusPage">
+
+                        <input type="hidden" id="hdncrmProcStsStsId" value="" />
+                        <input type="hidden" id="TimestampcrmProcStsTab" name="Timestamp" value="null" />
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="StaffName" class="col-sm-6 control-label">CRM Work Order No. </label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkPrsStsWrkNo" class="form-control" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="StaffName" class="col-sm-6 control-label">CRM Request No. </label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="CRMWorkPrsStsReqNo" class="form-control" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="CRMProcessStatustable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align: center;" width="20%">Status</th>
+                                                <th style="text-align: center;" width="20%">Staff</th>
+                                                <th style="text-align: center;" width="20%">Done By</th>
+                                                <th style="text-align: center;" width="20%">Designation</th>
+                                                <th style="text-align: center;" width="20%">Date Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CRMProcessStatusBody">
+                                            @*<tr class="ng-scope" style="">
+                                                <td width="25%" style="text-align: center;">
+                                                    <div>
+                                                        <input type="text" id="CRMWorkPrsStsStatus" name="SystemTypeCode" class="form-control" autocomplete="off">
+                                                    </div>
+                                                </td>
+                                                <td width="25%" style="text-align: center;">
+                                                    <div>
+                                                        <input id="CRMWorkPrsStsDoneby"type="text" class="form-control" name="SystemTypeDescription" autocomplete="off" >
+                                                    </div>
+                                                </td>
+                                                <td width="25%" style="text-align: center;">
+                                                    <div>
+                                                        <input type="text" id="CRMWorkPrsStsDesig" name="SystemTypeCode" class="form-control" autocomplete="off">
+                                                    </div>
+                                                </td>
+                                                <td width="25%" style="text-align: center;">
+                                                    <div>
+                                                        <input id="CRMWorkPrsStsDate" type="text" class="form-control" name="SystemTypeDescription" autocomplete="off">
+                                                    </div>
+                                                </td>
+                                            </tr>*@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="errorMsgPrsSTs" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" id="btnCancelPrsSts" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--5th Tab -->
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+            @*<div role="tabpanel" class="tab-pane " id="CRMWrkOrdAttach">
+                <div class="content_body">
+                    <form class="form-horizontal" id="CRMWrlOrdAttachmentTabForm">
+                        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />*@
+
+                        @*<div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="sparePartItemCode" class="col-sm-6 control-label">CRM Work Order No.</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="crmWorkWorkOrdNoAtt" class="form-control ng-pristine ng-untouched ng-valid" autocomplete="off" disabled>
+                                        </div>
+                                        <input type="hidden" id="hdncrmWorkWorkOrdId" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Work Order Date/Time</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="crmWorkWorkDatAtt" class="form-control datatimepicker" autocomplete="off"  disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+                        @*@Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+
+                    </form>
+                </div>
+            </div>*@
+
+          @Html.Partial("~/Areas/BEMS/Views/CRMWorkorder/List.cshtml")                       
+        </div>
+    </div>
+    @*</div>
+
+        </div>*@
+</div>
+@section scripts{
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/CRMWorkorder/CRMWorkorderTab.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/CRMWorkorder/CRMWorkorderAssessment.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/CRMWorkorder/CRMWorkorderCompInfo.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/CRMWorkorder/CRMWorkorderProcessStatus.js")"></script>
+<script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/CRMWorkorder/CRMWorkOrderAttachment.js")"></script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/CommonFileUpload.js")"></script>
+
+}

@@ -1,0 +1,1133 @@
+﻿
+
+@{
+    ViewBag.Title = "User Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    @*<div class="col-sm-12">
+
+        <div class="content">*@
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>BEMS</a></li>
+            <li>CRM</li>
+            <li class="active">User Training</li>
+            <!--<li class="active">General</li>-->
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        @*<h4>@ViewBag.ActionType User Training</h4>*@
+
+            <h4> User Training  </h4>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active" onclick="UserTraiCompTab()"><a href="#UserTrainingDet" aria-controls="home" role="tab" data-toggle="tab">User Training</a></li>
+            <li role="presentation" onclick="UserTraiFeedBackTab()"><a href="#UserTrainingDetFeed" aria-controls="profile" role="tab" data-toggle="tab">Training Feedback</a></li>
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+        </ul>
+    </div>
+
+    <div>
+
+        <!-- Tab panes -->
+
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="UserTrainingDet">
+                <div class="content_body">
+                    <form class="form-horizontal" id="UserTraiCopmPage">
+
+                            <div class="row">
+                                @*<div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Facility Code</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompFacCde" class="form-control" autocomplete="off" disabled>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lblNotDat" class="col-sm-6 control-label">Notification Date <span class="red"> *</span></label>
+                                        <div class="col-sm-6">                                           
+                                            <input type="text" id="UserTrainCompNotDat" class="form-control datetimeNoFuture" readonly autocomplete="off" required>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Training Type </label>
+                                        <div class="col-sm-6">
+                                            <select id="UserTrainCompTraiTyp" class="form-control" autocomplete="off" required></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lblPlndDte" class="col-sm-6 control-label">Planned Date </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompPlndDte" class="form-control datetimeNoFuture" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Year</label>
+                                        <div class="col-sm-6">
+                                            <select id="UserTrainCompYear" class="form-control" disabled>
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Quarter</label>
+                                        <div class="col-sm-6">
+                                            <select id="UserTrainCompQuarter" class="form-control" disabled><option value="0">Select</option></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Training Schedule No.</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainComptraiSchNo" class="form-control" autocomplete="off" disabled>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lbltraiDesc" class="col-sm-6 control-label">Training Description <span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainComptraiDesc" class="form-control desc" autocomplete="off" maxlength="500" required>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lbltraiMod" class="col-sm-6 control-label">Training Module <span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainComptraiMod" class="form-control desc" autocomplete="off" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lblMinPar" class="col-sm-6 control-label">Minimum No. of Participants </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompMinPar" class="form-control text-right dig0nly" autocomplete="off" maxlength="4">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label id="lblTraiSource" class="col-sm-6 control-label">Trainer Source <span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <select id="UserTrainCompTraiSource" class="form-control" required><option value="">Select</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label id="lblPresTrainer" class="col-sm-6 control-label">Presenter (Trainer) <span class="red"> *</span></label>
+                                    <div class="col-sm-6" id="trainerdiv">
+                                        <input type="text" id="UserTrainCompPresTrainer"  onkeyup="FetchTrainer(event)" onpaste="FetchTrainer(event)" change="FetchTrainer(event)" oninput="FetchTrainer(event)" class="form-control name" autocomplete="off" maxlength="100" disabled required>
+                                        <div class="col-sm-6" id="CompStfFetch"></div>
+                                    </div>
+                                    <input type="hidden" id="HdnUserTrainCompPresTrainerId">
+                                    <input type="hidden" id="HdnUserTrainCompPresTrainerEmail">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Years of Experience</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="UserTrainCompExp" class="form-control text-right digOnly" autocomplete="off" maxlength="2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Designation</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="UserTrainCompDesig" class="form-control desc" autocomplete="off" maxlength="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ExtEmail" class="row" style="display:none">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Email <span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="UserTrainCompEmail" class="form-control email" autocomplete="off" pattern= ^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$'); >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Area Name <span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="UserTrainCompAreaCode" class="form-control" autocomplete="off" placeholder="Please Select" onkeyup="FetchAreaCode(event)" onpaste="FetchAreaCode(event)" change="FetchAreaCode(event)" oninput="FetchAreaCode(event)" required>
+                                        <div class="col-sm-12" id="divAreaFetch"></div>
+                                    </div>
+                                    <input type="hidden" id="hdnUserTraiAreaId"> 
+                                </div>
+                            </div>
+                                                        
+                        </div>*@
+
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Area Name <span class="red"> *</span></label>
+                                    <div class="col-sm-1">
+                                        <div>
+                                            <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Area Name" tabindex="0" data-target="#UserTrainAreaModal" onclick="UserTrnpopup()">
+                                                <span class="glyphicon glyphicon-modal-window"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="UserTrainAreaModal" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><b>Area Name</b></h4>                                      
+                                    </div>
+                                    <div class="modal-body">
+                                        <div ng-view="" class="row">
+                                            <div class="col-sm-12">
+                                                <div class="table-responsive">
+                                                    <table id="UserTainAreaTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                        <thead class="tableHeading">
+                                                            <tr>
+                                                                <th style="text-align: center; " width="40%">Area Name <span class="red"> *</span></th>
+                                                                <th style="text-align: center;" width="30%">Company Representative</th>  
+                                                                <th style="text-align: center;" width="30%">Department Incharge</th>
+                                                                                                                              
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="UserTainAreaTableGrid"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt20" id="AddplusSec">                                           
+                                                <div class="col-sm-2 ">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-2">
+                                                            <div>
+                                                                <a onclick="AddNewRowArea()" id="UserTrainAddrowArea" class="btn btn-primary hider">+</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                                           
+                                        </div>
+                                    </div>
+                                    <div id="errorMsgAreaPop" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                                    </div>
+                                    <div class="modal-footer"> 
+                                        <button type="button" id="btnSaveArea" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button"  id="btnSaveAreaClose" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="TrainingCompSection" style="display:none">
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lblActDate" class="col-sm-6 control-label">Actual Date</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompActDate" class="form-control datatimeFuture" autocomplete="off" maxlength="11">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Training Status</label>
+                                        <div class="col-sm-6">
+                                            <select id="UserTrainCompTraiSts" class="form-control" disabled><option value="0">Select</option></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lblTraiSource" class="col-sm-6 control-label">Trainer Source <span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <select id="UserTrainCompTraiSource" class="form-control"><option value="">Select</option></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lblPresTrainer" class="col-sm-6 control-label">Presenter (Trainer) <span class="red"> *</span></label>
+                                        <div class="col-sm-6" id="trainerdiv">
+                                            <input type="text" id="UserTrainCompPresTrainer" placeholder="Please Select" onkeyup="FetchTrainer(event)" onpaste="FetchTrainer(event)" change="FetchTrainer(event)" oninput="FetchTrainer(event)" class="form-control name" autocomplete="off" maxlength="100">
+                                            <div class="col-sm-6" id="CompStfFetch"></div>
+                                        </div>
+                                        <input type="hidden" id="HdnUserTrainCompPresTrainerId">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Years of Experience</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompExp" class="form-control text-right digOnly" autocomplete="off" maxlength="2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Designation</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompDesig" class="form-control desc" autocomplete="off" maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Total No. of Participants</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompTotPart" class="form-control text-right" autocomplete="off" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="lblVenue" class="col-sm-6 control-label">Venue </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompVenue" class="form-control ven" autocomplete="off" maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Training Reschedule Date</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompReschDate" class="form-control datatimeFuture" autocomplete="off">
+                                            <input type="hidden" id="HdnIsRechDone">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Overall Effectiveness (%)</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="UserTrainCompEffect" class="form-control text-right" autocomplete="off" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Remarks</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control wt-resize" id="UserTrainCompRem" rows="3" maxlength="500" autocomplete="off"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hdnIsConfim" />
+                            <input type="hidden" id="hdnDetIds"/>
+
+                            <div ng-view="" class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="UserTrainingTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th width="5%" class="text-center">
+                                                        <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                        <input type="checkbox" name="" id="chk_UserTraining" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                                    </th>
+                                                    <th id="lblGrdPart" style="text-align: center;" width="55%">Name of Participants <span class="red"> *</span></th>
+                                                    <th style="text-align: center;" width="40%">Designation</th>                                                 
+                                                </tr>
+                                            </thead>
+                                            <tbody id="UserTrainingGrid">
+
+                                               
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="paginationfooter"></div>    
+
+                        <div class="row mt20">                            
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div>
+                                                <a onclick="AddNewRow()" id="UserTrainAddrow" class="btn btn-primary hider">+</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                           
+                        </div>
+
+                        <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" id="btnConfirmVerify" name="btnConfirmVerify hider" class="btn btn-primary customButton" onclick="Confirm()" title="Confirm" tabindex="5" disabled><i class="fa fa-check-square-o" aria-hidden="true"></i>Confirm</button>
+                                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                    <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-window-close" aria-hidden="true"></i>Cancel Training</button>
+                                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--2nd Tab -->
+            <div role="tabpanel" class="tab-pane" id="UserTrainingDetFeed">
+                <div class="content_body">
+                    <form class="form-horizontal" id="UserTrainingFeedBackpg">
+
+                        <input type="hidden" id="hdnUserTraiFeedbkId" value="0" />
+                        <input type="hidden" id="TimestampUserTraiFeedbkTab" name="Timestamp" value="null" />
+
+                        @*<fieldset disabled="disabled">*@
+                            <div class="row">
+                                @*<div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Service</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <select id="UserTrainFdBkSer" class="form-control" disabled="disabled"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Training Schedule No</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="UserTrainFdBkSchNo" class="form-control" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div ng-view="" class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading noScrollGrid">
+                                                <tr>
+                                                    <th style="text-align: center;" width="100%">CURRICULUM DETAILS </th>
+                                                    <!--<th style="text-align: center;" width="50%">Contract End Date</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody class="noScrollGrid">
+
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">
+                                                                The training met my expectations. <span class="red"> *</span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0'  data-count="0">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>                                                            
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr0"></span>*@ 
+                                                                <input type="text" required id="Curr0" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">Have ability to apply knowledge learned. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0' data-count="1">
+                                                                    <li class='star'  data-value='1' id="CurrR1Str1">
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2' id="CurrR1Str2">
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3' id="CurrR1Str3">
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4' id="CurrR1Str4">
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' data-value='5' id="CurrR1Str5">
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                                <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                                <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                                <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'> 
+                                                            @*<span id="Curr1"></span>*@
+                                                                <input type="text" required id="Curr1" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly></div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">The training objectives for each topic were identified & followed. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0'  data-count="2">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr2"></span>*@
+                                                                <input type="text" required id="Curr2" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">The curriculum contents were organized and easy to follow. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0'  data-count="3">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr3"></span>*@
+                                                                <input type="text" required id="Curr3" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">The materials for the training were helpful and can be the source of reference for my work. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0'  data-count="4">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr4"></span>*@
+                                                                <input type="text" required id="Curr4" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table id="" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);margin-top:20px;">
+                                            <thead class="tableHeading noScrollGrid">
+                                                <tr>
+                                                    <th style="text-align: center;" width="100%">COURSE INSTRUCTOR'S DETAILS</th>
+                                                    <!--<th style="text-align: center;" width="50%">Contract End Date</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody class="noScrollGrid">
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">
+                                                                The trainer was knowledgeable and well prepared for the session. <span class="red"> *</span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0' data-count="5">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr5"></span>*@
+                                                                <input type="text" required id="Curr5" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">The trainer met the training objectives. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0' data-count="6">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr6"></span>*@
+                                                                <input type="text" required id="Curr6" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">The quality of instructions and deliverables were good and easy to understand. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0' data-count="7">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr7"></span>*@
+                                                                <input type="text" required id="Curr7" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table id="" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);margin-top:20px;">
+                                            <thead class="tableHeading noScrollGrid">
+                                                <tr>
+                                                    <th style="text-align: center;" width="100%">OVERALL TRAINING DELIVERY</th>
+                                                    <!--<th style="text-align: center;" width="50%">Contract End Date</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody class="noScrollGrid">
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">
+                                                                How do you rate the training overall? <span class="red"> *</span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0' data-count="8">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                            @*<span id="Curr8"></span>*@
+                                                                <input type="text" required id="Curr8" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">The training will help me to do my job better. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0' data-count="9">
+                                                                    <li class='star'  data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star'  data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                                @*<span id="Curr9"></span>*@
+                                                                <input type="text" required id="Curr9" class="noreqired" autocomplete="off" style="border-style:hidden;" readonly>
+                                                            </div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="ng-scope" style="">
+                                                    <td width="60%" style="text-align: left;" data-original-title="" title="">
+                                                        <div>
+                                                            <label class="col-sm-12 control-label" style="text-align: left;">This training is worthwhile and others should attend. <span class="red"> *</span></label>
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul class='stars mb0' data-count="10">
+                                                                    <li class='star' @*title='Poor'*@ data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' @*title='Fair'*@ data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' @*title='Good'*@ data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' @*title='Excellent'*@ data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' @*title='WOW!!!'*@ data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            @*<input type="radio" id="ImpactSchedulePlanner1" name="ImpactSchedulePlanner" value="Yes">
+                                                            <label for="ImpactSchedulePlannerChoice1">Yes</label>
+                                                            <input type="radio" id="ImpactSchedulePlanner2" name="ImpactSchedulePlanner" value="No">
+                                                            <label for="ImpactSchedulePlannerChoice2">No</label>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="20%" style="text-align: left;">
+                                                        <div class='success-box'>
+                                                            <div class='clearfix'></div>
+                                                            <div class='text-message'>
+                                                                @*<span id="Curr10"></span>*@
+                                                                <input type="text" required id="Curr10" class="noreqired" autocomplete="off"  style="border-style:hidden;" readonly></div>
+                                                            <div class='clearfix'></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table id="" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);margin-top:20px;">
+                                            <thead class="tableHeading noScrollGrid">
+                                                <tr>
+                                                    <th style="text-align: center;" width="100%">LEARNING OUTCOMES &amp; RECOMMENDATION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="noScrollGrid">
+                                                <tr style="">
+                                                    <td width="100%" style="text-align: left;" title="">
+                                                        <div class="col-sm-12">                                                      
+                                                                <textarea id="UserTrainFdBkRecom" maxlength="500" class="form-control wt-resize" rows="2"></textarea>
+                                                        </div>                                                        
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        @*</fieldset>*@
+
+
+                            <div id="errorMsgFeedBk" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                                <!-- ngIf: RescheduleErrorList.length > 0 -->
+                            </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" id="btnSaveFeedBk" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="btnEditFeedBk" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="btnCancelFeedBk" name="btnCancelFeedBk" class="btn btn-grey customButton" title="Cancel" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--3rd Tab -->
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+            @*<div role="tabpanel" class="tab-pane " id="CRMUsrTraiAttach">
+                <div class="content_body">
+                    <form class="form-horizontal" id="CRMUsrTraiAttachmentTabForm">
+                        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />*@
+
+                        @*<div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Training Schedule No.</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="UserTrainComptraiSchNoAtt" class="form-control" autocomplete="off" disabled>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label id="lblActDate" class="col-sm-6 control-label">Actual Date</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="UserTrainCompActDateAtt" class="form-control datatimeFuture" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+                        @*@Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+
+                    </form>
+                </div>
+            </div>*@
+                        @Html.Partial("~/Areas/BEMS/Views/UserTraining/List.cshtml")
+                        
+        </div>
+    </div>
+    @*</div>
+
+        </div>*@
+</div>
+@*@if (ViewBag.ActionType == "VIEW")
+{
+    <script type="text/javascript">
+
+        $("#UserTraiCopmPage :input:not(:button)").prop("disabled", true);
+    </script>
+}*@
+@section scripts{
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/UserTraining/UserTrainingCompletion.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/UserTraining/UserTrainingFeedback.js")"></script>
+<script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/UserTraining/UserTrainingAttachment.js")"></script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/CommonFileUpload.js")"></script>
+}

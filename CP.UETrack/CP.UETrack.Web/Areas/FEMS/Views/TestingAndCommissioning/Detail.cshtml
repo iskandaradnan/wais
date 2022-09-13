@@ -1,0 +1,683 @@
+﻿
+@{
+    ViewBag.Title = "TestingAndCommissioningDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="ServiceIDs" name="ServiceIDs" value="2" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="hdnUserRoleId" name="hdnUserRoleId" value="@ViewBag.UserRoleId" />
+        <input type="hidden" id="hdnModuleId" name="hdnModuleId" value="@ViewBag.ModuleId" />
+        <input type="hidden" id="hdnAssetClassificationId" name="hdnAssetClassificationId" value="" />
+        <input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+        <input type="hidden" id="hdnCheckEquipmentFunctionDescription" name="hdnCheckEquipmentFunctionDescription" value="1" />
+
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>FEMS</li>
+                <li>Asset</li>
+                <li class="active">@*<a href="/bems/testingandcommissioning">*@Testing &amp; Commissioning</a></li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <div>
+                <h4 class="pull-left">Testing &amp; Commissioning</h4>
+                <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+                <div style="clear:both;display:table;"></div>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divTAndC" aria-controls="home" role="tab" data-toggle="tab">Testing &amp; Commissioning</a></li>
+            <li role="presentation" id="liSNFTab"><a href="#divSNF" aria-controls="profile" role="tab" data-toggle="tab">SNF</a></li>
+            <li role="presentation" id="liAFAdditionalInfo"><a href="#aAFAdditionalInfo" id="aAddionalInfo" aria-controls="profile" role="tab" data-toggle="tab">Additional Info</a></li>
+            <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+        </ul>
+
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="divTAndC">
+                <form class="form-horizontal" id="frmTestingAndCommissioning" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Category</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select class="form-control" id="selAssetCategory" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">CRM Request No.<span class="red"> *</span></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="txtCRMRequestNo" class="form-control" id="txtCRMRequestNo" placeholder="Please Select" required maxlength="100" autocomplete="off">
+                                    <input type="hidden" id="hdnCRMRequestId" name="hdnCRMRequestId" required />
+                                    <input type="hidden" id="hdnCRMRequesterId" />
+                                    <input type="hidden" id="hdnCRMRequesterEmail" />
+                                    <div class="col-sm-12" id="divCRMRequestNoFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-crmrequestno">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">T&amp;C Document No. </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" name="txtTCDocumnetNo" id="txtTCDocumnetNo" disabled autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">CRM Request Date </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" name="txtCRMRequestDate" id="txtCRMRequestDate" disabled autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">T&amp;C Date  <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtTCDate" name="txtTCDate" class="form-control datatimeNoFuture" maxlength="11" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Type Code<span class="red"> *</span></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="txtTypeCode" pattern="^[a-zA-Z0-9\-\/\s]+$" class="form-control" id="txtTypeCode" placeholder="Please Select" required maxlength="100" autocomplete="off">
+                                    <input type="hidden" id="hdnTypeCodeId" name="hdnTypeCodeId" required />
+                                    <div class="col-sm-12" id="divTypeCodeFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-typeCode">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Type Description </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtTypeDescription" name="txtTypeDescription" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="col-sm-6">&nbsp;</div>
+                                <div class="col-sm-6 text-left"><a href="#" id="anchorCreateTypeCode">Create New Asset Type Code</a></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Pre Registration No.</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\s\/]+$" id="txtARAssetPreRegistrationNo" name="txtARAssetPreRegistrationNo" maxlength="50" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">T&amp;C Status</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select class="form-control" id="selTandCStatus" name="selTandCStatus"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Required Completion Date </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtRequiredCompletionDate" name="txtRequiredCompletionDate" class="form-control datatimeFuture" maxlength="11" disabled />
+                                        @*<input type="hidden" id="hdnRequiredCompletionDate"/>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Model<span class="red"> *</span></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="txtModel" id="txtModel" maxlength="100" class="form-control" autocomplete="off" placeholder="Please Select" required />
+                                    <input type="hidden" id="hdnModelId" required />
+                                    <div class="col-sm-12" id="divModelFetch">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-model">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Manufacturer</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="txtManufacturer" id="txtManufacturer" maxlength="100" class="form-control" disabled />
+                                    <input type="hidden" id="hdnManufacturerId" />
+                                    <div class="col-sm-12" id="divManufacturerFetch">
+
+                                    </div>
+
+                                </div>
+                                @*<div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-manufacturer">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Serial No.<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtSerialNo"
+                                               id="txtSerialNo" maxlength="25" pattern="^[a-zA-Z0-9\-\/\s]+$" class="form-control" autocomplete="off" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Old Asset Number</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtOldAssetNumber" id="txtOldAssetNumber" maxlength="25" pattern="^[a-zA-Z0-9\-\/]+$" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">T&amp;C Completed Date<span class="red" id="spnTAndCCompletedDate"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <div>
+                                            <input type="text" name="txtTCCompletedDate" autocomplete="off" class="form-control datatimeNoFuture"
+                                                   id="txtTCCompletedDate" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Handover Date<span class="red" id="spnHandoverDate"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <div>
+                                            <input type="text" id="txtHandoverDate" class="form-control datatimeNoFuture" name="txtHandoverDate" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Variation Status <span class="red" id="variationstatusdisplay"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select class="form-control" id="selVariationStatus" name="selVariationStatus" required>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">T&C Contractor Representative </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtContractorRepresentative"
+                                               id="txtContractorRepresentative" maxlength="150" pattern="^[a-zA-Z0-9\-\(\)\/\s]{0,150}$" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Location Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="txtLocationName" id="txtLocationName" maxlength="100" class="form-control" autocomplete="off" disabled />
+                                    <input type="hidden" id="hdnLocationId" />
+                                    @*<div class="col-sm-12" id="divLocationNameFetch">
+
+                                    </div>*@
+                                </div>
+                                @*<div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-locationName">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>*@
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Department Name </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtAreaName" id="txtAreaName" class="form-control" disabled />
+                                        <input type="hidden" id="hdnAreaId" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Level Name </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtLevlName" id="txtLevlName" autocomplete="off" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Block Name </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtBlockName" id="txtBlockName" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Company Representative <span class="red"> *</span></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="txtCompanyRepresentative" pattern="^[a-zA-Z0-9\-\(\)\/\s]{0,100}$" class="form-control" autocomplete="off" id="txtCompanyRepresentative" placeholder="Please Select" required maxlength="100">
+                                    <input type="hidden" id="hdnCompanyRepresentative" name="hdnCompanyRepresentative" required />
+                                    <div class="col-sm-12" id="divCompanyRepresentativeFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-CompanyRepresentative">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Facility Representative<span class="red"> *</span></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="txtHospitalRepresentative" autocomplete="off" pattern="^[a-zA-Z0-9\-\(\)\/\s]{0,100}$" class="form-control" id="txtHospitalRepresentative" placeholder="Please Select" required maxlength="100">
+                                    <input type="hidden" id="hdnHospitalRepresentative" name="hdnHospitalRepresentative" required />
+                                    <div class="col-sm-12" id="divhdnHospitalRepresentativeFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-hospitalRepresentative">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Remarks</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <textarea class="form-control wt-resize" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" maxlength="500" rows="4" cols="50" name="txaRemarks" id="txaRemarks"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Facility Designation </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtDesignation" id="txtDesignation" class="form-control" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Batch No <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <select id="selBatchNo" name="selBatchNo" class="form-control">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary customButton hider" id="btnEditVerifyRejectApproveClone"><i class="fa fa-files-o" aria-hidden="true"></i>Clone T&C</button>
+                            <button type="button" class="btn btn-primary customButton hider" id="btnSaveEditVerifyRejectApproveConvetToAsset1"><i class="fa fa-link" aria-hidden="true"></i>Convert To Asset</button>
+                            <button type="button" class="btn btn-primary customButton" id="btnSave"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary customButton hider" id="btnEdit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New</button>
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="divSNF">
+                <form class="form-horizontal" id="frmSNF" novalidate>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Purchase Order No.<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\/]+$" id="txtPurchaseOrderNo" name="txtPurchaseOrderNo" autocomplete="off" maxlength="25" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Type Description</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtTypeDescription1" name="txtTypeDescription1" autocomplete="off" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Purchase Date<span class="red removeMandtry"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtPurchaseDate" name="txtPurchaseDate" autocomplete="off" class="form-control datatimeNoFuture" maxlength="11" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Purchase Cost (<span class="spnCurrencyName"></span>)<span class="red removeMandtry"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtPurchaseCost" maxlength="11" autocomplete="off"
+                                               id="txtPurchaseCost" class="form-control  text-right decimalCheck commaSeperator" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Contract No.</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtContractNo" name="txtContractNo" autocomplete="off"
+                                               pattern="^[a-zA-Z0-9\-\/]+$" class="form-control" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Main Supplier Name<span class="red removeMandtry"> *</span></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="txtMainSupplierName" id="txtMainSupplierName" maxlength="100" autocomplete="off"
+                                           pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" class="form-control" placeholder="Please Select" required />
+                                    <input type="hidden" id="hdnContractorId" required />
+                                    <div class="col-sm-12" id="divContractorFetch">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-contractor">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Main Supplier Code </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtMainSupplierCode" autocomplete="off"
+                                               id="txtMainSupplierCode" maxlength="50" pattern="^[a-zA-Z0-9\-\/]+$" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Service Start Date<span class="red removeMandtry"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtServiceStartDate" name="txtServiceStartDate" class="form-control datatimeNoFuture" autocomplete="off" maxlength="11" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Service Stop Date</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtServiceEndtDate" name="txtServiceEndtDate" autocomplete="off" class="form-control datatimeNoFuture" maxlength="11" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Warranty Start Date <span class="red removeMandtry"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtWarrantyStartDate" name="txtWarrantyStartDate" autocomplete="off" class="form-control dateAll" maxlength="11" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Warranty Duration (In Months)<span class="red removeMandtry"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" name="txtWarrantyDuration" autocomplete="off"
+                                               id="txtWarrantyDuration" maxlength="4" pattern="^[0-9]+$" class="form-control text-right" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label" id="Warrantystatusdisplay">Warranty Status </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select class="form-control" id="selWarrantyStatus" name="selWarrantyStatus" disabled>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Warranty End Date</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtWarrantyEndDate" name="txtWarrantyEndDate" class="form-control datatimeNoFuture" autocomplete="off" maxlength="11" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Remarks<span class="red removeMandtry1"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <textarea class="form-control wt-resize" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" maxlength="500" rows="4" cols="50" name="txaSNFRemarks" id="txaSNFRemarks" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*</div>*@
+
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgSNF">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+
+                                <button type="button" class="btn btn-primary customButton" id="btnVerify"><i class="fa fa-check-square-o" aria-hidden="true"></i>Verify</button>
+                                <button type="button" class="btn btn-primary customButton" id="btnApprove"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                                <button type="button" class="btn btn-primary customButton" id="btnSaveEditVerifyRejectApproveConvetToAsset"><i class="fa fa-link" aria-hidden="true"></i>Convert To Asset</button>
+                                <button type="button" class="btn btn-primary customButton" id="btnReject"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                                <button type="button" class="btn btn-grey customButton" id="btnCancelSNF"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @Html.Partial("~/Areas/FEMS/Views/TestingAndCommissioning/PartialViews/Additional_Info_PartialView.cshtml")
+
+            @*Attachment Tab*@
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align:right">
+                            <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus" class="divWOStatus"></div>
+                        </div>
+                    </div>
+                    @Html.Partial("~/Areas/FEMS/Views/AttachmentPartialView/AttachmentPartialView.cshtml")
+                </form>
+            </div>
+            @Html.Partial("~/Areas/FEMS/Views/TestingAndCommissioning/List.cshtml")
+        </div>
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+    </div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/TestingAndCommissioning/TestingAndCommissioning.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}
+

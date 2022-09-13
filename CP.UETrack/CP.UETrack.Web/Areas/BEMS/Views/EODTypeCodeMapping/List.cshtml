@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "EOD Category / System Type Code Mapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/JQGrid/BEMS/EODTypeCodeMappingList.js"></script>
+
+
+<div class="content_header">
+    <ol class="breadcrumb">
+        <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+        <li>EOD</li>
+        <li class="active"><a href="/BEMS/eodtypecodemapping">EOD Type Code Mapping</a></li>
+
+    </ol>
+    <h4>EOD Type Code Mapping</h4>
+</div>
+
+<form class="form-horizontal1">
+    <div class="content-area">
+
+        <div class="row">
+            <div id="gridTable">
+                <div class="col-sm-12">
+               
+                    <div class="panel-heading PanelHeadingSearch"  id="advanceSearch">
+                        <h4 class="panel-title text_align_left">
+                            <a id="jQGridCollapse1" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#collapse1" aria-expanded="false" aria-controls="collapseOne"
+                               class="collapsed display_block">EOD Type Code Mapping List<i class="indicator glyphicon pull-right glyphicon-plus" id="iJQGridIndicator1"></i></a>
+                        </h4>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-12">
+
+                    <div id="gridContainer"></div>
+                </div>
+
+                <div class="col-sm-12">
+                    <table id="grid"></table>
+                    <div id="pager"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

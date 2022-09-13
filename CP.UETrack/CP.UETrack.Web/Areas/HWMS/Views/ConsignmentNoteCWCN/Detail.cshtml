@@ -1,0 +1,342 @@
+﻿@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+	@functions{
+
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		}
+	}
+	<input id="antiForgeryToken" type="hidden" />
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+	<input type="hidden" id="hdnStatus" name="hdnStatus" />
+	<input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>HWMS</li>
+			<li>Transaction</li>
+			<li>Clinical Waste (CW)</li>
+			<li>Consignment Note (CWCN)</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<h4>Consignment Note(CWCN)</h4>
+	</div>
+	<div class="standard-tabs" id="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formppmplanner" data-toggle="tab">Consignment Note (CWCN)</a></li>
+			<li role="presentation">
+				<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formConsignmentNoteCWCN" name="formConsignmentNoteCWCN" class="form-horizontal" novalidate>
+				<div class="row">
+					<input type="hidden" id="txtIdno" />
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Consignment Note No. <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="CosignmentNoteNo">
+										<input type="text" required class="form-control" id="txtConsignmentNoteNo" autocomplete="off" name="ConsignmentNoteNo" maxlength="25" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Date / Time <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="DateTime">
+										<input type="datetime-local" required class="form-control" id="txtDateTime" autocomplete="off" name="DateTime" maxlength="25" tabindex="3" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">On Schedule</label>
+							<div>
+								<div class="col-sm-6">
+									<select class="form-control" id="ddlOnSchedule">
+										<option value="">Select</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">QC <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="QC">
+										<select class="form-control" required id="ddlQC">
+											<option value="">Select </option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">CW Representative <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="CWRepresentative">
+										<input type="text" required class="form-control" placeholder="Please Select" id="txtCWRepresentative" autocomplete="off" name="CWRepresentative" maxlength="25" />
+										<input type="hidden" id="hdnCompanyStaffId" />
+										<div class="col-sm-12" id="divFetch5"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">CW Representative Designation</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtCWRepresentativeDesignation" autocomplete="off" name="CWRepresentativeDesignation" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Hospital Representative <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="HospitalRepresentative">
+										<input type="text" required class="form-control" placeholder="Please Select" id="txtHospitalRepresentative" autocomplete="off" name="HospitalRepresentative" maxlength="25" />
+										<input type="hidden" id="hdnHospitalStaffId" />
+										<div class="col-sm-12" id="divFetch4"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Hospital Representative Designation</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="txtHospitalRepresentativeDesignation" disabled="disabled" autocomplete="off" name="HospitalRepresentativeDesignation" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Treatment Plant <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="TreatmentPlant">
+										<select type="text" required class="form-control TreatmentplantName" id="ddlTreatmentPlant" autocomplete="off" name="TreatmentPlant" maxlength="25"></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Ownership</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" placeholder="" id="txtOwnership" autocomplete="off" name="Ownership" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Vehicle No. <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="VehicleNo">
+										<input type="text" required class="form-control clsVehicleNo" placeholder="Please Select" id="txtVehicleNo" autocomplete="off" name="VehicleNo" maxlength="25" />
+										<input type="hidden" id="hdnVehicleNoId" />
+										<div class="col-sm-12" id="divVehicleNoFetch"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Driver Code <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="DriverCode">
+										<input type="text" required class="form-control clsDriverCode" placeholder="Please Select" id="txtDriverCode" autocomplete="off" name="DriverCode" maxlength="25" />
+										<input type="hidden" id="hdnDriverCodeId" />
+										<div class="col-sm-12" id="divDriverCodeFetch"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Driver Name</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtDriverName" autocomplete="off" name="DriverName" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Total No. of Bins </label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtTotalNoofBins" autocomplete="off" name="TotalBins" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Total Est. (Kg)</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control " disabled="disabled" id="txtTotalEst" autocomplete="off" name="TotalEst" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Remarks</label>
+							<div class="col-sm-9">
+								<div>
+									<textarea id="txtRemarks" class="form-control" rows="2" cols="50" name="ScopeOfWork" maxlength="500"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="table-responsive">
+							<table id="ConsignmentNotetable" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+								<thead class="tableHeading">
+									<tr>
+										<th width="1%" class="text-center">
+											<span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteDWRSNo"></span>
+										</th>
+										<th style="text-align: center;" width="10%">DWR No.</th>
+										<th style="text-align: center;" width="10%">Bin No.</th>
+										<th style="text-align: center;" width="10%">Bin Weight (Kg)</th>
+										<th style="text-align: center;" width="10%">Remarks</th>
+									</tr>
+								</thead>
+								<tbody id="tbodyDWRSNo">
+									<tr>
+										<td style="text-align:center">
+											<input type="checkbox" id="isDelete1" name="isDelete">
+											<input type="hidden" id="hdnDWRSNoId1" value="0" />
+										</td>
+										<td id="DWRSNo">
+											<select class="form-control DWRSNo" id="txtDWRSNo1" name="DWRSNo">
+												<option value="">Select </option>
+											</select>
+										</td>
+										<td id="BinNo">
+											<input type="text" class="form-control" id="txtBinNo1" disabled="disabled" autocomplete="off" name="BinNo" maxlength="25" />
+										</td>
+										<td id="Weight">
+											<input type="text" class="form-control Weight" id="txtBinWeight1" disabled="disabled" autocomplete="off" name="BinWeight(Kg)" maxlength="25" />
+										</td>
+										<td id="Remark">
+											<input type="text" class="form-control" id="txtRemarksBin1" autocomplete="off" name="Remarks" maxlength="25" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<br />
+							<p class="text-center" id="table_data1" style="display:none"><b><small>No records to display</small></b></p>
+						</div>
+					</div>
+				</div>
+				<div class="row mt20" id="AttachRowPlus">
+					<div class="col-sm-3 ">
+						<div class="form-group">
+							<div class="col-sm-3">
+								<div>
+									<a class="btn btn-primary" id="addRowDWRSNo">+</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+				</div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<center>
+								<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+								<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />
+								<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+								@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+									<button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save&AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+									<button type="reset" id="btnCancel" value="Reset " name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+							</center>
+						</div>
+					</div>
+				</div>
+			</form>
+			<br />
+		</div>
+
+		@Html.Partial("~/Areas/HWMS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/HWMS/Views/ConsignmentNoteCWCN/List.cshtml")
+</div>
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/ConsignmentNoteCWCN.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}
+

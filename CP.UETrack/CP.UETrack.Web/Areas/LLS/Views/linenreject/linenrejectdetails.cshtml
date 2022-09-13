@@ -1,0 +1,320 @@
+﻿
+@{
+    ViewBag.Title = "linenrejectdetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Transaction</li>
+            <li class="active">Linen Reject / Replacement</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Linen Reject / Replacement  </h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divReject" aria-controls="home" role="tab" data-toggle="tab">Linen Reject / Replacement</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divReject">
+                <form class="form-horizontal" id="FrmReject" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Document No.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtDocumentNo" name="DocumentNo" autocomplete="off" maxlength="100" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Date / Time<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtDateTime" name="DateTime" class="form-control datatimepicker" tabindex="0" placeholder="please select Date/Time" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">CLI No<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="CRMWorkCompInfoAccBy" required class="form-control" autocomplete="off" placeholder="Please Select" onkeyup="FetchCLINo(event)" onpaste="FetchCLINo(event)" change="FetchCLINo(event)" oninput="FetchCLINo(event)">
+                                    </div>
+                                    <input type="hidden" id="hdncrmCompTabAccbyId" />
+                                    <div class="col-sm-6" id="AccptStfFetch"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">CLI Description<span class="red">*</span></label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" id="txtCLIDescription" name="CLIDescription" autocomplete="off" maxlength="100" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Code<span class="red">*</span></label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" id="txtUserAreaCode" name="UserAreaCode" maxlength="25" tabindex="2" required disabled/>
+                                    <input type="hidden"  id="hdnUserAreaId" />
+
+                                    <div class="col-sm-12" id="divUserAreaFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtUserAreaName" name="UserAreaName" autocomplete="off" tabindex="0" maxlength="100" disabled/>
+
+                                    @*<select autocomplete="off" id="txtUserAreaName" name="UserAreaName" class="form-control" tabindex="0" disabled></select>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Location Code <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" id="txtHospitalRepresentative" name="HospitalRepresentative" maxlength="25" tabindex="2" required disabled/>
+                                    <input type="hidden"  id="hdnHospitalRepresentativeId" />
+
+                                    <div class="col-sm-12" id="divHospitalRepresentativeFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Location Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtLocationName" name="LocationName" class="form-control" tabindex="0" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Rejected By<span class="red">*</span></label>
+                                @*<div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtRejectedBy" name="RejectedBy" autocomplete="off" maxlength="100" placeholder="please select" />
+                    </div>*@
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Please Select" id="txtBlockCode" name="BlockCode" maxlength="25" tabindex="2" required />
+                                        <input type="hidden" id="hdnRejectId" required/>
+                                        <div class="col-sm-12" id="divRejectFetch">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Designation</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtDesignation" name="Designation" autocomplete="off" maxlength="100" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Replacement Received By<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnRejectedBERReferenceId" required/>
+                                    <input type="text" class="form-control" id="txtOldBerNo" name="OldBerNo" placeholder="Please Select" maxlength="100" required/>
+                                    <div class="col-sm-12" id="divReplacement">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Designation</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtReplaceDesignation" name="Designation" autocomplete="off" maxlength="100" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Received Date/Time<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control datatimepicker" id="txtReceivedDateTime" name="ReceivedDateTime" autocomplete="off" maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Quantity Rejected </label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalQuantityRejected" name="TotalQuantityRejected" autocomplete="off" maxlength="100"  disabled/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Quantity Replaced</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalQuantityReplaced" name="TotalQuantityReplaced" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks<span class="red">*</span></label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" id="txtRemarks" name="Remarks" autocomplete="off" maxlength="100" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin: 2em 0;">
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="RejectLinenProvider" class="table table-fixedheader table-bordered er_parameter" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading noScrollGrid">
+                                        <tr>
+                                            <th width="2%" class="text-center">
+                                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center;" width="7%" id="">Linen Code <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="7%">Linen Description</th>
+                                            <th style="text-align: center;" width="4%">QL01a (Tape/Glue)</th>
+                                            <th style="text-align: center;" width="4%">QL01b (Chemical) </th>
+                                            <th style="text-align: center;" width="4%">QL01c (Blood)</th>
+                                            <th style="text-align: center;" width="4%">QL01d (Permanent Stain)</th>
+                                            <th style="text-align: center;" width="4%">QL02 (Torn/Patches)</th>
+                                            <th style="text-align: center;" width="4%">QL03 (Button) </th>
+                                            <th style="text-align: center;" width="4%">QL04 (String)</th>
+                                            <th style="text-align: center;" width="4%">QL05 (Odor)</th>
+                                            <th style="text-align: center;" width="4%">QL06a (Faded) </th>
+                                            <th style="text-align: center;" width="4%">QLO6b (Thin Material) </th>
+                                            <th style="text-align: center;" width="4%">QL06c (Worn Out) </th>
+                                            <th style="text-align: center;" width="4%">QL06d (>3 Yrs Old)</th>
+                                            <th style="text-align: center;" width="4%">QL07 (Shrink) </th>
+                                            <th style="text-align: center;" width="4%">QL08 (Crumple) </th>
+                                            <th style="text-align: center;" width="4%">QL09 (Lint) </th>
+                                            <th style="text-align: center;" width="4%">Total Rejected Qty<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="4%">Replaced Qty <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="9%">Replaced Date/Time </th>
+                                            <th style="text-align: center;" width="7%">Remarks </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ContactGrid">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br />
+
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary btnSave"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary btnEdit" value="1"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" class="btn btn-primary btnDelete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" name="btnCancel" class="btn btn-grey btnCancel"><i class="fa fa-repeat"></i> Reset</button>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/linenreject/linenrejectList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/LinenRejectReplacement.js")"></script>
+
+}
+

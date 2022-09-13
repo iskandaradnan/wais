@@ -1,0 +1,330 @@
+﻿
+@{
+    ViewBag.Title = "BEMS-Block";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>HWMS</li>
+            <li>Master</li>
+            <li class="active">Dept/AreaDetails</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4></h4>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="" aria-controls="home" role="tab" data-toggle="tab">Dept/AreaDetails</a></li>
+
+    </ul>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+            <div class="content_body">
+                <form id="formDeptAreaDetail" name="formDeptAreaDetail" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Code<span style="color:red">*</span></label>
+                                <div>
+                                    <div  class="col-sm-6" id="UserareaCode">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtUserAreaCode" autocomplete="off" name="User Area Code" maxlength="25"  />
+                                        <input type="hidden" id="hdnUserAreaId" />
+                                        <div class="col-sm-12" id="divUserAreaFetch">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Name</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" disabled="disabled" id="txtUserAreaName" autocomplete="off" name="UserAreaName" maxlength="25" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective From Date</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" disabled="disabled" id="txtEffectiveFromDate" autocomplete="off" name="Effective From Date" maxlength="25" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective To Date</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" disabled="disabled" id="txtEffectiveToDate" autocomplete="off" name="Effective To Date" maxlength="25" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Operating Days<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="OperatingDays">
+                                        <select type="text" required class="form-control" id="ddlOperationalDays" autocomplete="off" name="Operational Days" maxlength="25" ></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Status<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="stateStatus">
+                                        <select type="text" required class="form-control" id="ddlStatus" autocomplete="off" name="Status" maxlength="25" ></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Category<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="Category">
+                                        <select type="text" required class="form-control" id="ddlCategory" autocomplete="off" name="Category" maxlength="25" ></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks</label>
+
+                                <div class="col-sm-9">
+                                    <div>
+                                        <textarea id="txtRemarks" class="form-control" rows="2" cols="50" name="Remarks" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <hr />
+                    <h4><b>Consumables And Receptacles</b></h4>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div>
+                                <table id="tableConsumablesReceptacles" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th class="text-center" width="3%">
+                                                <span style="color:red;text-align:center;" class="glyphicon glyphicon-remove delete-row" id="deleteConsumablesReceptacles"></span>
+                                            </th>
+                                            <th style="text-align: center;" width="10%">Waste Type<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="10%">Item Code<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="10%">Item Name</th>
+                                            <th style="text-align: center;" width="10%">Size</th>
+                                            <th style="text-align: center;" width="10%">UOM</th>
+                                            <th style="text-align: center;" width="10%">Shelf Level Quantity<span style="color:red">*</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyConsumablesReceptacles">
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <input type="checkbox" id="isDelete1"  name="isDelete" />
+                                                <input type="hidden" id="hdnReceptaclesId1" value="0" />
+                                            </td>
+                                            <td id="WasteType">
+                                                <select type="text" required class="form-control" id="ddlWasteTypeConsumables1" autocomplete="off" name="Waste Type" maxlength="25" ></select>
+                                            </td>
+
+                                            <td id="ItemCode">
+                                                <input type="text" required class="form-control HWMSItem" placeholder="Please Select" id="txtItemCode1" autocomplete="off" name="ItemCode" maxlength="25"  />
+
+                                                <input type="hidden" id="hdnItemCodeId1" />
+                                                <div class="col-sm-12" id="divItemCode1">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" id="txtItemName1" disabled="disabled" autocomplete="offWeight" name="Item Name" maxlength="25"  />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" id="txtSize1" disabled="disabled" autocomplete="off" name="Size" maxlength="25"  />
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="ddlUOM1" disabled="disabled"  name="UOM"  ></select>
+                                            </td>
+                                            <td id="ShelfLevel">
+                                                <input type="text" required class="form-control" id="txtShelfLevelQuantity1" autocomplete="off" name="ShelfLevelQuantity" maxlength="25"  />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt20" id="AttachRowPlus">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a class="btn btn-primary" id="addConsumablesReceptacles">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="errorMsgAttachment" class="errorMsgcenterAttachment" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+                    <hr />
+                    <h4><b>Collection Frequency</b></h4>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="table2" class="table table-bordered">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th class="text-center" width="3%" rowspan="2">
+                                                <span style="color:red;text-align:center;" class="glyphicon glyphicon-remove delete-row1" id="deleteCollectionFrequency"></span>
+                                            </th>
+                                            <th rowspan="2" style="text-align: center;" width="10px">Waste Type<span style="color:red">*</span></th>
+                                            <th rowspan="2" class="required" style="text-align: center; ">Frequency Type<span style="color:red">*</span></th>
+                                            <th rowspan="2" class="required" style="text-align: center;" >Collection Frequency</th>
+                                            <th colspan="2" style="text-align: center;">1</th>
+                                            <th colspan="2" style="text-align: center;">2</th>
+                                            <th colspan="2" style="text-align: center;">3</th>
+                                            <th colspan="2" style="text-align: center;">4</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: center;">Start Time</th>
+                                            <th style="text-align: center;">End Time</th>
+                                            <th style="text-align: center;">Start Time</th>
+                                            <th style="text-align: center;">End Time</th>
+                                            <th style="text-align: center;">Start Time</th>
+                                            <th style="text-align: center;">End Time</th>
+                                            <th style="text-align: center;">Start Time</th>
+                                            <th style="text-align: center;">End Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyCollectionFrequency">
+                                        <tr>
+                                            <td style="text-align:center" width="3%">
+                                                <input type="checkbox" id="isDelete1" name="isDelete" />
+                                                <input type="hidden" id="hdnCollectionFrequencyId1" value="0" />
+                                            </td>
+                                            <td style="width:initial" id="WasteTypeCollection">
+                                                <select type="text" required class="form-control" id="ddlWasteTypeCollection1" autocomplete="off" name="Waste Type" maxlength="25" ></select>
+                                            </td>
+                                            <td id="FrequencyType">
+                                                <select type="text" required class="form-control"  id="ddlFrequencyType1" autocomplete="off" name="Frequency Type" maxlength="25" ></select>
+                                            </td>
+                                            <td>
+                                                <select type="text" class="form-control HWCollectionFrequency" id="ddlCollectionFrequency1" autocomplete="off" name="Collection Frequency" maxlength="25" ></select>
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control"  id="txtStartTime11" disabled="disabled" autocomplete="off" name="StartTime1"  />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" id="txtEndTime11" disabled="disabled" autocomplete="off" name="EndTime1"  />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" id="txtStartTime21" disabled="disabled" autocomplete="off" name="StartTime2"   />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" id="txtEndTime21" disabled="disabled" autocomplete="off" name="EndTime2"  />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" id="txtStartTime31" disabled="disabled" autocomplete="off" name="StartTime3"  />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" id="txtEndTime31" disabled="disabled" autocomplete="off" name="EndTime3"  />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control"  id="txtStartTime41" disabled="disabled" autocomplete="off" name="StartTime4"  />
+                                            </td>
+                                            <td>
+                                                <input type="time" class="form-control" id="txtEndTime41" disabled="disabled" autocomplete="off" name="EndTime4" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row mt20" id="AttachRowPlus">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a class="btn btn-primary" id="addCollectionFrequency">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                        </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+
+                                    <input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+                                    <input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />
+                                    <input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+                                    @*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                      <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+
+                                </div>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    @Html.Partial("~/Areas/HWMS/Views/DeptAreaDetail/List.cshtml")
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/DeptAreaDetails.js")"></script>
+}
+
+
+
+

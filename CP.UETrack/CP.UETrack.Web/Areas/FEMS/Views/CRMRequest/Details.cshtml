@@ -1,0 +1,505 @@
+﻿@{
+    ViewBag.Title = "Customer Relationship Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}
+
+<div>
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" value="" />
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>FEMS</li>
+            <li>CRM</li>
+
+            <li class="active">Request</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+
+
+        <div>
+            <h4 class="pull-left">Request</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divWOStatus" class="divWOStatus pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+
+            <li role="presentation" class="active"><a href="#crmRequest" aria-controls="home" role="tab" data-toggle="tab">Request</a></li>
+            @*<li role="presentation" onclick="loadCRMReqAttachmentTab()"><a href="#CRMreqAttach" aria-controls="profile" role="tab" data-toggle="tab">Attachement</a></li>*@
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        @*<div name="formCRMRequest" id="formCRMRequest" class="form-horizontal" novalidate>*@
+        <!-- 1st Tab -->
+        <div role="tabpanel" class="tab-pane active" id="crmRequest">
+
+            <div class="content_body">
+                <form id="form" autocomplete="off">
+                    <div class="form-horizontal">
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Request No.</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" class="form-control" disabled="disabled" id="RequestNo" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Request Date / Time </label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="RequestDateTime" autocomplete="off" class="form-control datatimepicker" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label id="" class="col-sm-6 control-label">Requester <span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="crmReqRequester" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchRequester(event)" onpaste="FetchRequester(event)" change="FetchRequester(event)" oninput="FetchRequester(event)" required>
+                                        </div>
+                                        <input type="hidden" id="hdncrmReqRequesterId" />
+                                        <input type="hidden" id="hdncrmReqRequesterEmail" />
+                                        <div class="col-sm-6" id="RequesterFetch"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Request Type <span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select class="form-control" required id="TypeOfRequest" autocomplete="off">
+                                                <option value="">Select</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Request Status</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select class="form-control" disabled="disabled" id="RequestStatus" autocomplete="off"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ReqTypTCDiv" style="display:none">
+                            <div class="row">
+
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label id="lblCrmReqTarDat" class="col-sm-6 control-label">Target Date</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmReqTarDat" class="form-control datetimeNoFuture" autocomplete="off" readonly>
+                                            </div>
+                                            <input type="hidden" id="hdncrmReqTarDatOver" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 " id="ReqTypTCEngDiv" style="display:none">
+                                    <div class="form-group">
+                                        <label id="lblCrmreqReqAssi" class="col-sm-6 control-label">Assignee</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="crmReqAssigne" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchAssignee(event)" onpaste="FetchAssignee(event)" change="FetchAssignee(event)" oninput="FetchAssignee(event)">
+                                            </div>
+                                            <input type="hidden" id="hdncrmReqAssigneId" />
+                                            <input type="hidden" id="hdncrmReqAssigneEmail" />
+                                            <div class="col-sm-6" id="AssigneFetch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label id="lblCrmreqMod" class="col-sm-6 control-label">Model</label>
+                                    <div class="col-sm-4">
+                                        <div>
+                                            <input type="text" id="crmReqModel" name="Model" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchModel(event)" onpaste="FetchModel(event)" change="FetchModel(event)" oninput="FetchModel(event)">
+                                        </div>
+                                        <input type="hidden" id="hdncrmReqModId" />
+                                        <div class="col-sm-6" id="ModelFetch"></div>
+                                    </div>
+                                    <div class="col-sm-2" id="Popup-RequestMdl">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-RequestMdl">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label id="lblCrmReqmanu" class="col-sm-6 control-label">Manufacturer</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="crmReqManu" class="form-control " autocomplete="off" onkeyup="FetchManufacturer(event)" onpaste="FetchManufacturer(event)" change="FetchManufacturer(event)" oninput="FetchManufacturer(event)" disabled>
+                                        </div>
+                                        <input type="hidden" id="hdncrmReqManuId" />
+                                        <div class="col-sm-6" id="ManuFetch"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="AreaLocDiv" style="display:none">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="labCrmReqLocCd" class="col-sm-6 control-label">Location Code</label>
+                                        <div class="col-sm-4">
+                                            <input type="hidden" id="hdnCrmReqUsrLocCdeId" />
+                                            <input type="text" id="CrmReqUsrLocCde" name="Location code" class="form-control" placeholder="Please Select" autocomplete="off" onkeyup="FetchUserLocation(event)" onpaste="FetchUserLocation(event)" change="FetchUserLocation(event)" oninput="FetchUserLocation(event)">
+                                            <div class="col-sm-6" id="UserLocFetch"></div>
+                                        </div>
+                                        <div class="col-sm-2" id="Popup-ReqUsrLocCde">
+                                            <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-ReqUsrLocCde">
+                                                <i class="fa fa-search" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Location Name</label>
+                                        <div class="col-sm-6">
+                                            <a id="redirectUrl"><input type="text" id="CrmReqUsrLocNam" class="form-control" disabled></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="labCrmReqAreaCd" class="col-sm-6 control-label">Area Code</label>
+                                        <div class="col-sm-6">
+                                            <input type="hidden" id="hdnCrmReqUsrAreaCdId" />
+                                            <input type="text" id="CrmReqUsrAreaCd" class="form-control" autocomplete="off" onkeyup="FetchUserArea(event)" onpaste="FetchUserArea(event)" change="FetchUserArea(event)" oninput="FetchUserArea(event)" disabled>
+                                            <div class="col-sm-6" id="UserAreaCodeFetch"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Area Name</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="CrmReqUsrAreaNam" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="labCrmReqBlockCd" class="col-sm-6 control-label">Block Code</label>
+                                        <div class="col-sm-6">
+                                            <input type="hidden" id="hdnCrmReqUsrBlockCdId" />
+                                            <input type="text" id="CrmReqUsrBlockCd" class="form-control" autocomplete="off" disabled>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Block Name</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="CrmReqUsrBlockNam" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label id="labCrmReqBlockCd" class="col-sm-6 control-label">Level Code</label>
+                                        <div class="col-sm-6">
+                                            <input type="hidden" id="hdnCrmReqUsrLevelCdId" />
+                                            <input type="text" id="CrmReqUsrLevelCd" class="form-control" autocomplete="off" disabled>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Level Name</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="CrmReqUsrLevelNam" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="WorkAssiDiv" style="display:none">
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label id="lblCrmreqReqWOAss" class="col-sm-6 control-label">Assignee</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="CrmreqReqWOAss" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchWOAssignee(event)" onpaste="FetchWOAssignee(event)" change="FetchWOAssignee(event)" oninput="FetchWOAssignee(event)">
+                                            </div>
+                                            <input type="hidden" id="hdncrmReqWOAssigneId" />
+                                            <input type="hidden" id="hdncrmReqWOAssigneEmail" />
+                                            <div class="col-sm-6" id="WOAssigneFetch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label id="lblcrmReqDesc" class="col-sm-3 control-label">Request Description <span class="red">*</span></label>
+                                    <div class="col-sm-9">
+                                        <div>
+                                            <textarea required class="form-control wt-resize description" autocomplete="off" id="RequestDescription" maxlength="500" style="height:70px" novalidate></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label id="lblCrmReqRem" class="col-sm-3 control-label">Remarks</label>
+                                    <div class="col-sm-9">
+                                        <div>
+                                            <textarea class="form-control wt-resize remarks" autocomplete="off" id="Remarks" style="height:70px" maxlength="500"></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hdnCrmReqChkstsApp" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Remarks History</label>
+                                    <div class="col-sm-1">
+                                        <div>
+                                            <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Real Time History" tabindex="0" data-target="#RemHisModal">
+                                                <span class="glyphicon glyphicon-modal-window"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="crmObsoleteSec" style="display:none">
+                            <div class="row">
+                                <div class="col-sm-12 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label"></label>
+                                        <div class="col-sm-2 mt20">
+                                            <div>
+                                                <input type="button" id="CrmObsoleteFetchSave" @*onclick="FetchObsoleteAsset()"*@ class="btn btn-primary customButton pull-right" value="Fetch">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="RemHisModal" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><b>Remarks History</b></h4>
+                                    </div>
+                                    <div class="modal-body">
+
+
+                                        <div ng-view="" class="row">
+                                            <div class="col-sm-12">
+                                                <div class="table-responsive">
+                                                    <table id="CrmRequestRemarksTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                        <thead class="tableHeading">
+                                                            <tr>
+                                                                <th style="text-align: center; " width="5%">No.</th>
+                                                                <th style="text-align: center;" width="35%">Remarks</th>
+                                                                <th style="text-align: center;" width="20%">Entered By</th>
+                                                                <th style="text-align: center;" width="20%">Date / Time</th>
+                                                                <th style="text-align: center;" width="20%">Request Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="CrmReqRemarksGrid"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="modal-footer mt20">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div ng-view="" class="row" id="CrmAssetGrid" style="display:none">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="CRMRequestTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th width="5%" class="text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                    <input type="checkbox" name="" id="chk_CrmReq" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                                </th>
+                                                <th id="lblCrmObsolete" style="text-align: center;" width="45%">Asset No. <span class="red">*</span></th>
+                                                <th style="text-align: center;" width="25%">Serial Number</th>
+                                                <th style="text-align: center;" width="25%">Software Version</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CRMRequestGrid"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="paginationfooter"></div>
+
+                        <div class="row mt20">
+                            <div class="col-sm-2 ">
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <div>
+                                            <a onclick="AddNewRow()" id="CrmReqPlus" class="btn btn-primary hider">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                        </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+
+                                    <button type="button" id="btnSaveConverttoWO" class="btn btn-primary customButton" onclick="ConvertWorkorder()" style="visibility:hidden"><i class="fa fa-link" aria-hidden="true"></i>Convert to WO</button>
+
+                                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+
+                                    <button type="button" id="btnApprove" class="btn btn-primary customButton hider"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                                    <button type="button" id="btnReject" class="btn btn-primary customButton hider"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                                    <button type="button" id="btnClarify" class="btn btn-primary customButton hider"><i class="fa fa-check" aria-hidden="true"></i>Clarify</button>
+
+                                    <button type="button" id="btnVerify" class="btn btn-primary customButton hider"><i class="fa fa-check-square-o" aria-hidden="true"></i>Verify</button>
+
+
+                                    <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+        </div>
+        <!--2nd Tab -->
+        <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+            <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                @Html.Partial("~/Areas/FEMS/Views/AttachmentPartialView/AttachmentPartialView.cshtml")
+            </form>
+        </div>
+
+    </div>
+    @Html.Partial("~/Areas/FEMS/Views/CRMRequest/List.cshtml")
+</div>
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/BEMS/CRM.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    @*<script src="~/Scripts/ng/Controllers/BEMS/CRMRequestAttachment.js"></script>*@
+    <script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+
+}
+
+

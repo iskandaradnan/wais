@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.2092
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CP.UETrack.Web", ".", "{D4B79D74-DFAD-4102-9F4E-DF5B82E13463}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_62177"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\git\UETrack-WAIS-WAISV1.0\UETrack-WAIS-WAISV1.0\CAMIS_WAIS-master\CP.UETrack\CP.UETrack.Web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62177\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_62177"
+		Release.AspNetCompiler.PhysicalPath = "..\..\git\UETrack-WAIS-WAISV1.0\UETrack-WAIS-WAISV1.0\CAMIS_WAIS-master\CP.UETrack\CP.UETrack.Web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62177\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "62177"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4B79D74-DFAD-4102-9F4E-DF5B82E13463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B79D74-DFAD-4102-9F4E-DF5B82E13463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8634E8D-73EF-49E1-AB81-C62E13F1B4D0}
+	EndGlobalSection
+EndGlobal

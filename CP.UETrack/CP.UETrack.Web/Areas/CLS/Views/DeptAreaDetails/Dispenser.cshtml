@@ -1,0 +1,75 @@
+﻿
+<form id="formDeptAreaDetailsDispenser" name="formDeptAreaDetailsDispenser" class="form-horizontal" autocomplete="off">   
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table id="" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                    <thead class="tableHeading">
+                        <tr>
+                            <th style="text-align: center;" width="30%">Type</th>
+                            <th style="text-align: center;" width="30%">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;" width="10%"><label for="HPT">Hand Paper Towel</label></td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="form-control" id="txtHPT" placeholder="0" autocomplete="off" name="HPT" maxlength="25" min="0" onkeypress="return event.charCode >= 48" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;" width="10%"><label for="JR">Jumbo Roll / Toilet Roll</label></td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="form-control" id="txtJR" placeholder="0" autocomplete="off" name="JJR" maxlength="25" min="0" onkeypress="return event.charCode >= 48" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;" width="10%"><label for="HS">Hand Soap / Liquid Soap Dispenser</label></td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="form-control" id="txtHS1" placeholder="0" autocomplete="off" name="HS" maxlength="25" min="0" onkeypress="return event.charCode >= 48" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;" width="10%"><label for="D"> Deodorant</label></td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="form-control" id="txtD" placeholder="0" autocomplete="off" name="TD" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;" width="10%"><label for="FP">Foot Pump / Non-Contact Type Dispenser</label></td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="form-control" id="txtFP" placeholder="0" autocomplete="off" name="FP" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;" width="10%"><label for="HD">Hand Dryers</label></td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="form-control" id="txtHD" placeholder="0" autocomplete="off" name="HD" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left;" width="10%"><label for="AT"> Auto Timer Deodorizer / Air Freshener Dispenser</label></td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="form-control" id="txtAT" placeholder="0" autocomplete="off" name="AT" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="errorMsgDis" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+        <!-- ngIf: RescheduleErrorList.length > 0 -->
+    </div>
+    <div class="row mt20">
+        <div class="form-group">
+            <div class="col-sm-12 text-center">
+                <input type="button" id="btnSaveDis" class="btn btn-primary customButton" value="Save" />
+                <input type="button" id="btnCancelDis" class="btn btn-primary" value="Reset" />
+                @*<button type="button" id="btnSaveDis" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+            </div>
+        </div>        
+    </div>    
+</form>
+      
+

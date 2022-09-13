@@ -1,0 +1,675 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4D95FEEB-A1DB-40AE-A6A6-8F5DD103B802}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CP.UETrack.BLL</RootNamespace>
+    <AssemblyName>CP.UETrack.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|AnyCPU'">
+    <OutputPath>bin\Dev\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Production|AnyCPU'">
+    <OutputPath>bin\Production\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Uat|AnyCPU'">
+    <OutputPath>bin\Uat\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'sample|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\sample\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\LP.QTO.Web\QTO.Net\DeadCodeRuleSet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.ASIS.ReportHelper">
+      <HintPath>..\..\CP.Binaries\Release\CP.ASIS.ReportHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Audit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.Audit.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Common">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Email">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.ExceptionHandler">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.ExceptionHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Logging">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.SmartAssign">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.SmartAssign.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Sms">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.Sms.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.StateManagement">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.StateManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.TransactionManagement">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.TransactionManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.XSSManagement">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.XSSManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.CryptoProvider">
+      <HintPath>..\..\CP.Binaries\CP.Framework.CryptoProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Data">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Security.Authentication">
+      <HintPath>..\..\CP.Binaries\CP.Framework.Security.Authentication.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\..\packages\FluentValidation.5.1.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPdf, Version=2022.8.0.8818, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IronPdf.Slim.2022.8.8818\lib\net40\IronPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching">
+      <HintPath>..\..\packages\EnterpriseLibrary.Caching.5.0.505.0\lib\NET35\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
+      <HintPath>..\..\packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\..\packages\Unity.Interception.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Selectors" />
+    <Reference Include="System.identitymodel.services" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="BusinessAccess\BusinessValidation\AccountValidator.cs" />
+    <Compile Include="BusinessAccess\BusinessValidation\AuthorizationValidator.cs" />
+    <Compile Include="BusinessAccess\BusinessValidation\CommonUserPermissionValidator.cs" />
+    <Compile Include="BusinessAccess\BusinessValidation\ValidatorBase.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\AdditionalFields\IAdditionalFieldsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\AssetStandardization\IAssetStandardizationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\CustomerConfig\ICustomerConfigBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IARPApplicationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssertregisterAssetProcessingStatusBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssetQRCodePrintBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssetRegisterAttachmentBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssetClassificationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssetRegisterLicenseCertificateTabBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssetRegisterWarrantyProviderTabBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IContractOutRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ICRMRequestBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ICRMWorkorderAssignBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ICRMWorkorderBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ICurrentMaintenanceBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IDepartmentQRCodePrintingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IEODCaptureBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IEODParameterMappingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IEODTypeCodeMappingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IEODCategorySystemBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IContractorandVendorBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ICustomerBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IFacilityWorkshopBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IImageVideoUploadBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ILicenseAndCertificateBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IMonthlyStockRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IScheduledWorkOrderBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IScheduleGenerationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IPPMPlannerBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IRescheduleWOBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IFacilityBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IMaintananceHistoryTabAssetregisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IPPMChecklistBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ISparepartRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IStockAdjustmentBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IStockUpdateRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ITypeCodeDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IUserAreaBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IUserLocationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssetRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IUserLocationQRCodePrintingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IUserTrainingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IWarrantyManagementBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IWorkingCalenderBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\IAssetInformationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\PPMLoadBalancing\IPPMLoadBalancingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\TestingAndCommissioning\ITestingAndCommissioningBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BER\IBER1ApplicationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BER\IBERDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IApprovedChemicalListBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IChemicalInUseBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\ICLSFetchBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\ICLSReportsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\ICorrectiveActionReportBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IDailyCleaningActivityBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IDeptAreaDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IFETCBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IIndicatormasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IJIDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IJIScheduleGenerationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IPeriodicWorkRecordBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IQualityCauseMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IToiletInspectionBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\CLS\IWeekCalendarBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Common\ICommonBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Common\IReportFilterBLL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Common\IAsisReportBLL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Common\IReportCommonBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Common\IReportLoadLovBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\EOD\IEODDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\FEMS\IFemsContractOutRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\FEMS\IFemsBlockBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\FEMS\IFemsEncryptBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\FEMS\IFemsStockUpdateRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\GM\ILovMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Home\IDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Home\IHomeDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IApprovedChemicalListsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IBinMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\ICollectionCategoryBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IConsignmentNoteCWCNBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IConsignmentNoteOSWCNBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IConsumablesReceptaclesBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\ICorrectiveActionReportsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\ICSWRecordSheetBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\ICWRecordSheetBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IDailyTemperatureLogBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IDailyWeighingRecordBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IDeptAreaDetail.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IDriverDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IFacilitiesEquipmentBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IHWMSReportsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IIndicatorMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\ILicenseTypeBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IOSWRecordSheetBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IQualityCauseMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IRecordsofRecyclableWasteBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\ITransportationCategoryBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\ITreatmentPlantBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IVehicleDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\HWMS\IWasteTypeBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\IAssertregisterVariationDetailsTabBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\GM\IFacilityStaffMstBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\GM\ICompanyStaffMstBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\IAuditBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\IAuthorizationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\IBlockBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\ICacheBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\INavigationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Fetch\IFetchBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\IKPIDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\KPIGeneration\IKPIGenerationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\IIndicatorMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\IMonthlyServiceFeeBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\IParameterMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\IPenaltyMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\KPITransactionMapping\IKPITransactionMappingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\MonthlyKPIAdjustments\IMonthlyKPIAdjustmentsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\KPI\ReportsAndRecords\IReportsAndRecordsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Layout\ILayoutBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\ICentralCleanLinenStoreBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\IDriverDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\IFacilitiesEquipmentToolsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\ILaundryPlantBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\ILicenseTypeBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\ILinenItemDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\IVehicleDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\IWeighingScaleBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ICentralLinenStoreHouseKeepingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ILinenAdjustmentsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ILinenCondemnationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ILinenInjectionBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ICleanLinenIssueBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ICleanLinenDespatchBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ILinenInventoryBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ILinenRepairBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ILinenItemDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ICleanLinenRequestBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ILinenRejectReplacementBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\ISoiledLinenCollectionBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Transaction\LinenAdjustmentsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\MASTER\IMasterlevelBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\MASTER\IMasterBlockBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\MASTER\IMasterUserAreaBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\MASTER\IMasterUserLocationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\MASTER\IUserTrainingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Portering\ILoanerBookingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Portering\IPorteringBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\QAP\CorrectiveActionReport\ICorrectiveActionReportBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\QAP\IQAPDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\QAP\IQAPIndicatorMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\QAP\IQualityCauseMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\Search\ISearchBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\SmartAssign\IPorteringSmartAssignBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\SmartAssign\IManualassignPorteringBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\ChangePassword\IChangePasswordBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\ForgotPassword\IForgotPasswordBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\SmartAssign\IManualassignBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\INotificationDeliveryConfigurationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\IRoleScreenPermissionBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\ISmartAssignBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\ITrackingTechnicianBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\IUnblockUserBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\IUserRegistrationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\IUserRoleBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\UM\IUserShiftLeaveDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\VM\IBulkAuthorizationBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\VM\ISummaryofFeeReportBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\VM\IVMDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\VM\IVMMonthClosingBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\VM\ISNFBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\VM\ISummaryReportonVariationsBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\VM\IVVFBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\AccountBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\IAccountBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\AuditBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AdditionalFields\AdditionalFieldsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\ArpBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssertregisterAssetProcessingStatusBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssertregisterVariationDetailsTabBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetClassificationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetQRCodePrintBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetRegisterAttachmentBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\CRMWorkorderAssignBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\CurrentMaintenanceBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetRegisterLicenseCertificateTabBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetRegisterWarrantyProviderTabBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetStandardization\AssetStandardizationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetInformationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\ContractOutRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\CRMRequestBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\CustomerConfig\CustomerConfigBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\DepartmentQRCodePrintingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\EODCaptureBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\EODParameterMappingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\EODTypeCodeMappingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\EODCategorySystemBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\ContractorandVendorBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\CustomerBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\FacilityWorkshopBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\ImageVideoUploadBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\LicenseAndCertificateBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\MonthlyStockRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\PPMLoadBalancing\PPMLoadBalancingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\ScheduledWorkOrderBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\ScheduleGenerationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\PPMPlannerBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\RescheduleWOBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\FacilityBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\MaintananceHistoryTabAssetregisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\PPMChecklistBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\SparepartRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\StockAdjustmentBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\TestingAndCommissioning\TestingAndCommissioningBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\TypeCodeDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\UserAreaBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\UserLocationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\AssetRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\UserLocationQRCodePrintingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\UserTrainingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\WarrantyManagementBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\WorkingCalenderBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BER\BER1ApplicationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BER\BERDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\ApprovedChemicalListBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\ChemicalInUseBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\CLSFetchBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\CLSReportsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\CorrectiveActionReportBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\DailyCleaningActivityBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\DeptAreaDetails.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\FETCBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\IndicatormasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\JIDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\JIScheduleGenerationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\PeriodicworkRecordBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\QualityCauseMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\ToiletInspectionBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CLS\WeekCalendarBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Common\AsisReportBLL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Common\CommonBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Common\ReportCommonBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\AuthorizationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\CacheBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\CRMWorkorderBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Common\ReportFilterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Common\ReportLoadLovBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\EOD\EODDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\FEMS\FemsContractOutRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\FEMS\FemsBlockBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\FEMS\FemsEncryptBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\FEMS\FemsStockUpdateRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Fetch\FetchBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\GM\FacilityStaffMstBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\GM\CompanyStaffMstBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\GM\LovMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Home\DashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Home\HomeDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\ApprovedChemicalListsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\BinMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\CollectionCategoryBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\ConsignmentNoteCWCNBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\ConsignmentNoteOSWCNBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\ConsumablesReceptaclesBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\CorrectiveActionReporstBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\CSWRecordSheetBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\CWRecordSheetBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\DailyTemperatureLogBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\DailyWeighingRecordBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\DeptAreaDetail.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\DriverDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\FacilitiesEquipmentBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\HWMSReportsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\IndicatorMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\LicenseTypeBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\OSWRecordSheetBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\QualityCauseMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\RecordsofRecyclableWasteBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\TransportationCategoryBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\TreatmentPlantBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\VehicleDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\HWMS\WasteTypeBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\KPIDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\KPIGeneration\KPIGenerationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\IndicatorMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\KPITransactionMapping\KPITransactionMappingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\MonthlyKPIAdjustments\MonthlyKPIAdjustmentsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\MonthlyServiceFeeBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\ParameterMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\PenaltyMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\KPI\ReportsAndRecords\ReportsAndRecordsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Layout\LayoutBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\CentralCleanLinenStoreBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\DepartmentDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\DriverDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\FacilitiesEquipmentToolsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\LaundryPlantBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\LicenseTypeBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\LinenItemDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\VehicleDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Master\WeighingScaleBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\CentralLinenStoreHouseKeepingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\CleanLinenDespatchBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\CleanLinenIssueBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\CleanLinenRequestBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\LinenAdjustmentsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\LinenInventoryBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\LinenItemDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\LinenRepairBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\LinenInjectionBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\LeninCondemnationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\LinenRejectReplacementBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\LLS\Transaction\SoiledLinenCollectionBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\MASTER\MasterlevelBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\MASTER\MasterBlockBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\MASTER\MasterUserAreaBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\MASTER\MasterUserLocationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\MASTER\UserTrainingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\NavigationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Portering\LoanerBookingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Portering\PorteringBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\QAP\CorrectiveActionReport\CorrectiveActionReportBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\QAP\QAPDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\QAP\QAPIndicatorMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\QAP\QualityCauseMasterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\Search\SearchBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\StockUpdateRegisterBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\SmartAssign\PorteringSmartAssignBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\SmartAssign\ManualassignPorteringBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\ChangePassword\ChangePasswordBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\ForgotPassword\ForgotPasswordBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\SmartAssign\ManualassignBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\NotificationDeliveryConfigurationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\RoleScreenPermissionBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\SmartAssignBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\TrackingTechnicianBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\UnblockUserBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\UserRegistrationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\UserRoleBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\BEMS\ILevelBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\LevelBAL.cs" />
+    <Compile Include="BusinessAccess\Contracts\LLS\Master\IDepartmentDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\BEMS\BlockBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\UM\UserShiftLeaveDetailsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\VM\BulkAuthorizationBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\VM\SNFBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\VM\SummaryofFeeReportBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\VM\SummaryReportonVariationsBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\VM\VMDashboardBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\VM\VMMonthClosingBAL.cs" />
+    <Compile Include="BusinessAccess\Implementations\VM\VVFBAL.cs" />
+    <Compile Include="ComponentRegistry\DataModule.cs" />
+    <Compile Include="Helper\Helpers.cs" />
+    <Compile Include="MappingProfile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="TypeConversionVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CP.UETrack.DAL\CP.UETrack.DAL.csproj">
+      <Project>{bd080424-0857-4ab1-a864-5be7be75dd29}</Project>
+      <Name>CP.UETrack.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CP.UETrack.Models\CP.UETrack.Model.csproj">
+      <Project>{7fc8bbf2-a919-4a07-ba95-1d8fa14be1d4}</Project>
+      <Name>CP.UETrack.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TranslationManager\CP.UETrack.TranslationManager.csproj">
+      <Project>{e3634e46-9d12-4e7c-b5e9-a2dacac0af53}</Project>
+      <Name>CP.UETrack.TranslationManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\codecracker.CSharp.1.0.0-rc4\analyzers\dotnet\cs\CodeCracker.Common.dll" />
+    <Analyzer Include="..\..\packages\codecracker.CSharp.1.0.0-rc4\analyzers\dotnet\cs\CodeCracker.CSharp.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets" Condition="Exists('..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

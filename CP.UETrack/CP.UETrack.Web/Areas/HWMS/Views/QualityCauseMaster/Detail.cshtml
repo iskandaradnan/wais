@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        /**/
+
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        } }
+    <input type="hidden" id="primaryID" name="primaryID" value="0" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>HWMS</li>
+            <li>QualityCauseMaster</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <br />
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#formppmplanner" data-toggle="tab">QualityCauseMaster</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+            <form id="formQualityCauseMaster" name="formQualityCauseMaster" class="form-horizontal" novalidate>
+                <div class="row">
+                    <input type="hidden" id="txtIdno" />
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Failure Symptom Code<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6" id="Code">
+                                    <input type="text" required class="form-control" id="txtFailureSymptomCode" autocomplete="off" name="FailureSymptomNo" maxlength="25"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Description<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6" id="descrpt">
+                                    <input type="text" required class="form-control" id="txtDescription" autocomplete="off" name="DescriptionDetails" maxlength="25" tabindex="3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <table id="QualityCauseMastertable" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                    <thead class="tableHeading">
+                        <tr>
+                            <th width="1%" class="text-center">
+                                <span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="delete"></span>
+                            </th>
+                            <th style="text-align: center;" width="10%">Failure Type<span style="color:red">*</span></th>
+                            <th style="text-align: center;" width="10%">Failure Root Cause Code<span style="color:red">*</span></th>
+                            <th style="text-align: center;" width="10%">Details</th>
+                            <th style="text-align: center;" width="10%">Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyFailure">
+                        <tr>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="record" id="chkDelete1"> 
+                                <input type="hidden" id="hdnFailureId1" /> 
+                            </td>
+                            <td id="Failure">
+                                <select type="text" required class="form-control" name="FailureType" id="ddlFailureType1" autocomplete="off" maxlength="25" >   </select>
+                            </td>
+                            <td id="Causecode">
+                                <input type="text" required class="form-control" id="txtFailureRootCauseCode1" autocomplete="off" name="FailureRootCauseCode" maxlength="25"  />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtDetails1" autocomplete="off" name="Details" maxlength="25"  />
+                            </td>
+                            <td>
+                                <select type="text" class="form-control" id="ddlStatus1" autocomplete="off" name="Status" maxlength="25" ></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row mt20" id="AttachRowPlus">
+                    <div class="col-sm-3 ">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div>
+                                    <a class="btn btn-primary" id="add">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                </div>
+                <div class="row mt30">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+                            <input type="button" id="btnSaveAddNew" class="btn btn-primary" value="Save & AddNew" />
+                            <input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+                            @*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnSaveAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"> </div>               
+            </form>
+            <br />
+        </div>
+    </div>
+    @Html.Partial("~/Areas/HWMS/Views/QualityCauseMaster/List.cshtml")
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/QualityCauseMaster.js")"></script>
+}
+
+

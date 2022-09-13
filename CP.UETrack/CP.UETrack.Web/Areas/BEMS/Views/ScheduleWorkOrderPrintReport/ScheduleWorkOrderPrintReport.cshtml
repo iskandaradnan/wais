@@ -1,0 +1,113 @@
+﻿@*not used*@
+
+
+@{
+    ViewBag.Title = "ScheduleWorkOrderPrintReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="Dashboard.html"><i class="fa fa-home"></i></a>
+            </li>
+            <li><a href="#">Reports</a></li>
+            <li class="active">@*<a href="#">*@Work Order Report</a></li>
+
+        </ol>
+        <h4>@ViewBag.ActionType Work Order Report</h4>
+    </div>
+
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="WorkOrderForm" autocomplete="off">
+
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From Date</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control datetimepicker" id="WOfromdate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">To Date</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control datetimepicker" id="WOTodate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Work Order Type</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" maxlength="25" id="WOtype">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnWorkOrderRptFetch" name="btnFetch" class="btn btn-primary" onclick="getWorkOrderReport()" title="Fetch" value="Fetch">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <iframe id="ReportFrame" frameborder="0" src="" style="width:100%;height:550px;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnWorkOrderRptCancel" name="btnCancel" class="btn btn-grey" title="Cancel" value="Back">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts
+    {
+
+    <script type="text/javascript" src="~/Scripts/ng/Controllers/Report/WorkOrderReport.js"></script>
+
+}

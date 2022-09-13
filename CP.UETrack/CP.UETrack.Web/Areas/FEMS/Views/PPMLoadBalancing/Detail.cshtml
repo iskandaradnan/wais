@@ -1,0 +1,339 @@
+
+@{
+    ViewBag.Title="PPMLoadBalancingDetail";
+    Layout="~/Views/Shared/_Layout.cshtml";
+        }
+
+<div>
+
+@functions{
+    public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+<input id="antiForgeryToken" type="hidden" />
+<input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.CurrentID" />
+<input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType " />
+<input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+
+<div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href = "/home/dashboard" ><i class="fa fa-home"></i></a></li>
+            <li>FEMS</li>
+            <li>Work Order</li>
+            <li class="active">PPM Load Balancing</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>PPM Load Balancing</h4>
+    </div>
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            
+        </ul>
+    </div>
+
+    <div class="content_body">
+            <form class="form-horizontal" id="frmPPMLoadBalancing" novalidate autocomplete="off">
+                <div class="content_body">
+
+                    @* Content*@
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Classification</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="txtAssetClassification" name="txtAssetClassification" class="form-control" placeholder="Please Select" maxlength="100">
+                                    <input type="hidden" id="hdnAssetClassificationId" name="hdnAssetClassificationId" />
+                                    <div class="col-sm-12" id="divAssetClassificationFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-assetClassification">
+                                        <span class="glyphicon glyphicon-modal-window"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Assignee</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="txtAssignee" name="txtAssignee" class="form-control" placeholder="Please Select" maxlength="100" />
+                                    <input type="hidden" id="hdnStaffMasterId" name="hdnStaffMasterId"/>
+                                    <div class="col-sm-12" id="divStaffMasterFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-assignee">
+                                        <span class="glyphicon glyphicon-modal-window"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Department Name</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="txtUserArea" name="txtUserArea" class="form-control" placeholder="Please Select" maxlength="100">
+                                    <input type="hidden" id="hdnUserAreaId" name="hdnUserAreaId" />
+                                    <div class="col-sm-12" id="divUserAreaFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-userArea">
+                                        <span class="glyphicon glyphicon-modal-window"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Location Name</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="txtUserLocation" name="txtUserLocation" class="form-control" placeholder="Please Select" maxlength="100">
+                                    <input type="hidden" id="hdnUserLocationId" name="hdnUserLocationId" />
+                                    <div class="col-sm-12" id="divUserLocationFetch">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-userLocation">
+                                        <span class="glyphicon glyphicon-modal-window"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Year</label>
+                                <div class="col-sm-6">
+                                    <select id="selYear" name="selYear" class="form-control" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">                        
+                        <div class="col-sm-12  text-right">
+                            <div>
+                                <input type="button" id="btnAddFetch" value="Fetch" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        </div>
+
+                    
+                    <div class="row mt30">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartItemCode" class="col-sm-6 control-label">Total No. of work orders for the year</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtTotalWorkOrders" name="txtTotalWorkOrders" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Average Work Order Per Month</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtAverageWorkOrders" name="txtAverageWorkOrders" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <hr style="margin: 2em 0;" />
+                        <div class="col-sm-12">
+                            <div>
+                                <fieldset>
+                                    <table id="tblWorkOrderAssignment" class="table table-bordered">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th width="20%" class="text-center">Month</th>
+                                                <th width="13%" class="text-center">Week 1</th>
+                                                <th width="13%" class="text-center">Week 2</th>
+                                                <th width="13%" class="text-center">Week 3</th>
+                                                <th width="13%" class="text-center">Week 4</th>
+                                                <th width="13%" class="text-center">Week 5</th>
+                                                <th width="15%" class="text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyWorkOrderAssignment">
+                                           <tr>
+                                               <td class="text-center">Jan</td>
+                                               <td><a href="#" id="Jan_1_1" class="tdNos"></a></td>
+                                               <td><a href="#" id="Jan_1_2" class="tdNos"></a></td>
+                                               <td><a href="#" id="Jan_1_3" class="tdNos"></a></td>
+                                               <td><a href="#" id="Jan_1_4" class="tdNos"></a></td>
+                                               <td><a href="#" id="Jan_1_5" class="tdNos"></a></td>
+                                               <td id="col1"><a style="color:black" id="Jan_1_6" class="tdNos"></a></td>
+                                           </tr>
+                                            <tr>
+                                                <td class="text-center">Feb</td>
+                                                <td><a href="#" id="Feb_2_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Feb_2_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Feb_2_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Feb_2_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Feb_2_5" class="tdNos"></a></td>
+                                                <td id="col2"><a style="color:black" id="Feb_2_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Mar</td>
+                                                <td><a href="#" id="Mar_3_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Mar_3_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Mar_3_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Mar_3_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Mar_3_5" class="tdNos"></a></td>
+                                                <td id="col3"><a style="color:black" id="Mar_3_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Apr</td>
+                                                <td><a href="#" id="Apr_4_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Apr_4_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Apr_4_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Apr_4_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Apr_4_5" class="tdNos"></a></td>
+                                                <td id="col4"><a style="color:black" id="Apr_4_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">May</td>
+                                                <td><a href="#" id="May_5_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="May_5_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="May_5_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="May_5_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="May_5_5" class="tdNos"></a></td>
+                                                <td id="col5"><a style="color:black" id="May_5_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Jun</td>
+                                                <td><a href="#" id="Jun_6_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jun_6_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jun_6_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jun_6_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jun_6_5" class="tdNos"></a></td>
+                                                <td id="col6"><a style="color:black" id="Jun_6_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Jul</td>
+                                                <td><a href="#" id="Jul_7_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jul_7_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jul_7_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jul_7_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Jul_7_5" class="tdNos"></a></td>
+                                                <td id="col7"><a style="color:black" id="Jul_7_6" class="tdNos"></a></td>
+                                            <tr>
+                                                <td class="text-center">Aug</td>
+                                                <td><a href="#" id="Aug_8_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Aug_8_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Aug_8_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Aug_8_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Aug_8_5" class="tdNos"></a></td>
+                                                <td id="col8"><a style="color:black" id="Aug_8_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Sep</td>
+                                                <td><a href="#" id="Sep_9_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Sep_9_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Sep_9_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Sep_9_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Sep_9_5" class="tdNos"></a></td>
+                                                <td id="col9"><a style="color:black" id="Sep_9_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Oct</td>
+                                                <td><a href="#" id="Oct_10_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Oct_10_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Oct_10_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Oct_10_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Oct_10_5" class="tdNos"></a></td>
+                                                <td id="col10"><a style="color:black" id="Oct_10_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Nov</td>
+                                                <td><a href="#" id="Nov_11_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Nov_11_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Nov_11_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Nov_11_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Nov_11_5" class="tdNos"></a></td>
+                                                <td id="col11"><a style="color:black" id="Nov_11_6" class="tdNos"></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">Dec</td>
+                                                <td><a href="#" id="Dec_12_1" class="tdNos"></a></td>
+                                                <td><a href="#" id="Dec_12_2" class="tdNos"></a></td>
+                                                <td><a href="#" id="Dec_12_3" class="tdNos"></a></td>
+                                                <td><a href="#" id="Dec_12_4" class="tdNos"></a></td>
+                                                <td><a href="#" id="Dec_12_5" class="tdNos"></a></td>
+                                                <td id="col12"><a style="color:black" id="Dec_12_6" class="tdNos"></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
+
+                <div class="row mt30">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                          <button type="button" class="btn btn-grey customButton" id="btnCancel"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>                                
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divWorkOrderPopup" role="dialog">
+
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+@if(ViewBag.ActionType == "View")
+{
+    <script type="text/javascript" >
+        $("form :input:not(:button)").prop("disabled", true);
+    </script >
+}
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/ng/Controllers/BEMS/PPMLoadBalancing/PPMLoadBalancing.js")"></script>
+    <script src="@Url.Content("~/Scripts/ng/Controllers/BEMS/PPMLoadBalancing/popupGrid.js")"></script>
+}

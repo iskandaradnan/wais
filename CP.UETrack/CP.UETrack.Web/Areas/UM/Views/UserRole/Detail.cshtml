@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>User Management</li>
+                <li class="active">User Role</li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <h4>User Role</h4>
+            @*<h4><span id="spnActionType">Add</span> User Role</h4>*@
+        </div>
+
+        @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-1" data-toggle="tab">User Role</a></li>
+            </ul>
+        </div>*@
+
+        <div class="content_body">
+            <form class="form-horizontal" id="frmUserRole" name="frmUserRole" novalidate>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Role Name <span style="color:red;"> *</span></label>
+
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtName" name="txtName"  pattern="^[a-zA-Z0-9\-\(\)\/\s\_]{0,100}$" maxlength="100" tabindex="1" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">User Type <span style="color:red;"> *</span></label>
+
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="selUserTypeId" name="selUserTypeId" tabindex="2" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Status</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="selStatus" name="selStatus" tabindex="3" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Remarks</label>
+
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea class="form-control wt-resize" id="txtRemarks" name="txtRemarks" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" maxlength="500" rows="3" cols="50"
+                                              tabindex="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Cancel"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+                <br />              
+            </form>
+            @Html.Partial("~/Areas/UM/Views/UserRole/List.cshtml")
+        </div>
+    </div>
+
+@if (ViewBag.ActionType == "View")
+            {
+    <script type="text/javascript">
+        $("#frmUserRole :input:not(:button)").prop("disabled", true);
+    </script>
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/UM/UserRole.js")"></script>
+}
+

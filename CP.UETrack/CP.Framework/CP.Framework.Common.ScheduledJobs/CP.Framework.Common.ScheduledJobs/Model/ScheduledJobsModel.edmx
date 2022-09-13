@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ScheduledJobModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ScheduledJob">
+          <Key>
+            <PropertyRef Name="ScheduledJobId" />
+          </Key>
+          <Property Name="ScheduledJobId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobName" Type="varchar" MaxLength="50" />
+          <Property Name="FrequencyCode" Type="varchar" MaxLength="1" />
+          <Property Name="EveryXMinutes" Type="int" Nullable="false" />
+          <Property Name="WeekDays" Type="varchar" MaxLength="20" />
+          <Property Name="MonthDates" Type="varchar" MaxLength="30" />
+          <Property Name="StartDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="EndDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="JobTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="LastRunOn" Type="smalldatetime" />
+          <Property Name="LastRunStatusCode" Type="int" Nullable="false" />
+          <Property Name="LastRunMessage" Type="varchar(max)" />
+          <Property Name="SendEmailOnSuccess" Type="bit" Nullable="false" />
+          <Property Name="SendEmailOnFailure" Type="bit" Nullable="false" />
+          <Property Name="ToEmailIds" Type="varchar(max)" />
+          <Property Name="CcEmailIds" Type="varchar(max)" />
+        </EntityType>
+        <EntityContainer Name="ScheduledJobModelStoreContainer">
+          <EntitySet Name="ScheduledJob" EntityType="Self.ScheduledJob" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ScheduledJobModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ScheduledJobsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ScheduledJobs" EntityType="ScheduledJobModel.ScheduledJob" />
+        </EntityContainer>
+        <EntityType Name="ScheduledJob">
+          <Key>
+            <PropertyRef Name="ScheduledJobId" />
+          </Key>
+          <Property Name="ScheduledJobId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FrequencyCode" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EveryXMinutes" Type="Int32" Nullable="false" />
+          <Property Name="WeekDays" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MonthDates" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="JobTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LastRunOn" Type="DateTime" Precision="0" />
+          <Property Name="LastRunStatusCode" Type="Int32" Nullable="false" />
+          <Property Name="LastRunMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SendEmailOnSuccess" Type="Boolean" Nullable="false" />
+          <Property Name="SendEmailOnFailure" Type="Boolean" Nullable="false" />
+          <Property Name="ToEmailIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CcEmailIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ScheduledJobModelStoreContainer" CdmEntityContainer="ScheduledJobsEntities">
+          <EntitySetMapping Name="ScheduledJobs">
+            <EntityTypeMapping TypeName="ScheduledJobModel.ScheduledJob">
+              <MappingFragment StoreEntitySet="ScheduledJob">
+                <ScalarProperty Name="CcEmailIds" ColumnName="CcEmailIds" />
+                <ScalarProperty Name="ToEmailIds" ColumnName="ToEmailIds" />
+                <ScalarProperty Name="SendEmailOnFailure" ColumnName="SendEmailOnFailure" />
+                <ScalarProperty Name="SendEmailOnSuccess" ColumnName="SendEmailOnSuccess" />
+                <ScalarProperty Name="LastRunMessage" ColumnName="LastRunMessage" />
+                <ScalarProperty Name="LastRunStatusCode" ColumnName="LastRunStatusCode" />
+                <ScalarProperty Name="LastRunOn" ColumnName="LastRunOn" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="JobTime" ColumnName="JobTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="MonthDates" ColumnName="MonthDates" />
+                <ScalarProperty Name="WeekDays" ColumnName="WeekDays" />
+                <ScalarProperty Name="EveryXMinutes" ColumnName="EveryXMinutes" />
+                <ScalarProperty Name="FrequencyCode" ColumnName="FrequencyCode" />
+                <ScalarProperty Name="JobName" ColumnName="JobName" />
+                <ScalarProperty Name="ScheduledJobId" ColumnName="ScheduledJobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

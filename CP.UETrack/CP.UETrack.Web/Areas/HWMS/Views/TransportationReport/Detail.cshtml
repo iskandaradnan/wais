@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        /**/
+
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        } }
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>          <a href="/home/dashboard"><i class="fa fa-home"></i></a>        </li>
+			<li>HWMS</li>
+			<li>Report</li>
+			<li>Transportation Report</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<h4 style="color:grey"><b>Transportation Report</b> </h4>
+	</div>    
+     
+    <div id="divTransportationReport">
+        <form class="form-horizontal" id="formTransportationReport" name="formTransportationReport">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Month <span style="color:red">*</span></label>
+                        <div>
+                            <div class="col-sm-6">
+                                <div id="MonthVal">
+                                    <select class="form-control" required id="ddlMonth"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Year <span style="color:red">*</span></label>
+                        <div>
+                            <div class="col-sm-6">
+                                <div id="YearVal">
+                                    <select type="text" required class="form-control" id="ddlYear" autocomplete="off" name="Year" maxlength="25"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+				<div class="form-group">
+					<div class="col-sm-12 text-center">
+						<input type="button" id="btnTransportationReportFetch" class="btn btn-primary" value="Fetch" /> &nbsp;&nbsp;
+						<input type="button" id="btnPrint" class="btn btn-primary" value="Print" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				@{
+					ViewData["ReportName"] = "Transportation Report";
+				}
+				<hr style="margin:0px;" />
+				<div id="divReportData" style="display:block">
+					@Html.Partial("~/Areas/HWMS/Views/Shared/_reportHeader.cshtml", ViewData["ReportName"])
+
+					<table id="tblReport" class="table table-bordered">
+						<thead>
+							<tr style="height:20px">
+								<th style="text-align: left;background-color:lightgray;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;" width="8%"><b>Company</b></th>
+								<th style="text-align: center;background-color:white;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;" width="10%">Edgenta</th>
+								<th style="text-align: left;background-color:lightgray;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;" width="8%">Hospital</th>
+								<th style="text-align: left;background-color:white;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px; font-weight:bolder" width="15%">Hospital Tunku Azizah</th>
+							</tr>
+							<tr style="height:20px">
+								<th style="text-align: left;background-color:lightgray;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;" width="8%"><b>Year</b></th>
+								<th id="tdYear" style="text-align: center;background-color:white;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;" width="10%"></th>
+								<th style="text-align: left;background-color:lightgray;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;" width="8%">Month</th>
+								<th id="tdMonth" style="text-align: left;background-color:white;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px; font-weight:bolder" width="15%"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="4" style="padding-left:0px; padding-right:0px; border:0px;">
+									<table style="width:100%; margin-top:10px;" class="table">
+										<thead>
+											<tr style="height:20px;">
+												<td style="background: #477baa; color: #fff; padding:5px;">No.</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Consignment Note</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Date</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">QC Value</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Vehicle Number</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Driver Name</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">ON Schedule</td>
+											</tr>
+										</thead>
+										<tbody id="tbodyReport"></tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+        </form>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/HWMSReports.js")"></script>
+}
+
+
+
+
+

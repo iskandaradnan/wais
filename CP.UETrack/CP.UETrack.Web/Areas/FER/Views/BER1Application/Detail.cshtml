@@ -1,0 +1,726 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .errormsgcenter1, .errormsgcenter5 {
+        color: red;
+        border: 1px solid #b02f41;
+        border-radius: 3px;
+        padding: 5px 25px;
+        width: 50%;
+        margin: 0 auto;
+        line-height: 25px;
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="BERStatusValue" name="BERStatusValue" />
+    <input type="hidden" id="BERStage" name="BERStage" value="1" />
+    <input type="hidden" id="ApprovedDate" name="ApprovedDate" />
+    <input type="hidden" id="BERActionStatus" name="BERActionStatus" />
+    <input type="hidden" id="hdnAttachId" name="hdnAttachId" />
+    <input type="hidden" id="CurrentDate" name="CurrentDate" />
+    <input type="hidden" id="BIL" name="BIL" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>FEMS</li>
+            <li class="active">BER Application (BER 1)</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+
+        <div>
+            <h4 class="pull-left">BER Application (BER 1)</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" class="label status pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+
+            <li role="presentation" class="active"><a href="#ber1" aria-controls="home" role="tab" data-toggle="tab">BER 1</a></li>
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+            <li role="presentation"><a href="#maintenancehistory" id="aMaintenanceHistab" aria-controls="profile" role="tab" data-toggle="tab">Maintenance History</a></li>
+            <li role="presentation"><a href="#applicationhistory" id="aApplicationHistab" aria-controls="profile" role="tab" data-toggle="tab">BER Application History</a></li>
+            <li role="presentation" id="liAFAdditionalInfo"><a href="#aAFAdditionalInfo" id="aAddionalInfo" aria-controls="profile" role="tab" data-toggle="tab">Additional Info</a></li>
+        </ul>
+    </div>
+
+    <div>
+
+        <!-- Tab panes -->
+
+        <div class="tab-content">
+
+            <!-- 1st Tab -->
+
+            <div role="tabpanel" class="tab-pane active" id="ber1">
+
+                <div class="content_body">
+                    <form class="form-horizontal" id="beroneformid" autocomplete="off">
+                        @*<div class="row">
+                                <label class="pull-right label status" ><b></b></label>
+
+                            </div>*@
+                        <div class="col-sm-12">
+                            <fieldset>
+                                <hr style="margin: 2em 0;">
+                                <h5>1. Equipment Information </h5>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Rejected BER No. <span class="red ng-hide" style="display: none;"> *</span></label>
+                                            <div class="col-sm-1">
+                                                <input type="checkbox" id="RejectedBER" name="RejectedBER" autocomplete="off" tabindex="0">
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="" role="group">
+
+                                                    <div>
+                                                        <div class="col-sm-10">
+                                                            <input type="hidden" id="hdnRejectedBERReferenceId" />
+                                                            <input type="text" class="form-control" id="txtOldBerNo" name="OldBerNo" placeholder="Please Select" maxlength="100" />
+                                                            <div class="col-sm-12" id="divFetch1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-1" id="rejectedBERDiv">
+                                                            <a data-toggle="modal" class="btn btn-sm  btn-primary" id="spnPopup-berNo" title="Search">
+
+                                                                <i class="fa fa-search" aria-hidden="true"></i>
+                                                            </a>
+                                                        </div>
+                                                        <input type="hidden" id="hdnEngineerId" />
+                                                        <input type="hidden" id="hdnEngineerEmail" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">BER No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" id="berNo" name="BERNo" class="form-control" autocomplete="off" tabindex="0" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Application Date<span class="red"> *</span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="ApplicationDate" autocomplete="off" name="ApplicationDate" class="form-control datatimeNoFuture" tabindex="0" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                                        <div class="col-sm-6" style="display:none">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Service</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="service" disabled value="BEMS" class="form-control" autocomplete="off" />
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Facility Name</label>
+
+                                                <div class="col-sm-6">
+                                                    <input type="hidden" id="FacilityId" />
+                                                    <input type="text" class="form-control" id="FacilityName" name="FacilityName" title="FacilityName" disabled />
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset No.<span class="red">&nbsp;*</span></label>
+                                            <div>
+                                                <div class="col-sm-4">
+                                                    <input type="hidden" id="hdnAssetId" />
+                                                    <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$" id="txtAssetNo" name="AssetNo" placeholder="Please Select" maxlength="100" required />
+                                                    <div class="col-sm-12" id="divFetch2">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-2" id="AssetNoDiv">
+                                                    <a data-toggle="modal" @*id="searchPOPup"*@ id="spnPopup-asset" class="btn btn-sm  btn-primary" title="Search">
+                                                        @*<span id="spnPopup-asset" class="glyphicon glyphicon-modal-window"></span>*@
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset Type Description</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtassetDescription" name="AssetDescription" class="form-control" autocomplete="off" tabindex="0" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Location Code</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" id="UserLocationCode" name="UserLocationCode" class="form-control" autocomplete="off" tabindex="0" disabled>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">
+                                                Location Name
+                                                <br>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="UserLocationName" name="UserLocationName" class="form-control" autocomplete="off" disabled tabindex="0">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Manufacturer</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" id="Manufacturer" name="Manufacturer" class="form-control" autocomplete="off" disabled tabindex="0">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Model</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" id="Model" name="Model" class="form-control" autocomplete="off" disabled tabindex="0" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Supplier Name</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" id="SupplierName" name="SupplierName" class="form-control" autocomplete="off" disabled tabindex="0" aria-invalid="false">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Purchase Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" style="text-align:right" id="PurchaseCost" name="PurchaseCost" class="form-control commaSeperator" disabled autocomplete="off" tabindex="0">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Purchase Date</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" id="PurchaseDate" name="PurchaseDate" class="form-control" autocomplete="off" disabled />
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"> Past Maintenance Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" style="text-align:right" id="PastMaintenanceCost" disabled name="PastMaintenanceCost" class="form-control commaSeperator" autocomplete="off" tabindex="0" maxlength="12" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label" id="estimatedRepairCostlabelid"> Estimated Repair Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" pattern="^\d{0,7}(?:\.\d{0,2})?$" style="text-align:right" id="RepairEstimateCost" name="RepairEstimateCost" class="form-control commaSeperator" autocomplete="off" tabindex="0" maxlength="12" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="col-sm-6 pull-right">
+                                                <input type="checkbox" id="cannotRepair" name="cannotRepair" autocomplete="off" tabindex="0">
+                                            </div>
+                                            <label class="col-sm-6 control-label">Cannot Repair</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Estimated Maintenance Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" disabled style="text-align:right" id="AfterRepairValue" name="AfterRepairValue" class="form-control commaSeperator" autocomplete="off" tabindex="0" maxlength="12" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Current Value (<span class="spnCurrencyName"></span>)<span class="red">&nbsp;*</span></label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" pattern="^\d{0,7}(?:\.\d{0,2})?$" id="CurrentValue" name="CurrentValue" class="form-control commaSeperator" autocomplete="off" maxlength="12" tabindex="0" style="text-align: right;" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Estimated Duration Of Usage After Repair (Months)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" pattern="^\d{0,7}(?:\.\d{0,2})?$" id="estimatedDurationOfUsageAfterRepair" name="EstimatedDurationOfUsageAfterRepair" class="form-control" autocomplete="off" tabindex="0" style="text-align: right;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Frequency of Breakdown Since Purchased</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" pattern="^\d{0,7}(?:\.\d{0,2})?$" title="FrequencyBreakDown" id="FrequencyBreakDown" name="FrequencyBreakDown" class="form-control" autocomplete="off" tabindex="0" maxlength="12" style="text-align: right;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6" style="display:none">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Total Cost on Improvement (<span class="spnCurrencyName"></span>)</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="text" pattern="^\d{0,7}(?:\.\d{0,2})?$" title="TotalCostonImprovement" id="TotalCostonImprovement" name="TotalCostonImprovement" class="form-control" autocomplete="off" maxlength="12" tabindex="0" style="text-align: right;">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Requestor Name</label>
+                                            <div>
+                                                <div class="col-sm-4">
+                                                    <input type="hidden" id="hdnCompanyStaffId" />
+                                                    <input type="text" class="form-control" @*pattern="^[a-zA-Z0-9\-\/]{3,100}$"*@ id="txtCompanyStaffName" placeholder="Please Select" name="CompanyStaffName" autocomplete="off" maxlength="150" />
+                                                    <div class="col-sm-12" id="divFetch3">
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-2" id="companypopup">
+                                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-compStaff">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Position</label>
+
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" id="txtDesignation" class="form-control" name="Designation" disabled autocomplete="off" tabindex="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+                            <fieldset>
+                                @*<div class="row">*@
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                    <h5>2. Condition Appraisal of Equipment</h5>
+                                    <br />
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Condition Appraisal of Equipment</label>
+                                                <div class="col-sm-9">
+
+                                                    <label class="radio-inline" for="radios-1" style="cursor:default">
+                                                        <input type="radio" name="ConditionAppraisalofEquipment" id="ConditionAppraisalofEquipment-1" autocomplete="off" tabindex="0" checked="checked" value="1">Healthy and Safety Hazards
+                                                    </label>
+                                                    <label class="radio-inline" for="radios-2" style="cursor:default">
+                                                        <input type="radio" name="ConditionAppraisalofEquipment" id="ConditionAppraisalofEquipment-2" autocomplete="off" tabindex="0"  value="0">Lifespan
+                                                    </label>
+                                                    <label class="radio-inline" for="radios-3" style="cursor:default">
+                                                        <input type="radio" name="ConditionAppraisalofEquipment" id="ConditionAppraisalofEquipment-2" autocomplete="off" tabindex="0"  value="0"> Replacement
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                               
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Beyond Economic Repair</label>
+                                            <div class="col-sm-6">
+
+                                                <label class="radio-inline" for="radios-1" style="cursor:default">
+                                                    <input type="radio" name="EstimatedCosttooExpensive" id="EstimatedCosttooExpensive-1" autocomplete="off" tabindex="0" value="1">Yes
+                                                </label>
+                                                <label class="radio-inline" for="radios-2" style="cursor:default">
+                                                    <input type="radio" name="EstimatedCosttooExpensive" id="EstimatedCosttooExpensive-2" autocomplete="off" tabindex="0" checked="checked" value="0">No
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Obsolescence</label>
+                                            <div class="col-sm-6">
+
+                                                <label class="radio-inline" for="radios-1" style="cursor:default">
+                                                    <input type="radio" name="ObsolescenceId" id="radios-1" autocomplete="off" tabindex="0" value="1">Yes
+                                                </label>
+                                                <label class="radio-inline" for="radios-2" style="cursor:default">
+                                                    <input type="radio" name="ObsolescenceId" id="radios-2" autocomplete="off" tabindex="0" checked="checked" value="0">No
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Not Reliable</label>
+                                            <div class="col-sm-6">
+
+                                                <label class="radio-inline" for="radios-1" style="cursor:default">
+                                                    <input type="radio" name="NotReliableId" id="NotReliableId-1" autocomplete="off" tabindex="0" value="1">Yes
+                                                </label>
+                                                <label class="radio-inline" for="radios-2" style="cursor:default">
+                                                    <input type="radio" name="NotReliableId" id="NotReliableId-2" autocomplete="off" tabindex="0" checked="checked" value="0">No
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Failed Statutory Requirements</label>
+                                            <div class="col-sm-6">
+
+                                                <label class="radio-inline" for="radios-1" style="cursor:default">
+                                                    <input type="radio" name="StatuaryRequirementsid" value="1" id="StatuaryRequirementsid-1" autocomplete="off" tabindex="0">Yes
+                                                </label>
+                                                <label class="radio-inline" for="radios-2" style="cursor:default">
+                                                    <input type="radio" name="StatuaryRequirementsid" value="0" id="StatuaryRequirementsid-2" autocomplete="off" tabindex="0" checked="checked">No
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Remarks <span class="red"> *</span></label>
+                                            <div class="col-sm-9">
+
+                                                <textarea id="Remarks" required pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" name="Remarks" class="form-control wt-resize" autocomplete="off" maxlength="500" tabindex="0"></textarea>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Other Observations</label>
+                                            <div class="col-sm-9">
+
+                                                <textarea id="otherObservations" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" name="otherObservations" class="form-control wt-resize" maxlength="500" tabindex="0"></textarea>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Applicant</label>
+
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="hdnApplicantStaffId" />
+                                                <input type="text" class="form-control" id="ApplicantName" name="ApplicantName" maxlength="150" disabled />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Designation</label>
+
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" id="ApplicantDesignation" class="form-control" name="ApplicantDesignation" disabled autocomplete="off" tabindex="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+
+
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Status</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="BER1status" name="Status" autocomplete="off" tabindex="0" disabled>
+                                                <option value="null">Select</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--Panel Group-->
+                            <div ng-view="" class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                </div>
+                            </div>
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                                <!-- REMARKS HISTORY -->
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title text_align_left"> <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false" aria-controls="collapseOne" class="collapsed display_block">Remarks History<i class="indicator glyphicon  pull-right glyphicon-chevron-down"></i> </a> </h4>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+
+                                            <div ng-view="" class="row">
+                                                <div class="col-sm-12">
+                                                    <hr style="margin: 2em 0;">
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="table-responsive">
+                                                        <table id="typeCodeDetailsdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                            <thead class="tableHeading">
+                                                                <tr>
+                                                                    <th style="text-align: center; " width="10%">No.</th>
+                                                                    <th style="text-align: center;" width="45%">Remarks</th>
+                                                                    <th style="text-align: center;" width="25%">Entered By</th>
+                                                                    <th style="text-align: center;" width="20%">Date</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="RemarksGridId"></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-12 errMsg" style="color:red; visibility:hidden" id="errorMsg">
+                                <div class="errormsgcenter">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 text-center  mt30">
+                                <button type="button" id="btnVerify" name="Submit" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-check-square-o" aria-hidden="true"></i>Submit</button>
+
+                                @*<button type="button" id="btnEditResubmit" name="Submit" class="btn btn-primary VeirfyApprove">ReSubmit</button>*@
+                                <button type="button" id="btnClarify" name="Submit" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-check-circle" aria-hidden="true"></i>ReSubmit</button>
+                                <button type="button" class="btn btn-primary customButton" id="btnEdit"><i class="fa fa-floppy-o hider" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnRecommend" name="Recommend" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>Recommend</button>
+                                <button type="button" id="btnRecommendMoreInfo" name="MoreInfoLA" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-info-circle" aria-hidden="true"></i>Clarify</button>
+                                <button type="button" id="btnApprove" name="Approve" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                                <button type="button" id="btnApproveMoreinfo" name="MoreinfoHD" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-info-circle" aria-hidden="true"></i>Clarify</button>
+                                <button type="button" id="btApproveForward" name="Forward" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-forward" aria-hidden="true"></i>Forward</button>
+                                <button type="button" id="btnReject" name="Reject" class="btn btn-primary VeirfyApprove hider customButton"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                                <button type="button" class="btn btn-primary customButton" id="btnSave"><i class="fa fa-floppy-o hider" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton hider" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton hider" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 2nd Tab -->
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <div class="row">
+                        @*<label class="pull-right label status"><b></b></label>*@
+                    </div>
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+
+
+            <!--3rd Tab-->
+
+            <div role="tabpanel" class="tab-pane" id="maintenancehistory">
+
+                @Html.Partial("_MaintenanceHistoryTab")
+            </div>
+
+            <!--4th Tab-->
+
+            <div role="tabpanel" class="tab-pane" id="applicationhistory">
+                @Html.Partial("_ApplicatuionHistory")
+            </div>
+
+
+            <div role="tabpanel" class="tab-pane" id="aAFAdditionalInfo" @*style="visibility:hidden"*@>
+
+                @Html.Partial("~/Areas/BER/Views/Shared/Additional_Info_PartialView.cshtml")
+            </div>
+            @Html.Partial("~/Areas/BER/Views/BER1Application/List.cshtml")
+
+        </div>
+
+
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/BER/BER1Application.js"></script>
+    <script src="~/Scripts/ng/Controllers/BER/BERCommon.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    <script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+
+}
+
+}
+
+@*<script>
+    function displayQuote() {
+        document.getElementById("rntnhi").textContent = "I came, I saw, I conquered";
+    }
+
+    $("#rntnhi").mouseover(function () {
+        $("#ssssss").append("<div>Handler for .mouseover() called.</div>");
+    });
+</script>*@

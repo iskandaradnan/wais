@@ -1,0 +1,2014 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .green {
+        background-color: #dff0d8;
+    }
+
+    .pink {
+        background-color: #f2dede;
+    }
+
+    .buttonDisabled {
+        background-color: #E0E0E0;
+    }
+    }
+</style>
+
+<div>
+    @*<div class="row">*@
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="ServiceId" name="ServiceId" value="2" />
+    <input type="hidden" id="TypeOfPlanner" value="34" />
+    <input type="hidden" id="hdnStandardTaskDetId" name="hdnStandardTaskDetId">
+    <input type="hidden" id="hdnWorkOrderId" name="hdnWorkOrderId" value="@ViewBag.WorkOrderId" />
+    <input type="hidden" id="selWorkGroupfems" name="selWorkGroupfems" value="1" />
+
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="hdnAttachThereOrNot" name="HdnAttachThereOrNot" />
+    <input type="hidden" id="hdnAttachThereOrNot1" name="HdnAttachThereOrNot" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Maintenance Work</li>
+            <li class="active">Scheduled Work Order</li>
+
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+
+        <div>
+            <h4 class="pull-left">Scheduled Work Order</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divWOStatus" class="divWOStatus pull-right"></div>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divAssetStatus1" class="divWOStatus1 pull-right"> - </div>
+            <div style="font-weight:bold; color:red; margin-bottom:15px; margin-top: 17px;" id="divAssetStatus" class="divAssetStatus pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+        @*<h4>Scheduled WorkOrder</h4>*@
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#formScheduledWorkOrder" onclick="ClearErrorMessage()" data-toggle="tab">Scheduled Work Order</a></li>
+            <li class=""><a data-toggle="tab" onclick="GetPartReplacement()" href="#tab-3">Part Replacement</a></li>
+            <li class=""><a data-toggle="tab" onclick="GetTransfer()" href="#tab-4">Scheduled Work Order Reassign</a></li>
+            <li class=""><a data-toggle="tab" onclick="GetReschedule()" href="#tab-5">Work Order Rescheduling</a></li>
+            <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+            <li class=""><a data-toggle="tab" onclick="GetCheckListDD()" href="#PPMCheckList">PPM CheckList</a></li>
+            <li class="" id="liAFAdditionalInfo"><a data-toggle="tab" href="#aAFAdditionalInfo" id="aAddionalInfo">Additional Info</a></li>
+            <li class=""><a data-toggle="tab" onclick="GetCompletionInfo()" href="#tab-2">Completion Info</a></li>
+            <li role="presentation"><a href="#divCommonHistory1" onclick="PrintRDL()" id="History1" aria-controls="profile" role="tab" data-toggle="tab">Print</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formScheduledWorkOrder">
+            <form id="formScheduledWorkOrder" name="formScheduledWorkOrder" class="form-horizontal" novalidate>
+
+                @*<div class="row">
+             <div class="col-sm-10">
+             </div>
+             <div class="col-sm-2">
+                  <h3><b><label for="WOStatus"></label></b></h3>
+             </div>
+        </div>*@
+
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset No. <span style="color:red"> *</span></label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" placeholder="Please Select" id="txtAssetNo" autocomplete="off" name="AssetNo" maxlength="25" tabindex="2" />
+                                    <input type="hidden" required id="hdnAssetId" />
+
+                                    <div class="col-sm-12" id="divAssetNoFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Description</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtAssetDescription" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Type Code </label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" disabled id="txtAssetTypeCode" name="TypeCode" maxlength="25" tabindex="2" />
+                                    <input type="hidden" id="hdnAssetTypeCodeId" />
+
+                                    <div class="col-sm-12" id="divTypeCodeFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerTypeCode" class="col-sm-6 control-label">Asset Type Description</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtTypeCodeDetails" name="TypeCode" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contract Type</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtContractType" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Work Order Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="partWorkOrderDate" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"> Department</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtUserArea" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"> Location</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtUserLocation" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Model</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtModel" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Manufacturer</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtManufacturer" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Level</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtLevel" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Block</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtBlock" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                @*<div class="row">
+            <div class="col-sm-6 ">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Work Order Status</label>
+                    <div class="col-sm-6">
+                        <div>
+                            <input type="text" id="txtWorkOrderStatus" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Work Order Number</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtWorkOrderNo" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerWarrentyType" class="col-sm-6 control-label">Maintenance Type</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="MaintainanceType" class="form-control" disabled>
+                                        <option value="0">Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerEngineer" class="col-sm-6 control-label">Assignee <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" required placeholder="Please Select" id="txtEngineer" name="Engineer" maxlength="25" autocomplete="off" tabindex="2" />
+                                <input type="hidden" required id="hdnEngineerId" />
+
+                                <div class="col-sm-12" id="divEngineerFetch">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Target Date <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TargetDate" required autocomplete="off" class="form-control datatimeFuture">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerWarrentyType" class="col-sm-6 control-label">Work Order Category <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="WorkOrderCategory" required class="form-control">
+                                        <option value="null">Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Maintenance Details <span class="red"> *</span></label>
+                            <div class="col-sm-9">
+                                <textarea required class="form-control wt-resize" id="txtMaintainanceDetails" style="height:70px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hdnWoSts" />
+                </div>
+                <div id="CancelRequestRemarks" class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Cancellation Request Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea disabled class="form-control wt-resize" id="txtcancelreason" style="height:50px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div  id="ApproveCancelRemarks" class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Remarks <span class="red"> *</span></label>
+                            <div class="col-sm-9">
+                                <textarea required class="form-control wt-resize" id="txtremarks" style="height:50px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <br />
+                @*<div class="row">
+            <div class="col-sm-12 ">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Image Upload</label>
+                    <div class="col-sm-6">
+                        <div>
+                            <input type="file" name="img" multiple disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                <div class="row">
+                    <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                    </div>
+                    <br />
+                    <div class="col-sm-12 text-center">
+                        @*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton hider" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnSWOPrint" class="btn btn-primary customButton hider" onclick="getScheduleWorkOrderPrintReport()" title="Print"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+                        <button type="button" id="btnApprove" class="btn btn-primary customButton hider"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                        <button type="button" id="btnReject" class="btn btn-primary customButton hider"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        <input type="button" value="Print Form" class="btn btn-primary" onclick="printDiv('printableArea')" />
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-2">
+            <div class="content_body">
+                <form class="form-horizontal" id="tab-2" name="tab-2" autocomplete="off">
+                    <div class="row" hidden>
+                        <div class="col-sm-12" style="text-align:right">
+                            <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus10" class="divWOStatus"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Work Order Number</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="WorkOrderNo" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerWarrentyEndDate" class="col-sm-6 control-label">Start Date / Time</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtStartDate" name="PPMHours" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerContractEndDate" class="col-sm-6 control-label">End Date / Time</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtEndDate" name="PPMHours" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Completed By <span style="color:red"> *</span></label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtCompletedBy" autocomplete="off" name="CompletedBy" maxlength="25" tabindex="2" />
+                                        <input type="hidden" required id="hdnCompletedById" />
+
+                                        <div class="col-sm-12" id="divCompletedByFetch">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Designation</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtCompletedByDesignation" name="Designation" readonly maxlength="75" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<div class="row">
+            <div class="col-sm-6 ">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Handover Date / Time</label>
+                    <div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control datatimepicker" id="txtHandoverDate" autocomplete="off" name="HandoverDate" tabindex="3" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">QC PPM</label>
+                                <div class="col-sm-4">
+                                    <select id="QCDescription" @*required*@ onchange="GetQC()" class="form-control">
+                                        <option value="0">Select </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2" id="Blockcodepopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Block">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                           
+                        </div>
+                        <div class="col-sm-6 ">
+
+                            <div class="form-group">
+                                <label for="QCDescription" class="col-sm-6 control-label">QC PPM Description @*<span class="red"> *</span>*@</label>
+
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtQCCode" name="QCCode" readonly maxlength="75" tabindex="3" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">QC Root Cause</label>
+                                <div class="col-sm-6">
+
+                                    <select id="CauseCodeDescription" onchange="GetCC()" @*required*@ class="form-control">
+                                        <option value="0">Select </option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="CauseCodeDescription" class="col-sm-6 control-label">QC Root Cause Description @*<span class="red"> *</span>*@</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtCauseCode" name="CauseCode" readonly maxlength="75" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row" id="PorteringDiv">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Tracking No.</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <a data-toggle="modal" id="PopupButton">
+                                            <label for="AssetTrackingNo" id="AssetTrackingNo" class="btn" style="color:blue;font:bold" onclick="CheckLink()"></label>
+
+                                            @*<input type="text" class="form-control" id="AssetTrackingNo" style="color:blue;font:bold" value="Hai" name="AssetTrackingNo"  maxlength="75" tabindex="3" />*@
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset No. / Loaner / Test Equipment</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="AssetTrackingAssetNo" name="AssetTrackingAssetNo" readonly maxlength="75" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks </label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control wt-resize" maxlength="498" id="RepairDetails" style="height:70px"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">PPM Target Date <span class="red"> *</span></label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" required id="txtAgreedDate" autocomplete="off" name="Date" tabindex="3" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Vendor Service Cost <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" required id="VendorServiceCost" pattern="^[0-9]+(.[0-9]{1,2})?$" class="form-control decimalPointonly" maxlength="5">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="Status" class="col-sm-6 control-label">Status</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Status" class="form-control">
+                                            <option value="0">Select </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="Reason" class="col-sm-6 control-label">Reason</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Reason" class="form-control">
+                                            <option value="0">Select </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Running Hours <span class="red" id="SpanRun"> *</span> </label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" pattern="^[0-9]+(.[0-9]{1,2})?$" class="form-control decimalPointonly" id="txtRunningHours" required autocomplete="off" name="RunningHours" tabindex="3" maxlength="5" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="lblHanddt" class="col-sm-6 control-label">Handover Date / Time</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control datatimepickerNoFut" id="txtHandoverDate" autocomplete="off" name="HandoverDate" tabindex="3" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="lblVerify" class="col-sm-6 control-label">Verified By </label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Please Select" id="txtVerifiedBy" autocomplete="off" name="VerifiedBy" maxlength="25" tabindex="2" disabled />
+                                        <input type="hidden" id="hdnVerifiedById" />
+
+                                        <div class="col-sm-12" id="divVerifiedByFetch">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Designation</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtVerifiedByDesignation" name="Designation" readonly maxlength="75" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Customer Feedback<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="selCustomerFeedback" class="form-control">
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="SignatureCompletionHide" hidden>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="hidden" id="hdnSignatureCompletionvalue" value="" />
+                                <label class="col-sm-6 control-label">Signature Preview</label>
+                                <div class="col-sm-1">
+                                    <div>
+                                        <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Signature" tabindex="0" data-target="#myModalUnscheduleCompletionSignature"> <span class="glyphicon glyphicon-modal-window"></span> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr style="margin: 2em 0;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="content-area">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="dataTableCompletion" class="table table-fixedheader table-bordered">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th width="3%" class="text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                    <div class="checkbox text-center">
+                                                        <label for="checkboxes-0">
+                                                            <input type="checkbox" id="chk_CompletionInfoIsDelete" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                                        </label>
+                                                    </div>
+                                                </th>
+
+                                                <th width="19%" class="text-center">Employee Name <span class="red"> *</span></th>
+                                                <th width="19%" class="text-center">Task Code <span class="red"> *</span></th>
+                                                @*<th width="23%" class="text-center">Task Description</th>*@
+                                                <th width="19%" class="text-center">Start Date / Time <span class="red"> *</span></th>
+                                                <th width="20%" class="text-center">End Date / Time <span class="red"> *</span></th>
+                                                <th width="20%" class="text-center">PPM Hours</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CompletionInfoResultId"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="paginationfooter"></div>
+
+                    <div class="row mt20">
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div>
+                                        <a onclick="AddNewRow()" id="CompletionAddButton" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="errorMsgCompletionInfo" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                    </div>
+                    <div class="row mt30">
+
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnCompletionSave" class="btn btn-primary customButton" onclick="CompletionInfoSave(0)" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnCompletionSubmitEdit" class="btn btn-primary customButton" onclick="CompletionInfoSave(1)" title="Save" tabindex="5">Submit</button>
+                            <button type="button" id="btnCompletionCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div role="tabpanel" class="tab-pane" id="tab-3">
+            <form id="tab-3" name="tab-3" class="form-horizontal" novalidate>
+                <div class="row" hidden>
+                    <div class="col-sm-12" style="text-align:right">
+                        <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus2" class="divWOStatus"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Work Order Number</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="PartWorkOrderNo" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Work Order Date / Time</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="PartWorkOrderDate" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset No</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="PartAssetNo" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contract Cost Of Asset</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="PartAssetNoCost" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="CostHide">
+                    <div class="col-sm-6" hidden>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Total Spare Part Cost (<span class="spnCurrencyName"></span>)</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TotalSparePartCost" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Total Labour Cost (<span class="spnCurrencyName"></span>)</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TotalLabourCost" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Total Vendor Cost (<span class="spnCurrencyName"></span>)</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="Totalvendorcost" class="form-control" disabled readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Total Cost (<span class="spnCurrencyName"></span>)</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TotalCost" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Part Replacement Cost Involved</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="PartReplacementCostInvolved" onchange="CostChange()" class="form-control">
+                                        @*<option value="0">Select </option>*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Part Replacement Cost </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="PartReplacementCost" class="form-control text-right" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            @*<label class="col-sm-6 control-label"> Average Usage Hours <span class="red"> *</span> </label>*@
+                            <label class="col-sm-6 control-label"> Average Usage Hours @*<span class="red"> *</span>*@ </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="AverageUsageHours" autocomplete="off" pattern="^[0-9]+(.[0-9]{1,2})?$" maxlength="6" class="form-control decimalPointonly" tabindex="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Request For Purchase</label>
+                            <div class="col-sm-1">
+
+
+                                <div>
+                                    <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" onclick="GetPurchaseRequest()" title="Purchase" tabindex="0" data-target="#PurchaseModal">
+                                        <span class="glyphicon glyphicon-modal-window"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="PurchaseModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title"><b>Purchase Request</b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <div ng-view="" class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table id="dataTablePart" class="table table-fixedheader table-bordered">
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        <th style="text-align: center; " width="20%">Part No.<span class="red"> *</span></th>
+                                                        <th style="text-align: center;" width="20%">Part Description</th>
+                                                        <th style="text-align: center;" width="20%">Item Code</th>
+                                                        <th style="text-align: center;" width="20%">Item Description</th>
+                                                        <th style="text-align: center;" width="20%">Quantity<span class="red"> *</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="PurchaseRequestGrid"></tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mt20" id="AddPurchaseNewRowId">
+                                    <div class="col-sm-3 ">
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <div>
+                                                    <a onclick="AddPurchaseNewRow()" class="btn btn-primary" id="AddPurchaseNewRow">+</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="errorMsgPurchase" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btnPurchasePopUpSave" onclick="PurchaseRequestSave()" class="btn btn-primary customButton">Raise Request</button>
+                                <button type="button" id="btnPurchasePopUpCancel" class="btn btn-primary customButton" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="modal fade bs-example-modal-sm alertBox" id="top-notificationspopup" tabindex="-1"
+                             role="dialog" aria-hidden="true" data-backdrop="false" hidden>
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <div class="notify mt20">
+                                        <span class="icon"><i id="msg5"></i></span>
+                                        <h4 id="hdr5"></h4>
+                                        <p id="data1"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="dataTableCheckList" class="table table-bordered">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="2%" class="text-center">
+                                            <div class="checkbox text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+
+                                                <div class="checkbox text-center">
+                                                    <label for="checkboxes-0">
+                                                        <input type="checkbox" id="chk_PartReplacementIsDelete" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                                    </label>
+                                                </div>
+                                        </th>
+                                        <th width="14%" class="text-center">Part No.<span class="red"> *</span></th>
+                                        <th width="14%" class="text-center">Part Description</th>
+                                        <th width="10%" class="text-center">Estimated Life Span</th>
+                                        <th width="10%" class="text-center">Estimated Life Option</th>
+                                        <th width="10%" class="text-center">Estimated Life Expiry Date</th>
+                                        <th width="10%" class="text-center" id="StockHide">Stock Type<span class="red"> *</span></th>
+                                        <th width="20%" class="text-center">Quantity</th>
+                                        @*<th width="10%" class="text-center" id="TotalCostSingleHide">  (<span class="spnCurrencyName"></span>)</th>*@
+                                        @*<th width="10%" class="text-center" id="LabourCostHide">Labour Cost (<span class="spnCurrencyName"></span>)<span class="red"> *</span></th>*@
+                                        <th width="10%" class="text-center" id="TotalCostHide">Total Spare Part Cost (<span class="spnCurrencyName"></span>)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="PartReplacementResultId"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="paginationfooter"></div>
+
+                <div class="modal fade" id="myModalquantity" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title"><b>Current Quantity & Invoice Details</b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table id="QuantityPopupTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        <th style="text-align: center;" width="12%">Part No.</th>
+                                                        <th style="text-align: center;" width="16%">Part Description</th>
+                                                        <th style="text-align: center;" width="13%">Quantity Available</th>
+                                                        <th style="text-align: center;" width="13%">Cost Per Unit</th>
+                                                        <th style="text-align: center;" width="12%">Invoice No.</th>
+                                                        <th style="text-align: center;" width="15%">Vendor Name</th>
+                                                        <th style="text-align: center;" width="13%">Quantity Taken</th>
+                                                        <th style="text-align: center;" width="5%"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="QuantityPopupGrid"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer mt20">
+                                <button type="button" id="btnPartPopUpSave" class="btn btn-primary customButton"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnPartPopUpCancel" class="btn btn-primary customButton" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt20">
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <div>
+                                    <a onclick="AddPartReplacementNewRow()" id="PartAddButton" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorMsgPart" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                </div>
+
+                <div class="row mt30">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnPartSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnPartCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-4">
+            <div class="row" hidden>
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus3" class="divWOStatus"></div>
+                </div>
+            </div>
+            <form id="tab-4" name="tab-4" class="form-horizontal" novalidate>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Old Assigned Person</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TransferOldAssignedPerson" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset No.</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TransferAssetNo" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"> Asset Description</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TransferAssetDescription" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="TransferAssignedPerson" class="col-sm-6 control-label">New Assignee <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" placeholder="Please Select" required id="TransferAssignedPerson" autocomplete="off" name="TransferAssignedPerson" maxlength="25" tabindex="2" />
+                                <input type="hidden" id="hdnTransferAssignedPersonId" />
+
+                                <div class="col-sm-12" id="divAssignedPersonFetch">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+
+                    <div class="col-sm-6 " hidden>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Type Code</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TransferTypeCode" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-6 " hidden>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Service</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TransferService" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="">
+                        <div class="table-responsive tableFixedHeight">
+                            <table id="dataTableCheckList" class="table table-bordered">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="20%" class="text-center">Work Order Number</th>
+                                        <th width="20%" class="text-center">Work Order Date</th>
+                                        <th width="20%" class="text-center">Work Order Category</th>
+                                        <th width="20%" class="text-center">New Assignee</th>
+                                        <th width="20%" class="text-center">Assigned Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="TransferResultId"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="paginationfooter"></div>
+
+                @*<div class="row mt20">
+                        @if (ViewBag.ActionType == "ADD" || ViewBag.ActionType == "EDIT")
+                        {
+
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a onclick="AddPartReplacementNewRow()" class="btn btn-primary">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>*@
+
+                <div id="paginationfooter"></div>
+                <div id="errorMsgTransfer" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                </div>
+                <div class="row mt20">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnTransferSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnTransferCancel" name="btnTransferCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-5">
+            <form id="tab-5" name="tab-5" class="form-horizontal" novalidate>
+                <div class="row" hidden>
+                    <div class="col-sm-12" style="text-align:right">
+                        <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus4" class="divWOStatus"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Work Order Number</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RescheduleWorkOrderNo" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"> Work Order Date / Time</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RescheduleWorkOrderDate" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset No.</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RescheduleAssetNo" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Target Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RescheduleTargetDate" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="">
+                        <div class="table-responsive">
+                            @*<table id="dataTableCheckList" class="table table-bordered">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="25%" class="text-center">Reschedule Date</th>
+                                            <th width="25%" class="text-center">Reschedule Approved By</th>
+                                            <th width="25%" class="text-center">Reason</th>
+                                            <th width="25%" class="text-center">Impact Schedule Planner</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="RescheduleResultId"></tbody>
+                                </table>*@
+
+
+                            <table id="dataTableCheckList" class="table table-fixedheader table-bordered " style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="25%" class="text-center">Reschedule Date</th>
+                                        <th width="75%" class="text-center">Reason</th>
+                                        @*<th width="25%" class="text-center">Impact Schedule Planner</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody id="RescheduleResultId"></tbody>
+                                @*<tr>
+                                        <td width="25%" style="text-align: center;" data-original-title="" title="" id="ReschedulDate_">
+                                            <div>
+                                                <select data-value="Select" id="ReschedulDate_' + index + '" value="' + DateFormatter(data.RescheduleDate) + ' " class="form-control datetime" disabled>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td  width="75%" style="text-align: center;" data-original-title="" title="" id="RescheduleResultId">
+                                            <div>
+                                                <select data-value="Select" id="RescheduleReason_' + index + '" value="' + data.RescheduleReason + ' " class="form-control">
+                                                </select>
+                                            </div>
+                                        </td>
+
+                                    </tr>*@
+                                @*</tbody>*@
+
+                                @*<tbody id="RescheduleResult"></tbody>*@
+
+                                @*<tr class="ng-scope" style="">
+                                        <td width="25%" style="text-align: center;" data-original-title="" title=""><div><input input type="text" id="RescheduleDate_' + index + '" value="' + DateFormatter(data.RescheduleDate) + '" class="form-control datetime" disabled /></div></td>
+                                        <td width="75%" style="text-align: center;" data-original-title="" title="" id="RescheduleResultId"><div><select data-value="'+Select+'" id="RescheduleReason_' + index + '" value="' + data.RescheduleReason + ' " class="form-control"></select></div></td>
+                                    </tr>;*@
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="paginationfooter"></div>
+                <div id="errorMsgReschedule" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                </div>
+                <div class="row mt30">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnRescheduleSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnRescheduleCancel" name="btnTransferCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+            <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                <div class="row" hidden>
+                    <div class="col-sm-12" style="text-align:right">
+                        <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus5" class="divWOStatus"></div>
+                    </div>
+                </div>
+                @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="PPMCheckList">
+            <form id="PPMCheckList" name="PPMCheckList" class="form-horizontal" novalidate>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AssetTypeCode" class="col-sm-6 control-label">PPM Checklist No. <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="PPMChecklistNo" onchange="GetPPMCheckList()" required class="form-control">
+                                        <option value="null">Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AssetTypeCode" class="col-sm-6 control-label">Asset Type Code@*<span class="red">&nbsp;*</span>*@</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="PPMChecklisthdnAssetTypeCodeId" />
+                                    <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,25}$" id="PPMChecklisttxtAssetTypeCode" name="AssetTypeCode" title="AssetTypeCode" @*placeholder="Please Select"*@ maxlength="100" disabled />
+                                    <div class="col-sm-12" id="divFetch1">
+                                    </div>
+
+                                </div>
+                                @*<div class="col-sm-2" id="AssetNoDiv">
+                                        <a data-toggle="modal" id="spnPopup-TypeCode" class="btn btn-sm  btn-primary" title="Search">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </div>*@
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="TypeDescription" class="col-sm-6 control-label">Asset Type Code Description</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="PPMChecklistAssetTypeDescription" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Taskcode" class="col-sm-6 control-label">Task Code</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="PPMChecklistTaskcode" name="Taskcode" disabled class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMChecklistNo" class="col-sm-6 control-label">Task Code Description </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="PPMChecklistTaskCodeDesc" maxlength="500" pattern="^[a-zA-Z0-9\-\(\)\,.'&quot\s]+$" name="TaskCodeDesc" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Model" class="col-sm-6 control-label">Model @*<span class="red">*</span>*@</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="PPMChecklisthdnModelId" name="ModelId" />
+                                    <input type="text" @*pattern="^[a-zA-Z0-9\-\/]+$"*@ class="form-control codeVal" id="PPMChecklisttxtModel" name="Model" @*placeholder="Please Select"*@ maxlength="100" disabled />
+                                    <div class="col-sm-12" id="PPMChecklistdivFetch3">
+
+                                    </div>
+
+                                </div>
+                                @*<div class="col-sm-2" ïd="popModelId">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Model">
+
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Manufacturer" class="col-sm-6 control-label">Manufacturer @*<span class="red">*</span>*@</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="PPMChecklisthdnManufacturerId" name="ManufacturerId" />
+                                    <input type="text" @*pattern="^[a-zA-Z0-9\-\/]+$"*@ class="form-control codeVal" maxlength="100" id="PPMChecklisttxtManufacturer" name="Manufacturer" @*placeholder="Please Select"*@ disabled />
+                                    <div class="col-sm-12" id="PPMChecklistdivFetch2">
+
+                                    </div>
+
+                                </div>
+                                @*<div class="col-sm-2" ïd="popManufacturerId">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Manufacturer">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Frequency" class="col-sm-6 control-label">Frequency @*<span class="red">*</span>*@</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" disabled class="form-control" id="PPMChecklistPPMFrequency">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMhoueers" class="col-sm-6 control-label">PPM hours</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" disabled class="form-control text-right" id="PPMChecklistPPMhours" pattern="^\d{0,4}(?:\.\d{0,2})?$">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="SpecialPrecaution" class="col-sm-6 control-label">Special Precaution</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea class="form-control wt-resize" disabled pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" id="PPMChecklistSpecialPrecautions" style="height:70px;" maxlength="500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Remarks" class="col-sm-6 control-label">Remarks</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea class="form-control wt-resize" disabled id="PPMChecklistRemarks" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" style="min-width: 92%;height:70px;" maxlength="500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="ppmchecklistTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        @*<th width="3%" class="text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+
+                                            </th>*@
+
+                                        <th style="text-align:center" width="20%">Category @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align:center" width="20%">No.</th>
+                                        <th style="text-align:center" width="20%">Description @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="20%">Status @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="20%">Remarks @*<span class="red">&nbsp;*</span>*@</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="FirstGridId"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row mt20">
+                        <div class="col-sm-2 ">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div>
+                                        <a id="FirstGrid" class="btn btn-primary">+</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="ppmchecklistTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        @*<th width="3%" class="text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                            </th>*@
+
+                                        <th style="text-align: center;" width="15%">Quantitative Task Description @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="15%">Units / UOM @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="15%">Set Values @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="15%">Limit / Tolerance @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="10%">Value @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="15%">Status @*<span class="red">&nbsp;*</span>*@</th>
+                                        <th style="text-align: center;" width="15%">Remarks @*<span class="red">&nbsp;*</span>*@</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="SecondGridId"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row mt20">
+                        <div class="col-sm-2 ">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div>
+                                        <a id="SecondGrid" class="btn btn-primary">+</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <div id="errorMsgPPMCheckList" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+
+                <div class="row mt30">
+
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnPPMCheckListSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnPPMCheckListPrint" class="btn btn-primary customButton" onclick="getPPMCheckListPrintReport()" title="Print"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+                            <button type="button" id="btnPPMCheckListCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("~/Views/History/_History_PartialView.cshtml")
+            </form>
+        </div>
+        <!--Additional Info Tab-->
+        @Html.Partial("~/Areas/BEMS/Views/ScheduledWorkOrder/Additional_Info_PartialView.cshtml")
+
+        @*</div>*@
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+        </div>
+
+        <style>
+            
+
+            hr.new1 {
+                border-top: 0.5px solid black;
+                margin-top: 0px;
+            }
+
+            #sai td {
+             
+                padding: 6px;
+                
+                height: 23px;
+            }
+
+            table {
+                width: 100%;
+            }
+
+                table th {
+                    line-height: unset;
+                }
+
+                table.PrintSchdTable {
+                    border: 2px solid #414040;
+                    padding: 6px;
+                    border-collapse: collapse;
+                    font-family: Arial, Helvetica, sans-serif;
+                }
+                table.print th{
+                    font-size: 10px;
+                    font-family: Arial, Helvetica, sans-serif;
+                }
+                table.print td {
+                    font-size: 10px;
+                    font-family: Arial, Helvetica, sans-serif;
+                }
+                table.PrintSchdTable th {
+                    border: 1px solid #414040;
+                    border-collapse: collapse;
+                    font-size: 10px;
+                    font-family: Arial, Helvetica, sans-serif;
+                }
+                table.PrintSchdTable td {
+                    border: 1px solid #414040;
+                    border-collapse: collapse;
+                    font-size: 10px;
+                    font-family: arial, helvetica, sans-serif;
+                }
+            #divCommonHistory11 {
+                margin :30px 60px;
+            }
+        </style>
+        @*//-----7th Tab------//*@
+        <div role="tabpanel" class="tab-pane" id="divCommonHistory1">
+            <form class="form-horizontal" id="CommonHistory1" autocomplete="off">
+                @*//---------Added by sai-------------*@
+                    @*<div class="tab-pane"  id="divCommonHistory11">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <br>
+                                <img src="~/images/prohawk-1.jpg" alt="ProHAWK" style="width:150px;display: block;margin: auto;">
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="font-size:16px;text-align:center;"><b>HOSPITAL TUNKU AZIZAH<br>KUALA LUMPUR</b></p>
+                                <p style="font-size:16px; text-align:center;"><b><strong style="font-weight: bold">SCHEDULED MAINTENANCE WORK ORDER</strong></b></p>
+                                <p style="font-size:16px; text-align:center;"><b>BEMS</b></p>
+                            </div>
+                            <div class="col-sm-3">
+                                <br>
+                                <img src="~/images/edgentaN.png" alt="Edgenta" style="display:block; margin-top:-18px;">
+                            </div>
+                        </div>
+                        <hr class="new1" />
+                        <table class="print">
+                            <tr>
+                                <th scope="col" width="15%">Work NO.</th>
+                                <td id="txt_workorderno" style="font-weight:bold;" width="35%"></td>
+                                <th scope="col" width="15%">Date/Time </th>
+                                <td  id="txt_workorderdate" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Work Group</th>
+                                <td  id="txt_WorkGroup" width="35%"></td>
+                                <th scope="col" width="15%">WR Type</th>
+                                <td  id="txt_MaintainanceTypes" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Period </th>
+                                <td  id="txt_Period" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">QC-PPM/RT </th>
+                                <td  id="txt_QCPPMRT" width="35%"></td>
+                                <th scope="col" width="15%">QC-Uptime</th>
+                                <td  id="txt_QC-Uptime" width="35%"></td>
+                            </tr>
+                        </table>
+                        <hr class="new1" />
+                        <table class="print">
+                            <tr>
+                                <th scope="col" width="15%">Asset No</th>
+                                <td style="font-weight: bold;" id="txt_asssetno" width="35%"></td>
+                                <th scope="col" width="15%">Type Code</th>
+                                <td id="txt_assettypecode" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Asset Name</th>
+                                <td id="txt_AssetName" width="35%"></td>
+                                <th scope="col" width="15%">Department Name</th>
+                                <td id="txt_UserArea" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Location code</th>
+                                <td id="txt_locationcode" width="35%"></td>
+                                <th scope="col" width="15%">Location Name</th>
+                                <td id="txt_locationname" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Asset Status</th>
+                                <td id="txt_AssetStatus" width="35%"></td>
+                                <th scope="col" width="15%">Asset Critically</th>
+                                <td id="txt_AssetCritically" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Variation Status</th>
+                                <td  id="txt_variationstatus" width="35%"></td>
+                                <th scope="col" width="15%">Asset Condition</th>
+                                <td  id="txt_AssetCondition" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Brand/Model</th>
+                                <td  id="txt_model" width="35%"></td>
+                                <th scope="col" width="15%">Serial No.</th>
+                                <td  id="tx_serialno" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Manufacturer</th>
+                                <td  id="txt_manufacturer" width="35%"></td>
+                                <th scope="col" width="15%">Vendor</th>
+                                <td  id="txt_Vendor" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Service Agent </th>
+                                <td  id="txt_Agent" width="35%"></td>
+                                <th scope="col" width="15%">Service Life (Yrs.)</th>
+                                <td id="txt_ServiceLife" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Contact Person</th>
+                                <td  id="txt_Contact" width="35%"></td>
+                                <th scope="col" width="15%">Phone No</th>
+                                <td  id="txt_Phone" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Last Maintenance </th>
+                                <td id="txt_PreviousWorkDate" width="35%"></td>
+                                <th scope="col" width="15%">Last Repair Date</th>
+                                <td id="txt_PreviousRepairDate" width="35%"></td>
+                            </tr>
+                            <tr>
+                                <th scope="col" width="15%">Date</th>
+                                <td  id="txt_date9" width="35%"></td>
+                            </tr>
+                        </table>
+                        <table class="PrintSchdTable">
+                            <tr>
+                                <th style="text-align:center;" width="10%">Task No </th>
+                                <th style="text-align:center;" width="50%">Description </th>
+                                <th style="text-align:center;" width="10%">Target Date</th>
+                                <th style="text-align:center;" width="10%">Next</th>
+                                <th style="text-align:center;" width="10%">Status</th>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;" width="10%" id="txt_PPMChecklistTaskcodes"></td>
+                                <td width="50%" id="txt_AssetDescription"></td>
+                                <td width="10%" id="txt_TargetDate"></td>
+                                <td width="10%" id="txt_HandoverDate"></td>
+                                <td width="10%" id="divAssetStatus"></td>
+                            </tr>
+                        </table>
+                        <h5 style="padding-bottom:5px; font-size:14px; "><b>Contract/Warranty Information</b></h5>
+                        <table class="print">
+                            <tr>
+                                <th width="25%">Contractor/Company Name<span id="txt_Contractor"></span></th>
+                            </tr>
+                            <tr>
+                                <th width="25%">Contract/Warranty Start Date</th>
+                                <td id="txt_StartDatess" width="25%"></td>
+                                <th width="15%">End Date</th>
+                                <td id="txt_EndDatess" width="25%"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="4">Telephone No.&emsp;&emsp;<span id="txt_Telephone"></span></th>
+                            </tr>
+                        </table>
+                        <h5 style="padding-bottom:5px; font-size:14px"><b>Parts Details</b></h5>
+                        <table class="PrintSchdTable" id="sai">
+                            <tr>
+                                <th style="text-align:center;" width="50%">Description</th>
+                                <th style="text-align:center;" width="20%">UOM</th>
+                                <th style="text-align:center;" width="30%">Qty Used(U)/ Returned (Rt)</th>
+                            </tr>
+                            <tr>
+                                <td ></td>
+                                <td ></td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td ></td>
+                                <td ></td>
+                                <td ></td>
+                            </tr>
+                        </table>
+                        <h5 style="padding-bottom:5px; font-size:14px"><b>Process Status</b></h5>
+                        <table class="PrintSchdTable">
+                            <tbody>
+                                <tr>
+                                    <td id="txt_workorderno" width="18%">&nbsp;&nbsp;<span style="font-weight: bold !important;">[ &nbsp;&nbsp;]</span>&nbsp;&nbsp;<label style="font-weight: bold !important;" for="box1_ber">Propose for BER</label></td>
+                                    <td id="txt_workorderno" width="20%">&nbsp;&nbsp;<span style="font-weight: bold !important;">[ &nbsp;&nbsp;]</span>&nbsp;&nbsp;<label style="font-weight: bold !important;" for="box2_rw">Propose for RW</label></td>
+                                    <td id="txt_workorderno" width="19%">&nbsp;&nbsp;<span style="font-weight: bold !important;">[ &nbsp;&nbsp;]</span>&nbsp;&nbsp;<label style="font-weight: bold !important;" for="box3_eiu">Equipment In Use</label></td>
+                                    <td id="txt_workorderno" width="18%">&nbsp;&nbsp;<span style="font-weight: bold !important;">[ &nbsp;&nbsp;]</span>&nbsp;&nbsp;<label style="font-weight: bold !important;" for="box4_ta">Technical Advise</label></td>
+                                    <td id="txt_workorderno" width="25%">&nbsp;&nbsp;<span style="font-weight: bold !important;">[ &nbsp;&nbsp;]</span>&nbsp;&nbsp;<label style="font-weight: bold !important;" for="box5_enal">Equipment not at location</label></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="font-weight: bold !important;">Remarks (Process status/SCM/SCM details/CM details)<br>&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h5 style="padding-bottom:5px; font-size:14px"><b>Employee Details</b></h5>
+                        <table class="PrintSchdTable" id="sai">
+                            <tr>
+                                <th style="text-align:center;" width="12%">Employee No. </th>
+                                <th style="text-align:center;" width="34%">Name </th>
+                                <th style="text-align:center;" width="10%">Task Code </th>
+                                <th style="text-align:center;" width="10%">Date</th>
+                                <th style="text-align:center;" width="10%">Start Time</th>
+                                <th style="text-align:center;" width="10%">End Time</th>
+                                <th style="text-align:center;" width="15%">Repair Hours</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <h5 style="padding-bottom:5px; font-size:14px"><b>Completion</b></h5>
+                        <table class="PrintSchdTable">
+                            <tbody>
+                                <tr>
+                                    <th colspan="3" width="16.75%">
+                                        Performance Test
+                                    </th>
+                                    <td  colspan="5" width="34.5%">
+                                        <span style="font-weight: bold !important;">&nbsp; [ &nbsp;&nbsp;]</span><label style="font-weight: bold !important;" for="pt1_done">Done</label>
+                                        &nbsp;<span style="font-weight: bold !important;"> [ &nbsp;&nbsp;]</span><label style="font-weight: bold !important;" for="pt1_na">Not Applicable</label>
+                                        &nbsp;<span style="font-weight: bold !important;"> [ &nbsp;&nbsp;]</span><label style="font-weight: bold !important;" for="pt1_nd">Not Done</label>
+                                    </td>
+                                    <th colspan="3" width="14.25%">
+                                        Electrical Safety Test
+                                    </th>
+                                    <td  colspan="5" width="34.5%">
+                                        <span style="font-weight: bold !important;">&nbsp; [ &nbsp;&nbsp;]</span><label style="font-weight: bold !important;" for="est1_done">Done</label>
+                                        &nbsp;<span style="font-weight: bold !important;"> [ &nbsp;&nbsp;]</span><label style="font-weight: bold !important;" for="est1_na">Not Applicable</label>
+                                        &nbsp;<span style="font-weight: bold !important;"> [ &nbsp;&nbsp;]</span><label style="font-weight: bold !important;" for="est1_nd">Not Done</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">Date/Time Work Start</th>
+                                    <td colspan="2" width="12.5%"></td>
+                                    <th colspan="4">Date/Time Work Completed</th>
+                                    <td colspan="2" width="12.5%"></td>
+                                    <th colspan="2">Downtime Hours</th>
+                                    <td colspan="2" width="12.5%"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" height="20px" style="padding-bottom: 20px;">Action Taken</th>
+                                    <td colspan="13" width="85%" height="40px"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">Completed by</th>
+                                    <td colspan="5" rowspan="2"></td>
+                                    <th colspan="3"> Verified by (MoH)</th>
+                                    <td colspan="5" rowspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">Signature / Date Time</th>
+                                    <th colspan="3">Signature / Date Time</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>*@
+                <iframe id="myIframe" style="width:100%;" height="700" src="" frameborder="0" allowFullScreen="true"></iframe>
+                <input type="button" value="OPEN PDF" class="btn btn-primary" onclick="printDiv('printableArea')" />
+            </form>
+        </div>
+
+        @*//----ENDDD-----Added by sai------------- END*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+        <div class="errormsgcenter">
+
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/BEMS/Views/ScheduledWorkOrder/List.cshtml")
+
+
+
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/ScheduledWorkOrder.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    <script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+    <script src="~/Scripts/ng/common/html2pdf.bundle.js"></script>
+
+}
+
+
+<!-- start Signature Modal -->
+
+<div class="modal fade customer_logo customer_popup" id="myModalUnscheduleCompletionSignature" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6>Signature Preview</h6>
+            </div>
+            <div class="modal-body">
+                <div class="logo_container">
+
+                    <div class="logo_div">
+                        <img id="imgSignature2" src="" alt="" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

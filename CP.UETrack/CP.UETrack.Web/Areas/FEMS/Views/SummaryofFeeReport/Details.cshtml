@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "Summary of Fee Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.PrimaryId" />
+    <input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.Mode" />
+    <input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>FEMS</li>
+            <li>VM</li>
+            <li class="active">Summary of Fee</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Summary of Fee</h4>
+    </div>
+
+    <div class="content_body">
+        <form class="form-horizontal" id="frmSummaryofFeeReport" novalidate autocomplete="off">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Year </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="Yearddl"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Month</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="Monthddl"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" hidden>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset Classification @*<span class="red">*</span>*@</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="AssetClassificationddl"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" class="btn btn-primary customButton" value="Fetch" @*onclick="Fetch()"*@ id="btnFetch">
+                </div>
+            </div>
+
+            <div id="ShowGrid">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive ">
+                            <table id="positionDataTable" class="table table-bordered">
+                                @*table-fixedheader*@
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th style="text-align:center"> Hospital Name</th>
+                                        <th style="text-align:center"> During Warranty Count</th>
+                                        <th style="text-align:center"> During Warranty Total Fee (<span class="spnCurrencyName"></span>)</th>
+                                        <th style="text-align:center"> Post Warranty Count</th>
+                                        <th style="text-align:center"> Post Warranty Total Fee (<span class="spnCurrencyName"></span>)</th>
+                                        <th style="text-align:center"> Total Fee Payable (<span class="spnCurrencyName"></span>)</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="DetailGrid"></tbody>
+                            </table>
+
+
+                        </div>
+                        <div id="paginationfooter"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive ">
+                            <table id="positionDataTable" class="table table-bordered">
+                                @*table-fixedheader*@
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th style="text-align:center"> Status</th>
+                                        <th style="text-align:center"> Done By</th>
+                                        <th style="text-align:center"> Date</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="">
+                                    <tr>
+                                        <td>
+                                            Verified By
+                                        </td>
+                                        <td>
+                                            <label readonly id="VerifiedByDoneBy"></label>
+                                        </td>
+                                        <td>
+                                            <label id="VerifiedByDate"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Approved By
+                                        </td>
+                                        <td>
+                                            <label id="ApprovedByDoneBy"></label>
+                                        </td>
+                                        <td>
+                                            <label id="ApprovedByDate"></label>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="errormsgcenter" style="color:red; visibility:hidden" id="errorMsg">
+            </div>
+
+            <div class="row mt30">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary customButton hider" onclick="performsave('save')" id="btnSave" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" class="btn btn-primary customButton hider" onclick="performsave('EDIT')" id="btnEdit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        @*<button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton hider" onclick="performsave('SaveandAdd')" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>*@
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        <button type="button" class="btn btn-primary customButton hider" onclick="performsave('verify')" id="btnVerify" title="Verify"><i class="fa fa-check-square-o" aria-hidden="true"></i>Verify</button>
+                        <button type="button" class="btn btn-primary customButton hider" onclick="performsave('approve')" id="btnApprove" title="Approve"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                        <button type="button" class="btn btn-primary customButton hider" onclick="performsave('Reject')" id="btnReject" title="Reject"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton hider" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        @Html.Partial("~/Areas/FEMS/Views/SummaryofFeeReport/List.cshtml")
+
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/VM/SummaryofFeeReport.js")"></script>
+}

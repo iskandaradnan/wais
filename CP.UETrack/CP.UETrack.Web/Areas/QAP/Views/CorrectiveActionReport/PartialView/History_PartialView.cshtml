@@ -1,0 +1,89 @@
+﻿<div role="tabpanel" class="tab-pane" id="divHistory">
+    <div class="content_body">
+        <form class="form-horizontal" id="frmHistory" novalidate autocomplete="off">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">CAR No.</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtCARNumberHistory" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Indicator</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="selQAPIndicatorIdHistory" disabled>
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">CAR Date</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtCARDateHistory" class="form-control datatimeNoFuture" disabled/>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Failure Symptom Code</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtFailureSymptomCodeHistory" class="form-control" disabled/>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+            <div class="row" id="divHistory">
+                <hr style="margin: 2em 0;" />
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="tableHistory" class="table table-fixedheader table-bordered">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center;" width="10%">CAR Status</th>
+                                    <th style="text-align: center;" width="30%">Root Cause</th>
+                                    <th style="text-align: center;" width="15%">Solution</th>
+                                    <th style="text-align: center;" width="15%">Remarks</th>
+                                    <th style="text-align: center;" width="15%">Last Updated By</th>
+                                    <th style="text-align: center;" width="15%">Last Updated On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>  
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red;" id="errorMsgHistory">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+                </div>
+           
+            <div class="row mt20">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnHistoryCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+</div>
+<script src="~/Scripts/ng/Controllers/QAP/CorrectiveActionReport/CARHistory.js"></script>
+
+

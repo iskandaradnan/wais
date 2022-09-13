@@ -1,0 +1,52 @@
+﻿<form id="VichileDetails" name="VichileDetails" class="form-horizontal" autocomplete="off">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Treatment Plant Code</label>
+                <div>
+                    <div class="col-sm-6">
+                        <input type="text" required class="form-control" id="txtTreatmentPlantCode1" disabled="disabled" autocomplete="off" name="AreaCodeNo" maxlength="25"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Treatment Plant Name</label>
+                <div>
+                    <div class="col-sm-6">
+                        <input type="text" required class="form-control" disabled="disabled" id="txtTreatmentPlantName1" autocomplete="off" name="AreaName" maxlength="25" tabindex="3" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <br />
+
+    <table class="table table-bordered" id="VehicleDt" style="border: 1px solid rgb(222, 218, 218);">
+        <thead style="background-color:#336699; color:white">
+            <tr>
+                <th style="text-align: center;" width="10%">VehicleNo. </th>
+                <th style="text-align: center;" width="10%">Manufacturer </th>
+                <th style="text-align: center;" width="10%">Load Weight(Kg)</th>
+                <th style="text-align: center;" width="10%">Effective Date</th>
+                <th style="text-align: center;" width="10%">Status</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyVehicles">           
+        </tbody>
+    </table>
+    <div class="row mt30">
+        <div class="form-group">
+            <div class="col-sm-12 text-center">
+                @*<input type="button" id="btnCancel1" class="btn btn-primary" value="Reset">*@
+                @*<button type="button" id="btnCancel1" name="btnCancel" class="btn btn-grey customButton" title="Reset" onclick="goBack();"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/TreatmentPlant.js")"></script>
+}

@@ -1,0 +1,1059 @@
+﻿
+/* CSS Document */
+.reset {
+    height: 35px;
+    width: 150px;
+    font-size: medium;
+}
+
+.sr-form input.ng-invalid.ng-touched {
+    border: 1px solid red;
+    background: #FFCECE;
+}
+
+.errMsg ul {
+    list-style-type: none;
+}
+
+#searchmodfbox_grid {
+    width: 100%;
+}
+
+#searchhdfbox_grid {
+    display: none;
+}
+
+#grid_toppager_left {
+    float: right;
+}
+
+#UlFetch {
+    padding: 5px;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+.red {
+color:red;
+}
+table .checkbox {
+    cursor: default;
+
+}
+
+    table .checkbox label {
+        cursor: pointer;
+        width: 0px;
+        margin: 0;
+    }
+
+        table .checkbox label input[type="checkbox"] {
+            margin-left: -16px;
+        }
+
+#pg_grid_toppager #grid_toppager_center, #pg_grid_toppager #grid_toppager_right {
+    display: none;
+}
+
+.ui-jqgrid .ui-jqgrid-htable th div {
+    height: auto !important;
+    color:#fff;
+    font-size:11px;
+    font-weight:600;
+}
+
+.ui-jqgrid-hbox {
+    width: 100%;
+}
+
+.bg.form-control[readonly] {
+    background-color: #fff !important;
+}
+
+.rating {
+    color: #a9a9a9;
+    margin: 0;
+    padding: 0;
+}
+
+ul.rating {
+    display: inline-block;
+}
+
+.rating li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 1px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.rating .filled {
+    color: red;
+}
+
+.opsel {
+    text-transform: capitalize;
+    font-weight: normal;
+}
+
+#jqgh_grid_edit, #jqgh_grid_view, #jqgh_grid_delete {
+    cursor: default;
+}
+
+.ui-pg-button.ui-corner-all.removeHover.ui-state-hover {
+    cursor: default;
+    background: none;
+}
+
+/*.bgDelete {
+    background-color: #fc8888;
+}*/
+.bgDeleteForView {
+background-color: #fc8888 !important;
+}
+
+/*.tableHeading th {
+    border-top: solid 1px #a8293a;
+    background: #b02f41;
+    color: #fff;
+    text-shadow: 0 1px 0 #138d8c;
+    height: 50px;
+}*/
+.tableHeading th {
+    border-top: solid 1px #a8293a;
+    background: #b02f41;
+    color: #fff;
+    text-shadow: none !important;
+    height: 50px;
+    font-weight: normal !important;
+}
+
+.ui-jqgrid-btable td[aria-describedby="grid_edit"], .ui-jqgrid-btable td[aria-describedby="grid_delete"], .ui-jqgrid-btable td[aria-describedby="grid_view"], .ui-jqgrid-btable td[aria-describedby="grid_View"], .ui-jqgrid-btable td[aria-describedby="grid_verify"] {
+    text-align: center !important;
+}
+
+/*Ticket*/
+.ui-jqgrid-btable td[aria-describedby="gridTicket_edit"], .ui-jqgrid-btable td[aria-describedby="gridTicket_delete"], .ui-jqgrid-btable td[aria-describedby="gridTicket_view"], .ui-jqgrid-btable td[aria-describedby="gridTicket_View"], .ui-jqgrid-btable td[aria-describedby="gridTicket_verify"] {
+    text-align: center !important;
+}
+#jqgh_gridTicket_edit, #jqgh_gridTicket_view, #jqgh_gridTicket_delete {
+    cursor: default;
+}
+
+#pg_gridTicket_toppager #gridTicket_toppager_center, #pg_gridTicket_toppager #gridTicket_toppager_right {
+    display: none;
+}
+#searchmodfbox_gridTicket {
+    width: 100%;
+}
+#searchmodfbox_grid{
+    position:relative;
+    /*overflow:inherit !important;*/
+}
+#searchmodfbox_grid:after {
+    position:absolute;
+    content:"";
+    width:12px;
+    height:1px;
+    left:-12px !important;
+    bottom:-1px;
+}
+#searchmodfbox_grid:before {
+    position:absolute;
+    content:"";
+    width:12px;
+    height:1px;
+    right:-12px !important;
+    bottom:-1px;
+}
+#searchhdfbox_gridTicket {
+    display: none;
+}
+
+#gridTicket_toppager_left {
+    float: right;
+}
+/*Ticket*/
+
+/*Asset*/
+.ui-jqgrid-btable td[aria-describedby="gridAsset_edit"], .ui-jqgrid-btable td[aria-describedby="gridAsset_delete"], .ui-jqgrid-btable td[aria-describedby="gridAsset_view"], .ui-jqgrid-btable td[aria-describedby="gridAsset_View"], .ui-jqgrid-btable td[aria-describedby="gridAsset_verify"] {
+    text-align: center !important;
+}
+#jqgh_gridAsset_edit, #jqgh_gridAsset_view, #jqgh_gridAsset_delete {
+    cursor: default;
+}
+
+#pg_gridAsset_toppager #gridAsset_toppager_center, #pg_gridAsset_toppager #gridAsset_toppager_right {
+    display: none;
+}
+#searchmodfbox_gridAsset {
+    width: 100%;
+}
+
+#searchhdfbox_gridAsset {
+    display: none;
+}
+
+#gridAsset_toppager_left {
+    float: right;
+}
+/*Asset*/
+
+.ui-icon {
+    display: inline-block;
+}
+
+.fetchAlignment {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    min-width: 250px;
+}
+
+.fetchpagination {
+    font-size: 11px;
+}
+
+.dropdown-menu li div {
+    float: left;
+    width: 100%;
+}
+
+.dropdown-menu li div a {
+        padding: 3px;
+}
+
+/*#positionSubDataTable .dropdown-menu li div a {
+        padding: 10px 3px;
+}*/
+
+.dropdown-menu li:last-child {
+    margin-top: 5px;
+    width: 100%;
+}
+
+.multiselect-container.dropdown-menu li:last-child {
+    margin-top: 0px;
+}
+
+.list-group {
+    border: 1px solid #ccc !important;
+}
+
+.dropdown-menu.list-group {
+    z-index: 9999;
+}
+
+div[read-only="true"] div {
+    cursor: default !important;
+}
+
+.redhighlight {
+    color: #E87095;
+    font-weight: bolder;
+}
+
+.autofetchFix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+h5 {
+    color: #333;
+}
+
+h5, .h5 {
+    font-size: 16px;
+}
+
+h4 {
+    font-size: 13px;
+}
+
+#top-notifications h5 {
+    color: #ffffff;
+}
+
+/*Header prop for telephone*/
+
+#main-navbar.navbar-inverse .navbar-nav > li > .telephone .glyphicon {
+    color: #6b462b;
+    font-size: 18px;
+    text-shadow: 0 1px 0 #dba793;
+    top: 4px;
+}
+
+.navbar-nav > li > .telephone {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    padding: 12px 15px;
+}
+
+
+/*Tree view*/
+.tree {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #fbfbfb;
+    border: 1px solid #999;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+    .tree li {
+        list-style-type: none;
+        margin: 0;
+        padding: 10px 5px 0 5px;
+        position: relative;
+    }
+
+        .tree li::before, .tree li::after {
+            content: '';
+            left: -20px;
+            position: absolute;
+            right: auto;
+        }
+
+        .tree li::before {
+            border-left: 1px solid #999;
+            bottom: 50px;
+            height: 100%;
+            top: 0;
+            width: 1px;
+        }
+
+        .tree li::after {
+            border-top: 1px solid #999;
+            height: 20px;
+            top: 25px;
+            width: 25px;
+        }
+
+        .tree li span {
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 3px 8px;
+            text-decoration: none;
+        }
+
+        .tree li.parent_li > span {
+            cursor: pointer;
+        }
+
+    .tree > ul > li::before, .tree > ul > li::after {
+        border: 0;
+    }
+
+    .tree li:last-child::before {
+        height: 30px;
+    }
+
+    .tree li.parent_li > span:hover, .tree li.parent_li > span:hover + ul li span {
+        background: #eee;
+        border: 1px solid #94a0b4;
+        color: #000;
+    }
+/*End*/
+.well {
+    padding: 5px;
+}
+
+    .well > ul {
+        padding: 0px;
+    }
+
+.pagerEnabled {
+    cursor: pointer;
+    color: #454545;
+}
+
+.pagerDisabled {
+    cursor: default;
+    color: #9d9d9d;
+}
+
+.tab-content:focus {
+    outline: none;
+}
+
+.panel-heading .panel-title a {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+div[star-rating]:focus {
+    outline: none;
+}
+
+#helpdeskGridDashboard .ui-jqgrid .ui-jqgrid-htable th {
+    border: 1px solid #a72839;
+    background: #b02f41;
+    color: #fff;
+}
+
+#helpdeskGridDashboard .btn-primary {
+    color: #fff;
+}
+
+.grid-col {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+
+.status {
+    color: #000000;
+    font-weight: 600;
+    display: inline-block;
+    line-height: 1.5;
+    font-size: 13px;
+}
+
+.statusGrid {
+    color: #000000;
+    font-style: inherit;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 11px;
+}
+
+.statusGridType1 {
+    color: #000000;
+    background-color: bisque;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 11px;
+}
+
+.statusGridType2 {
+    color: #000000;
+    background-color: darkgray;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 11px;
+}
+
+.linespace {
+    line-height: 6px;
+}
+
+.fetchpopupalingment {
+    position: relative;
+}
+
+.btn_link {
+    color: #000000;
+    font-weight: 600;
+    margin-left: 3px;
+    background-color: darksalmon;
+    display: inline-block;
+}
+
+.dropdown-menu.dropdown-menu-new {
+    position: absolute;
+    top: auto;
+    left: auto;
+    width: 180px;
+}
+#positionSubDataTable .dropdown-menu.dropdown-menu-new {
+    position: absolute;
+    top: auto;
+    left: auto;
+    width: 320px;  
+}
+#positionSubDataTablec .dropdown-menu.dropdown-menu-new {
+    position: absolute;
+    top: auto;
+    left: auto;
+    width: 320px;  
+}
+
+#PPMdataTable .dropdown-menu.dropdown-menu-new {
+    position: absolute;
+    top: auto;
+    left: auto;
+    width: 220px;
+    font-size: 13px;
+     
+   
+}
+
+.table-fixed thead {
+    width: 100%;
+}
+
+.table-fixed tbody {
+    max-height: 415px;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    display: block;
+   
+}
+
+    .table-fixed tbody td, .table-fixed thead > tr > th {
+        float: left;
+        border-bottom-width: 0;
+    }
+
+
+
+.table-height tbody tr {
+    height: 40px;
+    width: 100%;
+}
+
+/* SP- IAQ Monthly Walkthrough Inspection Screen*/
+.MWIinspectiongrid {
+    border-top: solid 1px #a8293a;
+    background: #b02f41;
+    color: #fff;
+    text-shadow: 0 1px 0 #a8293a;
+    text-align: center;
+    font-family: 'oxygenbold';
+    font-weight: normal;
+    font-style: normal;
+}
+/* SP- IAQ Monthly Walkthrough Inspection Screen*/
+
+#main-navbar .navbar-brand > a img {
+    width: 34px;
+    float: left;
+    margin-right: 10px;
+}
+
+.redStatus {
+    background: #b73341; /* Old browsers */
+    background: -moz-linear-gradient(top, #b73341 1%, #b73341 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #b73341 1%,#b73341 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #b73341 1%,#b73341 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b73341', endColorstr='#b73341',GradientType=0 ); /* IE6-9 */
+    color: #FFFFFF;
+    display: inline-block;
+}
+
+.greenStatus {
+    background: #12848b; /* Old browsers */
+    background: -moz-linear-gradient(top, #12848b 1%, #25aead 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #12848b 1%,#25aead 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #12848b 1%,#25aead 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#12848b', endColorstr='#25aead',GradientType=0 ); /* IE6-9 */
+    color: #FFFFFF;
+    display: inline-block;
+}
+
+.tableFixedHeightUP {
+    max-height: 550px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+}
+/*fixed table css begins*/
+
+.tableFixedHeightthreerecords {
+    max-height: 140px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+}
+
+.tableFixedHeighttworecords {
+    max-height: 100px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+    
+}
+table.table-fixedheader {
+    width: 100%;
+}
+
+    table.table-fixedheader, table.table-fixedheader > thead, table.table-fixedheader > tbody, table.table-fixedheader > thead > tr, table.table-fixedheader > tbody > tr, table.table-fixedheader > thead > tr > th, table.table-fixedheader > tbody > td {
+        display: block;
+    }
+
+        table.table-fixedheader > thead > tr:after, table.table-fixedheader > tbody > tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        table.table-fixedheader > tbody {
+            overflow-y: scroll;
+            height: 200px;
+        }
+
+        table.table-fixedheader > thead {
+            overflow-y: scroll;
+        }
+
+            table.table-fixedheader > thead::-webkit-scrollbar {
+                background-color: inherit;
+            }
+
+            table.table-fixedheader > thead > tr > th:after, table.table-fixedheader > tbody > tr > td:after {
+                content: ' ';
+                display: table-cell;
+                visibility: hidden;
+                clear: both;
+            }
+
+            table.table-fixedheader > thead tr th, table.table-fixedheader > tbody tr td {
+                float: left;
+                word-wrap: break-word;
+            }
+
+/*FOR table.header-fixed*/
+
+/*Table Fixed header for PopUp*/
+
+table.table-fixedheaderpopup, table.table-fixedheaderpopup > thead, table.table-fixedheaderpopup > tbody, table.table-fixedheaderpopup > thead > tr, table.table-fixedheaderpopup > tbody > tr, table.table-fixedheaderpopup > thead > tr > th, table.table-fixedheaderpopup > tbody > td {
+        display: block;
+    }
+
+        table.table-fixedheaderpopup > thead > tr:after, table.table-fixedheaderpopup > tbody > tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        table.table-fixedheaderpopup > tbody {
+            overflow-y: scroll;
+            height: 400px;
+        }
+
+        table.table-fixedheaderpopup > thead {
+            overflow-y: scroll;
+        }
+
+            table.table-fixedheaderpopup > thead::-webkit-scrollbar {
+                background-color: inherit;
+            }
+
+            table.table-fixedheaderpopup > thead > tr > th:after, table.table-fixedheaderpopup > tbody > tr > td:after {
+                content: ' ';
+                display: table-cell;
+                visibility: hidden;
+                clear: both;
+            }
+
+            table.table-fixedheaderpopup > thead tr th, table.table-fixedheaderpopup > tbody tr td {
+                float: left;
+                word-wrap: break-word;
+            }
+
+
+.table.header-fixed > thead > tr > th,
+.table.header-fixed > tbody > tr > th,
+.table.header-fixed > tfoot > tr > th,
+.table.header-fixed > thead > tr > td,
+.table.header-fixed > tbody > tr > td,
+.table.header-fixed > tfoot > tr > td {
+    padding: 6px;
+    line-height: 1.5;
+    vertical-align: top;
+    /* border-top: 1px solid #ddd; */
+    border: 1px solid #ddd !important;
+}
+
+
+/*FOR FIXED HEADER*/
+.table.table-fixedheader.table-bordered > tbody > tr > th,
+.table.table-fixedheader.table-bordered > tfoot > tr > th,
+.table.table-fixedheader.table-bordered > tbody > tr > td,
+.table.table-fixedheader.table-bordered > tfoot > tr > td {
+    padding: 6px;
+    line-height: 1.5;
+    vertical-align: top;
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    min-height: 40px;
+}
+
+.table.table-fixedheader.table-bordered > thead > tr > th,
+.table.table-fixedheader.table-bordered > tbody > tr > th,
+.table.table-fixedheader.table-bordered > tfoot > tr > th,
+.table.table-fixedheader.table-bordered > thead > tr > td,
+.table.table-fixedheader.table-bordered > tbody > tr > td,
+.table.table-fixedheader.table-bordered > tfoot > tr > td {
+    border-right: 1px solid #ddd;
+    border-left: none;
+    border-collapse: collapse;
+}
+
+.table-fixedheader .glyphicon.glyphicon-download-alt {
+    margin-top: 3px;
+}
+
+.modal-footer .btn.btn-grey {
+    float: right;
+    margin-left: 5px;
+}
+
+.vrcactivemenu {
+    background:linear-gradient(to bottom,  #ffffff 0%,#ebf0f1 0%)
+}
+
+.resetHeaderHeight th {
+  height: auto;
+}
+#dataTableVariationList .tableHeading th {
+height: 70px;
+}
+
+#positionSubDataTable .tableHeading th {
+height: 35px;
+}
+#positionSubDataTable > tbody {
+overflow-y: scroll;
+padding:0;
+}
+
+.tablesmallheading .tableHeading th {
+height: 35px;
+overflow-y: scroll;
+padding:0;
+}
+.custom-trash {
+    left: 4px;
+    top: 10px;
+    position: absolute;
+    z-index:99;
+}
+/*#multiGridHeading .tableHeading th {
+    height: 5px;
+}*/
+.row .row {
+    margin-left: 0;
+    margin-right: 0;
+    }
+.pad0 {
+    padding:0;
+}
+
+.FixedDopdownfetch{
+    top:85px;
+    left:270px;
+   width: 320px;
+}
+
+.pointerCursor {
+    cursor: pointer;
+}
+.th-checkbox {
+vertical-align: top;
+margin-top: -7px !important;
+margin-left: 4px !important;
+}
+.pad-right0 {
+    padding-right:0 !important;
+}
+
+#tblRolePermission .table.table-fixedheader.table-bordered > tbody > tr > th,
+#tblRolePermission .table.table-fixedheader.table-bordered > tbody > tr > td {
+    line-height:12px !important;
+}
+#tblRolePermission .tableHeading th {
+    text-shadow: none !important;
+    height: 30px;
+    font-weight: normal !important;
+}
+#softwarepopupdataTable .tableHeading th {height: 32px;}
+#softwarepopupdataTable .tableHeading th  span.glyphicon.glyphicon-trash{
+    left: 15px;
+    position: absolute;
+    top: 10px;
+}
+#softwarepopupdataTable .tableHeading .th-checkbox {
+    vertical-align: middle;
+    margin-top: 0px !important;
+    margin-left: 4px !important;
+}
+
+#PPMdataTable .tableHeading th  span.glyphicon.glyphicon-trash{
+    left: 5px;
+    position: absolute;
+    top: 17px;
+}
+#PPMdataTable .tableHeading .th-checkbox {
+    vertical-align: middle;
+    margin-top: 10px !important;
+    margin-left: 4px !important;
+}
+.pos-relative {
+position: relative;
+}
+
+
+#PPMdataTable .dropdown-menu li div a {
+        padding: 10px 3px;
+             line-height: 13px;
+}
+
+#PPMdataTable .dropdown-menu .prev-Page {
+        height: 25px;
+}
+#PPMdataTable .dropdown-menu .next-Page {
+        height: 25px;
+}
+#PPMdataTable .dropdown-menu li:last-child {
+    margin-top: 5px;
+}
+
+#CalbdataTable .dropdown-menu li div a {
+        padding: 10px 3px;
+             line-height: 13px;
+}
+
+#CalbdataTable .dropdown-menu .prev-Page {
+        height: 25px;
+}
+#CalbdataTable .dropdown-menu .next-Page {
+        height: 25px;
+}
+#CalbdataTable .dropdown-menu li:last-child {
+    margin-top: 5px;
+}
+
+#CalbdataTable .dropdown-menu.dropdown-menu-new {
+    position: absolute;
+    top: auto;
+    left: auto;
+    width: 220px;
+    font-size: 13px;
+     
+   
+}
+
+#CalbdataTable .tableHeading .th-checkbox {
+    vertical-align: top;
+    margin-top: 8px !important;
+    margin-left: 5px !important;
+}
+#CalbdataTable .tableHeading th span.glyphicon.glyphicon-trash {
+    left: 5px;
+    position: absolute;
+    top: 15px;
+}
+
+
+.childAsset{
+    vertical-align: top;
+    margin-top: -14px !important;
+    margin-left: 5px !important;
+}
+
+
+.fmsTrainingFeedbackRating {
+    margin-top:6px
+}
+.RemarksExists {
+    background-color:#61B329;
+}
+
+
+
+ /* Tooltip container */
+.tooltip-new  {
+    position: relative;
+    /*display: inline-block;*/
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip-new  .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: darkgray;
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+     font-weight: 900;
+    font-size:12px;
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+/* Tooltip arrow */
+.tooltip-new .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: darkgray transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+ #IssueDescription .tooltip-new:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+#txtpopSearch::-ms-clear {
+  display: none;
+}
+
+/*Ticket SCreen Css change*/
+.ticket_tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.ticket_tooltip .ticket_tooltiptextComments {
+    visibility: hidden;
+    width: 100%;
+    height:100%;
+    background-color: bisque;
+    color: #fff;
+    text-align: left;
+   
+    padding: 5px 0;
+    font-size:12px;
+    color:black;
+    line-height: 100%;
+     overflow-y: auto;
+      top: -5%;
+    left: 50%;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+.ticket_tooltip .ticket_tooltiptext {
+    visibility: hidden;
+
+    background-color: bisque;
+   
+    text-align: left;
+   
+    padding: 5px 0;
+    font-size:12px;
+    color:black;
+    line-height: 100%;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+     top: -5%;
+    left: 50%;
+}
+ 
+ .ticket_tooltip:hover .ticket_tooltiptextComments {
+    visibility: visible;
+}
+.ticket_tooltip:hover .ticket_tooltiptext {
+    visibility: visible;
+}
+
+/*Ticket SCreen Fixed Header*/
+table.table-fixedheaderTicket {
+    width: 100%;
+}
+
+    table.table-fixedheaderTicket, table.table-fixedheaderTicket > thead, table.table-fixedheaderTicket > tbody, table.table-fixedheaderTicket > thead > tr, table.table-fixedheaderTicket > tbody > tr, table.table-fixedheaderTicket > thead > tr > th, table.table-fixedheaderTicket > tbody > td {
+        display: block;
+    }
+
+        table.table-fixedheaderTicket > thead > tr:after, table.table-fixedheaderTicket > tbody > tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        table.table-fixedheaderTicket > tbody {
+            overflow-y: scroll;
+            height: 75px;
+        }
+
+        table.table-fixedheaderTicket > thead {
+            overflow-y: scroll;
+        }
+
+            table.table-fixedheaderTicket > thead::-webkit-scrollbar {
+                background-color: inherit;
+            }
+
+            table.table-fixedheaderTicket > thead > tr > th:after, table.table-fixedheaderTicket > tbody > tr > td:after {
+                content: ' ';
+                display: table-cell;
+                visibility: hidden;
+                clear: both;
+            }
+
+            table.table-fixedheaderTicket > thead tr th, table.table-fixedheaderTicket > tbody tr td {
+                float: left;
+                word-wrap: break-word;
+            }
+            /*FOR FIXED HEADER*/
+.table.table-fixedheaderTicket.table-bordered > tbody > tr > th,
+.table.table-fixedheaderTicket.table-bordered > tfoot > tr > th,
+.table.table-fixedheaderTicket.table-bordered > tbody > tr > td,
+.table.table-fixedheaderTicket.table-bordered > tfoot > tr > td {
+    padding: 6px;
+    line-height: 0.5;
+    vertical-align: top;
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    min-height: 38px;
+}
+
+.table.table-fixedheaderTicket.table-bordered > thead > tr > th,
+.table.table-fixedheaderTicket.table-bordered > tbody > tr > th,
+.table.table-fixedheaderTicket.table-bordered > tfoot > tr > th,
+.table.table-fixedheaderTicket.table-bordered > thead > tr > td,
+.table.table-fixedheaderTicket.table-bordered > tbody > tr > td,
+.table.table-fixedheaderTicket.table-bordered > tfoot > tr > td {
+    border-right: 1px solid #ddd;
+    border-left: none;
+    border-collapse: collapse;
+}
+
+.table-fixedheaderTicket .glyphicon.glyphicon-download-alt {
+    margin-top: 3px;
+}
+
+            /*End*/
+            /*Remove the X icon from text box IE*/
+ input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
+input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
+     /*End*/
+
+     .ui-jqgrid .ui-jqgrid-btable,.ui-jqgrid .ui-jqgrid-htable{
+         table-layout:auto;
+     }
+
+     .ui-jqgrid tr.jqgrow td{
+         border-left: 1px solid #bdbdbd;
+         white-space:normal;
+         word-break:break-all;
+     }

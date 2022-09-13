@@ -1,0 +1,540 @@
+﻿
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+        @*<input type="hidden" id="hdnARScreenName" value="AssetRegister" />*@
+        <input type="hidden" id="hdnScreenName" name="hdnScreenName" value="AssetStandardization" />
+        <!-- Content Header Starts -->
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+                <li>General Master</li>
+                <li>Asset Metadata</li>
+                <li class="active">PPM Checklist</li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            @*<h4>@ViewBag.ActionType PPM Checklist</h4>*@
+            <h4>PPM Checklist</h4>
+        </div>
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs" role="tablist">
+
+                <li role="presentation" class="active"><a href="#PPMChecklist" aria-controls="home" role="tab" data-toggle="tab">PPM Checklist</a></li>
+                <li role="presentation"><a href="#History" aria-controls="messages" role="tab" data-toggle="tab" id="historytabId">History</a></li>
+                <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <div class="tab-content">
+                <!-- 1st Tab -->
+                <div role="tabpanel" class="tab-pane active" id="PPMChecklist">
+                    <div class="content_body">
+                        <form class="form-horizontal" id="ppmchecklistFormId" autocomplete="off">
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="selServices" class="col-sm-6 control-label">Services</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="selServices" name="selServices" tabindex="19" required>
+                                                <option value="null">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="AssetTypeCode" class="col-sm-6 control-label">PPM Checklist No.</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" id="PPMChecklistNo" name="PPMChecklistNo" disabled autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="Taskcode" class="col-sm-6 control-label">Task Code</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" id="Taskcode" name="Taskcode" disabled class="form-control" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="AssetTypeCode" class="col-sm-6 control-label">Asset Type Code<span class="red">&nbsp;*</span></label>
+                                        <div>
+                                            <div class="col-sm-4">
+                                                <input type="hidden" id="hdnAssetTypeCodeId" />
+                                                <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,25}$" id="txtAssetTypeCode" name="AssetTypeCode" title="AssetTypeCode" placeholder="Please Select" maxlength="100" required />
+                                                <div class="col-sm-12" id="divFetch1">
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-2" id="AssetNoDiv">
+                                                <a data-toggle="modal" id="spnPopup-TypeCode" class="btn btn-sm  btn-primary" title="Search">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="TypeDescription" class="col-sm-6 control-label">Asset Type Code Description</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" id="txtAssetTypeDescription" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="Model" class="col-sm-6 control-label">Model<span class="red"> *</span></label>
+                                        <div>
+                                            <div class="col-sm-4">
+                                                <input type="hidden" id="hdnModelId" name="ModelId" />
+                                                <input type="text" class="form-control" id="txtModel" name="Model" placeholder="Please Select" maxlength="100" required />
+                                                <div class="col-sm-12" id="divFetch3">
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-2" ïd="popModelId">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Model">
+
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="Manufacturer" class="col-sm-6 control-label">Manufacturer</label>
+                                        <div>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="hdnManufacturerId" name="ManufacturerId" />
+                                                <input type="text" class="form-control" maxlength="100" id="txtManufacturer" name="Manufacturer" disabled required />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="Frequency" class="col-sm-6 control-label">Frequency<span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <select id="PPMFrequency" class="form-control" required>
+                                                <option value="null">Select</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="PPMhoueers" class="col-sm-6 control-label">PPM hours</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control text-right" id="PPMhours" pattern="^\d{0,4}(?:\.\d{0,2})?$">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="SpecialPrecaution" class="col-sm-3 control-label">Special Precaution</label>
+                                        <div class="col-sm-9">
+                                            <div>
+                                                <textarea class="form-control wt-resize" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" id="SpecialPrecautions" style="height:70px;" maxlength="500"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="Remarks" class="col-sm-3 control-label">Remarks</label>
+                                        <div class="col-sm-9">
+                                            <div>
+                                                <textarea class="form-control wt-resize" id="Remarks" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" maxlength="250"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-view="" class="row">
+
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="ppmchecklistTable" class="table table-fixedheader table-bordered table-checkbox" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th width="5%" class="text-center">
+                                                        <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                        <br /><input type="checkbox" id="chkCategory1DeleteAll" />
+                                                    </th>
+
+                                                    <th style="text-align:center" width="25%">Category @*<span class="red">&nbsp;*</span>*@</th>
+                                                    <th style="text-align:center" width="10%">No.</th>
+                                                    <th style="text-align:center" width="60%">Description@*<span class="red">&nbsp;*</span>*@</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="FirstGridId"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20">
+                                <div class="col-sm-2 ">
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div>
+                                                <a id="FirstGrid" class="btn btn-primary">+</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div ng-view="" class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="ppmchecklistTable" class="table table-fixedheader table-bordered table-checkbox" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th width="5%" class="text-center">
+                                                        <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                        <br />
+                                                        <input type="checkbox" id="chkQuantityDeleteAll" />
+                                                    </th>
+
+                                                    <th style="text-align: center;" width="35%">Quantitative Task Description @*<span class="red">&nbsp;*</span>*@</th>
+                                                    <th style="text-align: center;" width="15%">Units / UOM @*<span class="red">&nbsp;*</span>*@</th>
+                                                    <th style="text-align: center;" width="20%">Set Values @*<span class="red">&nbsp;*</span>*@</th>
+                                                    <th style="text-align: center;" width="25%">Limit / Tolerance @*<span class="red">&nbsp;*</span>*@</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="SecondGridId"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20">
+                                <div class="col-sm-2 ">
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div>
+                                                <a id="SecondGrid" class="btn btn-primary">+</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+                                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                                </div>
+
+
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-center">
+
+                                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                        </form>
+                    </div>
+                </div>
+                <!-- 2 Tab -->
+                <div role="tabpanel" class="tab-pane" id="History">
+
+                    <div class="content_body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="AssetTypeCode" class="col-sm-6 control-label">PPM Checklist No.</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" id="histPPMChecklistNo" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="Taskcode" class="col-sm-6 control-label">Task Code</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" id="histTaskcode" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="AssetTypeCode" class="col-sm-6 control-label">Asset Type Code</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" id="histAssetTypeCode" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="TypeDescription" class="col-sm-6 control-label">Asset Type Code Description</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" id="histAssetTypeDescription" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div ng-view="" class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                    <h4> Category/Quantitative Tasks  History</h4>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="AssetEquipmentAttachment" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading">
+                                                <tr>
+
+                                                    <th style="text-align: center;" width="25%">Version</th>
+                                                    <th style="text-align: center;" width="25%">Effective Date</th>
+                                                    <th style="text-align: center;" width="25%">Created / Modified by</th>
+                                                    <th style="text-align: center;" width="25%">Details</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="HistCategoryId"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 3rd Tab -->
+                <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                    <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                        @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                    </form>
+                </div>
+            </div>
+            @Html.Partial("~/Areas/BEMS/Views/PPMChecklist/List.cshtml")
+        </div>
+
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5> Category / Quantitative Tasks  History</h5>
+                    </div>
+
+                    <!-- Modal body-->
+                    <div class="modal-body">
+
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                                <h4> Category History</h4>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="AssetEquipmentAttachment" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+
+                                                <th style="text-align: center;" width="35%">Category</th>
+                                                <th style="text-align: center;" width="15%">No.</th>
+                                                <th style="text-align: center;" width="50%">Description</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="HistPopupCategoryId"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                                <h4> Quantitative Tasks  History</h4>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="AssetEquipmentAttachment" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align: center;" width="40%">Quantitative Task Description</th>
+                                                <th style="text-align: center;" width="15%">Units/UOM</th>
+                                                <th style="text-align: center;" width="20%">Set Values</th>
+                                                <th style="text-align: center;" width="25%">Limit/Tolerance</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="PopUpQuantityId"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer mt20">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="myModal1" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><b>Category / Quantitative Task History</b></h4>
+                    </div>
+
+                    <!-- Modal body-->
+                    <div class="modal-body">
+
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="AssetEquipmentAttachment" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align: center;" width="40%">Quantitative Task Description</th>
+                                                <th style="text-align: center;" width="15%">Units/UOM</th>
+                                                <th style="text-align: center;" width="20%">Set Values</th>
+                                                <th style="text-align: center;" width="25%">Limit/Tolerance</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="PopUpQuantityId"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer mt20">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   
+  
+
+
+
+@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/PPMChecklist.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}
+

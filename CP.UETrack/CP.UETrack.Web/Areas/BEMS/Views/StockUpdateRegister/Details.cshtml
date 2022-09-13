@@ -1,0 +1,202 @@
+﻿@{
+    ViewBag.Title = "Stock Update Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- content_area Starts -->
+
+<form id="form" autocomplete="off">
+
+    <div class="">
+        <div class="">
+
+            @functions{
+                public string GetAntiForgeryToken()
+                {
+                    string cookieToken, formToken;
+                    AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                    return cookieToken + ":" + formToken;
+                }
+            }
+
+            <input id="antiForgeryToken" type="hidden" />
+            <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+            <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.Mode" />
+            <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+            <!-- Content Header Starts -->
+            <div class="content_header">
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li>BEMS</li>
+                    <li>Spare Parts</li>
+                    <li class="active">Stock Update</li>
+                    <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                        <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                        <span class="badge" id="helpdescriptionid"></span>
+                    </a>
+                </ol>
+                <h4>Stock Update </h4>
+            </div>
+            <!-- Content Header Ends -->
+            <!-- Contents goes here -->
+            <div class="content_body">
+                <div class="form-horizontal" autocomplete="off">
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Stock Update No.</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="StockUpdateNo" maxlength="25" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Date <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="Date" required class="form-control datatimeNoFuture" readonly style="background-color:white;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Spare Part Cost (<span class="spnCurrencyName"></span>)</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" maxlength="8" id="TotalCost" class="form-control commaSeperator" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Facility Name</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="FacilityName" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Facility Code</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" disabled id="FacilityCode" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr style="margin: 2em 0;">
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="StkUpdateRegisterdataTable" class="table table-fixedheader table-bordered table-textarea er_parameter" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="3%" class="text-center">
+                                                <div class="checkbox text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                    <label for="checkboxes-0">
+                                                        <input type="checkbox" value="false" id="chk_stkUpdateregdet">
+                                                    </label>
+                                                </div>
+                                            </th>
+                                            <th style="text-align: center;" width="6%">Part No.<span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="7%">Part Description</th>
+                                            <th style="text-align: center;" width="6%">Spare Part Type<span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="6%">Location<span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="4%">Item Code</th>
+                                            <th style="text-align: center;" width="6%">Item Description</th>
+                                            <th style="text-align: center;" width="5%">Part Source</th>
+                                            <th style="text-align: center;" width="6%">Lifespan Options</th>
+                                            <th style="text-align: center;" width="6%">Estimated Lifespan</th>
+                                            <th style="text-align: center;" width="5%">Expiry Date</th>
+                                            <th style="text-align: center;" width="6%">Quantity<span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="8%" class="ApproveAcced">ERP Purchase Cost / Pcs (<span class="spnCurrencyName"></span>)<span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="5%" class="ApproveAcced">Cost / Pcs (<span class="spnCurrencyName"></span>)<span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="5%">Invoice No. <span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="6%">Vendor Name <span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="4%">Bin No.<span class="red"> *</span></th>
+                                            <th style="text-align: center;" width="6%">Remarks</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable"></tbody>
+
+
+
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="paginationfooter"></div>
+                    <div class="row mt20">
+                        <div class="col-sm-2 ">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div>
+                                        <a id="addnewrowbtn" onclick="AddNewRow()" @*id="AddNewRow"*@ class="btn btn-primary">+</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <div class="row mt30">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="btnSave" class="btn btn-primary customButton" @*onclick="Save()"*@ title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="Exportbtnsss" class="btn btn-primary customButton" title="Upload"><i class="fa fa fa-upload" aria-hidden="true"></i>Upload</button>
+                                <button type="button" id="exportbtn" class="btn btn-primary customButton" title="Download Template"><i class="fa fa fa-download" aria-hidden="true"></i>Download Template</button>
+                                <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" @*onclick="goBack();"*@ title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                                <input type='file' class="hidden" id="fileUpLoad" accept="application/csv" onchange="getFileUploadDetails(this,0);" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@Html.Partial("~/Areas/BEMS/Views/StockUpdateRegister/Index.cshtml")
+
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/BEMS/Stock Update Register.js"></script>
+    @*<script src="~/Scripts/ng/common/CommonAttachment.js"></script>*@
+}

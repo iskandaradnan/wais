@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "EOD Category / System Type Code Mapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+            <!-- Content Header Starts -->
+            <div class="content_header">
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li>EOD</li>
+                    <li class="active">EOD Type Code Mapping</li>
+                    <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                        <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                        <span class="badge" id="helpdescriptionid"></span>
+                    </a>
+                </ol>
+                @*<h4>@ViewBag.ActionType EOD Type Code Mapping</h4>*@
+                    @if (ViewBag.ActionType == "ADD")
+                    { <h4>Add EOD Type Code Mapping  </h4> }
+                    @if (ViewBag.ActionType == "EDIT")
+                    {<h4>Edit EOD Type Code Mapping  </h4> }
+                    @if (ViewBag.ActionType == "VIEW")
+                    {<h4>View EOD Type Code Mapping  </h4> }
+            </div>
+            <!-- Content Header Ends -->
+            <!-- Contents goes here -->
+            <div class="content_body">
+                <form class="form-horizontal" id="EODTypeCodeMappingScreen">
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Service</label>
+                                <div class="col-sm-6">
+                                    <select id="EODTypeCodeService" class="form-control" disabled="disabled" required></select>
+                                </div>
+                                <input type="hidden" id="hdnEODTypeCodeServiceId" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Category / System Name<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="EODTypeCodeSystemCategory" class="form-control" required></select>
+                                    <input type="hidden" id="hdnEodCategorySystemName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr style="margin: 2em 0;">
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="CategorySystemTypeCodeMapping" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="6%" class="text-center">
+                                                <div class="checkbox text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                                                    <label for="checkboxes-0">
+                                                    <input type="checkbox" name="typeCodeDetailsCheckboxes" id="chk_typeCodeDetails" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" >
+                                                </label>
+                                                </div>
+                                            </th>
+                                            <th style="text-align: center;" width="47%">System / Asset Type Code <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="47%">System / Asset Type Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="EODTypeCodeMappingBody">
+                                        @*<tr class="ng-scope" style="">
+                                            <td width="5%" id="typeCodeDetailsDel">
+                                                <div class="checkbox text-center">
+                                                    <label for="checkboxes-0">
+                                                        <input type="checkbox" name="CategorySystemTypeCodeMappingCheckboxes" id="chk_CategorySystemTypeCodeMapping" value="false" autocomplete="off" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td width="47%" style="text-align: center;">
+                                                <div>
+                                                    <input type="text" id="SystemTypeCode" name="SystemTypeCode" class="form-control" autocomplete="off" required>
+                                                </div>
+                                                <input type="hidden" id="hdnEodSystemTypeCodeId">
+                                            </td>
+                                            <td width="47%" style="text-align: center;">
+                                                <div>
+                                                    <input id="SystemTypeDescription"type="text" class="form-control" name="SystemTypeDescription" autocomplete="off" >
+                                                </div>
+                                            </td>
+                                        </tr>*@
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="paginationfooter"></div>
+
+                    <div class="row mt20">
+                        @if (ViewBag.ActionType == "ADD" || ViewBag.ActionType == "EDIT")
+            {
+
+                            <div class="col-sm-2 ">
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <div>
+                                            <a onclick="AddNewRow()" class="btn btn-primary">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            @if (ViewBag.ActionType == "ADD")
+                            {
+                                <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                            }
+                            @if (ViewBag.ActionType == "EDIT")
+                            {
+                                <button type="button" id="btnEdit" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                            }
+                            @if (ViewBag.ActionType == "ADD")
+                            {
+                                <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary" tabindex="6">Add New</button>
+                            }
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+</div>
+
+@*@if (ViewBag.ActionType == "VIEW")
+{
+    <script type="text/javascript">
+
+       $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}*@
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/EODTypeCodeMapping.js")"></script>
+}

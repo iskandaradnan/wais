@@ -1,0 +1,180 @@
+
+@{
+    ViewBag.Title="KPITransactionMappingDetail";
+    Layout="~/Views/Shared/_Layout.cshtml";
+        }
+
+<div>
+
+@functions{
+    public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+<input id="antiForgeryToken" type="hidden" />
+<input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.CurrentID" />
+<input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType" />
+<input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+
+<div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href = "/home/dashboard" ><i class="fa fa-home"></i></a></li>
+            <li>KPI</li>
+            <li class="active">KPI Transaction Mapping</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+            </ol>
+        <h4>KPI Transaction Mapping</h4>
+    </div>
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href = "#tab-1" data-toggle="tab">KPI Transaction Mapping</a></li>
+        </ul>
+    </div>
+
+    <div class="content_body">
+        <form class="form-horizontal" id="frmKPITransactionMapping" style="border-bottom:none;margin-bottom:0px;padding-bottom:0px;" novalidate autocomplete="off">               
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="txtYear" class="col-sm-6 control-label">Year &amp; Month <span class="red">*</span></label>
+                            <div class="col-sm-3">
+                                <div>
+                                    <select id="selYear" name="selYear" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div>
+                                    <select id="selMonth" name="selMonth" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="selService" class="col-sm-6 control-label">Service</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="selService" name="selService" class="form-control" disabled required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="selService" class="col-sm-6 control-label">Indicator<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="selIndicator" name="selIndicator" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="selService" class="col-sm-6 control-label">Indicator<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="selIndicator" name="selIndicator" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>*@
+
+               
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg1">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            <button type="button" class="btn btn-primary customButton" id="btnAddFetch">Fetch</button>
+                        </div>
+                    </div>
+                </div>
+        </form>
+        <form id="frmGridDetails" class="form-horizontal" style="border-top:none; padding-top:0px;" autocomplete="off">
+                <div class="row">
+                    <hr style="margin: 2em 0;" />
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-fixedheader table-bordered" id="tblKPITransactionMapping">
+                                <thead class="tableHeading" id="theadeKPITransactionMapping">
+                                    <tr>
+                                        <th style="text-align: center; width:4%; height:60px;">Sl No</th>
+                                        <th style="text-align: center; width:10%; height:60px;">Date</th>
+                                        <th style="text-align: center; width:16%; height:60px;">Work Order No.</th>
+                                        <th style="text-align: center; width:8%; height:60px;">Asset No.</th>
+                                        <th style="text-align: center; width:8%; height:60px;">Asset Description</th>
+                                        <th style="text-align: center; width:11%; height:60px;">Screen Name</th>
+                                        <th style="text-align: center; width:8%; height:60px;">Generated Demerit Point</th>
+                                        <th style="text-align: center; width:8%; height:60px;">Final Demerit Point</th>
+                                        <th style="text-align: center; width:7%; height:60px;">Is Valid<span class="red">&nbsp;*</span></th>
+                                        <th style="text-align: center; width:8%; height:60px;">Disputed Pending Resolution</th>
+                                        <th style="text-align: center; width:12%; height:60px;">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyTransactionMapping">
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            <div id="divPagination" style="margin-top:15px;">
+
+            </div>
+            <div id="errorMsg2" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>           
+          
+                <div class="row mt30">                    
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnEdit" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>                               
+                            <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+         </form>
+    </div>
+    @Html.Partial("~/Areas/KPI/Views/KPITransactionMapping/List.cshtml")
+    
+
+</div>
+<div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/KPI/KPITransactionMapping/KPITransactionMapping.js")"></script>
+}

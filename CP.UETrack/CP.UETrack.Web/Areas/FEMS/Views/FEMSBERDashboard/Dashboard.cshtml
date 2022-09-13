@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "ASIS - Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    @*<input id="antiForgeryToken" data-ng-model="antiForgeryToken" type="hidden" data-ng-init="antiForgeryToken='@GetAntiForgeryToken()'" />*@
+
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BER</li>           
+            <li class="active">Beyond Economic Repair</li>
+        </ol>
+        @*<h4>@ViewBag.ActionType Parameter Mapping BEMS</h4>*@
+    </div>
+
+
+    <div class="content_body">
+        <form class="form-horizontal" id="BERDashboard" autocomplete="off">
+
+
+            <h4>Pending BER</h4>
+            <div class="row">
+                <div>
+                    <div class="col-sm-4">
+                        <div class="dashBox_green">
+                            <h2><span class="glyphicon glyphicon-paste"></span><span class="number pull-right" id="FistDivCount"><Font size="3"></Font></span></h2>
+                            <p class="text-right" id="FistDivStatus"></p>
+                            <input type="hidden" id="hdnFacilityManStsId">
+                            <p class="text-right bg-black"><a onclick="Redirect('FacilityManager')" > View more <span class="glyphicon glyphicon-arrow-right"></span></a></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="dashBox_orange">
+                            <h2><span class="glyphicon glyphicon-past"></span><span class="number pull-right" id="SecDivCount"><Font size="3"></Font></span></h2>
+                            <p class="text-right" id="SecDivStatus"></p>
+                            <input type="hidden" id="hdnHospDirStsId">
+                            <p class="text-right bg-black"><a onclick="Redirect('HospitalDirector')" id="FacManGrid"> View more <span class="glyphicon glyphicon-arrow-right"></span></a></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="dashBox_blue">
+                            <h2><span class="glyphicon glyphicon-past"></span><span class="number pull-right" id="ThirdDivCount"><Font size="3"></Font></span></h2>
+                            <p class="text-right" id="ThirdivStatus"></p>
+                            <input type="hidden" id="hdnLiaOffStsId">
+                            <p class="text-right bg-black"><a onclick="Redirect('LiaisonOfficer')" > View more <span class="glyphicon glyphicon-arrow-right"></span></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div><br />
+            <br />
+
+            @*<div class="row">
+                <div class="col-sm-12">
+                    <h4>SIJIL PEP for Renewal in the next 60 days</h4>
+                    <div class="table-responsive ">
+
+                        <table class="table table-fixedheader table-bordered" id="NCR">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="40%" class="text-center">BER Reference No</th>
+                                    <th width="40%" class="text-center">BER Status</th>
+                                    <th width="20%" class="text-center">Renewal Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="BerDashboardGrid">
+
+
+                                @*<tr ng-show="RenewalRecords.length == 0 || RenewalRecords == []">
+                                        <td width="100%">
+                                            <h4 class="text-center">
+                                                No records to display
+                                            </h4>
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            <div id="paginationfooter"></div>*@    
+
+        </form>
+    </div>
+    </div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BER/BERDashboard.js")"></script>
+}

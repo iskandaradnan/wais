@@ -1,0 +1,5 @@
+﻿@using Microsoft.AspNet.Identity
+@using CP.UETrack.Application.Web.Helper
+
+@Html.BuildMenu(ViewContext.RouteData.Values["controller"].ToString(), ViewContext.RouteData.Values["Service"])
+

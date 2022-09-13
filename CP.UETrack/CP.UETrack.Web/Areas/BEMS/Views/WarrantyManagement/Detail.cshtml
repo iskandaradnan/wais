@@ -1,0 +1,487 @@
+﻿
+@{
+    ViewBag.Title = "Warranty Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    @*<div class="col-sm-12">
+
+        <div class="content">*@
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+            <li>BEMS</li>
+            <li>Asset</li>
+            <li class="active">Warranty Management</li>
+            <!--<li class="active">General</li>-->
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        @*<h4>@ViewBag.ActionType Warranty Management</h4>*@
+
+            @if (ViewBag.ActionType == "ADD")
+            { <h4>Add Warranty Management  </h4> }
+            @if (ViewBag.ActionType == "EDIT")
+            {<h4>Edit Warranty Management  </h4> }
+            @if (ViewBag.ActionType == "VIEW")
+            {<h4>View Warranty Management  </h4> }
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#WarrantyManagement" id="" aria-controls="home" role="tab" data-toggle="tab">Warranty Management</a></li>
+            <li role="presentation"><a href="#WarrantyManagementDD" id="DefectDetailstab" aria-controls="profile" role="tab" data-toggle="tab">Defect Details</a></li>
+            <li role="presentation"><a href="#WarrantyManagementWO" id="Workordertab" aria-controls="profile" role="tab" data-toggle="tab">Warranty WO</a></li>
+            @*<li role="presentation"><a href="#WarrantyManagementAtt" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>*@
+        </ul>
+    </div>
+
+    <div>
+        @*<ul class="nav nav-tabs" role="tablist">
+
+            <li role="presentation" class="active"><a href="#WarrantyManagement" id="" aria-controls="home" role="tab" data-toggle="tab">Warranty Management</a></li>
+            <li role="presentation"><a href="#WarrantyManagementDD" id="DefectDetailstab" aria-controls="profile" role="tab" data-toggle="tab">Defect Details</a></li>
+            <li role="presentation"><a href="#WarrantyManagementWO" id="Workordertab" aria-controls="profile" role="tab" data-toggle="tab">Warranty WO</a></li>*@
+        @*<li role="presentation"><a href="#WarrantyManagementAtt" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>*@
+
+        @*</ul>*@
+        <!-- Tab panes -->
+
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="WarrantyManagement">
+                <div class="content_body">
+                    <form class="form-horizontal" id="WarrantyManagementForm">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Warranty Document No.</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantyManDocNo" class="form-control" disabled>
+                                    </div>
+                                    <input type="hidden" id="hdnWarrantyManagementId" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label" id="lblWarrantyDate">Warranty Document Date <span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantyManDocDate" autocomplete="off" maxlength="11" class="form-control datatimeNoFutureCurr" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">T&C Reference No.</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantyManTCNo" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Service</label>
+                                    <div class="col-sm-6">
+                                        <select id="WarrantymanService" class="form-control" disabled="disabled"></select>
+                                    </div>
+                                    <input type="hidden" id="WarrantymanServiceId" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label" id="lblAssetNo">Asset No. <span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanAssetNo" class="form-control" placeholder="Please Select" autocomplete="off" required onkeyup="FetchAssetData(event)" onpaste="FetchAssetData(event)" onchange="FetchAssetData(event)" oninput="FetchAssetData(event)">
+                                        <div class="col-sm-6" id="AssetDetailsFetch"></div>
+                                    </div>
+                                    <input type="hidden" id="hdnWarrantymanAssetId" />
+                                    <div class="col-sm-6"></div>
+                                   
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Asset Classification</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanAssetClassification" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Asset Type Code</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanAssetTypeCode" class="form-control" disabled="disabled">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Asset Description</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanAssetDesc" class="form-control" disabled="disabled">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Warranty Start Date</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanWarSrtDate" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Warranty End Date</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanWarEndDate" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Warranty Period (Month)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanWarPer" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Purchase Cost (<span class="spnCurrencyName"></span>)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanPurCost" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Monthly DW Fee (<span class="spnCurrencyName"></span>)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanDWFee" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Monthly PW Fee (<span class="spnCurrencyName"></span>)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanPWFee" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Total Warranty Down Time</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="WarrantymanDownTime" class="form-control" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Remarks</label>
+                                    <div class="col-sm-9">
+                                        <textarea name="comment" id="WarrantymanRem" class="form-control wt-resize Rem" maxlength="500" rows="2" form="usrform" style="min-width:100%"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @*<div class="form-group">
+                                <div class="col-sm-12 text-right mt20">
+                                    <button type="submit" class="btn btn-primary customButton">Save</button>
+                                    <button type="submit" class="btn btn-primary customButton">Add New</button>
+                                    <button type="button" class="btn btn-default customButton" onclick="goBack();">Back</button>
+                                </div>
+                            </div>*@
+
+
+                        <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12 text-right mt20">
+                                @if (ViewBag.ActionType == "ADD")
+                                {
+                                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5">Save</button>
+                                }
+                                @if (ViewBag.ActionType == "EDIT")
+                                {
+                                    <button type="button" id="btnEdit" class="btn btn-primary customButton" title="Save" tabindex="5">Save</button>
+                                }
+                                @if (ViewBag.ActionType == "ADD")
+                                {
+                                    <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary" tabindex="6">Add New</button>
+                                }
+                                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!--2nd Tab -->
+            <div role="tabpanel" class="tab-pane" id="WarrantyManagementDD">
+                <div class="content_body">
+                    <form class="form-horizontal" id="WarrantyManagementDDForm">
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Warranty Document No.</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="WMDDDocNo" class="form-control mmmDateCalendar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Date</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="WMDDDocDate" class="form-control mmmDateCalendar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="typeCodeDetailsdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align: center;" width="15%">Defect Date</th>
+                                                <th style="text-align: center;" width="25%">Defect Details</th>
+                                                <th style="text-align: center;" width="15%">Start Date</th>
+                                                <th style="text-align: center;" width="10%">Is Completed?</th>
+                                                <th style="text-align: center;" width="15%">Completion Date</th>
+                                                <th style="text-align: center;" width="20%">Action Taken</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="WMDefDetailstabgrid">
+
+                                            @*<tr class="ng-scope" style="">
+                                                            <td width="15%" style="text-align:left;" data-original-title="" title="">
+                                                                <div>
+                                                                    <input type="text" id="WMDDDefectDate_maxindexval" value="" class="form-control fetchField ">
+                                                                </div>
+                                                            </td>
+                                                            <td width="25%" style="text-align: left;" data-original-title="" title="">
+                                                                <div>
+                                                                    <input type="text" id="WMDDDefectDet_maxindexval" class="form-control fetchField ">
+                                                                </div>
+                                                            </td>
+
+                                                            <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                                                <div>
+                                                                    <input type="text" id="WMDDStartDate_maxindexval" class="form-control fetchField ">
+                                                                </div>
+                                                            </td>
+                                                            <td width="10%" style="text-align:center;" data-original-title="" title="">
+                                                                <div>
+                                                    <input type="checkbox" value="false" autocomplete="off" class="form-control ">
+                                                </div>
+                                                                <div class="checkbox text-center">
+                                                                    <label for="checkboxes-0">
+                                                                        <input type="checkbox" id="WMDDIsComp_maxindexval" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td width="15%" style="text-align:center;" data-original-title="" title="">
+                                                                <div>
+                                                                    <input type="text" id="WMDDCompDate_maxindexval" class="form-control fetchField ">
+                                                                </div>
+                                                            </td>
+                                                            <td width="20%" style="text-align:center;" data-original-title="" title="">
+                                                                <div>
+                                                                    <input type="text" id="WMDDActionTakn_maxindexval" class="form-control fetchField ">
+                                                                </div>
+                                                            </td>
+                                                        </tr>*@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="paginationfooter"></div>
+
+                        <div class="col-sm-12 errMsg ng-hide" style="color:red;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12 text-right mt20">
+                                <button type="button" id="defdettabBack" class="btn btn-default customButton ">Back</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="WarrantyManagementWO">
+                <div class="content_body">
+                    <form class="form-horizontal" id="WarrantyManagementWOForm">
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Warranty Document No.</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="WMWODocNo" class="form-control mmmDateCalendar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Date</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="WMWODocDate" class="form-control mmmDateCalendar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Asset No.</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="WMWOAssetNo" class="form-control mmmDateCalendar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Asset Description</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="WMWOAssetDesc" class="form-control mmmDateCalendar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="typeCodeDetailsdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align: center;" width="20%">Work Order No.</th>
+                                                <th style="text-align: center;" width="15%">Work Order Type</th>
+                                                <th style="text-align: center;" width="15%">Response Date & Time</th>
+                                                <th style="text-align: center;" width="15%">Target/Due Date (for PPM)</th>
+                                                <th style="text-align: center;" width="15%">Completion Date & Time</th>
+                                                <th style="text-align: center;" width="20%">Work Order Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="WMworkordertabgrid"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="paginationfooterWorkorder"></div>
+
+                        <div class="col-sm-12 errMsg ng-hide" style="color:red;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12 text-right mt20">
+                                <button type="button" id="workordertabBack" class="btn btn-default customButton ">Back</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+    @*</div>
+
+        </div>*@
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/WarrantyManagement.js")"></script>
+}
+@*<script>
+    $('#DefectDetailstab').click(function () {
+        if(this.href=="#")
+            alert("hi");
+    });
+    </script>*@

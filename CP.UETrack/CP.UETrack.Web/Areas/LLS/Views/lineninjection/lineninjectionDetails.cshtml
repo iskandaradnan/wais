@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "lineninjectionDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Transaction</li>
+            <li class="active">Linen Injection </a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Linen Injection </h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#divInj" aria-controls="home" role="tab" data-toggle="tab">Linen Injection </a></li>
+            </ul>
+        </div>*@
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divInj" aria-controls="home" role="tab" data-toggle="tab">Linen Injection </a></li>
+            <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divInj">
+                <form class="form-horizontal" id="FrmLinenInjection" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> DocumentNo. </label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtDocumentNo" name="DocumentNo" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Injection Date<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtInjectionDate" name="InjectionDate" class="form-control datetimepicker" tabindex="0" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">DO No <span class="red">*</span></label>
+                                @*<div class="col-sm-6">
+                        <input type="text" name="txtTypeCode" pattern="^[a-zA-Z0-9\-\/\s]+$" class="form-control" id="txtTypeCode" placeholder="Please Select" maxlength="100" autocomplete="off" required />
+                        <input type="hidden" id="hdnTypeCodeId" name="hdnTypeCodeId" required />
+                        <div class="col-sm-12" id="divTypeCodeFetch">
+                        </div>
+                    </div>*@
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" @*placeholder="Please Select"*@ id="txtDonoId" name="UserAreaCode" maxlength="25" tabindex="2" />
+                                    <input type="hidden" id="hdnDonoId" />
+                                    <div class="col-sm-12" id="divDonoFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">DO Date</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtDoDate" name="DODate" class="form-control datetime" tabindex="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">PO No </label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtPoNo" name="PONO" autocomplete="off" maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks </label>
+                                <div class="col-sm-9">
+                                    <textarea type="text" class="form-control" id="txtRemarks" name="Remarks" autocomplete="off" maxlength="100"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin: 2em 0;">
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="LinenADJProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading noScrollGrid">
+                                        <tr>
+                                            <th width="5%" class="text-center">
+                                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center;" width="20%" id="">Linen code<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="20%">Linen Description</th>
+                                            <th style="text-align: center;" width="14%">Linen Price</th>
+                                            <th style="text-align: center;" width="20%">Quantity Injected<span class="red">*</span></th>
+                                            @*<th style="text-align: center;" width="20%">Test Report</th>*@
+                                            <th style="text-align: center;" width="20%">Life Span Validity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ContactGrid">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                        <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-primary btnSave"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" class="btn btn-primary btnEdit" value="1"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" class="btn btn-primary btnDelete"><i class="fa fa fa-trash" aria-hidden="true"></i>Delete</button>
+
+                                <button type="button" name="btnCancel" class="btn btn-grey btnCancel"><i class="fa fa-repeat"></i> Reset</button>
+                            </div>
+                        </div>
+                </form>
+                <br />
+            </div>
+            @*Attachment Tab*@
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/LLS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/lineninjection/lineninjectionList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{   
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/Lineninjection.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}

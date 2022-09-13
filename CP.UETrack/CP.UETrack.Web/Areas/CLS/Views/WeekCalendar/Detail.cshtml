@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>CLS</li>
+            <li>Week Calendar</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4> </h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#formppmplanner" data-toggle="tab">Week Calendar</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formWeekCalendar" name="formWeekCalendar" class="form-horizontal">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<div class="row">
+								<label class="col-sm-6 control-label">Year<span style="color:red">*</span></label>
+								<div class="col-sm-6" id="Year">
+									<select type="text" required class="form-control" id="ddlYear" autocomplete="off" name="Year" maxlength="25">
+										<option value="0">Select</option>
+										<option value="2019">2019</option>
+										<option value="2020">2020</option>
+										<option value="2021">2021</option>
+										<option value="2022">2022</option>
+									</select>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+				<p align="right">
+					@*<button type="button" id="btnFetch" class="btn btn-primary customButton" title="Fetch">Fetch</button>*@
+					<input type="button" class="btn btn-primary" id="btnFetch" value="Fetch" />
+				</p>				
+				<br />
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="table-responsive">
+							<table id="Week" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+								<thead class="tableHeading">
+									<tr>
+										@*<th style="text-align: center;" width="0%" hidden="hidden"><span style="color:red"></span></th>*@
+										<th style="text-align: center;" width="25%">WeekNo.<span style="color:red">*</span></th>
+										<th style="text-align: center;" width="25%">Month<span style="color:red">*</span></th>
+										<th style="text-align: center;" width="25%">Start Date<span style="color:red">*</span></th>
+										<th style="text-align: center;" width="25%">End Date<span style="color:red">*</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr id="removerow"></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<input type="button" id="btnSave" class="btn btn-primary" title="Save" value="Save" />
+							@*<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />*@
+							<input type="button" id="btnCancel" class="btn btn-primary" title="Reset" value="Reset" />
+
+							@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+					<button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+					<button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+						</div>
+					</div>
+				</div>
+
+			</form>
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">          
+            </div>           
+            <div>
+                <label id="InsertStatus" style="font-size:14px;font-weight:bolder"></label>
+            </div>
+           
+        </div>
+    </div>
+    @Html.Partial("~/Areas/CLS/Views/WeekCalendar/List.cshtml")
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/WeekCalendar.js")"></script>
+}
+
+
+

@@ -1,0 +1,452 @@
+﻿////Receptacles Tab////
+
+    public class DeptAreaDetailsReceAPIController : BaseApiController
+    {
+        private readonly string fileName = nameof(DeptAreaDetailsReceAPIController);
+        
+        [HttpPost]
+        [Route(nameof(Save))]
+        public HttpResponseMessage Save(Receptacles receptacles)
+        {
+            try
+            {
+                
+                var ErrorMessage = string.Empty;
+                var dbAccessDAL = new DBAccessDAL1();
+                var parameters = new Dictionary<string, string>();
+                var DataSetparameters = new Dictionary<string, DataTable>();
+
+
+                parameters.Add("@pDeptAreaId", Convert.ToString(receptacles.DeptAreaId));
+                parameters.Add("@pBin660L", Convert.ToString(receptacles.Bin660L));
+                parameters.Add("@pBin240L", Convert.ToString(receptacles.Bin240L));
+                parameters.Add("@pWastePaperBasket", Convert.ToString(receptacles.WastePaperBasket));
+                parameters.Add("@pPedalBin", Convert.ToString(receptacles.PedalBin));
+                parameters.Add("@pBedsideBin", Convert.ToString(receptacles.BedsideBin));
+                parameters.Add("@pFilpFlop", Convert.ToString(receptacles.FilpFlop));
+                parameters.Add("@pFoodBin", Convert.ToString(receptacles.FoodBin));
+                //parameters.Add("@pIdno", Convert.ToString(deptAreaDetails.Idno));
+                DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDetailsReceptacles", parameters, DataSetparameters);
+
+                if (dt != null)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        receptacles.Bin660L = Convert.ToInt32(row["@pBin660L"]);
+                    }
+                }
+                var result = receptacles;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+            }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+    }
+
+
+
+	     ///DCS Tab////
+	public class DeptAreaDetailsDCSAPIController : BaseApiController
+    {
+        private readonly string fileName = nameof(DeptAreaDetailsDCSAPIController);
+        public DeptAreaDetailsDCSAPIController()
+        {
+        }
+        [HttpPost]
+        [Route(nameof(Save))]
+        public HttpResponseMessage Save(DailyCleaningSchedule dailyCleaning)
+        {
+            try
+            {
+                var ErrorMessage = string.Empty;
+                var dbAccessDAL = new DBAccessDAL1();
+                var parameters = new Dictionary<string, string>();
+                var DataSetparameters = new Dictionary<string, DataTable>();
+                parameters.Add("@pDeptAreaId", Convert.ToString(dailyCleaning.DeptAreaId));
+                parameters.Add("@pDustmop", Convert.ToString(dailyCleaning.Dustmop));
+                parameters.Add("@pDampmop", Convert.ToString(dailyCleaning.Dampmop));
+                parameters.Add("@pVacuum", Convert.ToString(dailyCleaning.Vacuum));
+                parameters.Add("@pWash", Convert.ToString(dailyCleaning.Washing));
+                parameters.Add("@pSweeping", Convert.ToString(dailyCleaning.Sweeping));
+                parameters.Add("@pWiping", Convert.ToString(dailyCleaning.Wiping));
+                parameters.Add("@pWashing", Convert.ToString(dailyCleaning.Washing1));
+                parameters.Add("@pPaperHandTowel", Convert.ToString(dailyCleaning.PaperHandTowel));
+                parameters.Add("@pToiletJumbo", Convert.ToString(dailyCleaning.ToiletJumbo));
+                parameters.Add("@pHandSoap", Convert.ToString(dailyCleaning.HandSoap));
+                parameters.Add("@pDeodorisers", Convert.ToString(dailyCleaning.Deodorisers));
+                parameters.Add("@pDomesticWasteCollection", Convert.ToString(dailyCleaning.DomesticWasteCollection));
+                DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDetailsDCS", parameters, DataSetparameters);
+                if (dt != null)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        dailyCleaning.Dustmop = Convert.ToInt32(row["@pDustmop"]);
+                    }
+                }
+
+                var result = dailyCleaning;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+            }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+    }
+
+	    /////PWS////////////////////////
+
+	 public class DeptAreaDetailsPWSAPIController : BaseApiController
+    {
+        private readonly string fileName = nameof(DeptAreaDetailsPWSAPIController);
+        
+        [HttpPost]
+        [Route(nameof(Save))]
+        public HttpResponseMessage Save(PeriodicWorkSchedule periodicWork)
+        {
+            try
+            {
+                var ErrorMessage = string.Empty;
+                var dbAccessDAL = new DBAccessDAL1();
+                var parameters = new Dictionary<string, string>();
+                var DataSetparameters = new Dictionary<string, DataTable>();
+                
+                parameters.Add("@pDeptAreaId", Convert.ToString(periodicWork.DeptAreaId));
+                parameters.Add("@pContainerReceptaclesWashing", Convert.ToString(periodicWork.ContainerReceptaclesWashing));
+                parameters.Add("@pCeilingHighDusting", Convert.ToString(periodicWork.CeilingHighDusting));
+                parameters.Add("@pLightsAirCondOutletFanWiping", Convert.ToString(periodicWork.LightsAirCondOutletFanWiping));
+                parameters.Add("@pFloorNonPolishableScrubbing", Convert.ToString(periodicWork.FloorNonPolishableScrubbing));
+                parameters.Add("@pFloorPolishablePolishing", Convert.ToString(periodicWork.FloorPolishablePolishing));
+                parameters.Add("@pFloorPolishableBuffing", Convert.ToString(periodicWork.FloorPolishableBuffing));
+                parameters.Add("@pFloorCarpetBonnetBuffing", Convert.ToString(periodicWork.FloorCarpetBonnetBuffing));
+                parameters.Add("@pFloorCarpetShampooing", Convert.ToString(periodicWork.FloorCarpetShampooing));
+                parameters.Add("@pFloorCarpetHeatSteamExtraction", Convert.ToString(periodicWork.FloorCarpetHeatSteamExtraction));
+                parameters.Add("@pWallWiping", Convert.ToString(periodicWork.WallWiping));
+                parameters.Add("@pWindowDoorWiping", Convert.ToString(periodicWork.WindowDoorWiping));
+                parameters.Add("@pPerimeterDrainWashScrub", Convert.ToString(periodicWork.PerimeterDrainWashScrub));
+                parameters.Add("@pToiletDescaling", Convert.ToString(periodicWork.ToiletDescaling));
+                parameters.Add("@pHighRiseNetttingHighDusting", Convert.ToString(periodicWork.HighRiseNetttingHighDusting));
+                parameters.Add("@pExternalFacadeCleaning", Convert.ToString(periodicWork.ExternalFacadeCleaning));
+                parameters.Add("@pExternalHighLevelGlassCleaning", Convert.ToString(periodicWork.ExternalHighLevelGlassCleaning));
+                parameters.Add("@pInternetGlass", Convert.ToString(periodicWork.InternetGlass));
+                parameters.Add("@pFlatRoofWashScrub", Convert.ToString(periodicWork.FlatRoofWashScrub));
+                parameters.Add("@pStainlessSteelPolishing", Convert.ToString(periodicWork.StainlessSteelPolishing));
+                parameters.Add("@pExposeCeilingTruss", Convert.ToString(periodicWork.ExposeCeilingTruss));
+                parameters.Add("@pLedgesDampWipe", Convert.ToString(periodicWork.LedgesDampWipe));
+                parameters.Add("@pSkylightHighDusting", Convert.ToString(periodicWork.SkylightHighDusting));
+                parameters.Add("@pSignagesWiping", Convert.ToString(periodicWork.SignagesWiping));
+                parameters.Add("@pDecksHighDusting", Convert.ToString(periodicWork.DecksHighDusting));
+                DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDetailsPWS", parameters, DataSetparameters);
+
+                if (dt != null)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        periodicWork.ContainerReceptaclesWashing = Convert.ToString(row["@pContainerReceptaclesWashing"]);
+                    }
+                }
+                var result = periodicWork;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+            }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+    }
+
+
+	     ///Toilets/////////
+
+	public class DeptAreaDetailsToiletsController : BaseApiController
+    {
+        // GET: DeptAreaDetailsToilet
+        private readonly string fileName = nameof(DeptAreaDetailsToiletsController);
+        
+        [HttpPost]
+        [Route(nameof(Save))]
+        public HttpResponseMessage Save(Toilets toilets)
+        {
+            try
+            {
+                var ErrorMessage = string.Empty;
+                foreach (var Toilets in toilets.ToiletsList)
+                {
+
+                    var dbAccessDAL = new DBAccessDAL1();
+                    var parameters = new Dictionary<string, string>();
+                    var DataSetparameters = new Dictionary<string, DataTable>();
+                    parameters.Add("@pDeptAreaId", Convert.ToString(Toilets.DeptAreaId));
+                    parameters.Add("@pLocationCode", Convert.ToString(Toilets.LocationCodeT));
+                    parameters.Add("@pFrequency", Convert.ToString(Toilets.Frequency));
+                    parameters.Add("@pType", Convert.ToString(Toilets.Type));
+                    parameters.Add("@pDetails", Convert.ToString(Toilets.Details));
+                    parameters.Add("@pMirror", Convert.ToBoolean(Toilets.Mirror).ToString());
+                    parameters.Add("@pFloor",Convert.ToBoolean(Toilets.Floor1).ToString());
+                    parameters.Add("@pWall", Convert.ToBoolean(Toilets.Wall).ToString());
+                    parameters.Add("@pUrinal", Convert.ToBoolean(Toilets.Urinal).ToString());
+                    parameters.Add("@pBowl", Convert.ToBoolean(Toilets.Bowl).ToString());
+                    parameters.Add("@pBasin", Convert.ToBoolean(Toilets.Basin).ToString());
+                    parameters.Add("@pToiletRoll", Convert.ToBoolean(Toilets.ToiletRoll).ToString());
+                    parameters.Add("@pSoapDispenser", Convert.ToBoolean(Toilets.SoapDispenser).ToString());
+                    parameters.Add("@pAutoAirFreshner", Convert.ToBoolean(Toilets.AutoAirFreshner).ToString());
+                    parameters.Add("@pWaste", Convert.ToBoolean(Toilets.Waste).ToString());
+                    DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDetailsToilets", parameters, DataSetparameters);
+                    if (dt != null)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                        Toilets.LocationCodeT = Convert.ToString(row["@LocationCode"]);
+                        }
+                    }
+                }
+                var result = toilets;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+        }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+    }
+
+
+	   //Dispenser///
+
+	public class DeptAreaDetailsDisAPIController : BaseApiController
+    {
+        private readonly string fileName = nameof(DeptAreaDetailsDisAPIController);
+        
+        [HttpPost]
+        [Route(nameof(Save))]
+        public HttpResponseMessage Save(Dispenser dispenser)
+        {
+            try
+            {
+                var ErrorMessage = string.Empty;
+                var dbAccessDAL = new DBAccessDAL1();
+                var parameters = new Dictionary<string, string>();
+                var DataSetparameters = new Dictionary<string, DataTable>();
+                parameters.Add("@pDeptAreaId", Convert.ToString(dispenser.DeptAreaId));
+                parameters.Add("@pHandPaperTowel", Convert.ToString(dispenser.HandPaperTowel));
+                parameters.Add("@pJumboRollToiletRoll", Convert.ToString(dispenser.JumboRollToiletRoll));
+                parameters.Add("@pHandSoapLiquidSoapDispenser", Convert.ToString(dispenser.HandSoapLiquidSoapDispenser));
+                parameters.Add("@pDeodorant", Convert.ToString(dispenser.Deodorant));
+                parameters.Add("@pFootPumpNonContactTypeDispenser", Convert.ToString(dispenser.FootPumpNonContactTypeDispenser));
+                parameters.Add("@pHandDryers", Convert.ToString(dispenser.HandDryers));
+                parameters.Add("@pAutoTimerDeodorizerAirFreshenerDispenser", Convert.ToString(dispenser.AutoTimerDeodorizerAirFreshenerDispenser));
+                DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDetailsDispenser", parameters, DataSetparameters);
+
+                if (dt != null)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        dispenser.HandPaperTowel = Convert.ToInt32(row["@pHandPaperTowel"]);
+                    }
+                }
+                var result = dispenser;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+
+                }
+        }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+    }
+
+	     ////Variation Details//////
+
+	public class DeptAreaDetailsVariationAPIController : BaseApiController
+    {
+        private readonly string fileName = nameof(DeptAreaDetailsDisAPIController);
+       
+        [HttpPost]
+        [Route(nameof(Save))]
+        public HttpResponseMessage Save(VariationDetails variation)
+        {
+          try
+            {
+                var ErrorMessage = string.Empty;
+                foreach (var Variation in variation.variationDetailsList)
+                {
+                    var dbAccessDAL = new DBAccessDAL1();
+                    var parameters = new Dictionary<string, string>();
+                    var DataSetparameters = new Dictionary<string, DataTable>();
+                    parameters.Add("@pDeptAreaId", Convert.ToString(Variation.DeptAreaId));
+                    parameters.Add("@pAreacode", Convert.ToString(Variation.AreaCode));
+                    parameters.Add("@pAreaname", Convert.ToString(Variation.AreaName));
+                    parameters.Add("@pSNFReference", Convert.ToString(Variation.SNFReference));
+                    parameters.Add("@pVariationStatus", Convert.ToString(Variation.VariationStatus));
+                    parameters.Add("@pSqft", Convert.ToString(Variation.Sqft));
+                    parameters.Add("@pPrice", Convert.ToString(Variation.Price));
+                    parameters.Add("@pCommissioningDate", Convert.ToString(Variation.CommissioningDate));
+                    parameters.Add("@pServiceStartDate", Convert.ToString(Variation.ServiceStartDate));
+                    parameters.Add("@pWarrantyEndDate", Convert.ToString(Variation.WarrantyEndDate));
+                    parameters.Add("@pVariationDate", Convert.ToString(Variation.VariationDate));
+                    parameters.Add("@pServiceStopDate", Convert.ToString(Variation.ServiceStopDate));
+                    
+                    DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDeatailsVariationDetails", parameters, DataSetparameters);
+
+                    if (dt != null)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            variation.AreaCode = Convert.ToString(row["pAreacode"]);
+                        }
+                    }
+                }
+                var result = variation;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+
+                }
+
+          }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+
+        public HttpResponseMessage DisplayAreaname(VariationDetails variation)
+        {
+            try
+            {
+                var ErrorMessage = string.Empty;
+                var dbAccessDAL = new DBAccessDAL1();
+                var parameters = new Dictionary<string, string>();
+                var DataSetparameters = new Dictionary<string, DataTable>();
+                List<VariationDetails> list = new List<VariationDetails>();
+                parameters.Add("@pAreaCode", Convert.ToString(variation.AreaCode));
+                DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDetailsVariationDisplayAreaName", parameters, DataSetparameters);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    VariationDetails details = new VariationDetails();
+                    details.AreaName = ((dr[0].ToString()));
+                    list.Add(details);
+                }
+                variation.variationDetailsList = list;
+                var result = variation;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+
+        public HttpResponseMessage DisplaySNFReference(VariationDetails variation)
+        {
+            try
+            {
+                var ErrorMessage = string.Empty;
+                var dbAccessDAL = new DBAccessDAL1();
+                var parameters = new Dictionary<string, string>();
+                var DataSetparameters = new Dictionary<string, DataTable>();
+                List<VariationDetails> list = new List<VariationDetails>();
+                parameters.Add("@pSNFReference", Convert.ToString(variation.SNFReference));
+                DataTable dt = dbAccessDAL.GetDataTable("sp_CLS_DeptAreaDetailsVariationDisplaySNFReference", parameters, DataSetparameters);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    VariationDetails details = new VariationDetails();
+                    //details.Sqft = Convert.ToInt32(((dr[0].ToString())));
+                    details.ServiceStartDate = Convert.ToDateTime(((dr[0].ToString())));
+                    details.WarrantyEndDate = Convert.ToDateTime(((dr[1].ToString())));
+                    details.VariationDate = Convert.ToDateTime(((dr[2].ToString())));
+                   // details.ServiceStopDate = Convert.ToDateTime(((dr[4].ToString())));
+                    list.Add(details);
+                }
+                variation.variationDetailsList = list;
+                var result = variation;
+                if (ErrorMessage != string.Empty)
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.BadRequest, ErrorMessage);
+                }
+                else
+                {
+                    responseObject = BuildResponseObject(HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                returnMessage = ex.Message;
+            }
+            if (responseObject == null)
+                responseObject = BuildResponseObject(false, returnMessage);
+            return responseObject;
+        }
+    }
+}

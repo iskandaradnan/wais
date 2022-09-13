@@ -1,0 +1,18 @@
+﻿
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@Html.Partial("~/Areas/BER/Views/BER1Application/Detail.cshtml")
+
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/BER/BER1Application.js"></script>
+    <script src="~/Scripts/ng/Controllers/BER/BERCommon.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    <script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+
+}

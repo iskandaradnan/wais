@@ -1,0 +1,78 @@
+﻿
+@*@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+
+
+<style>
+    .panel-heading {
+        background-color: #4B7DA8;
+    }
+
+        .panel-heading:hover {
+            background-color: #3B6284;
+        }
+</style>
+
+<script src="~/Scripts/JQGrid/SmartAssign/PorteringSmartAssignList.js"></script>
+
+@*<div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+            <li>User Management</li>
+            <li class="active"><a href="/um/userregistration">User Registration</a></li>
+        </ol>
+        <h4>User Registration</h4>
+    </div>*@
+@*<form class="form-horizontal1">*@
+<div class="content-area">
+
+    @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-1" data-toggle="tab">User Registration</a></li>
+            </ul>
+        </div>*@
+
+    <div class="row mb20">
+        <div id="gridTable">
+            <div class="col-sm-12">
+                @*<div class="table-header">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a id="advanceSearch" class="btn btn-primary" title="Toggle search" href="javascript:void(0)"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                <div class="panel-heading PanelHeadingSearch"  id="advanceSearch">
+                    <h4 class="panel-title text_align_left">
+                        <a id="jQGridCollapse1" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapse1" aria-expanded="false" aria-controls="collapseOne"
+                           class="collapsed display_block">Smart Assign Asset Tracker Search<i class="indicator glyphicon pull-right glyphicon-plus" id="iJQGridIndicator1"></i></a>
+                    </h4>
+                </div>
+
+            </div>
+            <div class="col-sm-12">
+
+                <div id="gridContainer"></div>
+            </div>
+            <div class="col-sm-12 jqContainer hide_container">
+                <table id="grid"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</form>*@
+@section scripts{
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/JQGrid/SmartAssign/PorteringSmartAssignList.js")"></script>
+}
+
+
+
+
+

@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewBag.Title = "MASTER-Block";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+
+        <input id="MasterantiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="MasterActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="MasterTimestamp" name="Timestamp" value="null" />
+        <input type="hidden" id="MasterhdnStatus" name="hdnStatus" />
+        <input type="hidden" id="MasterhdnAttachId" name="HdnAttachId" />
+      
+        <!-- Content Header Starts -->
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+                </li>
+                <li>General Master</li>
+                <li>Locations</li>
+                <li class="active">Block</li>
+                <a id="MasterHelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="Masterhelpdescriptionid"></span>
+                </a>
+            </ol>
+            <h4> Block</h4>
+            @*<h4><span id="MasterspnActionType">Add</span> Block</h4>*@
+        </div>
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#MasterdivBlock" aria-controls="home" role="tab" data-toggle="tab">Block</a></li>
+            <li role="presentation"><a href="#divCommonHistory" id="History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+
+        </ul>
+        <!-- Content Header Ends -->
+        <!-- Contents goes here -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="MasterdivBlock">
+                <form name="formMasterBlock" id="formMasterBlock" class="form-horizontal" novalidate>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="blockFacility" class="col-sm-6 control-label">Facility</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="MasterblockFacilityId" class="form-control" autofocus disabled>
+                                            <option value="null" selected>Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="blockCode" class="col-sm-6 control-label">Block Code <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\/]{3,25}$" maxlength="25" required id="MasterblockCode">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="blockBlkName" class="col-sm-6 control-label">Block Name <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" maxlength="25" pattern="^[a-zA-Z0-9\-\.\/\(\)\s]+$" required id="MasterblockName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="blockShortName" class="col-sm-6 control-label">Short Name <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" maxlength="25" pattern="^[a-zA-Z0-9\-\.\/\(\)\s]+$" required id="MasterblockShortName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="blockStatus" class="col-sm-6 control-label">Status </label>
+                                <div class="col-sm-6">
+                                    <select id="MasterSelStatus" class="form-control">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div style="Width: 500px;">
+                        <div class="row">
+                           
+                           
+                            <div class="dropdown">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"> <span class="glyphicon glyphicon-cog"> Services</span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" checked="" id="MasterBEMSId" name="MasterFEMS">BEMS
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" checked="" id="MasterFEMSId" name="MasterFEMS">FEMS
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" checked="" id="MasterCLSId" name="MasterCLS">CLS
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" checked="" id="MasterLLSId" name="MasterFEMS">LLS
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" checked="" id="MasterHWMSId" name="MasterFEMS">HWMS
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>              
+                            </div>
+                           
+                        </div>
+                    </div>*@
+                        <div id="MastererrorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="MasterbtnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="MasterbtnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="MasterbtnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" id="MasterbtnNextScreenSave" class="btn btn-primary customButton hider" title="Add Level"><i class="fa fa-plus" aria-hidden="true"></i>Add Level</button>
+                                <button type="button" id="MasterbtnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                <button type="button" id="MasterbtnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+                        </div>
+                        <br />
+</form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="divCommonHistory">
+                <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+                    @Html.Partial("~/Views/History/_History_PartialView.cshtml")
+
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+        @Html.Partial("~/Areas/MASTER/Views/MASTERBlock/MasterBlockList.cshtml")
+    </div>
+@section scripts{
+    @*<script src="~/Scripts/JQGrid/MASTER/MasterBlockList.js"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/MASTER/MasterBlock.js")"></script>
+}

@@ -1,0 +1,122 @@
+﻿
+<form id="formDeptAreaDetailsToilet" name="formDeptAreaDetailsToilet" class="form-horizontal" autocomplete="off">
+
+    <div class="row">
+        <div class="col-sm-12 form-group">
+            <p style="font-size: 1em"><b><small>Legend :</small></b></p>
+            <p style="font-size: 1em"><b><small>M:Mirror, F:Floor, W:Wall, U:Urinal, BW:Bowl, BS:Basin, TR:Toilet Roll, SP:Soap Dispenser, AA:Auto AirFreshener, W:Waste</small></b></p>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table id="AssetEquipmentAttachmentT" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                    <thead class="tableHeading">
+                        <tr>
+							<th width="3%" class="text-center">
+								<span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteToilets"></span> 
+							</th>
+                            <th style="text-align: center;" width="10%">Location Code<span style="color:red">*</span></th>
+                            <th style="text-align: center;" width="10%">Type</th>
+                            <th style="text-align: center;" width="10%">Frequency</th>
+                            <th style="text-align: center;" width="10%">Details</th>
+                            <th style="text-align: center;" width="5%">M</th>
+                            <th style="text-align: center;" width="5%">F</th>
+                            <th style="text-align: center;" width="5%">W</th>
+                            <th style="text-align: center;" width="5%">U</th>
+                            <th style="text-align: center;" width="5%">BW</th>
+                            <th style="text-align: center;" width="5%">BS</th>
+                            <th style="text-align: center;" width="5%">TR</th>
+                            <th style="text-align: center;" width="5%">SP</th>
+                            <th style="text-align: center;" width="5%">AA</th>
+                            <th style="text-align: center;" width="5%">W</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyToilet">
+                        <tr>
+							<td style="text-align:center">
+								<input type="checkbox" id="isDelete1" name="isDelete">
+								<input type="hidden" id="toiletId1" value="0"/>
+							</td>
+                            <td>
+                                <input type="text" class="form-control cssLocationCode" required placeholder="Please Select" id="txtLocationCode1" autocomplete="off" name="AreaCodeNo" maxlength="25" />
+                                <input type="hidden" id="hdnLocationCodeId1" />
+                                <div class="col-sm-12" id="divUserAreaFetchT1">
+                                </div>
+                            </td>
+                            <td>
+                                <select type="text" class="form-control" id="txtType1" autocomplete="off" name="Type" maxlength="25">
+								 </select>
+                            </td>
+                            <td>
+                                <select type="text" class="form-control" id="ddlFrequency1" autocomplete="off" name="Frequency" maxlength="25"></select>
+
+                            </td>
+                            <td>
+                                <select type="text" class="form-control" id="ddlDetails1" autocomplete="off" name="Details" maxlength="25">
+								</select>
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordM" id="CheckboxM1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordF" id="CheckboxF1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordW" id="CheckboxW1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordU" id="CheckboxU1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordBW" id="CheckboxBW1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordBS" id="CheckboxBS1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordTR" id="CheckboxTR1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordSP" id="CheckboxSP1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordAA" id="CheckboxAA1">
+                            </td>
+                            <td style="text-align:center">
+                                <input type="checkbox" name="recordWaste" id="CheckboxWaste1">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row mt20" id="AttachRowPlus">
+        <div class="col-sm-3 ">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <div>
+                        <a class="btn btn-primary" id="addToiletRow">+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="errorMsgToilet" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+        <!-- ngIf: RescheduleErrorList.length > 0 -->
+    </div>
+    <div class="row mt20">
+        <div class="form-group">
+            <div class="col-sm-12 text-center">
+                <input type="button" id="btnSaveToilet" class="btn btn-primary customButton" value="Save"/>
+                @*<input type="button" id="btnCancelToilet" class="btn btn-primary" value="Reset" />*@
+                @*<button type="button" id="btnSave1" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@             
+            </div>
+        </div>
+    </div>   
+</form>
+      
+
+		

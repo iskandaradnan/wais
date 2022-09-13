@@ -1,0 +1,71 @@
+﻿<div role="tabpanel" class="tab-pane" id="divHistory">
+    <div class="content_body">
+        <form class="form-horizontal" id="formHistory" novalidate autocomplete="off">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">CAR No.</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtCARNumberHistory" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Indicator</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="selQAPIndicatorIdHistory" disabled>
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">CAR Date</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtCARDateHistory" class="form-control datetimeNoFuture" disabled />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" id="divHistory">
+                <hr style="margin: 2em 0;" />
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="tableHistory" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center;" width="25%">CAR Status</th>
+                                    <th style="text-align: center;" width="25%">Root Cause</th>
+                                    <th style="text-align: center;" width="25%">Solution</th>
+                                    <th style="text-align: center;" width="25%">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt20">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        @*<button type="button" id="btnHistoryCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+                        <input type="button" id="btnHistoryCancel" class="btn btn-primary" value="Reset" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

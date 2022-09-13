@@ -1,0 +1,91 @@
+
+@{
+    ViewBag.Title="ForgotPasswordDetail";
+    Layout= "~/Views/Shared/_Layout_External.cshtml";
+        }
+
+<style>
+    .btnsave{
+        color: #fff;
+        background-color: #477ca9;
+        border-color: #477ca9;
+    }
+</style>
+
+<div>
+
+@functions{
+    public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+<input id="antiForgeryToken" type="hidden" />
+<input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.CurrentID" />
+<input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType" />
+<input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+
+<div class="content_header">        
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>           
+        <h4>Forgot Password</h4>
+    </div>
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href = "#tab-1" data-toggle="tab">Forgot Password</a></li>
+        </ul>
+    </div>
+
+    <div class="content_body">
+            <form class="form-horizontal" id="frmForgotPassword" novalidate autocomplete="off">
+                <div class="content_body">
+
+                        <div class="row" style="margin-top:2px">
+                            <div class="col-xs-6 col-sm-3">
+                                <label class="col-sm-12 control-label">Email ID<span class="red">*</span></label>
+                            </div>
+                            <div class="col-xs-6 col-sm-3">
+                                        <div>
+                                            <input id="txtEmailId" name="txtEmailId" pattern="^([^<>%$][_0-9a-zA-Z.].*?([0-9a-zA-Z].*\.\w{2,15}))$" maxlength="75" required
+                                                   class="form-control" type="text" autocomplete="off">
+                                        </div>
+                                  
+                            </div>
+                        </div>
+                   <br />
+                   
+                    <div class="row">
+                        <div class="col-sm-11">
+                            Enter your Email ID and click "Submit". An email with the subject "Forgot Password" will be sent to your registered Email Id.
+                            Visit the link sent in this mail where you can set your new password.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 text-right">
+                            <button type="button" class="btn btn-primary btnsave customButton" id="btnSave"><i class="fa fa-check-square-o" aria-hidden="true"></i>Submit</button>
+                            <button type="button" class="btn btn-grey customButton" id="btnCancel">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/UM/ForgotPassword/ForgotPassword.js")"></script>
+}

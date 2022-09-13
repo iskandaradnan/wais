@@ -1,0 +1,55 @@
+﻿<form id="DriverDeatils" name="DriverDeatils" class="form-horizontal" autocomplete="off">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Treatment Plant Code</label>
+                <div>
+                    <div class="col-sm-6">
+                        <input type="text" required class="form-control" id="txtTreatmentPlantCode2" disabled="disabled" autocomplete="off" name="AreaCodeNo" maxlength="25"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Treatment Plant Name</label>
+                <div>
+                    <div class="col-sm-6">
+                        <input type="text" required class="form-control" disabled="disabled" id="txtTreatmentPlantName2" autocomplete="off" name="AreaName" maxlength="25" tabindex="3" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <br />
+
+    <table class="table table-bordered" id="DriverDt" style="border: 1px solid rgb(222, 218, 218);">
+        <thead style="background-color:#336699; color:white">
+            <tr>
+
+                <th style="text-align: center;" width="10%">Driver Code</th>
+                <th style="text-align: center;" width="10%">Driver Name </th>
+                <th style="text-align: center;" width="10%">Class/Grade</th>
+                <th style="text-align: center;" width="10%">Issued By</th>
+                <th style="text-align: center;" width="10%">Issued Date</th>
+                <th style="text-align: center;" width="10%">Effective Date</th>
+                <th style="text-align: center;" width="10%">Status</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyDrivers">           
+        </tbody>
+    </table>
+    <div class="row mt30">
+        <div class="form-group">
+            <div class="col-sm-12 text-center">
+                @*<input type="button" id="btnCancel2" class="btn btn-primary" value="Reset">*@
+                @*<button type="button" id="btnCancel2" name="btnCancel2" class="btn btn-grey customButton" title="Reset" ><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/TreatmentPlant.js")"></script>
+}

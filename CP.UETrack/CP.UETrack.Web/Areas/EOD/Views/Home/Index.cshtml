@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "UETrack - Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .content-area {
+        float: left;
+        width: 100%;
+        padding: 10px;
+        background: #fff;
+        border: solid 1px #e2e3e4;
+        margin-bottom: 20px;
+        box-shadow: 0 2px rgba(0,0,0,0.04);
+    }
+</style>
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/DashBoard"><i class="fa fa-home"></i></a>
+            </li>
+            @*<li>EOD</li>*@
+            
+            <li class="active">@*<a href="/eod/eod">*@Engineering Operation Data</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Dashboard</h4>
+    </div>
+    <!-- Content Header Ends -->
+
+    <div class="content_body">
+
+        <div class="content-area">
+
+            <div class="content-area">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Year <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <select class="form-control" required id="YearId" name="year"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Month <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="MonthId"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @*<div class="col-sm-6">
+                            <h4>FEMS</h4>
+                            <div class="table-responsive ">
+                                <table id="FEMS" class="table table-bordered">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="45%" class="text-center">Category/System</th>
+                                            <th width="40%" class="text-center">Pass</th>
+                                            <th width="15%" class="text-center">Fail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-show="GridOne.length == 0">
+                                            <td colspan="4">
+                                                <h4 class="text-center">
+                                                    No records to display
+                                                </h4>
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat="Item in GridOne track by $index">
+                                            <td style="text-align:left;">
+                                                <label id="LblSNo" name="Item" ng-bind="Item.CategorySystemName" class=""></label>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <label id="LblItem" ng-bind="Item.Pass" name="Item" class=""></label>
+                                            </td>
+                                            <td style="text-align:center;">
+
+                                                <label id="LblCount" ng-bind="Item.Fail" name="Count" class="text-center"></label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>*@
+                    <div class="col-sm-6">
+                        <h4>BEMS</h4>
+                        <div class="table-responsive ">
+                            <table id="BEMS" class="table table-bordered">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="45%" class="text-center">Category/System</th>
+                                        <th width="40%" class="text-center">Pass</th>
+                                        <th width="15%" class="text-center">Fail</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="EODTbodyGridId"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h4>EOD Performance (%)  </h4>
+                        <div id="EOD_Dashboard_Chart" style="cursor:pointer !important"></div>
+                    </div>
+
+
+                </div>
+            </div>
+            @*<div class="content-area">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>EOD Performance (%)  </h4>
+                        <div id="EOD_Dashboard_Chart" style="cursor:pointer !important"></div>
+                    </div>
+
+                </div>
+            </div>*@
+        </div>
+
+    </div>
+    </div>
+
+        @section scripts{
+            <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/EOD/EODDashboard.js")"></script>
+            @*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/Dashboard/CommonChart.js")"></script>*@
+            @*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/Dashboard/DashboardChart.js")"></script>*@
+        }

@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "Area QR Code Printing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .fa-mail-reply:before, .fa-reply:before {
+        position: absolute;
+        left: 15px;
+        top: 7px;
+        color: #ffffff;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    .fa-search:before {
+        position: absolute;
+        left: 90px;
+        top: 7px;
+        color: #ffffff;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    .customButton.custombtn {
+        margin: 0;
+    }
+
+    .btn.custombtn {
+        padding: 3px 20px;
+    }
+</style>
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>FEMS</li>           
+            <li>QR Code</li>
+            <li class="active">Area QR Code Printing</li>           
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>@ViewBag.ActionType Area QR Code Printing</h4>
+    </div>
+    
+
+
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="content_body">
+        <form class="form-horizontal" id="DepartmentQRCodePrintingForm" autocomplete="off">
+
+            <div class="bottom-padding">
+                <div class="form-group">
+                    <div class="panel-heading PanelHeadingSearch" id="advanceSearch">
+                        <h4 class="panel-title text_align_left">
+                            <a id="jQGridCollapse1" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#searchdwn" aria-expanded="false" aria-controls="collapseOne"
+                               class="collapsed display_block">Area QR Code Printing List<i class="indicator glyphicon pull-right glyphicon-plus" id="iJQGridIndicator1"></i></a>
+                        </h4>
+                    </div>
+                </div>
+                <div id="searchdwn" class="panel-collapse collapse"> 
+                    <div class="row">
+                        <table width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="200px" style="padding-left:10px;">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <select class="custom_search" id="DeptQRCodeSearchCondition">
+                                                    <option value="AND" selected="selected">All</option>
+                                                    <option value="OR">Any</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td valign="top" style="padding-left:10px;">
+                                        <div class="col-sm-1">
+                                            <a onclick="AddNewDeptSearchRow()" class="btn btn-primary">+</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                        
+                    </div>
+                    <div class="row">
+                        <table>
+                            <tbody id="DeptSearchTbl"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <i class="fa fa-reply"></i><input type="button" id="btnDeptQRReset" class="btn btn-primary customButton custombtn" title="Reset" tabindex="5" value="Reset"> 
+                            <i class="fa fa-search"></i><input type="button" id="btnDeptQRSearch" class="btn btn-primary customButton custombtn" title="Find & Add" tabindex="5" value="Find & Add">                            
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="DepartmentQRCodePrintingdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="3%" class="text-center">
+                                            <div class="checkbox text-center">
+                                                <a><span style="text-align:center;color:#36d80d;" class="glyphicon glyphicon-ok" title="Select"></span></a><br>
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" value="false" id="chk_DepartmentQRCodePrintdet">
+                                                </label>
+                                            </div>
+                                        </th>
+                                        <th style="text-align: center;" width="27%">Department Name<span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="35%">Block Name</th>
+                                        <th style="text-align: center;" width="35%">Level Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="DepartmentQRCodePrintTbl" style="height:400px;">
+
+                                    @*Content of HTML Body Element*@
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>  
+                <div class="row mt20">
+                    <div class="col-sm-2" id="addrowplus">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <div>
+                                    <a onclick="AddNewRow()" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+
+                <div class="form-group">
+                    <div class="col-sm-12 text-right">                                               
+                        @*<input type="button" id="btnDepartmentQRPrint" class="btn btn-primary" title="Print" tabindex="5" disabled value="Print">*@                       
+                        <button type="button" id="btnDepartmentQRPrint" class="btn btn-primary customButton" disabled title="Print"><i class="fa fa-qrcode" aria-hidden="true"></i>Print</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.Mode == "View")
+{
+    <script type="text/javascript">
+
+       $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts
+    {
+    <script src="~/Scripts/ng/Controllers/BEMS/DepartmentQRCodePrinting.js"></script>
+}
+
+
+
+

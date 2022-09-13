@@ -1,0 +1,118 @@
+﻿
+<div role="tabpanel" class="tab-pane" id="accessories">
+    <div class="content_body">
+        <form class="form-horizontal" id="AssetAccessoriesTabForm" name="AssetAccessoriesTabForm" novalidate autocomplete="off">
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" class="AssetAuthorizeStatus"></div>
+                    <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" class="AssetAuthorizeStatus pull-right"></div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Description" class="col-sm-6 control-label">Asset Type Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetDescription" id="txtAsAssetDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="TypeCode" class="col-sm-6 control-label">Asset Type Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARTypeCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Service" class="col-sm-6 control-label">Service</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select disabled class="form-control selARServiceId">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="AccessoriesdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="3%" class="text-center">
+                                        <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                        <div class="checkbox text-center">
+                                            <label for="checkboxes-0">
+                                                <input type="checkbox" id="chk_AccTabGridIsDelete" autocomplete="off" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th style="text-align: center;" width="15%">Accessories Description</th>
+                                    <th style="text-align: center;" width="15%">Model</th>
+                                    <th style="text-align: center;" width="15%">Manufacturer</th>
+                                    <th style="text-align: center;" width="15%">Serial No.</th>
+                                    <th style="text-align: center;" width="10%">File Name</th>
+                                    <th style="text-align: center;" width="17%">Attachment</th>
+                                    <th style="text-align: center;" width="10%">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody id="AccessoriestbodyId"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="hdnAccessoriesPageCount" value=""/>
+            @*<div id="paginationfooter"></div>*@
+            <div class="row mt20">
+                <div class="col-sm-2 ">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <div>
+                                <a id="anchorAccessoriesPlus" class="btn btn-primary">+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsgAccTab" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12 text-center mt20">
+                    <button type="button" id="btnAccTabSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegisterAccessoriesTab.js"></script> 

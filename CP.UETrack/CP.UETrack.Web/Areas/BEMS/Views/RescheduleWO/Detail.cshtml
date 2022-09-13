@@ -1,0 +1,388 @@
+﻿
+@{
+    ViewBag.Title = "GM - Reschedule Work Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>BEMS</li>
+            <li>Work Order</li>
+            <li class="active"> Bulk Reschedule</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Bulk Reschedule</h4>
+    </div>
+    @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-1" data-toggle="tab">Reschedule</a></li>
+            </ul>
+        </div>*@
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="content_body">
+        <form name="formBemsRescheduleWO" id="formBemsRescheduleWO" class="form-horizontal" novalidate>
+
+            @*<div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Work Order No" class="col-sm-6 control-label">Work Order No.<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input required type="text" class="form-control" autofocus id="WorkOrderNo">
+                                    <input required type="hidden" id="hdnWorkOrderNo">
+                                    <div class="col-sm-12" id="divFetch">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Work Order Date" class="col-sm-6 control-label">Work Order Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" disabled id="WorkOrderDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Asset No" class="col-sm-6 control-label">Asset No</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" disabled id="AssetNo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group ">
+                            <label for="Asset Description" class="col-sm-6 control-label">Asset Description</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" disabled id="AssetDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group ">
+                            <label for="Type of Planner" class="col-sm-6 control-label">Type of Planner</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" disabled id="TypeofPlanner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group ">
+                            <label for="Details" class="col-sm-3 control-label">Details</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" disabled id="Details" maxlength="500" style="max-width:98%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Target Date" class="col-sm-6 control-label">Target Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" disabled id="TargetDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Next Schedule Date" class="col-sm-6 control-label">Next Schedule Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" disabled id="NextScheduleDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AreaName" class="col-sm-6 control-label">Department Name</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="RescheduleAreaName" autocomplete="off" placeholder="Please Select" onkeyup="FetchArea(event)" onpaste="FetchArea(event)" change="FetchArea(event)" oninput="FetchArea(event)" class="form-control name">
+                                <div class="col-sm-6" id="Areaetch"></div>
+
+                            </div>
+                            <input type="hidden" id="HdnRescheduleAreaId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    @*<div class="form-group">
+                            <label for="LocationName" class="col-sm-6 control-label">Location Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RescheduleLocationName" autocomplete="off" placeholder="Please Select" onkeyup="FetchLocation(event)" onpaste="FetchLocation(event)" change="FetchLocation(event)" oninput="FetchLocation(event)" class="form-control name">
+                                    <div class="col-sm-6" id="LocFetch"></div>
+                                </div>
+                                <input type="hidden" id="HdnRescheduleLocId">
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <label for="TypeofPlanner" class="col-sm-6 control-label">Type of Planner</label>
+                        <div class="col-sm-6">
+                            <select id="RescheduleTypeofPlanner" class="form-control">
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Assignee" class="col-sm-6 control-label">Assignee<span class="red"> </span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="RescheduleAssignee" autocomplete="off" placeholder="Please Select" onkeyup="FetchAssigne(event)" onpaste="FetchAssigne(event)" change="FetchAssigne(event)" oninput="FetchAssigne(event)" class="form-control name">
+                                <div class="col-sm-6" id="AssigneFetch"></div>
+
+                            </div>
+                            <input type="hidden" id="HdnRescheduleAssigneId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label id="NewAssignee" for="Assignee" class="col-sm-6 control-label">New Assignee</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="RescheduleNewAssignee" disabled autocomplete="off" placeholder="Please Select" onkeyup="FetchNewAssignee(event)" onpaste="FetchNewAssignee(event)" change="FetchNewAssignee(event)" oninput="FetchNewAssignee(event)" class="form-control name">
+                                <div class="col-sm-6" id="NewAssigneFetch"></div>
+                            </div>
+                            <input type="hidden" id="HdnRescheduleNewAssigneId">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label id="NewAssignee" for="Assignee" class="col-sm-6 control-label">New Assignee</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RescheduleNewAssignee" disabled autocomplete="off" placeholder="Please Select" onkeyup="FetchNewAssignee(event)" onpaste="FetchNewAssignee(event)" change="FetchNewAssignee(event)" oninput="FetchNewAssignee(event)" class="form-control name">
+                                    <div class="col-sm-6" id="NewAssigneFetch"></div>
+                                </div>
+                                <input type="hidden" id="HdnRescheduleNewAssigneId">
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Details" class="col-sm-6 control-label">Reason<span class="red">* </span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="RescheduleDetailsid" class="form-control" required>
+                                    <option value="0">Select</option>
+                                </select>
+                                <textarea class="form-control wt-resize" id="RescheduleDetails" style="min-width: 312%;visibility:hidden;height:70px" autocomplete="off" disabled maxlength="500"></textarea>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset No. <span style="color:red"></span></label>
+                        <div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" placeholder="Please Select" id="txtAssetNo" autocomplete="off" name="AssetNo" maxlength="25" tabindex="2" />
+                                <input type="hidden" id="hdnAssetId" />
+
+                                <div class="col-sm-12" id="divAssetNoFetch">
+                                </div>
+
+                            </div>
+                            <div class="col-sm-1">
+                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-assetNo">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label"></label>
+                        <div class="col-sm-2 mt20">
+                            <div>
+                                <input type="button" id="RescheduleFetchSave" class="btn btn-primary customButton pull-right" value="Fetch">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" id="fetchgrid" style="display:none;">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="rescheduletbl" class="table table-fixedheader table-bordered" style="visibility:hidden; border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="5%" class="text-center">
+                                        <a><span style="text-align:center; color:#36d80d; " class="glyphicon glyphicon-ok" title="Select"></span></a><br>
+                                        <input type="checkbox" name="" id="chk_Reschdule" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                    </th>
+                                    <th style="text-align: center;" width="20%">Asset No.</th>
+                                    <th style="text-align: center;" width="20%">Work Order No. </th>
+                                    <th style="text-align: center;" width="15%">Schedule Date </th>
+                                    <th style="text-align: center;" width="15%">Reschedule Date </th>
+                                    <th style="text-align: center;" width="25%">New Assignee</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rescheduleWOGrid">
+
+                                @*<tr class="ng-scope" style="">
+                                        <td width="5%" data-original-title="" title="">
+                                            <div class="checkbox text-center">
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox"  id="Isdeleted_maxindexval" autocomplete="off" class="ng-pristine ng-untouched ng-valid" onchange="IsDeleteCheckAll(rescheduleWOGrid, chk_Reschdule)">
+                                                </label>
+                                            </div>
+                                        </td>
+
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="ReschAssetNo_maxindexval" type="text" class="form-control" name="AssetNo" autocomplete="off">
+                                            </div>
+                                        </td>
+
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="ReschWorkOrdNo_maxindexval" type="text" class="form-control" name="WorkOrderNo" autocomplete="off">
+                                            </div>
+                                        </td>
+
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="ReschschedDate_maxindexval"  type="text" class="form-control fetchField mmmDateCalendar datetimepicker" name="scheduleDate" autocomplete="off">
+                                            </div>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="ReschRescheduleDate_maxindexval" type="text" class="form-control fetchField mmmDateCalendar datetimepicker" name="RescheduleDate" autocomplete="off">
+                                            </div>
+                                        </td>
+
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="ReschNewAssigne_maxindexval"  type="text" class="form-control"  autocomplete="off" disabled>
+                                            </div>
+                                        </td>
+                                    </tr>*@
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divPagination" style="margin-top:15px;">
+
+            </div>
+
+            @*<div class="row mt20">
+                    @if (ViewBag.ActionType == "ADD" || ViewBag.ActionType == "EDIT")
+                    {
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a onclick="AddNewRow()" id="RescAddNew" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>*@
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+            </div>
+            <br />
+
+            <div class="form-group">
+                @*<div class="col-sm-12 text-right">
+                        @if (ViewBag.ActionType == "ADD")
+                        {
+                            <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                        }
+                        @if (ViewBag.ActionType == "EDIT")
+                        {
+                            <button type="button" id="btnEdit" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                        }
+                        @if (ViewBag.ActionType == "ADD")
+                        {
+                            <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary" tabindex="6">Add New</button>
+                        }
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+                    </div>*@
+
+                <div class="col-sm-12 text-center">
+                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                    @*<button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>*@
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </div>
+
+            </div>
+        </form>
+        @Html.Partial("~/Areas/BEMS/Views/RescheduleWO/List.cshtml")
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/RescheduleWO.js")"></script>
+}

@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "UETrack - Tracking Technician";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+    .green {
+        background-color: #dff0d8;
+    }
+
+    .pink {
+        background-color: #f2dede;
+    }
+
+    .buttonDisabled {
+        background-color: #E0E0E0;
+    }
+</style>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkqCkh3sb4lVPt4U-DHmnHej5AWYKbtIo&libraries=places"></script>
+
+
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>Smart Assign</li>
+            <li class="active">Tracking Technician</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Tracking Technician</h4>
+      
+    </div>
+
+
+    <div class="content_body">
+        <form name="frmsmartassign" id="frmsmartassign" class="form-horizontal" novalidate autocomplete="off">
+            <div class="row">
+                <div class="col-sm-6">
+                        <input type="checkbox" onclick="myFunction()" id="DisplayFacility" name="DisplayFacility" title="DisplayFacility" autocomplete="off" tabindex="0"><span style="margin-left:10px">Display all facilities</span>
+                    </div>
+
+            </div>
+            <div class="row" style="margin-top:15px">
+
+                <div class="col-sm-2" style="display:none">
+
+                    <select class="form-control" id="ddlCustomerLayout"></select>
+
+
+                </div>
+                <div class="col-sm-2">
+
+                    <select class="form-control" id="ddlFacilityLayout"></select>
+
+                </div>
+                <div class="col-sm-2">
+                    <div>
+                        <input type="text" tabindex="3" id="txtstaffname" class="form-control" placeholder="Staff Name" onkeyup="FetchTTStaff(event)" onpaste="FetchTTStaff(event)" onchange="FetchTTStaff(event)" oninput="FetchTTStaff(event)" />
+                    </div>
+                    <input type="hidden" id="hdnTrackTechStfAssId" />
+                    <div class="col-sm-6" id="TrackTechStaffFetch"></div>
+                </div>
+                
+
+                @*<div class="col-sm-2">
+                    <input type="text" tabindex="4" id="txtusername" class="form-control" placeholder="Username" />
+                </div>*@
+                <div class="col-sm-1">
+                    <div class="input-group  pull-right">
+                            <input type="button" id="btnFetch" onclick="filterengineers()" value="Fetch" class="btn btn-primary" />
+                        </div>                   
+                </div>
+
+            </div>
+            <div class="row" style="margin-top:15px">
+                    <div id="map-canvas" style="height: 550px;"></div>
+                </div>                 
+        </form>
+    </div>
+</div>
+
+@section scripts{
+        <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/UM/TrackingTechnician.js")"></script>
+    }
+
+
+
+

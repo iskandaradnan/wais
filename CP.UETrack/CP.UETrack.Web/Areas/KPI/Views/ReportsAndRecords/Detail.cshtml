@@ -1,0 +1,152 @@
+
+@{
+    ViewBag.Title = "ReportsAndRecordsDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="hdnIsAutoCarEdit" />
+    <input type="hidden" id="hdnCARStatus" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>KPI</li>
+            <li>Reports And Records</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Reports And Records</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divStatus" class="pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+
+    <div class="content_body">
+        <form class="form-horizontal" id="frmReportsAndRecordsHeader" autocomplete="off">
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="txtYear" class="col-sm-6 control-label">Year &amp; Month <span class="red">*</span></label>
+                        <div class="col-sm-3">
+                            <div>
+                                <select id="selYear" name="selYear" class="form-control" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div>
+                                <select id="selMonth" name="selMonth" class="form-control" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg1">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 text-right">
+                        <button type="button" class="btn btn-primary customButton" id="btnAddEditFetch" style="margin-right:10px;">Fetch</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="frmReportsAndRecords">
+                <div class="row" id="divReportsAndRecordsTable">
+                    <hr style="margin: 2em 0;" />
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="tblReportsAndRecords" class="table table-fixedheader table-bordered">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="3%" class="text-center">
+                                            <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                            <br /><input type="checkbox" id="chkReportsAndRecordsDeleteAll" />
+                                        </th>
+                                        <th style="text-align: center;" width="7%">Sl.No.</th>
+                                        <th style="text-align: center;" width="36%">Report Name<span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="8%">Submitted<br /><input type="checkbox" id="chkSubmittedAll" /></th>
+                                        <th style="text-align: center;" width="8%">Verified<br /><input type="checkbox" id="chkVerifiedAll" /></th>
+                                        <th style="text-align: center;" width="38%">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt20" id="divReportAddNew">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <div>
+                                    <a id="anchorReportAddEditNew" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgReportsAndRecords">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>               
+
+                <div class="row mt30">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary customButton hider" id="btnAddReports" title="Save"><i class="fa fa-check-square-o" aria-hidden="true"></i>Submit</button>
+                            <button type="button" class="btn btn-primary customButton hider" id="btnVerifyReports" title="Save"><i class="fa fa-check-square-o" aria-hidden="true"></i>Verify</button>
+                            <button type="button" class="btn btn-grey customButton hider" id="btnReportsCancel" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        @Html.Partial("~/Areas/KPI/Views/ReportsAndRecords/List.cshtml")
+    </div>
+       
+    @*<div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>*@
+        
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/KPI/ReportsAndRecords/ReportsAndRecords.js")"></script>
+}

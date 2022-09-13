@@ -1,0 +1,61 @@
+﻿
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="AssetQRCodeReportForm" autocomplete="off">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <iframe id="ReportFrame" frameborder="0" src="~/Report/AssetQRCodeReport.aspx" style="width:100%;height:550px;"></iframe>
+                            @*<iframe id="ReportFrame" frameborder="0" src="~/Report/AssetQRCodeReport.aspx?FacilityId=@ViewBag.FacilityId" style="width: 100%;height: 620px;" onload="resizeIframe(this)"></iframe>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsgAsserReport" class="errormsgcenterAsserReport" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnAssetReportCancel" name="btnCancel" class="btn btn-grey" title="Cancel" value="Back">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@if (ViewBag.Mode == "View")
+{
+    <script type="text/javascript">
+
+       $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts
+    {
+
+    <script src="~/Scripts/ng/Controllers/BEMS/AssetQRCodePrint.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#myPleaseWait').modal('show');
+    });
+
+
+    </script>
+}

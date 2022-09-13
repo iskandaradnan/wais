@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "Verification Approved List-BEMS Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="Dashboard.html"><i class="fa fa-home"></i></a>
+            </li>
+            <li><a href="#">Reports</a></li>
+            <li class="active"><a href="#">Verification Approved List-BEMS Report</a></li>
+
+        </ol>
+        <h4>@ViewBag.ActionType Verification Approved List-BEMS Report</h4>
+    </div>
+    
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="AssetRegistrationHistoryForm" autocomplete="off">
+
+            <div class="row">
+                  <div class="col-sm-6 ">
+                      <div class="form-group">
+                          <label class="col-sm-6 control-label">Period</label>
+                          <div class="col-sm-6">
+                              <div>
+                                  <input type="text" class="form-control" maxlength="25" id="VAperiod">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Year</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="VAyear" required>
+                                    <option value="null">Select</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From Date</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control datetimepicker" id="VAfromdate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">To Date</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control datetimepicker" id="VAtodate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Status</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="VAstatus" required>
+                                    <option value="null">Select</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnVertificationApprovedRptFetch" name="btnFetch" class="btn btn-primary" onclick="getVertificationApprovedReport()" title="Fetch" value="Fetch">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <iframe id="ReportFrame" frameborder="0" src="" style="width:100%;height:550px;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnVertificationApprovedRptCancel" name="btnCancel" class="btn btn-grey" title="Cancel" value="Back">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts
+    {
+<script type="text/javascript" src="~/Scripts/ng/Controllers/Report/VerificationApprovedReport.js"></script>
+    
+}
+

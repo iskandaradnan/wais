@@ -1,0 +1,412 @@
+﻿@{
+    ViewBag.Title = "Spare Parts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    @*<input type="hidden" id="hdnARScreenName" value="AssetRegister" />*@
+    <input type="hidden" id="hdnAttachId" value="" />
+    <input type="hidden" id="PartCategory" name="PartCategory" value="1"/>
+    <input type="hidden" id="hdnScreenName" name="hdnScreenName" value="AssetStandardization" />
+    
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>FEMS</li>
+            <li class="active">Spare Part</li>
+
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+
+        <h4>Spare Part</h4>
+    </div>
+    @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-1" data-toggle="tab">Spare Parts</a></li>
+            </ul>
+        </div>*@
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#spareparts"  id="SparePartTab" aria-controls="home" role="tab" data-toggle="tab">Spare Parts</a></li>
+        <li role="presentation"><a href="#sparepartimagevideoupload" id="SparePartImageVideoTab" aria-controls="profile" role="tab" data-toggle="tab">Image / Video</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- 1st Tab -->
+
+        <div role="tabpanel" class="tab-pane active" id="spareparts">
+            <div class="content_body">
+                <form class="form-horizontal" id="SparepartsFormId" autocomplete="off">
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartItemCode" class="col-sm-6 control-label">Item Code<span class="red"> *</span></label>
+                                <div>
+                                    <div class="col-sm-4">
+                                        <input type="hidden" id="hdnItemId" name="ItemId" />
+                                        <input type="text" id="txtItemNo" pattern="^[a-zA-Z0-9-//s]{3,}$" class="form-control" name="ItemNo" maxlength="25" required />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a href="#tab1" data-toggle="modal" id="spnPopup-ItemCode" class="btn btn-sm  btn-primary hiddenTab" title="Search">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartItemDescription" class="col-sm-6 control-label">Item Description <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtItemDescription" name="ItemDescription" pattern="^[a-zA-Z0-9\-\(\)\,.'&quot\s]+$" required maxlength="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartPartNo" class="col-sm-6 control-label">Part No. <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="PartNo" pattern="^[a-zA-Z0-9\-\/]+$" maxlength="25" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartPartDescription" class="col-sm-6 control-label">Part Description <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" pattern="^[a-zA-Z0-9\-\(\)\,.'&quot\s]+$" maxlength="100" class="form-control" id="PartDescription" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartItemCode" class="col-sm-6 control-label">Asset Type Code (Device Code) <span class="red"> *</span></label>
+                                <div>
+                                    <div class="col-sm-4">
+                                        <input type="hidden" id="hdnAssetTypeCodeId" name="AssetTypeCodeId" />
+                                        <input type="text" autocomplete="off" class="form-control" id="txtAssetTypeCode" name="AssetTypeCode" placeholder="Please Select" maxlength="25" required />
+                                        <div class="col-sm-12" id="divFetch1">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-2 Popdiv">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-TypeCode">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartModel" class="col-sm-6 control-label">Model <span class="red"> *</span></label>
+                                <div>
+                                    <div class="col-sm-4">
+                                        <input type="hidden" id="hdnModelId" name="ModelId" />
+                                        <input type="text" autocomplete="off" class="form-control" id="txtModel" name="Model" placeholder="Please Select" maxlength="25" required />
+                                        <div class="col-sm-12" id="divFetch3">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-2 Popdiv">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Model">
+
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartItemCode" class="col-sm-6 control-label">Manufacturer </label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="hidden" id="hdnManufacturerId" name="ManufacturerId" />
+                                        <input type="text" disabled autocomplete="off"  class="form-control" id="txtManufacturer" name="Manufacturer"  maxlength="25" />
+                                  
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartUom" class="col-sm-6 control-label">Quantity<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="UnitOfMeasurement" class="form-control" required>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">                       
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartUom" class="col-sm-6 control-label">Part Source<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="PartSource" class="form-control" required>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="sparePartSpecify" class="col-sm-6 control-label">Specify</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="Specify" maxlength="25" pattern="^[a-zA-Z0-9\-\(\)\/\s]+$">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" hidden>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartISparePartType" class="col-sm-6 control-label">Spare Part Type <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="SparePartType" class="form-control">
+                                            <option value="null">Select</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartLocation" class="col-sm-6 control-label">Location <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Location" class="form-control">
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+           
+
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartMinUnit" id="MinUnitLabel" class="col-sm-6 control-label">Min Unit<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" pattern="^\d{0,6}(?:\.\d{0,2})?$" class="form-control digitalign" maxlength="11" id="MinUnit" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartMaxUnit" id="MaxUnitLabel" class="col-sm-6 control-label">Max Unit</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" pattern="^\d{0,6}(?:\.\d{0,2})?$" class="form-control digitalign" id="MaxUnit" maxlength="11">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartMinPrice" class="col-sm-6 control-label">Min Price Per Unit (<span class="spnCurrencyName"></span>)<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" pattern="^\d{0,6}(?:\.\d{0,2})?$" class="form-control commaSeperator digitalign" id="MinPrice" required maxlength="11">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartMaxPrice" class="col-sm-6 control-label">Max Price Per Unit (<span class="spnCurrencyName"></span>)<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" pattern="^\d{0,6}(?:\.\d{0,2})?$" class="form-control digitalign commaSeperator" id="MaxPrice" required maxlength="11">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="sparePartStatus" class="col-sm-6 control-label">Status </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Status" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="sparePartStatus" class="col-sm-6 control-label">Current Stock Level</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" maxlength="300" class="form-control" id="CurrentStockLevel" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+        
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Lifespan Options <span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="LifespanOptionsId" class="form-control" required>
+                                            <option value="null">Select</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    @*<div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="hidden" id="hdnimagevalue" value="" />
+                                <label for="sparePartImageUpload" class="col-sm-6 control-label">Image Upload</label>
+                                <div class="col-sm-5">
+                                    <div>
+                                        <input type="file" class="form-control" accept="image/*" name="Select" id="sparePartImageUpload" onchange="getImageVideoUpload(this, 1, 'i');">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div>
+                                        <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Image" tabindex="0" data-target="#myModalImage"> <span class="glyphicon glyphicon-modal-window"></span> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="hidden" id="hdnvideovalue" value="" />
+                                <label for="sparePartVideoUpload" class="col-sm-6 control-label">Video Upload</label>
+                                <div class="col-sm-5">
+                                    <div>
+                                        <input type="file" class="form-control" name="Select" accept="video/*" id="sparePartVideoUpload" max="5" onchange="getImageVideoUpload(this, 2, 'v');">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div>
+                                        <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Video" tabindex="0" data-target="#myModalVideo"> <span class="glyphicon glyphicon-modal-window"></span> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                    <br />
+                    <div class="row">
+
+                        <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        </div>
+                        <br />
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" id="btnCancelreset1" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                    <br />
+                </form>
+                @Html.Partial("~/Areas/BEMS/Views/SparepartRegister/List.cshtml")
+            </div>
+        </div>
+
+        <!-- 2st Tab -->
+
+        <div role="tabpanel" class="tab-pane" id="sparepartimagevideoupload">
+            @Html.Partial("~/Areas/BEMS/Views/SparepartRegister/SparePartRegisterImageVideoUpload.cshtml")
+        </div>        
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/SparePartRegister/SparepartRegister.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/SparePartRegister/SparepartRegisterFileUpload.js")"></script>
+
+}

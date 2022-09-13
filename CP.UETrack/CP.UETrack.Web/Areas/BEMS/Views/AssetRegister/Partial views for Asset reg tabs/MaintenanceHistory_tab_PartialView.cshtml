@@ -1,0 +1,143 @@
+﻿<div role="tabpanel" class="tab-pane" id="maintenanceHistory">
+    <div class="content_body">
+        <form class="form-horizontal" id="frmMaintenanceHistory">
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divAssetAuthorizeStatus" class="AssetAuthorizeStatus"></div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetNo" id="txtARAssetNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Description" class="col-sm-6 control-label">Asset Type Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetDescription" id="txtARmaintenanceAssetDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="TypeCode" class="col-sm-6 control-label">Asset Type Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARTypeCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="MaintenanceHistory" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+
+                                    <th style="text-align: center;" width="12%">Work Order No.</th>
+                                    <th style="text-align: center;" width="12%">Work Order Date</th>
+                                    <th style="text-align: center;" width="12%">Work Category</th>
+                                    <th style="text-align: center;" width="16%">Type</th>
+                                    <th style="text-align: center;" width="12%">Total Downtime</th>
+                                    <th style="text-align: center;" width="12%">Spare Parts Cost (<span class="spnCurrencyName"></span>)</th>
+                                    <th style="text-align: center;" width="12%">Labour Cost (<span class="spnCurrencyName"></span>)</th>
+                                    <th style="text-align: center;" width="12%">Total Cost (<span class="spnCurrencyName"></span>)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="maitenancetablebody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- start Modal -->
+            <div class="modal fade" id="divPartDetailsList" role="dialog">
+                <div class="modal-dialog" style="width:1000px">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" id="btnPartDetailsListCancel">&times;</button>
+                            <h5>Part Details</h5>
+                        </div>
+
+                        <!-- Modal body-->
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                </div>
+                                <div class="col-sm-12" id="divPartsDetailsPopupTable">
+
+                                    <div class="table-responsive">
+                                        <table id="tablePartsDetails" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading">
+                                                <tr>
+
+                                                    <th style="text-align: center;" width="9%">Part No.</th>
+                                                    <th style="text-align: center;" width="13%">Part Description</th>
+                                                    <th style="text-align: center;" width="9%">Item No.</th>
+                                                    <th style="text-align: center;" width="14%">Item Description</th>
+                                                    <th style="text-align: center;" width="11%">Min Cost (<span class="spnCurrencyName"></span>)</th>
+                                                    <th style="text-align: center;" width="11%">Max Cost (<span class="spnCurrencyName"></span>)</th>
+                                                    <th style="text-align: center;" width="11%">Quantity</th>
+                                                    <th style="text-align: center;" width="11%" id="thMHCostPerUnit">Cost Per Unit (<span class="spnCurrencyName"></span>)</th>
+                                                    <th style="text-align: center;" width="11%" id="thMHStockType">Stock Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbodyPartsDetails">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btnPartDetailsListCancel1">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--End Modal-->
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgMaintenanceHistoryTab">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12 text-center mt20">
+                    <button type="button" id="btnMHExport" class="btn btn-primary" title="Export">Export</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegisterMaintananceHistoryTab.js"></script>

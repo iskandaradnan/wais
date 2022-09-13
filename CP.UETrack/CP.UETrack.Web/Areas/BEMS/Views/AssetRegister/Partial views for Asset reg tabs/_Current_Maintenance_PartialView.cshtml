@@ -1,0 +1,111 @@
+﻿<div role="tabpanel" class="tab-pane" id="CurrentMaintenanceDetails">
+    <div class="content_body">
+        <form class="form-horizontal" id="frmCurrentMaintenance" novalidate>
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divAssetAuthorizeStatus" class="AssetAuthorizeStatus"></div>
+                </div>
+            </div>*@
+
+            <!-- PPM -->
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading6">
+                    <h4 class="panel-title text_align_left">
+                        <a id="aCollapsePPM" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePPM" aria-expanded="false" aria-controls="collapse6">
+                            PPM<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicatorPPM"></i>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapsePPM" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4" aria-expanded="false">
+                    <div class="panel-body">
+
+                        <!-- table -->
+                        <div class="row" id="divCurrentMaintenancePPMList">
+                            <hr style="margin: 2em 0;" />
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="tableCurrentMaintenancePPM" class="table table-fixedheader table-bordered">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align:center" width="25%">Work Order No.</thstyle="">
+                                                <th style="text-align:center"width="25%">Work Order Date</th>
+                                                <th style="text-align:center"width="25%">Work Category</th>
+                                                <th style="text-align:center"width="25%">Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- table -->
+
+                    </div>
+                </div>
+            </div>
+         
+            <!-- PPM -->
+
+            <!-- Unschedule -->
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading6">
+                    <h4 class="panel-title text_align_left">
+                        <a id="aCollapseUnschedule" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUnschedule" aria-expanded="false" aria-controls="collapse6">
+                            Unschedule<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicatorUnschedule"></i>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseUnschedule" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4" aria-expanded="false">
+                    <div class="panel-body">
+                        <!-- table -->
+                        <div class="row" id="divCurrentMaintenanceUnscheduleList">
+                            <hr style="margin: 2em 0;" />
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="tableCurrentMaintenanceUnschedule" class="table table-fixedheader table-bordered">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align:center" width="25%">Work Order No.</th>
+                                                <th style="text-align:center"width="25%">Work Order Date</th>
+                                                <th style="text-align:center"width="25%">Work Category</th>
+                                                <th style="text-align:center"width="25%">Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- table -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unschedule -->
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgCurrentMaintenanceTab">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+                </div>
+            <br />
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegister/CurrentMaintenance.js"></script>
+
+

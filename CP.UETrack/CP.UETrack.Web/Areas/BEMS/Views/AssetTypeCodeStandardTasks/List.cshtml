@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/JQGrid/BEMS/AssetTypeCodeStandardTasksList.js"></script>
+
+<div class="content-area">
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+            <li>BEMS</li>
+            <li>Master</li>
+            <li>Standard Task</li>
+            <li class="active">Standard Task Details</li>
+        </ol>
+    </div>
+    <div class="row mt20">
+        <div class="col-sm-12">
+            <div class="standard-tabs" id="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-1" data-toggle="tab">Standard Task Details</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row mb20">
+        <div id="gridTable">
+            <div class="col-sm-12">
+                <div class="table-header">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a id="advanceSearch" class="btn btn-primary" title="Toggle search" href="javascript:void(0)"><span class="glyphicon glyphicon-search"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="gridContainer"></div>
+                <table id="grid"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

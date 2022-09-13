@@ -1,0 +1,899 @@
+﻿
+@{
+    ViewBag.Title = "GM - Scheduled Work Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="col-sm-12">
+
+        <div class="content">
+            <!-- Content Header Starts -->
+            <div class="content_header">
+                <ol class="breadcrumb">
+                    <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                    <li>BEMS</li>
+                    <li>Transactions</li>
+                    <li>Maintenance Work Details</li>
+                    <li class="active">Scheduled Work Order</li>
+                    <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                        <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                        <span class="badge" id="helpdescriptionid"></span>
+                    </a>
+                </ol>
+                <h4>Scheduled Work Order Details</h4>
+            </div>
+            <!-- Content Header Ends -->
+            <!-- Contents goes here -->
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+
+                    <li role="presentation" class="active"><a href="#scheduledworkorder" aria-controls="home" role="tab" data-toggle="tab">Scheduled Work Order</a></li>
+                    <li role="presentation"><a href="#completioninfo" aria-controls="profile" role="tab" data-toggle="tab">Completion Info</a></li>
+                    <li role="presentation"><a href="#partreplacement" aria-controls="messages" role="tab" data-toggle="tab">Part Replacement</a></li>
+                    <li role="presentation"><a href="#scheduleworkordertransfer" aria-controls="settings" role="tab" data-toggle="tab">Schedule Work Order Transfer</a></li>
+                    <li role="presentation" onclick="loadWOReschedulingTab()"><a href="#workorderrescheduling" aria-controls="profile" role="tab" data-toggle="tab">Work Order Rescheduling</a></li>
+                    <li role="presentation"><a href="#scheduleworkorderattachment" aria-controls="messages" role="tab" data-toggle="tab">Attachment</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <!--1st Tab-->
+
+                    <div role="tabpanel" class="tab-pane active" id="scheduledworkorder">
+                        <div class="content_body">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset No. <span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" value="35502PJ375">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">or</label>
+                                            <label class="col-sm-5 control-label">Scan QR Code</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="image" src="images/QRCode.png" alt="Submit" width="80" height="80">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Engineer</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="Jhon" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Maintenance Type</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <select class="form-control" disabled="disabled">
+                                                        <option selected>Warrenty</option>
+                                                        <option>Contract</option>
+                                                        <option>None</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Scheduled Maintenance Work Order No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="SWO/BEMS/PJY076/1802/000200/R" class="form-control" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Maintenance Details <span class="red">*</span></label>
+                                            <div class="col-sm-9">
+                                                <div>
+                                                    <textarea class="form-control wt-resize" id="comment" style="height:70px"></textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Image Upload<span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="file" name="img" multiple>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right mt20">
+                                        <button type="submit" class="btn btn-primary customButton ">Save</button>
+                                        <button type="button" class="btn btn-primary customButton ">Add New</button>
+                                        <button type="button" class="btn btn-default customButton " onclick="goBack();">Back</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <!--2nd Tab-->
+
+                    <div role="tabpanel" class="tab-pane" id="completioninfo">
+                        <div class="content_body">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="StartDateTime" class="col-sm-6 control-label">Start Date/Time<span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="20-Mar-2018" class="form-control mmmDateCalendar" id="StartDateTime">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="EndDate" class="col-sm-6 control-label">End Date/Time<span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="30-Mar-2018" class="form-control mmmDateCalendar" id="EndDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="HandoverDate" class="col-sm-6 control-label">Handover Date/Time<span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="2-Apr-2018" class="form-control mmmDateCalendar" id="HandoverDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AcceptedBy" class="col-sm-6 control-label">Accepted By<span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="Aslam Shah" class="form-control" id="AcceptedBy">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="Signature" class="col-sm-6 control-label">Signature<span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="Signature">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right mt20">
+                                        <button type="submit" class="btn btn-primary customButton ">Save</button>
+                                        <button type="button" class="btn btn-default customButton " onclick="goBack();">Back</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--3rd Tab-->
+                    <div role="tabpanel" class="tab-pane" id="partreplacement">
+                        <div class="content_body">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="ScheduleWorkOrderNo" class="col-sm-6 control-label">Schedule Maintenance Work Order No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="SWO/BEMS/PJY076/1802/000200/R" class="form-control" id="ScheduleWorkOrderNo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="ScheduleWorkOrderDate" class="col-sm-6 control-label">Schedule Maintenance WorkOrder Date/Time</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="16-Mar-2018 16:07" class="form-control mmmDateCalendar" id="ScheduleWorkOrderDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="TotalSparePartCost" class="col-sm-6 control-label">Total Spare Part Cost(<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="4500" class="form-control" id="TotalSparePartCost">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div ng-view="" class="row">
+                                    <div class="col-sm-12">
+                                        <hr style="margin: 2em 0;">
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table id="PartReplacement" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        <th width="3%" class="text-center">
+                                                            <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                                                            <!--<div class="checkbox text-center">
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" name="PartReplacementCheckboxes" id="chk_PartReplacement" value="false" autocomplete="off" class="ng-pristine ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                </label>
+                                            </div>-->
+                                                        </th>
+
+                                                        <th style="text-align: center;" width="10%">Part No.<span class="red">*</span></th>
+                                                        <th style="text-align: center;" width="10%">Part Description</th>
+                                                        <th style="text-align: center;" width="10%">Item Code</th>
+                                                        <th style="text-align: center;" width="10%">Item Description</th>
+                                                        <th style="text-align: center;" width="10%">Stock Type</th>
+                                                        <th style="text-align: center;" width="10%">Quantity</th>
+                                                        <th style="text-align: center;" width="10%">Cost Per Unit(<span class="spnCurrencyName"></span>)</th>
+                                                        <th style="text-align: center;" width="10%">Invoice No.</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr class="ng-scope" style="">
+                                                        <td width="3%" id="PartReplacementDel" data-original-title="" title="">
+                                                            <div class="checkbox text-center">
+                                                                <label for="checkboxes-0">
+                                                                    <input type="checkbox" name="PartReplacementCheckboxes" id="chk_PartReplacement" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                                </label>
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="PartNo" type="text" class="form-control" name="PartNo" value="677" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="PartDescription" type="text" class="form-control" name="PartDescription" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="ItemCode" type="text" class="form-control" name="ItemCode" value="01-2300-0201-003" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="ItemDescription" type="text" class="form-control" name="ItemDescription" value="Battery C (Alkaline)" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <select id="StockType" class="form-control" disabled>
+                                                                    <option selected>-Select-</option>
+                                                                    <option>Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="Quantity" type="text" class="form-control" name="Quantity" value="2" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="CostPerUnit" type="text" class="form-control" name="CostPerUnit" value="200" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="InvoiceNo" type="text" class="form-control" name="InvoiceNo" autocomplete="off" no-special-char="" tabindex="0" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" readonly="readonly">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="ng-scope" style="">
+                                                        <td width="3%" id="PartReplacementDel" data-original-title="" title="">
+                                                            <div class="checkbox text-center">
+                                                                <label for="checkboxes-0">
+                                                                    <input type="checkbox" name="PartReplacementCheckboxes" id="chk_PartReplacement" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                                </label>
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="PartNo" type="text" class="form-control" name="PartNo" value="677" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="PartDescription" type="text" class="form-control" name="PartDescription" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="ItemCode" type="text" class="form-control" name="ItemCode" value="01-2300-0201-003" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="ItemDescription" type="text" class="form-control" name="ItemDescription" value="Battery C (Alkaline)" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <select id="StockType" class="form-control" disabled>
+                                                                    <option selected>-Select-</option>
+                                                                    <option>Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="Quantity" type="text" class="form-control" name="Quantity" value="2" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="CostPerUnit" type="text" class="form-control" name="CostPerUnit" value="200" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="InvoiceNo" type="text" class="form-control" name="InvoiceNo" autocomplete="off" no-special-char="" tabindex="0" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" readonly="readonly">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="ng-scope" style="">
+                                                        <td width="3%" id="PartReplacementDel" data-original-title="" title="">
+                                                            <div class="checkbox text-center">
+                                                                <label for="checkboxes-0">
+                                                                    <input type="checkbox" name="PartReplacementCheckboxes" id="chk_PartReplacement" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                                </label>
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="PartNo" type="text" class="form-control" name="PartNo" value="677">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="PartDescription" type="text" class="form-control" name="PartDescription">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="ItemCode" type="text" class="form-control" name="ItemCode" value="01-2300-0201-003" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="ItemDescription" type="text" class="form-control" name="ItemDescription" value="Battery C (Alkaline)" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <select id="StockType" class="form-control" disabled>
+                                                                    <option selected>-Select-</option>
+                                                                    <option>Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="Quantity" type="text" class="form-control" name="Quantity" value="2" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="CostPerUnit" type="text" class="form-control" name="CostPerUnit" value="200" readonly="readonly">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="InvoiceNo" type="text" class="form-control" name="InvoiceNo" autocomplete="off" no-special-char="" tabindex="0" aria-disabled="false" required="required" aria-required="true" aria-invalid="true">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt20">
+                                    <div class="col-sm-3 ">
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <div>
+                                                    <a href="#" class="btn btn-primary">+</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right">
+                                        <button type="submit" class="btn btn-primary customButton ">Save</button>
+                                        <button type="button" class="btn btn-default customButton " onclick="goBack();">Back</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--4th Tab-->
+
+                    <div role="tabpanel" class="tab-pane" id="scheduleworkordertransfer">
+                        <div class="content_body">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="AssetNo" value="35502PJ375">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AssetDescription" class="col-sm-6 control-label">Asset Description</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="AssetDescription" value="Defibrillator/Pacemakers, External">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="TypeCode" class="col-sm-6 control-label">Type Code</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="TypeCode" value="10-551">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="Service" class="col-sm-6 control-label">Service</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="BEMS" class="form-control" id="Service">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AssignedPerson" class="col-sm-6 control-label">Assigned Person</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="AssignedPerson" value="Aslam basha">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div ng-view="" class="row">
+                                    <div class="col-sm-12">
+                                        <hr style="margin: 2em 0;">
+                                    </div>
+                                    <!--<div class="form-group">
+                        <div class="col-sm-12">
+                            <a href="#" class="btn btn-primary"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>-->
+                                    <h4>Asset Maintenance History</h4>
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table id="ScheduleWorkOrderTransfer" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                <thead class="tableHeading">
+                                                    <tr>
+
+                                                        <th style="text-align: center;" width="10%">Schedule Maintenance Work Order No.</th>
+                                                        <th style="text-align: center;" width="10%">Work Order Date</th>
+                                                        <th style="text-align: center;" width="10%">Work Order Category</th>
+                                                        <th style="text-align: center;" width="10%">Assigned Person</th>
+                                                        <th style="text-align: center;" width="10%">Assigned Date</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr class="ng-scope" style="">
+
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">SWO/BEMS/PJY076/1802/000200/R</td>
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="" class="mmmDateCalendar">04-Feb-2018</td>
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">Scheduled</td>
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="">Zaheer</td>
+                                                        <td width="10%" style="text-align: center;" data-original-title="" title="" class="mmmDateCalendar">04-Mar-2018</td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab_footer">
+                                    <!-- pagnation area-->
+                                    <div class="pagination_area">
+                                        <span><a href="#" disabled><i class="fa fa-step-backward"></i></a></span>
+                                        <span><a href="#" disabled><i class="fa fa-caret-left"></i></a></span>
+                                        <ul class="pagination">
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            <li><a href="#">6</a></li>
+                                            <li><a href="#">7</a></li>
+                                            <li><a href="#">8</a></li>
+                                            <li><a href="#">9</a></li>
+                                            <li><a href="#">10</a></li>
+                                        </ul>
+                                        <span><a href="#"><i class="fa fa-caret-right"></i></a></span>
+                                        <span><a href="#"><i class="fa fa-step-forward"></i></a></span>
+                                    </div>
+                                    <!-- page detail area-->
+                                    <div class="page_detail">
+                                        <span>
+                                            Show
+                                            <select>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                            </select>
+                                            item per page
+                                        </span>
+                                    </div>
+                                    <div class="show_detail">
+                                        <p>Showing <span>1</span> of item <span>30</span> items</p>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right mt20">
+                                        <button type="submit" class="btn btn-primary customButton ">save</button>
+                                        <button type="button" class="btn btn-default customButton " onclick="goBack();">Back</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--5th Tab-->
+                    <div role="tabpanel" class="tab-pane" id="workorderrescheduling">
+                        <div class="content_body">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="WorkOrderNo" class="col-sm-6 control-label">Work Order No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input disabled type="text" class="form-control" id="WorkOrderNo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="WorkOrderDate" class="col-sm-6 control-label">Work Order Date/Time</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input disabled type="text" class="form-control mmmDateCalendar" id="WorkOrderDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input disabled type="text" class="form-control" id="RescheduleAssetNo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="TargetDate" class="col-sm-6 control-label">Agreed Date</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input disabled type="text" class="form-control mmmDateCalendar" id="TargetDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-view="" class="row">
+                                    <div class="col-sm-12">
+                                        <hr style="margin: 2em 0;">
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table id="WorkOrderRescheduling" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        <th style="text-align: center;" width="33%">Reschedule Date</th>
+                                                        <th style="text-align: center;" width="33%">Reschedule Approved By</th>
+                                                        <th style="text-align: center;" width="33%">Reason</th>
+                                                    </tr>
+                                                </thead>
+                                                @*<tbody id="rescheduleWOGrid"></tbody>*@
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            <button type="submit" class="btn btn-primary customButton ">Save</button>
+                            <button type="button" class="btn btn-primary customButton ">Add New</button>
+                            <button type="button" class="btn btn-default customButton " onclick="goBack();">Back</button>
+                        </div>
+                    </div>*@
+                            </form>
+                        </div>
+                    </div>
+                    <!--6th Tab-->
+                    <div role="tabpanel" class="tab-pane" id="scheduleworkorderattachment">
+                        <div class="content_body">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="ScheduleWorkOrderNo" class="col-sm-6 control-label">Schedule Maintenance Work Order No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="SWO/BEMS/PJY076/1802/000200/R" class="form-control" id="ScheduleWorkOrderNo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="ScheduleWorkOrderDate" class="col-sm-6 control-label">Schedule Maintenance Work Order Date/Time</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" value="30-Mar-2018" class="form-control mmmDateCalendar" id="ScheduleWorkOrderDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-view="" class="row">
+                                    <div class="col-sm-12">
+                                        <hr style="margin: 2em 0;">
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table id="ScheduleWorkOrderAttachment" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        <th width="3%" class="text-center">
+                                                            <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                                                            <!--<div class="checkbox text-center">
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" name="ScheduleWorkOrderAttachment" id="chk_ScheduleWorkOrderAttachment" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                </label>
+                                            </div>-->
+                                                        </th>
+
+                                                        <th style="text-align: center;" width="10%">File Type<span class="red">*</span></th>
+                                                        <th style="text-align: center;" width="10%">File Name<span class="red">*</span></th>
+                                                        <th style="text-align: center;" width="10%">Attachment<span class="red">*</span></th>
+                                                        <th style="text-align: center;" width="10%">Download</th>
+
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr class="ng-scope" style="">
+                                                        <td width="5%" id="ScheduleWorkOrderAttachmentDel" data-original-title="" title="">
+                                                            <div class="checkbox text-center">
+                                                                <label for="checkboxes-0">
+                                                                    <input type="checkbox" name="ScheduleWorkOrderAttachmentCheckboxes" id="chk_ScheduleWorkOrderAttachment" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                                </label>
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="25%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <select id="FileType" class="form-control">
+                                                                    <option selected>Please Select</option>
+                                                                    <option>PDF</option>
+                                                                    <option>Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td width="25%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="FileName" value="Workorder" type="text" class="form-control " name="FileName">
+                                                            </div>
+                                                        </td>
+
+                                                        <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+                                                                <input id="ScheduleWorkOrderAttachmentAttachment" type="file" class="form-control" name="ScheduleWorkOrderAttachmentAttachment">
+                                                            </div>
+                                                        </td>
+                                                        <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                            <div>
+
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt20">
+                                    <div class="col-sm-3 ">
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <div>
+                                                    <a href="#" class="btn btn-primary">+</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right">
+                                        <button type="submit" class="btn btn-primary customButton ">Save</button>
+                                        <button type="button" class="btn btn-default customButton " onclick="goBack();">Back</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/Scheduled Work Order/ReschedulingWOTab.js")"></script>
+    <script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    @*<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>*@
+<script src="~/js/PdfGeneration/html2pdf.bundle.js"></script>
+}

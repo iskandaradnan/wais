@@ -1,0 +1,230 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+	@functions{
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		}
+	}
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>HWMS</li>
+			<li>Master</li>
+			<li>Driver Details</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<h4></h4>
+	</div>
+	<div class="standard-tabs" id="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formppmplanner" data-toggle="tab">Driver Details</a></li>
+			<li role="presentation">
+				<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formDriverDetails" name="formDriverDetails" class="form-horizontal">
+
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Driver Code<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="DriverCode">
+									<input type="text" required class="form-control" id="txtDriverCode" autocomplete="off" name="DriverCode" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Driver Name<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="DriverName">
+									<input type="text" required class="form-control" id="txtDriverName" autocomplete="off" name="DriverName" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Treatment Plant<span style="color:red">*</span></label>
+								<div>
+									<div class="col-sm-6">
+										<div id="TreatmentPlant1">
+											<select required class="form-control" id="ddlTreatmentPlant"></select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Status<span style="color:red">*</span></label>
+								<div>
+									<div class="col-sm-6" id="status">
+										<select required class="form-control" id="ddlStatus"></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Effective From<span style="color:red">*</span></label>
+								<div>
+									<div class="col-sm-6" id="effect">
+										<input type="text" required class="form-control datetime" id="txtEffectiveFrom" autocomplete="off" name="EffectiveFrom" maxlength="25" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Effective To</label>
+								<div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" id="txtEffectiveTo" autocomplete="off" name="EffectiveToDate" maxlength="25" tabindex="3" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Contact No.</label>
+								<div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" id="txtContactNo" autocomplete="off" name="AreaCodeNo" maxlength="25" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Route</label>
+								<div>
+									<div class="col-sm-6">
+										<select class="form-control" id="ddlRoute"></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="table-responsive">
+								<table id="table" class="table table-bordered " style="border: 1px solid rgb(222, 218, 218);">
+									<thead class="tableHeading">
+										<tr>
+											<th width="1%" class="text-center">
+												<span style="text-align: center; " class="delete-row glyphicon glyphicon-remove" id="deleteLicenseCode"></span>
+											</th>
+											<th style="text-align: center;" width="10%">License Code<span style="color:red">*</span></th>
+											<th style="text-align: center;" width="10%">Description</th>
+											<th style="text-align: center;" width="10%">Issued By</th>
+											<th style="text-align: center;" width="10%">License No.<span style="color:red">*</span></th>
+											<th style="text-align: center;" width="10%">Class / Grade<span style="color:red">*</span></th>
+											<th style="text-align: center;" width="10%">Issued Date<span style="color:red">*</span></th>
+											<th style="text-align: center;" width="10%">Expiry Date<span style="color:red">*</span></th>
+										</tr>
+									</thead>
+
+									<tbody id="tbodyLicenseCode">
+										<tr>
+											<td style="text-align:center">
+												<input type="checkbox" id="isDelete1" name="isDelete" />
+												<input type="hidden" id="hdnLicenseCodeId1" value="0" />
+											</td>
+											<td id="LicenseCode">
+												<input type="text" required class="form-control clsLicenseCode" placeholder="Please Select" id="txtLicenseCode1" autocomplete="off" name="LicenseCode" maxlength="25" />
+
+												<input type="hidden" id="hdnLicenseId1" />
+												<div class="col-sm-12" id="divLicenseCode1">
+												</div>
+											</td>
+											<td id="Description">
+												<input type="text" class="form-control" disabled id="txtLicenseDescription1" autocomplete="off" name="Description" maxlength="25" />
+											</td>
+											<td id="IssuedBy">
+												<select type="text" disabled class="form-control" id="ddlIssuedBy1" autocomplete="off" name="ddlIssuedBy" maxlength="25">  </select>
+
+											</td>
+											<td id="LicenseNo">
+												<input type="text" required class="form-control" id="txtLicenseNo1" autocomplete="off" name="LicenseNo" maxlength="25" />
+											</td>
+
+											<td id="ClassGrade">
+												<select type="text" required class="form-control" id="ddlClassGrade1" autocomplete="off" name="classgrade" maxlength="25"></select>
+											</td>
+
+											<td id="IssuedDate">
+												<input type="text" required class="form-control datetime" id="txtIssuedDate1" autocomplete="off" name="IssuedDate" maxlength="25" />
+											</td>
+											<td id="ExpiryDate">
+												<input type="text" required class="form-control datetime" id="txtExpiryDate1" autocomplete="off" name="ExpiryDate" maxlength="25" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="row mt20" id="AttachRowPlus">
+						<div class="col-sm-3 ">
+							<div class="form-group">
+								<div class="col-sm-3">
+									<div>
+										<a class="btn btn-primary" id="addRowLicenseCode">+</a>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+					</div>
+				</div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+							<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />
+							<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		@Html.Partial("~/Areas/HWMS/Views/Shared/Attachments.cshtml")
+	</div>
+
+	@Html.Partial("~/Areas/HWMS/Views/DriverDetails/List.cshtml")
+</div>
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/DriverDetails.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}

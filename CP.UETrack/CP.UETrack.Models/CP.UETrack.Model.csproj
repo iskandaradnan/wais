@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7FC8BBF2-A919-4A07-BA95-1D8FA14BE1D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CP.UETrack.Model</RootNamespace>
+    <AssemblyName>CP.UETrack.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CP.Framework.Common.Audit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\CP.Binaries\CP.Framework.Common.Audit.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Data">
+      <HintPath>..\..\CP.Binaries\Release\CP.Framework.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPdf, Version=2022.8.0.8818, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IronPdf.Slim.2022.8.8818\lib\net40\IronPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.0.0-beta1\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutModel.cs" />
+    <Compile Include="AccountEntity.cs" />
+    <Compile Include="ActionPermissionListLookup.cs" />
+    <Compile Include="AuditViewModel.cs" />
+    <Compile Include="BEMS\AdditionalFields\AdditionalFieldsLovs.cs" />
+    <Compile Include="BEMS\Arp.cs" />
+    <Compile Include="BEMS\AssetQRCodePrintFetchModel.cs" />
+    <Compile Include="BEMS\AssetQRCodePrintModel.cs" />
+    <Compile Include="BEMS\CRMWorkorderAssign.cs" />
+    <Compile Include="BEMS\Customer\ReportsAndRecordsList.cs" />
+    <Compile Include="BEMS\EngPpmScheduleGenTxnViewModel.cs" />
+    <Compile Include="BEMS\TestingAndCommissioning\TAndCCRMRequestNoFetchSearch.cs" />
+    <Compile Include="BEMS\workorderAdditionalFields.cs" />
+    <Compile Include="BEMS\AssetRegisterLnCTab.cs" />
+    <Compile Include="BEMS\AssetProcessingStatus.cs" />
+    <Compile Include="BEMS\AssetRegisterWarrantyProvider.cs" />
+    <Compile Include="BEMS\AssetRegister\MaintenanceHistoryModelList.cs" />
+    <Compile Include="BEMS\AssetRegister\CurrentMaintenace.cs" />
+    <Compile Include="BEMS\AssetRegister\AssetRegisterAdditionalFields.cs" />
+    <Compile Include="BEMS\AssetRegister\AssetPreRegistrationNoSearch.cs" />
+    <Compile Include="BEMS\AssetRegister\AssetRegisterModel.cs" />
+    <Compile Include="BEMS\AssetRegister\ManufacturerSearch.cs" />
+    <Compile Include="BEMS\AssetRegister\ModelSearch.cs" />
+    <Compile Include="BEMS\AssetRegister\AssetRegisterLovs.cs" />
+    <Compile Include="BEMS\AssetRegister\ParentAssetNoSearch.cs" />
+    <Compile Include="BEMS\AssetRegister\Popups\AssetStatusDetails.cs" />
+    <Compile Include="BEMS\AssetRegister\Popups\AssetRealTimeStatusDetails.cs" />
+    <Compile Include="BEMS\AssetRegister\Popups\DefectDetails.cs" />
+    <Compile Include="BEMS\AssetRegister\Popups\SoftwareDetails.cs" />
+    <Compile Include="BEMS\AssetRegister\UserLocationCodeSearch.cs" />
+    <Compile Include="BEMS\AssetRegister\TypeCodeSearch.cs" />
+    <Compile Include="BEMS\AssetRegisterAttachmentTab.cs" />
+    <Compile Include="BEMS\AssetStandardization\AssetStandardization.cs" />
+    <Compile Include="BEMS\AssetStandardization\AssetStandardizationLovs.cs" />
+    <Compile Include="BEMS\AdditionalFields\AdditionalFields.cs" />
+    <Compile Include="BEMS\ContractOutRegisterEntity.cs" />
+    <Compile Include="BEMS\CRMRequestAssetFetch.cs" />
+    <Compile Include="BEMS\CRMRequestEntity.cs" />
+    <Compile Include="BEMS\CRMWorkorderStaffFetch.cs" />
+    <Compile Include="BEMS\CRMWorkOrder\CRMWorkorder.cs" />
+    <Compile Include="BEMS\CRMWorkOrder\CRMWorkorderAssessment.cs" />
+    <Compile Include="BEMS\CRMWorkOrder\CRMWorkorderCompInfo.cs" />
+    <Compile Include="BEMS\CRMWorkOrder\CRMWorkorderProcessStatus.cs" />
+    <Compile Include="BEMS\CRMWorkOrder\CRMWorkorderRequestFetch.cs" />
+    <Compile Include="BEMS\CustomerConfig\CustomerConfigLovs.cs" />
+    <Compile Include="BEMS\CustomerConfig\CustomerConfig.cs" />
+    <Compile Include="BEMS\DepartmentQRCodePrintingModel.cs" />
+    <Compile Include="BEMS\EODCaptureAssetFetch.cs" />
+    <Compile Include="BEMS\EODCaptureManufacturer.cs" />
+    <Compile Include="BEMS\EODCaptureModel.cs" />
+    <Compile Include="BEMS\TestingAndCommissioning\TestingAndCommissioningAdditionalFields.cs" />
+    <Compile Include="BEMS\UnScheduledWorkOrderModel.cs" />
+    <Compile Include="BEMS\ScheduledWorkOrderModel.cs" />
+    <Compile Include="BEMS\ImageVideoUploadModel.cs" />
+    <Compile Include="BEMS\ScheduleGenerationModel.cs" />
+    <Compile Include="BEMS\UserAreaQRCodePrintingFetchModel.cs" />
+    <Compile Include="BEMS\UserLocationQRCodePrintingFetchModel.cs" />
+    <Compile Include="BEMS\UserLocationQRCodePrintingModel.cs" />
+    <Compile Include="BEMS\UserTraining\TrainingFeedback.cs" />
+    <Compile Include="BEMS\UserTraining\UserTainingParticipantFetch.cs" />
+    <Compile Include="BEMS\UserTraining\UserTrainingCompletion.cs" />
+    <Compile Include="BER\BERApplicationTxn.cs" />
+    <Compile Include="BER\BERDashboard.cs" />
+    <Compile Include="CLS\ApprovedChemicalList.cs" />
+    <Compile Include="CLS\ChemicalInUse.cs" />
+    <Compile Include="CLS\ChemicalUsedReport.cs" />
+    <Compile Include="CLS\CorrectiveActionReport.cs" />
+    <Compile Include="CLS\CRMReport.cs" />
+    <Compile Include="CLS\DailyCleaningActivity.cs" />
+    <Compile Include="CLS\DailyCleaningActivitySummaryReport.cs" />
+    <Compile Include="CLS\DeptAreaDetails.cs" />
+    <Compile Include="CLS\EquipmentReport.cs" />
+    <Compile Include="CLS\FETC.cs" />
+    <Compile Include="CLS\IndicatorMaster.cs" />
+    <Compile Include="CLS\JIDetails.cs" />
+    <Compile Include="CLS\JIScheduleGeneration.cs" />
+    <Compile Include="CLS\JointInspectionSummaryReport.cs" />
+    <Compile Include="CLS\PeriodicWorkRecord.cs" />
+    <Compile Include="CLS\PeriodicWorkRecordSummaryReport.cs" />
+    <Compile Include="CLS\QualityCauseMaster.cs" />
+    <Compile Include="CLS\ToiletInspection.cs" />
+    <Compile Include="CLS\ToiletInspectionSummaryReport.cs" />
+    <Compile Include="CLS\WeekCalendar.cs" />
+    <Compile Include="Common\AsisDocumentNumberViewModel.cs" />
+    <Compile Include="Common\AsisReportViewModel.cs" />
+    <Compile Include="Common\Attachment.cs" />
+    <Compile Include="Common\Helpdescription.cs" />
+    <Compile Include="Common\HistoryPageModel.cs" />
+    <Compile Include="Common\Location.cs" />
+    <Compile Include="Common\ReportDrill.cs" />
+    <Compile Include="Common\ReportDrillMultiParameters.cs" />
+    <Compile Include="Common\ReportEntity.cs" />
+    <Compile Include="Common\ReportLevel.cs" />
+    <Compile Include="Common\ReportMultiParameters.cs" />
+    <Compile Include="Common\ReportParameters.cs" />
+    <Compile Include="Common\RptReportDrillParamDetails.cs" />
+    <Compile Include="Common\RptReportDrillThroughDetails.cs" />
+    <Compile Include="Common\RptReportLevels.cs" />
+    <Compile Include="Common\RptReportMultiParameters.cs" />
+    <Compile Include="Common\RptReportParameters.cs" />
+    <Compile Include="EMail\NotificationTemplate.cs" />
+    <Compile Include="FetchModels\SNFfetchEntity.cs" />
+    <Compile Include="GM\FacilityActivePeriod.cs" />
+    <Compile Include="GM\LovMasterViewModel.cs" />
+    <Compile Include="Home\AssetWarranty.cs" />
+    <Compile Include="Home\AssetCategory.cs" />
+    <Compile Include="Home\BERAsset.cs" />
+    <Compile Include="Home\BMWorkorder.cs" />
+    <Compile Include="Home\Deduction.cs" />
+    <Compile Include="Home\EquipmentUptime.cs" />
+    <Compile Include="Home\ExpiryAlert.cs" />
+    <Compile Include="Home\HomeDashboard.cs" />
+    <Compile Include="Home\KPIChart.cs" />
+    <Compile Include="Home\KPITarget.cs" />
+    <Compile Include="Home\MaintenanceCost.cs" />
+    <Compile Include="Home\PPMWorkorder.cs" />
+    <Compile Include="HWMS\ApprovedChemicalLists.cs" />
+    <Compile Include="HWMS\BinMaster.cs" />
+    <Compile Include="HWMS\CollectionCategory.cs" />
+    <Compile Include="HWMS\ConsignmentNoteCWCN.cs" />
+    <Compile Include="HWMS\ConsignmentNoteOSWCN.cs" />
+    <Compile Include="HWMS\ConsumablesReceptacles.cs" />
+    <Compile Include="HWMS\CorrectiveActionReports.cs" />
+    <Compile Include="HWMS\CRMReport.cs" />
+    <Compile Include="HWMS\CSWRecordSheet.cs" />
+    <Compile Include="HWMS\CWRecordSheet.cs" />
+    <Compile Include="HWMS\DailyTemperatureLog.cs" />
+    <Compile Include="HWMS\DailyWeighingRecord.cs" />
+    <Compile Include="HWMS\DeptAreaDetails.cs" />
+    <Compile Include="HWMS\DriverDetails.cs" />
+    <Compile Include="HWMS\FacilitiesEquipment.cs" />
+    <Compile Include="HWMS\IndicatorMaster.cs" />
+    <Compile Include="HWMS\LicenseReport.cs" />
+    <Compile Include="HWMS\LicenseType.cs" />
+    <Compile Include="HWMS\OSWRecordSheet.cs" />
+    <Compile Include="HWMS\QualityCauseMaster.cs" />
+    <Compile Include="HWMS\RecordSheetWithoutCN.cs" />
+    <Compile Include="HWMS\RecordsofRecyclableWaste.cs" />
+    <Compile Include="HWMS\SafetyDataSheetReport.cs" />
+    <Compile Include="HWMS\TransportationCategory.cs" />
+    <Compile Include="HWMS\TransportationReport.cs" />
+    <Compile Include="HWMS\TreatmetPlant.cs" />
+    <Compile Include="HWMS\VehicleDetails.cs" />
+    <Compile Include="HWMS\WasteGenerationMonthlyReport.cs" />
+    <Compile Include="HWMS\WasteType.cs" />
+    <Compile Include="HWMS\WeighingSummaryReport.cs" />
+    <Compile Include="KPI\KPIDashboardModel.cs" />
+    <Compile Include="KPI\KPIGeneration\KPIGeneration.cs" />
+    <Compile Include="KPI\KPIGeneration\KPIGenerationRecords.cs" />
+    <Compile Include="KPI\KPIGeneration\KPIGenerationDemertis.cs" />
+    <Compile Include="KPI\KPIGeneration\KPIGenerationFetch.cs" />
+    <Compile Include="KPI\KPIGeneration\KPIGenerationLovs.cs" />
+    <Compile Include="BEMS\EngAssetTypeCode.cs" />
+    <Compile Include="BEMS\EngPlannerRITxnModel.cs" />
+    <Compile Include="BEMS\EngPlannerOtherTxnModel.cs" />
+    <Compile Include="BEMS\EngSpareParts.cs" />
+    <Compile Include="BEMS\EODCapture.cs" />
+    <Compile Include="BEMS\EODParameterMapping.cs" />
+    <Compile Include="BEMS\EODTypeCodeMappingViewModel.cs" />
+    <Compile Include="BEMS\EngPlannerTxnModel.cs" />
+    <Compile Include="BEMS\EODCategorySystemViewModel.cs" />
+    <Compile Include="BEMS\CustomerMstViewModel.cs" />
+    <Compile Include="BEMS\EngAssetClassification.cs" />
+    <Compile Include="BEMS\EngAssetTypeCodeStandardTasksModel.cs" />
+    <Compile Include="BEMS\FacilityWorkshop.cs" />
+    <Compile Include="BEMS\LicenseAndCertificateEntity.cs" />
+    <Compile Include="BEMS\MaitenaceDetailsTab.cs" />
+    <Compile Include="BEMS\MonthlyStockRegisterModel.cs" />
+    <Compile Include="BEMS\MstContractorandVendorViewModel.cs" />
+    <Compile Include="BEMS\PPMLoadBalancing\PPMLoadBalancingFetch.cs" />
+    <Compile Include="BEMS\PPMLoadBalancing\PPMLoadBalancing.cs" />
+    <Compile Include="BEMS\PPMLoadBalancing\PPMLoadBalancingWorkOrder.cs" />
+    <Compile Include="BEMS\PPMLoadBalancing\PPMLoadBalancingLovs.cs" />
+    <Compile Include="BEMS\RescheduleWOViewModel.cs" />
+    <Compile Include="BEMS\MstLocationFacilityViewModel.cs" />
+    <Compile Include="BEMS\MstLocationUserAreaViewModel.cs" />
+    <Compile Include="BEMS\MstLocationUserLocation.cs" />
+    <Compile Include="BEMS\LevelFacilityBlockDropdown.cs" />
+    <Compile Include="BEMS\LevelViewModel.cs" />
+    <Compile Include="BEMS\BlockViewModel.cs" />
+    <Compile Include="BEMS\BlockFacilityDropdown.cs" />
+    <Compile Include="BEMS\MstWorkingCalender.cs" />
+    <Compile Include="BEMS\PPMCheckListModel.cs" />
+    <Compile Include="BEMS\StockAdjustmentFetchModel.cs" />
+    <Compile Include="BEMS\StockAdjustmentModel.cs" />
+    <Compile Include="BEMS\StockUpdateRegister.cs" />
+    <Compile Include="BEMS\AssetRegister\AssetRegister.cs" />
+    <Compile Include="BEMS\TestingAndCommissioning\TestingAndCWarrnty.cs" />
+    <Compile Include="BEMS\TestingAndCommissioning\TestingAndCommissioning.cs" />
+    <Compile Include="BEMS\TestingAndCommissioning\TestingAndCommissioningLovs.cs" />
+    <Compile Include="BEMS\Varabledetails.cs" />
+    <Compile Include="BEMS\AssetInformationViewModel.cs" />
+    <Compile Include="BEMS\WarrantyManagement.cs" />
+    <Compile Include="BEMS\WarrantyManagementSearch.cs" />
+    <Compile Include="Common\AsisLovEnum.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\GridFilterResult.cs" />
+    <Compile Include="Common\LovKeyConstants.cs" />
+    <Compile Include="Common\LovValue.cs" />
+    <Compile Include="Common\MultiSelectModel.cs" />
+    <Compile Include="EMail\SMS.cs" />
+    <Compile Include="Enum\WPM_VWCEnum.cs" />
+    <Compile Include="Common\LogoModel.cs" />
+    <Compile Include="EMail\Email.cs" />
+    <Compile Include="EMail\EmailAttachment.cs" />
+    <Compile Include="EMail\EmailContent.cs" />
+    <Compile Include="EMail\EmailPriority.cs" />
+    <Compile Include="EMail\EmailQueue.cs" />
+    <Compile Include="EMail\EmailStatus.cs" />
+    <Compile Include="Common\LovViewModel.cs" />
+    <Compile Include="AsisDocumentnumberModel.cs" />
+    <Compile Include="BaseViewModel.cs" />
+    <Compile Include="Common\AsisDocumentNumber.cs" />
+    <Compile Include="AccessibleServices.cs" />
+    <Compile Include="EOD\EODDashboardViewModel.cs" />
+    <Compile Include="FetchModels\LevelFetchModel.cs" />
+    <Compile Include="FetchModels\PPMCheckListFetchItem.cs" />
+    <Compile Include="GM\FacilityStaffMstDropdown.cs" />
+    <Compile Include="GM\CompanyStaffMstDropdown.cs" />
+    <Compile Include="GM\StaffMstViewModel.cs" />
+    <Compile Include="KPI\IndicatorMasterModel.cs" />
+    <Compile Include="KPI\KPIGeneration\MonthlyServiceFeeFetch.cs" />
+    <Compile Include="KPI\KPITransactionMapping\KPITransactionFetchResult.cs" />
+    <Compile Include="KPI\KPITransactionMapping\KPITransactionMapping.cs" />
+    <Compile Include="KPI\KPITransactionMapping\KPITransactionMappingLovs.cs" />
+    <Compile Include="KPI\MonthlyKPIAdjustments\MonthlyKPIAdjustments.cs" />
+    <Compile Include="KPI\MonthlyKPIAdjustments\MonthlyKPIAdjustmentsLovs.cs" />
+    <Compile Include="KPI\MonthlyServiceFeeModel.cs" />
+    <Compile Include="KPI\ParameterMasterModel.cs" />
+    <Compile Include="KPI\PenaltyMasterModel.cs" />
+    <Compile Include="KPI\ReportsAndRecords\ReportsAndRecordsLst.cs" />
+    <Compile Include="KPI\ReportsAndRecords\ReportsAndRecordsLovs.cs" />
+    <Compile Include="Layout\CustomerFacilityLovs.cs" />
+    <Compile Include="Layout\Customer.cs" />
+    <Compile Include="Layout\Notification.cs" />
+    <Compile Include="Layout\NotificationCount.cs" />
+    <Compile Include="LLS\CentralCleanLinenStoreModel.cs" />
+    <Compile Include="LLS\CentralLinenStoreHousekeepingModel.cs" />
+    <Compile Include="LLS\CleanLinenDespatchModel.cs" />
+    <Compile Include="LLS\CleanLinenIssueModel.cs" />
+    <Compile Include="LLS\CleanLinenRequestModel.cs" />
+    <Compile Include="LLS\DepartmentDetailsModel.cs" />
+    <Compile Include="LLS\DriverDetailsModel.cs" />
+    <Compile Include="LLS\FacilitiesEquipmentToolsModel.cs" />
+    <Compile Include="LLS\LaundryPlantModel.cs" />
+    <Compile Include="LLS\LicenseTypeModel.cs" />
+    <Compile Include="LLS\LinenAdjustmentsModel.cs" />
+    <Compile Include="LLS\LinenConemnationModel.cs" />
+    <Compile Include="LLS\LinenInjectionModel.cs" />
+    <Compile Include="LLS\LinenItemDetailsModel.cs" />
+    <Compile Include="LLS\LinenRejectReplacementModel.cs" />
+    <Compile Include="LLS\LinenRepairModel.cs" />
+    <Compile Include="LLS\soildLinencollectionsModel.cs" />
+    <Compile Include="LLS\TestModel.cs" />
+    <Compile Include="LLS\VehicleDetailsModel.cs" />
+    <Compile Include="LLS\WeighingScaleEquipmentModel.cs" />
+    <Compile Include="LoginViewModel.cs" />
+    <Compile Include="MASTER\MasterDetails.cs" />
+    <Compile Include="Portering\LoanerBooking.cs" />
+    <Compile Include="Portering\PorteringModel.cs" />
+    <Compile Include="QAP\CorrectiveActionReport\CorrectiveActionReport.cs" />
+    <Compile Include="QAP\CorrectiveActionReport\CorrectiveActionReportLovs.cs" />
+    <Compile Include="QAP\CorrectiveActionReport\FilureSymptomCodeFetch.cs" />
+    <Compile Include="QAP\CorrectiveActionReport\FollowupCarFetch.cs" />
+    <Compile Include="QAP\QAPDashboardModel.cs" />
+    <Compile Include="QAP\QAPIndicatorMasterModel.cs" />
+    <Compile Include="QAP\QualityCauseMasterModel.cs" />
+    <Compile Include="SortPaginateFilter.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="SysLovMstModel.cs" />
+    <Compile Include="TransactionalInformation.cs" />
+    <Compile Include="UMUserRegistrationListLookup.cs" />
+    <Compile Include="Enum\AssetStatus.cs" />
+    <Compile Include="Enum\CacheKey.cs" />
+    <Compile Include="Enum\RequestCategory.cs" />
+    <Compile Include="Enum\RequestPriority.cs" />
+    <Compile Include="Enum\RequestType.cs" />
+    <Compile Include="Helper\PageMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UM\ASISUserRegistrationViewModel.cs" />
+    <Compile Include="UM\ChangePassword\ChangePassword.cs" />
+    <Compile Include="UM\ChangePassword\ChangePasswordLovs.cs" />
+    <Compile Include="UM\ContractorNameSearch.cs" />
+    <Compile Include="UM\ForgotPassword\ForgotPassword.cs" />
+    <Compile Include="UM\ForgotPassword\ForgotPasswordLovs.cs" />
+    <Compile Include="UM\NotificationDeliveryConfigurationModel.cs" />
+    <Compile Include="UM\SmartAssign.cs" />
+    <Compile Include="UM\SmartAssign_GetAvailableFieldEngineers.cs" />
+    <Compile Include="SmartAssign\ManualassignViewModel.cs" />
+    <Compile Include="UM\SmartAssign_GetPending.cs" />
+    <Compile Include="UM\UMRoleScreenPermission.cs" />
+    <Compile Include="UM\UMTrackingFacility.cs" />
+    <Compile Include="UM\UMTrackingTechnician.cs" />
+    <Compile Include="UM\UMTrackingTechnicianView.cs" />
+    <Compile Include="UM\UMUserLocationMstDet.cs" />
+    <Compile Include="UM\UMUserRegistration.cs" />
+    <Compile Include="UM\UMUserRole.cs" />
+    <Compile Include="UM\UserActionPermissions.cs" />
+    <Compile Include="UM\UserRegistrationLovs.cs" />
+    <Compile Include="UM\UserRoleLovs.cs" />
+    <Compile Include="UM\UserShiftLeaveViewModel.cs" />
+    <Compile Include="UM\UserShiftLeaveDetailsFetch.cs" />
+    <Compile Include="UserDetailsModel.cs" />
+    <Compile Include="UserRegisterModel.cs" />
+    <Compile Include="VM\BulkAuthorizationViewModel.cs" />
+    <Compile Include="VM\SNFEntity.cs" />
+    <Compile Include="VM\SummaryofFeeReportEntity.cs" />
+    <Compile Include="VM\VMDashboardModel.cs" />
+    <Compile Include="VM\VMMonthClosingEntity.cs" />
+    <Compile Include="VM\VVFEntity.cs" />
+    <Compile Include="WeekCalenderModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\codecracker.CSharp.1.0.0-rc4\analyzers\dotnet\cs\CodeCracker.Common.dll" />
+    <Analyzer Include="..\..\packages\codecracker.CSharp.1.0.0-rc4\analyzers\dotnet\cs\CodeCracker.CSharp.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets" Condition="Exists('..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

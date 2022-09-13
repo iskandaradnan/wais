@@ -1,0 +1,495 @@
+﻿
+@{
+    ViewBag.Title = "Variation Month Closing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+}
+
+<input id="antiForgeryToken" type="hidden" />
+<input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.Id" />
+<input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.Mode" />
+<input type="hidden" id="CurrentYear" name="CurrentYear" value="@ViewBag.CurrentYear" />
+<input type="hidden" id="CurrentMonth" name="CurrentMonth" value="@ViewBag.CurrentMonth" />
+<input type="hidden" id="CurrentYearFinal" name="CurrentYearFinal" value="@ViewBag.CurrentYearFinal" />
+<input type="hidden" id="CurrentMonthFinal" name="CurrentMonth" value="@ViewBag.CurrentMonthFinal" />
+@*<input type="hidden" id="PreviousMonthConditionDate" name="PreviousMonthConditionDate" value="@ViewBag.PreviousMonthConditionDate" />*@
+@*<input type="hidden" id="CurrentMonthConditionDate" name="CurrentMonthConditionDate" value="@ViewBag.CurrentMonthConditionDateForJQgrid" />*@
+
+<div class="content_header">
+    <ol class="breadcrumb">
+        <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+        <li>BEMS</li>
+        <li>Transaction</li>
+        <li class="active">@*<a href="/bems/vmmonthclose">*@Variation Month Closing</a></li>
+        <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+            <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+            <span class="badge" id="helpdescriptionid"></span>
+        </a>
+    </ol>
+    <h4>@ViewBag.Mode Variation Month Closing</h4>
+</div>
+
+<div class="standard-tabs" id="tabs">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-1" data-toggle="tab">Variation Month Closing</a></li>
+    </ul>
+</div>
+
+<div class="tab-content">
+    <form name="form" id="form" class="form-horizontal" novalidate>
+
+        <div class="row">
+
+
+
+
+           
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Year & Month <span class="red">*</span> </label>
+                    <div class="col-sm-3">
+                        <div >
+                            <select class="form-control " name="Year" id="selVariationYear" disabled></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div >
+
+                            <select class="form-control "  name="Month" id="selVariationMonth"  disabled></select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="col-sm-6 control-label">
+                        <label>Cut-off Date<span class="red"> </span></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <div >
+
+                            <input type="text" name="CutOffDate" id="CutOffDate"  class="form-control" value="" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="form-group">
+                <div class="col-sm-12 text-right">
+                    <button type="submit" id="btnAddMonthClosing" class="btn btn-primary" data-ng-click="Fetch()" title="Fetch">Fetch</button>
+                </div>
+            </div>*@
+        <div class="row" ng-if="!isFetchMode">
+            <div class="col-sm-12">
+                @*<div class="table-responsive tableFixedHeight" style="max-height:400px">*@
+                <div class="table-responsive ">
+                    <table id="dataTable" style="max-height:500px" class="table table-bordered ">
+                        <thead class="tableHeading">
+                            <tr>
+                                <th width="60%">Variation Status<span class="red"> </span></th>
+                                <th width="20%">Authorised <span class="red"> </span></th>
+                                <th width="20%" ng-show="HideforCLS">UnAuthorised <span class="red"> </span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                            <tr >
+
+                                <td width="60%">
+                                    <label> V1 - Existing</label>
+                                </td>
+                                <td width="20%">
+                                    <div  id="V1AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V1')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V1Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V1Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V1Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%" >
+                                    <div id="V1UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V1')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V1Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V1Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V1Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td width="60%">
+                                    <label> V2 - Addition</label>
+                                </td>
+                                <td width="20%">
+                                    <div id="V2AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V2')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V2Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V2Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V2Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%">
+                                    <div id="V2UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V2')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V2Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V2Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V2Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td width="60%">
+                                    <label> V3 - Deletion</label>
+                                </td>
+                                <td width="20%">
+                                    <div id="V3AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V3')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V3Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V3Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V3Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%">
+                                    <div id="V3UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V3')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V3Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V3Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V3Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td width="60%">
+                                    <label> V4 - BER</label>
+                                </td>
+                                <td width="20%">
+                                    <div id="V4AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V4')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V4Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V4Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V4Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%">
+                                    <div id="V4UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V4')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V4Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V4Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V4Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td width="60%">
+                                    <label> V5 - Transfer From</label>
+                                </td>
+                                <td width="20%">
+                                    <div id="V5AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V5')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V5Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V5Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V5Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%">
+                                    <div id="V5UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V5')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V5Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V5Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V5Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td width="60%">
+                                    <label> V6 - Transfer To</label>
+                                </td>
+                                <td width="20%">
+                                    <div id="V6AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V6')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V6Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V6Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V6Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%">
+                                    <div id="V6UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V6')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V6Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V6Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V6Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td width="60%">
+                                    <label> V7 - Upgrade</label>
+                                </td>
+                                <td width="20%">
+                                    <div id="V7AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V7')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V7Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V7Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V7Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%">
+                                    <div id="V7UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V7')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V7Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V7Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V7Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td width="60%">
+                                    <label> V8 - Donated by others</label>
+                                </td>
+                                <td width="20%">
+                                    <div id="V8AuthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpAuthorizeCount('V8')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V8Authorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V8Authorizeszero">
+                                        <label class="btn">
+                                            <span id="V8Authorizedid"></span>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td width="20%">
+                                    <div id="V8UnauthorizesNotzero">
+                                        <a data-toggle="modal" data-target="#popupId" onclick="PopUpUnAuthorizeCount('V8')" id="PopupButton" title="Month CLose">
+                                            <label class="btn" style="color:blue;font:bold;font-size:12px">
+                                                <span id="V8Unuthorizedid"></span>
+                                            </label>
+                                        </a>
+                                    </div>
+                                    <div id="V8Unauthorizeszero">
+                                        <label class="btn">
+                                            <span id="V8Unuthorizedid"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="modal fade " id="popupId" role="dialog">
+            <div class="modal-dialog" style="width:80%;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" ng-show="Service!=3">Asset Details</h4>
+                        <h4 class="modal-title" ng-show="Service==3">User Area Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="jqGridParent" class="container-fluid" style="padding-left: 0px;">
+                            <div style="left:4%">
+                                <label>Variation Status<span class="red" style="font:bold"> </span></label>
+
+                            </div>
+
+                            <div id="gridTable">
+                                <div class="col-sm-12">
+                                    <div class="table-header">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <a id="advanceSearch" class="btn btn-primary" title="Toggle search" href="javascript:void(0)"><span class="glyphicon glyphicon-search"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div id="gridContainer"></div>
+                                </div>
+                                <div class="col-sm-12" id="thirdIndex">
+                                    <table id="grid"></table>
+                                    <div id="pager"></div>
+                                </div>
+                                @*</div>*@
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-sm-12 text-center">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-sm-12 text-center">
+
+                                        <button type="submit" @*id="closeDept"*@ id="btnCancelPopup" class="btn btn-grey" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+            <div class="errormsgcenter">
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-sm-12 text-right">
+
+                @if (ViewBag.ButtonVissableFlag == "SHOW")
+                {
+                    <button type="submit" @*id="Close"*@ id="btnAdd"  class="btn btn-primary" ng-if="!isFetchMode" data-ng-click="PerformAction()" title="Close">Month Close</button>
+                }
+                <input type="button" id="CancelFetch"  class="btn btn-primary" onclick="MonthSubmit()" value="Month Close">
+                @*<button type="button" ng-if="!isFetchMode" class="btn btn-primary" onclick="reloadSameScreen(angular.element(this).scope())">Refresh</button>*@
+                <button type="button" id="Cancel" class="btn btn-grey"  data-ng-click="PerformCancel()" title="Cancel">Back</button>
+            </div>
+        </div>
+
+
+
+    </form>
+</div>
+
+<script src="~/Scripts/ng/Controllers/VM/VMMonthClosing.js"></script>

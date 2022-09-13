@@ -1,0 +1,54 @@
+﻿@{
+//ViewBag.Title = "Customer";
+//Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/JQGrid/BER/BER2ApplicationList.js"></script>
+<style>
+    .panel-heading {
+        background-color: #4B7DA8;
+    }
+
+        .panel-heading:hover {
+            background-color: #3B6284;
+        }
+</style>
+
+@*<div class="content_header">
+    <ol class="breadcrumb">
+        <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+        <li>BER</li>
+        <li class="active"><a href="/BER/BER2Application"> BER Application (BER2)</a></li>
+    </ol>
+    <h4>BER Application (BER2)</h4>
+</div>*@
+
+
+@*<form class="form-horizontal1">*@
+    <div class="content-area">
+        <div class="row mb20">
+            <div id="gridTable">
+                <div class="col-sm-12">
+                    <div class="panel-heading PanelHeadingSearch"  id="advanceSearch">
+                        <h4 class="panel-title text_align_left">
+                            <a id="jQGridCollapse1" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#collapse1" aria-expanded="false" aria-controls="collapseOne"
+                               class="collapsed display_block"> BER Application (BER 2) Search<i class="indicator glyphicon pull-right glyphicon-plus" id="iJQGridIndicator1"></i></a>
+                        </h4>
+                    </div>
+                    <div class="col-sm-12">
+
+                        <div id="gridContainer"></div>
+                    </div>
+                    <div class="col-sm-12 jqContainer hide_container">
+                        <table id="grid"></table>
+                        <div id="pager"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@*</form>*@
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/BER/BERCommon.js"></script>
+    <script src="~/Scripts/ng/Controllers/BER/BER2Application.js"></script>
+}

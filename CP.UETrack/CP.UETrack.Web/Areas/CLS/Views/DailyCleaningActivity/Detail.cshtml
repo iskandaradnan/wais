@@ -1,0 +1,163 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+	@functions{
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		} }
+	
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>CLS</li>
+			<li>Transaction</li>
+			<li>Daily Cleaning Activity</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right; margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+	</div>
+	<br />
+	<div class="standard-tabs" id="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formppmplanner" data-toggle="tab">Daily Cleaning Activity</a></li>
+			<li role="presentation">
+				<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formDailyCleaningActivity" name="formDailyCleaningActivity" class="form-horizontal">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Document No.</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtDocumentNo" autocomplete="off" name="DocumentNo" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Date<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="date">
+									<input type="text" required class="form-control datetime" placeholder="" id="txtDate" autocomplete="off" name="Date" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Total Done</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtTotalDone" autocomplete="off" name="TotalDone" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Total Not Done</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtTotalNotDone" autocomplete="off" name="TotalNotDone" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<center>
+							@*<button type="button" id="btnFetch" class="btn btn-primary customButton" title="Fetch" tabindex="5">Fetch</button>*@
+							<input type="button" class="btn btn-primary" id="btnFetch" value="Fetch" />
+						</center>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<p style="font-size: 1em"><b><small>Legend :</small></b></p>
+						<p style="font-size: 1em"><b>A1: Dust Mop, A2: Damp Mop, A3: Vacuum, A4: Washing, A5: Sweeping, B1: Wiping, C1: Washing, D1: Paper Hand Towel, D2: Toilet/Jumbo Roll, D3: Hand Soap,D4: Deodorisers, E1: Waste Collection</b></p>
+					</div>
+				</div>
+				<br />
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="tabCleansingDetails">
+						<table id="table1" class="table table-bordered">
+							<thead class="tableHeading">
+								<tr>
+									<th rowspan="2" style="text-align: center;">User Area Code</th>
+									<th rowspan="2" class="required" style="text-align: center;">Status<span style="color:red">*</span></th>
+									<th colspan="12" style="text-align: center;">Job Item / Frequency (Daily)</th>
+								</tr>
+								<tr>
+									<th style="text-align: center;">A1</th>
+									<th style="text-align: center;">A2</th>
+									<th style="text-align: center;">A3</th>
+									<th style="text-align: center;">A4</th>
+									<th style="text-align: center;">A5</th>
+									<th style="text-align: center;">B1</th>
+									<th style="text-align: center;">C1</th>
+									<th style="text-align: center;">D1</th>
+									<th style="text-align: center;">D2</th>
+									<th style="text-align: center;">D3</th>
+									<th style="text-align: center;">D4</th>
+									<th style="text-align: center;">E1</th>
+								</tr>
+							</thead>
+							<tbody id="tbodyResult"></tbody>
+						</table>
+						<p class="text-center" id="table_data"><b><small>No records to display</small></b></p>
+					</div>
+				</div>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+					<!-- ngIf: RescheduleErrorList.length > 0 -->
+				</div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+							<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />
+							<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+							@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+								<button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+								  <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+						</div>
+					</div>
+					<div>
+						<label id="daily" style="font-size:14px"></label>
+					</div>
+					<br />
+				</div>
+			</form>
+		</div>
+		@Html.Partial("~/Areas/CLS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/CLS/Views/DailyCleaningActivity/List.cshtml")
+</div>
+@section scripts{
+
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/DailyCleaningActivity.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}
+

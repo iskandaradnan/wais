@@ -1,0 +1,96 @@
+﻿
+<form id="formDeptAreaDetailsDCS" name="formDeptAreaDetailsDCS" class="form-horizontal" autocomplete="off">
+   
+    <div>
+        <table class="table table-bordered">
+            <thead class="tableHeading">
+                <tr>
+                    <th style="text-align: center;" width="10%"><label for="JobItem">Job Item</label></th>
+                    <th style="text-align: center;" width="10%">Frequency(Daily)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="DustMop">Dust Mop</label></td>
+                    <td>
+                        <input type="number" style="text-align:right" min="0" onkeypress="return event.charCode >= 48" class="form-control" placeholder="0" id="txtDustMop" autocomplete="off" name="DustMop" maxlength="25" />
+                    </td>
+                </tr>           
+                <tr>
+                    <td style="text-align:left" width="10%"><label for="DampMop">Damp Mop</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" min="0" onkeypress="return event.charCode >= 48" placeholder="0" id="txtDampMop" autocomplete="off" name="DampMop" maxlength="25" />
+                    </td>
+                </tr>           
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="Vacuum">Vacuum</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" min="0" onkeypress="return event.charCode >= 48" placeholder="0" id="txtVacuum" autocomplete="off" name="Vacuum" maxlength="25" />
+                    </td>
+                </tr>           
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="Washing">Washing</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtWashing" autocomplete="off" name="Washing" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>           
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="Sweeping">Sweeping</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtSweeping" autocomplete="off" name="Sweeping" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>           
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="Wiping">Wiping</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtWiping" autocomplete="off" name="Wiping" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>    
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="PHT">Paper Hand Towel</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtPHT" autocomplete="off" name="PHT" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="TJR">Toilet/Jumbo Roll</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtTJR" autocomplete="off" name="TJR" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="HS">Hand Soap</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtHS" autocomplete="off" name="HS" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="Deodorisers">Deodorisers</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtDeodorisers" autocomplete="off" name="Deodorisers" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;" width="10%"><label for="DWC">Domestic Waste Collection</label></td>
+                    <td align="left">
+                        <input type="number" style="text-align:right" class="form-control" placeholder="0" id="txtDWC" autocomplete="off" name="DWC" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="errorMsgDCS" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+        <!-- ngIf: RescheduleErrorList.length > 0 -->
+    </div>
+    <div class="row mt20">
+        <div class="form-group">
+            <div class="col-sm-12 text-center">
+                <input type="button" id="btnSaveDCS" class="btn btn-primary customButton" value="Save" />
+                <input type="button" id="btnCancelDCS" class="btn btn-primary" value="Reset" />
+                @*<button type="button" id="btnSaveDCS" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@              
+            </div>
+        </div>
+    </div>   
+</form>
+       
+   

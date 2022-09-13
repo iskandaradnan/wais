@@ -1,0 +1,78 @@
+﻿<script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+
+<div class="row">
+    <div class="col-sm-12">
+        @*<hr style="margin: 2em 0;">*@
+    </div>
+    
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table id="AssetEquipmentAttachment" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                    <thead class="tableHeading">
+                        <tr>
+                            <th width="3%" class="text-center">                                
+                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                <div class="checkbox text-center">
+                                    <label for="checkboxes-0">
+                                        <input type="checkbox" name="AssetEquipmentAttachment" id="chk_FileUploadAttachment" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                    </label>
+                                </div>
+                            </th>
+                            <th style="text-align: center;" width="20%">File Type <span class="red">*</span></th>
+                            <th style="text-align: center;" width="30%">File Name <span class="red">*</span></th>
+                            <th style="text-align: center;" width="27%">Attachment <span class="red">*</span></th>
+                            <th style="text-align: center;" width="20%">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody id="FileUploadTable"></tbody>
+                </table>   
+            </div>
+       </div>    
+</div>
+    <div class="row mt20" id="AttachRowPlus">
+        <div class="col-sm-3 ">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <div>
+                        <a onclick="AddNewRowfile()" class="btn btn-primary" id="btnEditAttachmentAddNew">+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="errorMsgAttachment" class="errorMsgcenterAttachment" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+
+<div class="form-group mt20">
+    <div class="col-sm-12 text-center">      
+            @*<button type="button" id="btnSaveAttachment" class="btn btn-primary" title="print" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@        
+            <button type="button" id="btnEditAttachment" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>    
+            <input type="button" value="Print Form" id="btnPrintAttachment"class="btn btn-primary " onclick="window.print()"/>
+          
+    </div>
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

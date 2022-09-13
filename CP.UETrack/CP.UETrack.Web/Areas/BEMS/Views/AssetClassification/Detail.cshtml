@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "BEMS-Asset Clasification Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ServiceId" name="ServiceId" value="2"/>
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>General Master</li>
+            <li>Asset Metadata</li>
+            <li class="active">Asset Classification</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+
+        <h4>Asset Classification</h4>
+        @*<h4><span id="spnActionType">Add</span> Asset Classification</h4>*@
+
+    </div>
+ 
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="assetclassFormid">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="assetClassificationCode" class="col-sm-6 control-label">Asset Classification Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="AssetCode" name="AssetClassificationCode" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Classificationydescription" class="col-sm-6 control-label">Asset Classification Description<span class="red"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" pattern="^[a-zA-Z0-9\-\(\)\/\s]{1,100}$" class="form-control" id="AssetDesc" name="AssetClassificationDescription" maxlength="100" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputstatus" class="col-sm-6 control-label">Status</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="Active">
+                                <option selected="selected" value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="selServices" class="col-sm-6 control-label">Services</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="selServices">
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+       
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="remarkstextarea" class="col-sm-3 control-label">Remarks</label>
+                        <div class="col-sm-9">
+                            <textarea pattern="^[a-zA-Z0-9+'.'&quot;,:;=/\(\),\-\s]+$" class="form-control wt-resize remarks" re id="Remarks" name="Remarks" style="min-width: 92%;height:70px" maxlength="500"></textarea>
+                        </div>
+                    </div>
+                </div>
+                </div>             
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-12 errMsg" style="color:red; visibility:hidden" id="errorMsg">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-sm-12 text-center  mt20">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus " aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash " aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+                <br />
+</form>
+        @Html.Partial("~/Areas/BEMS/Views/AssetClassification/List.cshtml")
+    </div>
+</div>
+
+
+@*@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("#assetclassFormid :input:not(:button)").prop("disabled", true);
+    </script>
+}*@
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/AssetClassification.js")"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

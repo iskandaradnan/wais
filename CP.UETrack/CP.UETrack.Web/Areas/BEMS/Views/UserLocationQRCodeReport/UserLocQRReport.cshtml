@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Location QR Code";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>           
+            <li>QR Code</li>
+            <li>Location QR Code Printing</li>
+            <li class="active">Location QR Code</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>@ViewBag.ActionType Location QR Code</h4>
+    </div>
+     
+
+    <div class="content_body">
+        <form class="form-horizontal" id="UserLocationQRCodeReportForm" autocomplete="off">
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <iframe id="ReportFrame" frameborder="0" src="~/Report/UserLocationQRCodeReport.aspx" style="width:100%;height:550px;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+
+            </div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">                                        
+                    <input type="button" id="btnUserLocReportCancel" name="btnCancel" class="btn btn-grey" title="Cancel" value="Back">  
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@if (ViewBag.Mode == "View")
+{
+    <script type="text/javascript">
+
+       $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts
+    {
+
+    <script src="~/Scripts/ng/Controllers/BEMS/UserLocationQRCodePrinting.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myPleaseWait').modal('show');
+        });
+
+    
+    </script>
+}
+

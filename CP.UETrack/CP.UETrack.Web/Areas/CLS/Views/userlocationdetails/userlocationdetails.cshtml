@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "userlocationdetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>CLS</li>
+            <li>Master</li>
+            <li class="active">User Location Details </a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Add User Location Details </h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divCLSLoc" aria-controls="home" role="tab" data-toggle="tab">User Location Details </a></li>
+            
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divCLSLoc">
+                <form class="form-horizontal" id="FrmClsLoc" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Code <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtUserAreaCode" name="UserAreaCode" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtUserAreaName " name="UserAreaName" class="form-control" tabindex="0" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Location Code <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtUserLocationCode" name="UserLocationCode" autocomplete="off" placeholder="Please Select" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Location Name </label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtUserLocationName" name="UserLocationName" class="form-control" tabindex="0" disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Status<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtStatus" name="Status" autocomplete="off" maxlength="100" disabled></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective From / Effective To</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txtEffectiveFrom" name="EffectiveFrom" autocomplete="off" maxlength="100" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txtEffectiveTo" name="EffectiveTo" autocomplete="off" maxlength="100" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Contact Person</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtContactPerson" name="ContactPerson" autocomplete="off" maxlength="100"  />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                    <label class="col-sm-6 control-label">LandMarks</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtLandMarks" name="LandMarks" autocomplete="off" maxlength="100" /> 
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Type of Floor<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select type="text" class="form-control" id="txtTypeofFloor" name="txtTypeofFloor" autocomplete="off" maxlength="100">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Cleanable Area (Sq m)</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtCleanableArea" name="CleanableArea" autocomplete="off" maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks</label>
+                                <div class="col-sm-9">
+                                    <textarea type="text" class="form-control" id="txtRemark" name="Remark" autocomplete="off" maxlength="100"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <button type="button" id="btnSave" class="btn btn-primary customButton " title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </form>
+                <br />
+            </div>
+
+        </div>
+    </div>
+    @Html.Partial("~/Areas/CLS/Views/userlocationdetails/userlocationList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+

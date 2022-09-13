@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "CLS-JIScheduleGeneration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="0" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>CLS</li>
+            <li>JI Schedule & Generation</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4> </h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#formppmplanner" data-toggle="tab">JI Schedule & Generation</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formJIScheduleGeneration" name="formJIScheduleGeneration" class="form-horizontal" novalidate>
+				<div class="row">
+					<input type="hidden" id="txtIdno" />
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Year<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="Yeardiv">
+										<select type="text" required class="form-control" id="ddlYear" autocomplete="off" name="Year" maxlength="25" ></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Month<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="Month">
+										<select type="text" required class="form-control" id="ddlMonth" autocomplete="off" name="Month" maxlength="25" >
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Week<span style="color:red">*</span></label>
+
+							<div class="col-sm-6">
+								<div id="Week">
+									<select type="text" required class="form-control" id="ddlWeek" autocomplete="off" name="Week" maxlength="25">		
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<p align="right">
+							<input type="button" id="btnFetch" class="btn btn-primary" value="Fetch" />
+						</p>
+					</div>
+				</div>
+
+				<br />
+				<table id="table1" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+					<thead class="tableHeading">
+						<tr>
+							<th style="width:3%" class="text-center">
+								<span id="gr" style="text-align: center;" class="glyphicon glyphicon-print"></span>
+							</th>
+							<th style="width:10%">
+								<span >Document No.</span>
+							</th>
+							<th style="width:10%">
+								<span >User Area Code</span>
+							</th>
+							<th style="width:30%">
+								<span >User Area Name</span>
+							</th>
+							<th style="width:10%">
+								<span >Day</span>
+							</th>
+							<th style="width:17%">
+								<span >Target Date</span>
+							</th>
+							<th style="width:20%">
+								<span >Status</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyResult"></tbody>
+				</table>
+				<br />
+				<p class="text-center" id="table_data"><b>No records to display</b></p>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+
+				</div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<input type="button" id="btnPrint" class="btn btn-primary" value="Print" />
+							<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+							<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & Add New" />
+							<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+						</div>
+					</div>
+				</div>				
+			</form>
+                       
+        </div>
+    </div>
+    @Html.Partial("~/Areas/CLS/Views/JIScheduleGeneration/List.cshtml")
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/JIScheduleGeneration.js")"></script>
+}
+
+
+
+
+
+
+
+
+

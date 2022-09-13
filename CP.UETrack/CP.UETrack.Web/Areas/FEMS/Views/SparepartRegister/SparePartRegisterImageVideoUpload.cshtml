@@ -1,0 +1,155 @@
+﻿<script src="~/Scripts/ng/Controllers/BEMS/SparePartRegister/SparepartRegisterFileUpload.js"></script>
+
+<div role="tabpanel" class="tab-pane" id="sparepartimagevideoupload">
+    <div class="content_body slider_size">
+        <form class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators carousel_control ">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#myCarousel" data-slide-to="1"></li>                            
+                            <li data-target="#myCarousel" data-slide-to="2"></li>  
+                            <li data-target="#myCarousel" data-slide-to="3"></li>  
+                            <li data-target="#myCarousel" data-slide-to="4"></li>  
+                            <li data-target="#myCarousel" data-slide-to="5"></li>                                
+                        </ol>
+
+                        <!--Images Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active item-border"> 
+                                <span>Image Upload</span>                               
+                                <input type="hidden" id="hdnSPdocumentId1" value="" />
+                                <div class="slider_content content1 slider_contents">                                                                   
+                                    @*<p><b>Image Upload</b></p>*@
+                                    <input type='file' id="SPimg1" accept="image/*" onchange="getSPImageVideoUpload(this, 1, 'i');" />
+                                    <button type="button" id="btnSPImg1Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+                                    
+                                </div>
+                                
+                                <img class="slider_image"id="SPblah1" src="" alt="" />
+                            </div>
+
+                            <div class="item item-border">
+                                <span>Image Upload</span>         
+                                <input type="hidden" id="hdnSPdocumentId2" value="" />
+                                <div class="slider_content content2 slider_contents">
+                                    @*<p>Image Upload</p>*@
+                                    <input type='file' id="SPimg2" accept="image/*" onchange="getSPImageVideoUpload(this, 2, 'i');" />
+                                    <button type="button" id="btnSPImg2Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+                                    
+                                </div>
+                                <img class="slider_image"id="SPblah2" src="" alt="" />
+                            </div> 
+                            
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnSPdocumentId3" value="" />
+                                <div class="slider_content content3 slider_contents">
+                                    @*<p>Image Upload</p>*@
+                                    <input type='file' id="SPimg3" accept="image/*" onchange="getSPImageVideoUpload(this, 3, 'i');" />
+                                    <button type="button" id="btnSPImg3Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+
+                                </div>
+                                <img class="slider_image" id="SPblah3" src="" alt="" />
+                            </div>
+                            
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnSPdocumentId4" value="" />
+                                <div class="slider_content content4 slider_contents">
+                                    @*<p>Image Upload</p>*@
+                                    <input type='file' id="SPimg4" accept="image/*" onchange="getSPImageVideoUpload(this, 4, 'i');" />
+                                    <button type="button" id="btnSPImg4Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+
+                                </div>
+                                <img class="slider_image" id="SPblah4" src="" alt="" />
+                            </div>
+                            
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnSPdocumentId5" value="" />
+                                <div class="slider_content content5 slider_contents">
+                                    @*<p>Image Upload</p>*@
+                                    <input type='file' id="SPimg5" accept="image/*" onchange="getSPImageVideoUpload(this, 5, 'i');" />
+                                    <button type="button" id="btnSPImg5Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+
+                                </div>
+                                <img class="slider_image" id="SPblah5" src="" alt="" />
+                            </div>
+                            
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnSPdocumentId6" value="" />
+                                <div class="slider_content content6 slider_contents">
+                                    @*<p>Image Upload</p>*@
+                                    <input type='file' id="SPimg6" accept="image/*" onchange="getSPImageVideoUpload(this, 6, 'i');" />
+                                    <button type="button" id="btnSPImg6Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+
+                                </div>
+                                <img class="slider_image" id="SPblah6" src="" alt="" />
+                            </div>                           
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <a class="left carousel-control slider_control" href="#myCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control slider_control" href="#myCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!--Video Wrapper for slides -->
+            <div class="video-border">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span class="video_title">Video Upload</span>         
+                        <div class="slider_content content1 slider_contents video_slider">
+                            @*<p><b>Video Upload</b></p>*@
+                            <input type='file' id="SPvid7" accept="video/*" onchange="getSPImageVideoUpload(this, 7, 'v');" />
+                            <button type="button" id="btnSPVid7Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 mt30">
+                        <div class="video_fw" id="SPdivVideo">
+                            <input type="hidden" id="hdnSPdocumentId7" value="" />
+                            <video width="100%" controls>
+                                <source id="SPblah7" src="" type="video/mp4">
+                            </video>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            
+            <div id="errorMsg1" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                
+            </div>
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-center">
+                    @if ((ViewBag.ActionType == "Add"))
+                    {
+                        <button type="button" id="btnSPImageSave" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    }
+                    @if ((ViewBag.ActionType == "Edit"))
+                    {
+                        <button type="button" id="btnSPImageEdit" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    }                                       
+                    <button type="button" id="btnSPImageVideoCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+

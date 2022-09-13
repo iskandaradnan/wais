@@ -1,0 +1,72 @@
+﻿
+
+@{
+                /**/
+
+                ViewBag.Title = "Stock Update Register";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-view="" class="row">
+    <div class="col-sm-12">
+        <hr style="margin: 2em 0;">
+    </div>
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table id="MasterLevelppmRegisterdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                <thead class="tableHeading">
+                    <tr>
+                        <th width="3%" class="text-center">
+                            <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                            <!--<div class="checkbox text-center">
+                                <label for="checkboxes-0">
+                                    <input type="checkbox" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>
+                            </div>-->
+                        </th>
+                        <th style="text-align: center;" width="10%">Part No.<span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Part Description</th>
+                        <th style="text-align: center;" width="10%">Spare Part Type</th>
+                        <th style="text-align: center;" width="10%">Item Code</th>
+                        <th style="text-align: center;" width="10%">Item Description</th>
+                        <th style="text-align: center;" width="10%">Stock Expiry Date <span class="red">*</span></th>
+                        <th style="text-align: center;" width="5%">Quantity<span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Cost(<span class="spnCurrencyName"></span>)<span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Invoice No. <span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Remarks</th>
+
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row mt20">
+    <div class="col-sm-2 ">
+        <div class="form-group">
+            <div class="col-sm-2">
+                <div>
+                    <a onclick="AddNewRow()" @*id="AddNewRow"*@ class="btn btn-primary">+</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-12 text-right ">
+        <button @*type="submit"*@ onclick="Save()" class="btn btn-primary customButton ">Save</button>
+
+        <button type="button" class="btn btn-default customButton ">Back</button>
+
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/ng/Controllers/MASTER/Stock Update Register.js"></script>

@@ -1,0 +1,304 @@
+﻿<div role="tabpanel" class="tab-pane" id="warrantyProvider">
+    <div class="content_body">
+        <form class="form-horizontal" id="assetregWarrantyprovider">
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divAssetAuthorizeStatus" class="AssetAuthorizeStatus"></div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetNo" id="txtWPAssetNo" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Description" class="col-sm-6 control-label">Asset Type Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetDescription" id="txtWPAssetDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="TypeCode" class="col-sm-6 control-label">Asset Type Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARTypeCode" id="txtWPTypeCode"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Warranty Start Date</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtWCWarrantyStartDate" name="txtWCWarrantyStartDate" class="form-control" disabled maxlength="11" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Warranty End Date</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtWCWarrantyEndDate" name="txtWCWarrantyEndDate" class="form-control" disabled maxlength="11" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Warranty Duration (Month)</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtWCWarrantyDuration" name="txtWCWarrantyDuration" class="form-control text-right" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Purchase Cost (<span class="spnCurrencyName"></span>)</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtWCPurchaseCost" name="txtWCPurchaseCost" class="form-control text-right commaSeperator" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Monthly DW Fee (<span class="spnCurrencyName"></span>)</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtMonthlyDWFee" class="form-control text-right commaSeperator" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Monthly PW Fee (<span class="spnCurrencyName"></span>)</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtMonthlyPWFee" value="" class="form-control text-right commaSeperator" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Total Warranty Down Time</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtTotalWarrantyDownTime" class="form-control text-right" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <input type="hidden" id="LoadCategoryMain0" name="LoadCategory" value="null" />
+                <input type="hidden" id="LoadCategoryLar0" name="LoadCategory" value="null" />
+                <input type="hidden" id="LoadCategoryThird0" name="LoadCategory" value="null" />
+
+                <div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="WarrantyProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218); border-bottom:none">
+                                <thead class="tableHeading noScrollGrid">
+                                    <tr>
+                                        <th style="text-align: center;" width="16%">Contractor / Vendor Registration No.@*<span class="red">*</span>*@</th>
+                                        <th style="text-align: center;" width="14%">Contractor / Vendor Name</th>
+                                        <th style="text-align: center;" width="14%">Contact Person</th>
+                                        <th style="text-align: center;" width="14%">Telephone No.</th>
+                                        <th style="text-align: center;" width="14%">Email</th>
+                                        <th style="text-align: center;" width="14%">Fax No.</th>
+                                        <th style="text-align: center;" width="14%">Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ARWarrantyProviderMainTableBody" class="noScrollGrid">
+
+                                    <tr class="ng-scope" style="">
+
+                                        <td width="16%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="SSMNo_" type="text" class="form-control fetch" name="SSMNo" autocomplete="off" disabled />
+                                            </div>
+                                            <input type="hidden" id="ContractorIdMain_" /> <div class="col-sm-12" id="MainDivFetch_"></div>
+                                            <input type="hidden" id="SupplierWarrantyIdMain_" />
+                                        </td>
+
+                                        <td width="14%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="ContractorName_" type="text" class="form-control fetchField " name="ContractorName" readonly="readonly">
+                                            </div>
+                                        </td>
+
+                                        <td width="14%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="ContactPerson_" type="text" class="form-control fetchField " name="ContactPerson" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td width="14%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="TelephoneNo_" type="text" class="form-control fetchField " name="TelephoneNo" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td width="14%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="Email_" type="text" class="form-control fetchField " name="Email" autocomplete="off" readonly="readonly">
+                                            </div>
+                                        </td>
+
+                                        <td width="14%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="FaxNo_" type="text" class="form-control fetchField " name="FaxNo" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td width="14%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input id="Address_" type="text" class="form-control fetchField " name="Address" autocomplete="off" readonly="readonly">
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <br />
+            <div class="row modal-title font_size_14 mt20" style="margin-left:0px;">Local Authorised Representative (LAR)</div>
+            
+                <div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="WarrantyProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading noScrollGrid">
+                                    <tr>
+                                        <th style="display:none;" width=""></th>
+                                        <th width="5%" class="text-center">
+                                            <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                            <div class="checkbox text-center">
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" name="WarrantyProvider" id="chk_WarrantyProviderLar" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                </label>
+                                            </div>
+                                        </th>
+
+                                        <th style="text-align: center;" width="20%" id="LARSSMlabl">Contractor / Vendor Registration No.</th>
+                                        <th style="text-align: center;" width="15%">Contractor / Vendor Name</th>
+                                        <th style="text-align: center;" width="15%">Contact Person</th>
+                                        <th style="text-align: center;" width="10%">Telephone No.</th>
+                                        <th style="text-align: center;" width="10%">Email</th>
+                                        <th style="text-align: center;" width="10%">Fax No.</th>
+                                        <th style="text-align: center;" width="15%">Address</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="ARWarProvLarTableBody" class="noScrollGrid"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt20">
+                    <div class="col-sm-3 ">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div>
+                                    <a onclick="AddNewLar()" id="addMoreLar" class="btn btn-primary addMore">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <br />
+                @*<h4 class="modal-title font_size_14 mt20">3rd Party Service Provider</h4>*@
+            <div class="row modal-title font_size_14 mt20" style="margin-left:0px;">3rd Party Service Provider</div>
+
+                <div ng-view="" class="row">
+                    @*<div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>*@
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="WarrantyProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading noScrollGrid">
+                                    <tr>
+                                        <th style="display:none;" width=""></th>
+                                        <th width="5%" class="text-center">
+                                            <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                            <div class="checkbox text-center">
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" name="WarrantyProvider" id="chk_WarrantyProviderThird" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                </label>
+                                            </div>
+                                        </th>
+
+                                        <th style="text-align: center;" width="20%" id="ThirdPartySSMlabl">Contractor / Vendor Registration No.</th>
+                                        <th style="text-align: center;" width="15%">Contractor / Vendor Name</th>
+                                        <th style="text-align: center;" width="15%">Contact Person</th>
+                                        <th style="text-align: center;" width="10%">Telephone No.</th>
+                                        <th style="text-align: center;" width="10%">Email</th>
+                                        <th style="text-align: center;" width="10%">Fax No.</th>
+                                        <th style="text-align: center;" width="15%">Address</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="ARWarProvThirdTableBody" class="noScrollGrid"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt20">
+                    <div class="col-sm-3 ">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div>
+                                    <a onclick="AddNewThird()" id="addMoreThird" class="btn btn-primary addMore">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="errormsgcenter" style="color:red; visibility:hidden" id="errorMsg1">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center mt20">
+                        <button type="button" id="btnWPSave" class="btn btn-primary customButton "><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    </div>
+                </div>
+
+</form>
+    </div>
+
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegisterWarrantyProviderTab.js"></script>

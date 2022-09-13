@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "RI Planner Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="Dashboard.html"><i class="fa fa-home"></i></a>
+            </li>
+            <li><a href="#">Reports</a></li>
+            <li class="active"><a href="#">RI Planner Report</a></li>
+
+        </ol>
+        <h4>@ViewBag.ActionType RI Planner Report</h4>
+    </div>
+    
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="RIPlannerForm" autocomplete="off">
+
+            <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">WorkGroupId</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" maxlength="25" id="RIworkgroupid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Year</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="RIyear" required>
+                                        <option value="null">Select</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnRIRptFetch" name="btnFetch" class="btn btn-primary" onclick="getRIPlannerReport()" title="Fetch" value="Fetch">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <iframe id="ReportFrame" frameborder="0" src="" style="width:100%;height:550px;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnRIRptCancel" name="btnCancel" class="btn btn-grey" title="Cancel" value="Back">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts
+    {
+
+    <script type="text/javascript" src="~/Scripts/ng/Controllers/Report/RIPlannerReport.js"></script>
+
+}

@@ -1,0 +1,379 @@
+﻿@{
+    ViewBag.Title = "Detail";
+     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        } 
+	}
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>CLS</li>
+            <li>Master</li>
+            <li>Dept / Area Details</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4></h4>
+    </div>
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#formppmplanner" data-toggle="tab">Dept/Area Details</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2">Receptacles</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-3">Daily Cleaning Schedule</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-4">Periodic Work Schedule</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-5">Toilet</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-6">Dispenser</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-7">Variation Details</a></li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+            <div class="content_body">
+                <form id="formDeptAreaDetails" name="formDeptAreaDetails" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Code<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="Areacode">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtUserAreaCode" autocomplete="off" name="UserAreaCode" maxlength="25"  />
+                                        <input type="hidden" required id="hdnUserAreaId" />
+
+                                        <div class="col-sm-12" id="divUserAreaFetch">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Name</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" disabled class="form-control" id="txtUserAreaName" autocomplete="off" name="txtUserAreaName" maxlength="25"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Category of Area<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <div id="CategoryArea">
+                                            <select type="text" required class="form-control" id="CArea" autocomplete="off" name="CArea" maxlength="25" >                                              
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Status <span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select type="text" required class="form-control" id="status" autocomplete="off" name="status" maxlength="25" >                                               
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Operating Days<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="OD">
+                                        <select type="text" required class="form-control" id="ODays" autocomplete="off" name="ODays" maxlength="25" >  
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Working Hours</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <select type="text" class="form-control" id="WHours" autocomplete="off" name="WHours" maxlength="25" >  
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Receptacles</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input  class="form-control" type="number" placeholder="" disabled id="txtTotalReceptacles" autocomplete="off" name="TotalReceptacles" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Cleanable Area (Sq m)<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="CA">
+                                        <input type="number" required class="form-control" placeholder="" id="txtCleanableArea" autocomplete="off" name="CleanableArea" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">No. of Hand Washing Facilities<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="HWF">
+                                        <input type="number" required class="form-control" id="txtNoofHandWashingFacilities" autocomplete="off" name="NoofHandWashingFacilities" maxlength="25" min="0" onkeypress="return event.charCode >= 48" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">No. of Beds</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="number" class="form-control" id="txtNoofBeds" autocomplete="off" name="NoofBeds" maxlength="25" min="0" onkeypress="return event.charCode >= 48" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total No. of User Locations</label>
+                                <div class="col-sm-6">
+                                    <div class="" role="group">
+                                        <input type="text" id="TotalNoofUserLocations" name="TotalNoofUserLocations" class="form-control" value="0" disabled autocomplete="off" maxlength="25" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Hospital Representative<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="HR">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtHospitalRepresentative" autocomplete="off" name="HospitalRepresentative" maxlength="25"  />
+                                        <input type="hidden" id="hdnHospitalStaffId" />
+                                        <div class="col-sm-12" id="divFetch4">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Hospital Representative Designation</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" disabled placeholder="" id="txtHospitalRepresentativeDesignation" autocomplete="off" name="HospitalRepresentativeDesignation" maxlength="25" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Company Representative<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="CR">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtCompanyRepresentative" autocomplete="off" name="CompanyRepresentative" maxlength="25"  />
+                                        <input type="hidden" id="hdnCompanyStaffId" />
+                                        <div class="col-sm-12" id="divFetch5">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Company Representative Designation</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" disabled placeholder="" id="txtCompanyRepresentativeDesignation" autocomplete="off" name="CompanyRepresentativeDesignation" maxlength="25"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective From Date </label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" disabled placeholder="" id="txtEffectiveFromDate" autocomplete="off" name="EffectiveFromDate" maxlength="25"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective To Date</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" disabled placeholder="" id="txtEffectiveToDate" autocomplete="off" name="EffectiveToDate" maxlength="25" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">JI Schedule<span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div class="" role="group" id="JI">
+                                        <select type="text" required class="form-control" id="JIS" autocomplete="off" name="JIS" maxlength="25" >  
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks</label>
+                                <div class="col-sm-9">
+                                    <div>
+                                        <textarea id="txtRemarks" class="form-control" rows="2" cols="50" name="Remarks" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p align="right">
+                        @*<button type="button" id="btnFetch" class="btn btn-primary customButton" title="Fetch">Fetch</button>*@
+                        <input type="button" class="btn btn-primary" id="btnFetch" value="Fetch" />
+                    </p>
+                    <br />
+               
+                 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive" id="">
+                                <table id="tblDeptJI" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th rowspan="2" style="text-align: center;" width="15%">Location Code</th>
+                                            <th rowspan="2" style="text-align: center;" width="15%">Status</th>
+                                            <th colspan="6" style="text-align: center;" width="70%">Joint Inspection Element</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: center;" width="10%">Floor</th>
+                                            <th style="text-align: center;" width="10%">Walls</th>
+                                            <th style="text-align: center;" width="10%">Ceiling</th>
+                                            <th style="text-align: center;" width="10%">Windows & Doors</th>
+                                            <th style="text-align: center;" width="15%">Receptacles & Containers</th>
+                                            <th style="text-align: center;" width="15%">Furniture, Fixture & Equipment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myDIV" style="text-align:center"></tbody>
+                                </table>
+                                <br />
+                                <p class="text-center" id="table_data"><b><medium>No records to display</medium></b></p>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <div class="row mt20">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                @*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & Add New"><i class="fa fa-plus " aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+                                <input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+                                <input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & Add New" />
+                                <input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <label id="Dept" style="font-size:14px"></label>
+           
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-2">
+            <div class="content_body" id="formDeptAreaDetailsReceptacles">
+                @Html.Partial("~/Areas/CLS/Views/DeptAreaDetails/Receptacles.cshtml")
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-3">
+            <div class="content_body" id="formDeptAreaDetailsDCS">
+                @Html.Partial("~/Areas/CLS/Views/DeptAreaDetails/DailyCleaningShedule.cshtml")
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-4">
+            <div class="content_body" id="formDeptAreaDetailsPWS">
+                @Html.Partial("~/Areas/CLS/Views/DeptAreaDetails/PeriodicWorkSchedule.cshtml")
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-5">
+            <div class="content_body">
+                @Html.Partial("~/Areas/CLS/Views/DeptAreaDetails/Toilet.cshtml")
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-6">
+            <div class="content_body">
+                @Html.Partial("~/Areas/CLS/Views/DeptAreaDetails/Dispenser.cshtml")
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-7">
+            <div class="content_body">
+
+                @Html.Partial("~/Areas/CLS/Views/DeptAreaDetails/VariationDetails.cshtml")
+            </div>
+        </div>
+
+    </div>
+            
+	@Html.Partial("~/Areas/CLS/Views/DeptAreaDetails/List.cshtml")
+
+</div>
+        
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/DeptAreaDetails.js")"></script>
+}

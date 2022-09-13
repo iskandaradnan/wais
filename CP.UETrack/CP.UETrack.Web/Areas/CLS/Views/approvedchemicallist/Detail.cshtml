@@ -1,0 +1,180 @@
+﻿
+@{
+	ViewBag.Title = "CLS-ApprovedChemicalList";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+	@functions{
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		}
+	}
+	<input id="antiForgeryToken" type="hidden" />
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+	<input type="hidden" id="hdnStatus" name="hdnStatus" />
+	<input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+	<!-- Content Header Starts -->
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>CLS</li>
+			<li>Master</li>
+			<li class="active">Approved Chemical List</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<h4></h4>
+		@*<h4><span id="spnActionType">Add</span> Block</h4>*@
+	</div>
+
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active">
+			<a href="#divBlock" aria-controls="home" role="tab" data-toggle="tab">Approved Chemical List</a>
+		</li>
+		<li role="presentation">
+			<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+		</li>
+
+	</ul>
+	<!-- Content Header Ends -->
+	<!-- Contents goes here -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="divBlock">
+			<form name="formApprovedChemical" id="formApprovedChemical" class="form-horizontal" novalidate>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Category<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="category">
+									<select type="text" required class="form-control" id="ddlCategory" autocomplete="off" name="Category" maxlength="25"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Area of Application<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="Area">
+									<select type="text" required class="form-control" id="ddlAreaofApplication" name="AreaofApplication" autocomplete="off" maxlength="25"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Chemical Name<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="Chemicalname">
+										<input type="text" required class="form-control" id="txtChemicalName" autocomplete="off" name="ChemicalName" maxlength="25" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">KKM Number<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="Kmmno">
+										<input type="text" required class="form-control" id="txtKKMNumber" autocomplete="off" name="KKMNumber" maxlength="25" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Properties<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="property">
+									<input type="text" required class="form-control" id="txtProperties" autocomplete="off" name="Properties" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Status<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="status">
+									<select required class="form-control" id="ddlStatus"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Effective From Date<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="EffectiveFromDate">
+									<input type="text" required class="form-control datetime" id="txtEffectiveFromDate" autocomplete="off" name="EffectiveFromDate" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Effective To Date</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control datetime" disabled id="txtEffectiveToDate" autocomplete="off" name="EffectiveToDate" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden; text-align:center;" aria-hidden="true">
+					<!-- ngIf: RescheduleErrorList.length > 0 -->
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-sm-12 text-center">
+						<div class="form-group">
+							@*<input type="button" id="btnSave" class="btn btn-primary" value="Save" />*@
+							<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+							<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />
+							<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+							@*<button type="button" id="btnSave" class="btn btn-primary" title="Save1" tabindex="5" aria-hidden="false"><i class="fa fa-floppy-o"></i>Save</button>
+								<button type="button" id="btnSaveandAddNew" class="btn btn-primary" title="Save & AddNew1" aria-hidden="false"><i class="fa fa-plus"></i>Save & Add New </button>
+								<button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Reset" aria-hidden="false"><i class="fa fa-repeat"></i>Reset</button>*@
+						</div>
+					</div>
+				</div>
+				<label id="InsertStatus" style="font-size:14px"></label>
+				<br />
+			</form>
+		</div>
+		
+		@Html.Partial("~/Areas/CLS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/CLS/Views/ApprovedChemicalList/List.cshtml")
+
+
+</div>
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/ApprovedChemicalList.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}
+
+

@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewBag.Title = "Monthly Service Fee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>KPI</li>
+            <li class="active">Monthly Service Fee</li>           
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4> Monthly Service Fee</h4>
+    </div>
+
+    @*<div class="content_body" id="MonthlyServiceFeeForm">*@
+
+    @*<ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#MonthlyServiceFeeTab"  aria-controls="home" role="tab" data-toggle="tab">Monthly Service Fee</a></li>
+            <li role="presentation"><a href="#RevisionTab" id="RevisionHistoryTab" aria-controls="profile" role="tab" data-toggle="tab">Revision Tab</a></li>
+        </ul>*@
+
+    <!--Tab Pane-->
+    @*<div class="tab-content">*@
+
+    <!--1 st Tab-->
+    @*<div role="tabpanel" class="tab-pane active" id="MonthlyServiceFeeTab">*@
+    <div class="content_body">
+        <form class="form-horizontal" autocomplete="off" id="MonthlyServiceFeeForm">
+
+            <div class="row">                
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Year</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="monthlyyear" required>
+                                @*<option value="null" >Select</option>*@
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6" hidden>
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Facility<span class="red"></span></label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="monthlyfacility" disabled readonly>
+                            <input type="hidden" class="form-control" id="hdnVersionno">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-view="" class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="MonthlyservicefeedataTable" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center;" width="40%">Month</th>
+                                    <th style="text-align: center;" width="15%">Monthly Project Fee (<span class="spnCurrencyName"></span>)</th>
+                                    <th style="text-align: center;" width="15%">Amended Fee (<span class="spnCurrencyName"></span>)</th>
+                                    <th style="text-align: center;" width="15%">KPI (<span class="spnCurrencyName"></span>)</th>
+                                    <th style="text-align: center;" width="15%">Monthly Service Fee (<span class="spnCurrencyName"></span>)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="MonthlyServiceFeeTbl">
+
+                                @*Content of HTML Element*@
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+            @*<div class="row">
+                <div class="form-group mt20">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton pull-right" title="Cancel">Back</button>
+                    </div>
+                </div>
+            </div>*@
+
+        </form>
+    </div>
+
+    @*</div>*@
+
+
+    <!--2 nd Tab-->
+    @*<div role="tabpanel" class="tab-pane" id="RevisionTab">
+            <div class="content_body">
+                <form class="form-horizontal" autocomplete="off">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Year<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="revisionyear">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Version<span class="red"> *</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="revisionversion">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <hr style="margin: 2em 0;">
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="RevisiondataTable" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th style="text-align: center;" width="40%">Month</th>
+                                            <th style="text-align: center;" width="20%">MSF<span class="red"></span></th>
+                                            <th style="text-align: center;" width="20%">Amendment Fee</th>
+                                            <th style="text-align: center;" width="20%">Total Fee</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="RevisionTbl">
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center mt20">
+                            <button type="button" id="RbtnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Back</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>*@
+
+    @*</div>
+
+        </div>*@
+
+</div>
+
+
+
+@section scripts
+    {    
+    <script src="~/Scripts/ng/Controllers/KPI/MonthlyServiceFee.js"></script>
+}

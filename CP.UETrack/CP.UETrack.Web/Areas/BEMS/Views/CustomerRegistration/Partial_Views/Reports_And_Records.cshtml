@@ -1,0 +1,69 @@
+﻿<div role="tabpanel" class="tab-pane" id="divReportsAndRecords">
+    <form class="form-horizontal" id="frmReportsAndRecords" novalidate>
+
+        <!-- Grid Details -->
+
+        <div class="row">
+            <div class="col-sm-12">
+                <hr style="margin: 2em 0;">
+            </div>
+            <div class="col-sm-12" id="divReportsAndRecordsTable">
+                <div class="table-responsive">
+                    <table id="tblReportsAndRecords" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                        <thead class="tableHeading">
+                            <tr>
+                                <th width="3%" class="text-center">
+                                    <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                    <br /><input type="checkbox" id="chkReportsAndRecordsDeleteAll" />
+                                </th>
+                                <th style="text-align: center;" width="97%">Report Name<span class="red"> *</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="3%" style="text-align:center">
+                                    <input type="checkbox" id="chkReportsAndRecordsDelete_0" />
+                                </td>
+                                <td width="97%">
+                                    <div>
+                                        <input type="text" pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" maxlength="100" class="form-control" style="max-width:100%" id="txtReportName_0" required />
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt20">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <div>
+                            <a id="anchorReportAddEditNew" class="btn btn-primary">+</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgReportsAndRecords">
+                <div class="errormsgcenter">
+
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-primary customButton" id="btnAddEditReportsSave" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" class="btn btn-grey customButton" id="btnReportsCancel" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/Cutormer/ReportsAndRecords.js"></script>

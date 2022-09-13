@@ -1,0 +1,556 @@
+﻿
+@{
+    ViewBag.Title = "BEMS-Asset Type Code Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/js/Common/bootstrap-multiselect.js"></script>
+<style>
+    .errormsgcenter1 {
+        color: red;
+        border: 1px solid #b02f41;
+        border-radius: 3px;
+        padding: 5px 25px;
+        width: 50%;
+        margin: 0 auto;
+        line-height: 25px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    #PopupGridId tr td .checkbox {
+        margin-top: 0px;
+    }
+</style>
+<div>
+
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="ServiceId" name="ServiceId" value="2" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            <li>General Master</li>
+            <li>Asset Metadata</li>
+            @*<li>Asset Metadata</li>*@
+            <li class="active">@*<a href="/BEMS/TypeCodeDetails">*@Asset Type Code Details</a>  </li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        @*<h4>@ViewBag.ActionType Asset Type Code Details</h4>*@
+        <h4>Asset Type Code Details</h4>
+    </div>
+    <div class="content_body">
+        <form class="form-horizontal" id="tdform">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @*<label for="selServices" class="col-sm-6 control-label">Services</label>*@
+                        <label for="selServices" class="col-sm-6 control-label">Services<span class="red">&nbsp;*</span></label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="selServices" name="selServices" tabindex="19" required>
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset Classification Code<span class="red">&nbsp;*</span></label>
+                        <div>
+                            <div class="col-sm-4">
+                                <input type="hidden" id="hdnAssetClassificationId" required/>
+                                <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\/]{3,25}$" id="txtAssetClassificationCode" name="AssetClassificationCode" placeholder="Please Select" maxlength="25" required />
+                                <div class="col-sm-12" id="divFetch">
+
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2" id="assetsearchPopup">
+                                <a data-toggle="modal" class="btn btn-sm  btn-primary" id="spnPopup-acc" title="Search">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </a>
+
+                                @*<a data-toggle="modal" class="btn btn-sm  btn-primary" id="searchPOPup" title="Search">
+                                <span id="spnPopup-acc" class="glyphicon glyphicon-modal-window"></span>
+                            </a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="LevelName" class="col-sm-6 control-label">Asset Classification Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" maxlength="100" id="txtAssetClassificationDescription" name="AssetClassificationDescription" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset Type Code <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="AssetTypeCode" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="AssetTypeCode" maxlength="25" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset Type Description <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="AssetTypeDescription" name="AssetTypeDescription" minlength="1" maxlength="100"
+                                       required @*pattern="^[a-zA-Z0-9\s]+$"*@ pattern="^[a-zA-Z0-9\-\/\(\)\,.'&quot\s]+$" autocomplete="off" tabindex="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Maintenance Flag <span class="red"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="MaintenanceFlag" multiple="multiple" name="Flag" class="form-control" required></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Equipment Function Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="EquipmentFunctionCatagoryLovId" name="EquipmentFunctionCatagoryLovId" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Life Expectancy</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="LifeExpectancyId" name="LifeExpectancyId" class="form-control">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Expected Life Span (Years) <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="ExpectedLifeSpan" pattern="^[0-9]+$" name="ExpectedLifeSpan" maxlength="3" required />
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Criticality" class="col-sm-6 control-label">Criticality <span class="red"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="Criticality" name="Criticality"  required class="form-control">
+                                    <option value="null">Select </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+
+
+            <div class="col-sm-6 ">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Type of Contract <span class="red">*</span></label>
+                    <div class="col-sm-6">
+                        <div>
+                            <select id="TypeofContractLovId" class="form-control" required>
+                                <option value="null">Select</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+           
+            <hr style="margin: 2em 0;">
+            <h5>QAP Details</h5>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">QAP Asset Service</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="selServices" name="selServices" tabindex="19" disabled>
+                                        <option value="null">Select</option>
+                                        <option value="1">FEMS</option>
+                                        <option value="2">BEMS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">PPM Completion (B1)</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="QAPAssetTypeB1"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Equipment Uptime (B2)</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="QAPServiceAvailabilityB2"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">QAP Uptime Target (%) <span class="red qap">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="QAPUptimeTargetPerc" maxlength="8" style="text-align:right;" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Effective From <span class="red qap">*</span></label>
+                            <div class="col-sm-6" style="position:relative">
+                                <div>
+                                    <input type="text" class="form-control datatimeFuture" id="EffectiveFrom" maxlength="11" autocomplete="off">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Effective To <span class="red qap">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control datatimeFuture" id="EffectiveTo" maxlength="11" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr style="margin: 2em 0;">
+            <h5>Uptime Target </h5>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Age < 5 Yrs. (%) <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TRPILessThan5YrsPerc" @*pattern="^\d{0,5}(?:\.\d{0,2})?$"*@ maxlength="8" style="text-align:right" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Age 5 - 10 Yrs. (%) <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" id="TRPI5to10YrsPerc" @*pattern="^\d{0,5}(?:\.\d{0,2})?$"*@ maxlength="8" style="text-align:right" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Age >10 Yrs. (%) </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="TRPIGreaterThan10YrsPerc" @*pattern="^\d{0,5}(?:\.\d{0,2})?$"*@ maxlength="8" style="text-align:right" class="form-control" />
+                                    @*  <input type="text" id="TRPIGreaterThan10YrsPerc"*@ @*pattern="^\d{0,5}(?:\.\d{0,2})?$"*@ @*maxlength="8" style="text-align:right" class="form-control" required />*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin: 2em 0;">
+            <h5>Variation Rate Details </h5>
+            <div class="col-sm-8 pull-right">
+                <div class="col-sm-5 pull-right">
+                    <div class="form-group">
+                        <div class="col-sm-6 pull-right">
+                            <input type="checkbox" id="QapVariation" name="QapVariation" autocomplete="off" tabindex="0">
+                        </div>
+                        <label class="col-sm-6 control-label">Variation Rate Required?</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" style="margin-left:2%;width:98%" id="divVariationRate">
+
+                <div class="row">
+                    <div class="table table-responsive">
+                        <table id="dataTableTaskDetails" class="table table-bordered">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="40%" style="text-align:center;">Parameter</th>
+                                    <th width="25%" style="text-align:center;">Variation Rate (%)<span class="red">&nbsp;*</span></th>
+                                    <th width="25%" style="text-align:center;">Effective From Date<span class="red">&nbsp;*</span></th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="variationgrid"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin: 2em 0;">
+
+            @*<div class="col-sm-12" style="color:red; visibility:hidden"  id="errorMsg">
+            <div class="errormsgcenter">
+
+            </div>
+        </div>*@
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+            <br />
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-center">
+                    <button type="button" id="btnSave"  class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnEdit" class="btn btn-primary hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                    <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </div>
+            </div>
+
+        </form>
+        @Html.Partial("~/Areas/BEMS/Views/TypecodeDetails/List.cshtml")
+    </div>
+
+
+
+    <div class="modal fade" id="Additional" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5>Additional Asset Specification</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Type Code</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="popupAssetTypeCode" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="ppmRegisterPpmMake" class="col-sm-6 control-label">Asset Type Description</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="popupAssetTypeDescription" disabled class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr style="margin: 2em 0;">
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="10%" class="text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                                            </th>
+                                            <th style="text-align: center;" width="45%">Specification Type <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="45%">Specification Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="PopupGridId"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt20">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div id="popupAddrowId">
+                                        <a onclick="AddNewRow()" class="btn btn-primary">+</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-12 " style="color:red; visibility:hidden" id="errorMsg1">
+                        <div class="errormsgcenter1" style="text-align:center;">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="popupSaveBtn" class="btn btn-primary customButton" data-dismiss="modal">Save</button>
+                    <button type="button" id="popupCloseBtn" class="btn btn-default customButton">Close</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+@*@if (ViewBag.ActionType == "View")
+    {
+        <script type="text/javascript">
+            $("#tdform :input:not(:button)").prop("disabled", true);
+        </script>
+    }*@
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/TypecodedetailsController.js")"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

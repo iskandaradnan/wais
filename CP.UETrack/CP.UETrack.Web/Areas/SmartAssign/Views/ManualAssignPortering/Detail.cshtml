@@ -1,0 +1,188 @@
+﻿
+
+@{
+    ViewBag.Title = "Manual Assign Portering";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>Smart Assign</li>
+            <li class="active">Manual Assign Asset Tracker</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Manual Assign Asset Tracker</h4>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="content_body">
+        <form class="form-horizontal" id="MAPortering" autocomplete="off">
+
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset No. / Loaner / Test Equipment</label>
+                        <div>
+                            <div class="col-sm-6">
+                                <input type="hidden" id="hdnMAPAssetId" />
+                                <input type="text" id="MAPtxtAssetNo" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$"  name="AssetNo" title="AssetNo" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Work Order No.</label>
+                        <div>
+                            <div class="col-sm-6">
+                                <input type="hidden" id="hdnMAPWorkOrderId" />
+                                <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$" id="MAPtxtMaintenanceWorkNo" name="WorkOrderNo" title="WorkOrderNo" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset Tracker No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" title="PorteringNo" id="MAPPorteringNo" name="PorteringNo" class="form-control" autocomplete="off" tabindex="0" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset Tracker Date </label>
+                        <div class="col-sm-6">
+                            <input type="text" title="PorteringDate" autocomplete="off" id="MAPPorteringDate" name="PorteringDate" class="form-control" tabindex="0" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From Facility</label>
+                        <div class="col-sm-6">
+                            <input type="hidden" id="MAPFromFacilityId" name="FromFacilityId" />
+                            <input type="text" id="MAPFromFacilityName" name="FromFacilityName" class="form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From Block</label>
+                        <div class="col-sm-6">
+                            <input type="hidden" id="MAPFromBlockId" name="FromFacilityId" />
+                            <input type="text" id="MAPFromBlockName" name="FromBlockName" class="form-control" disabled />
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From Level</label>
+                        <div class="col-sm-6">
+                            <input type="hidden" id="MAPFromLevelId" name="FromLevelId" />
+                            <input type="text" id="MAPFromLevelName" name="FromLevelName" class="form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From  Department</label>
+                        <div class="col-sm-6">
+                            <input type="hidden" id="MAPFromUserAreaId" name="FromLevelId" />
+                            <input type="text" id="MAPFromUserAreaName" name="FromLevelName" class="form-control" disabled />
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From  Location</label>
+                        <div class="col-sm-6">
+                            <input type="hidden" id="MAPFromUserLocationId" name="FromUserLocationId" />
+                            <input type="text" id="MAPFromUserLocationName" name="FromUserLocationName" class="form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Assignee <span style="color:red">*</span></label>
+                        <div>
+                            <div class="col-sm-6">
+                                <input type="text" required class="form-control" placeholder="Please Select" id="MAPtxtAssignee" autocomplete="off" name="Assignee" maxlength="50" onkeyup="FetchAssigne(event)" onpaste="FetchAssigne(event)" change="FetchAssigne(event)" oninput="FetchAssigne(event)" disabled/>
+                                <input type="hidden" id="hdnMAPAssingnId" />
+
+                                <div class="col-sm-12" id="divAssigneeFetch">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+           
+            <div class="row mt30">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o hider" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o hider" aria-hidden="true"></i>Save</button>                        
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @Html.Partial("~/Areas/SmartAssign/Views/ManualAssignPortering/List.cshtml")
+    </div>
+
+</div>
+
+
+
+@section scripts{
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/SmartAssign/ManualAssignPortering.js")"></script>
+}

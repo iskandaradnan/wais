@@ -1,0 +1,202 @@
+﻿
+@{
+    ViewBag.Title = "linenitemdetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    @*Content Header Starts*@
+<div class="content_header">
+    <ol class="breadcrumb">
+        <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+        <li>LLS</li>
+        <li>Master</li>
+        <li class="active">Linen Item Details</li>
+        <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+            <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+            <span class="badge" id="helpdescriptionid"></span>
+        </a>
+    </ol>
+    <h5 style="font-size:16px; font-weight:bold;">Linen Item Details</h5>
+    
+    @*<div>
+            <h4 class="pull-left">Linen Item Details</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>*@
+</div>
+    @*Content Header Ends
+        Contents goes here*@
+    
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divItem" aria-controls="home" role="tab" data-toggle="tab">Linen Item Details</a></li>
+        </ul>
+  
+    <div>
+        @*// Tab panes*@
+        <div class="tab-content">
+            @*// 1st Tab*@
+            <div role="tabpanel" class="tab-pane active" id="divItem">
+                <form class="form-horizontal" id="FrmUser" novalidate>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Linen Code<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="txtLinenCode" name="LinenCode" maxlength="50" class="form-control" />
+                                    @*<input type="text" id="txtLinenCode" name="LinenCode" maxlength="50" onkeyup="FetchLinenCode(event,maxindexval)" onpaste="FetchLinenCode(event,maxindexval)" change="FetchLinenCode(event,maxindexval)" oninput="FetchLinenCode(event,maxindexval)" class="form-control" autocomplete="off" tabindex="0" required ><input type="hidden" id="LinenCodeId_maxindexval" /><input type="hidden" id="LinenCodeUpdateDetId_maxindexval" /> <div class="col-sm-12" id="divLinenCodeFetch_maxindexval">*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Linen Description<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtLinenDescription" name="LinenDescription" class="form-control" tabindex="0" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Unit of Measurement<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtUnitofMeasurement" name="UnitofMeasurement" tabindex="19" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Material<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtMaterial" name="Status" tabindex="19" required>
+                                        <option value="null" class="active">Select</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Status<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="SelStatus" class="form-control">
+                                        <option value="1">Active</option>
+                                        <option value="2">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective Date<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control datatimeNoFuture" id="txtEffectiveDate" name="EffectiveDate" autocomplete="off" maxlength="100" required />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Size<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtSize" name="Size" class="form-control" tabindex="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Color<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtColor" name="Color" required>
+                                        <option value="null" class="active">Select</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Standard<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtStandard" name="Standard" tabindex="19" required>
+                                        <option value="null" class="active">select</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Identification Mark<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtIdentificationMark" name="IdentificationMark" class="form-control" tabindex="0" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Linen Price<span class="red"></span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtLinenPrice" name="LinenPrice" class="form-control" tabindex="0" required>
+                                </div>
+                            </div>
+                        </div>
+                       
+
+                    </div>
+                    <br />
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary Save" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" @*id="BtnSaveandAddNew"*@ class="btn btn-primary customButton BtnSaveandAddNew" value="1" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" class="btn btn-primary customButton btnDelete" title="Cancel"><i class="fa fa-floppy-o" aria-hidden="true"></i>Delete</button>
+                            <button type="button" class="btn btn-grey customButton Cancel" title="Cancel"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            @*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                            @*<button type="button" id="btnSave" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                            @*<button type="button" id="BtnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                <button type="button" id="BtnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/linenitemdetails/linenitemList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/LinenItemDetails.js")"></script>
+}

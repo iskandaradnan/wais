@@ -1,0 +1,35 @@
+﻿
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <div class="col-sm-3">&nbsp;</div>
+            <div class="col-sm-6 text-center">
+
+                <span ng-click="ShowFirstPage()"
+                      ng-class="{ pagerEnabled: pageNumber > 1, pagerDisabled: pageNumber == 1 || GridtotalRecords == 0 }" class="glyphicon glyphicon-fast-backward" aria-hidden="true">
+                </span>
+
+                <span ng-click="ShowPreviousPage()"
+                      ng-class="{ pagerEnabled: pageNumber > 1, pagerDisabled: pageNumber == 1 || GridtotalRecords == 0 }" class="glyphicon glyphicon-backward" aria-hidden="true">
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <span>Page&nbsp;</span>
+                <input type="text" size="2" ng-enter="SetPage()" id="Id_PageNumber" ignore-dirty ng-model="pageNumberDisplay" maxlength="4" number ng-disabled="GridtotalRecords == 0 || CopyPageNoDisable==true" />
+
+                <span ng-cloak>&nbsp;of&nbsp;{{totalPages}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <span ng-click="ShowNextPage()"
+                      ng-class="{ pagerEnabled: pageNumber < totalPages, pagerDisabled: pageNumber == totalPages || GridtotalRecords == 0 }" class="glyphicon glyphicon-forward" aria-hidden="true">
+                </span>
+
+                <span ng-click="ShowLastPage()"
+                      ng-class="{ pagerEnabled: pageNumber < totalPages, pagerDisabled: pageNumber == totalPages || GridtotalRecords == 0 }" class="glyphicon glyphicon-fast-forward" aria-hidden="true">
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <select ng-cloak ng-model="pageSize" ng-change="pageSizeChanged()" id="Id_PageSize" ignore-dirty ng-disabled="GridtotalRecords == 0 || CopyDDLDisable==true"
+                        ng-options="f.value as f.value for f in PageList"></select>
+            </div>
+            <div class="col-sm-3 text-right" ng-cloak>View {{firstRecord | currency:'':0}} to {{lastRecord | currency:'':0}} of {{GridtotalRecords | currency:'':0}}</div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

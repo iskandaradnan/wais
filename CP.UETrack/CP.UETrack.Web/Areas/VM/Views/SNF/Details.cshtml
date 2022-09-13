@@ -1,0 +1,304 @@
+﻿
+@{
+    ViewBag.Title = "SNF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.Mode" />
+    <input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+            <li>BEMS</li>
+            <li>Transaction</li>
+            <li class="active">@*<a href="/bems/SNF">*@SNF</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>@ViewBag.Mode SNF</h4>
+    </div>
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">SNF</a></li>
+        </ul>
+    </div>
+
+    <div class="content_body">
+     
+
+        <form class="form-horizontal" id="frmSNF"  novalidate>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">SNF No. </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="txtSNFNo" name="txtSNFNo" class="form-control " maxlength="11" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">SNF Date<span class="red removeMandtry"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" name="txtSNFDate" @*pattern="^[0-9]+(\.[0-9]{1,2})?$"*@ maxlength="10"
+                                    required   id="txtSNFDate" class="form-control  datatimeAll"@*datatimeFuture "text-right"*@  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Asset No. <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input required type="text" id="txtAssetNo" name="txtPurchaseDate" pattern="^[a-zA-Z0-9\-\/]+$" @*pattern="^[a-zA-Z0-9\s]+$"*@ placeholder="Please Select" class="form-control " maxlength="11" />
+                                <input type="hidden" id="TxtAssetNoId">
+                                <div class="col-sm-12" id="divAssetnoFetch">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Purchase Date</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input disabled type="text" id="txtPurchaseDate" name="txtPurchaseDate" class="form-control datatimeNoFuture" maxlength="11"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Purchase Cost (<span class="spnCurrencyName"></span>)</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" name="txtPurchaseCost" pattern="^[0-9]+(\.[0-9]{1,2})?$" maxlength="10"
+                                   disabled    id="txtPurchaseCost" class="form-control  text-right"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row">
+            
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Variation Status <span class="red" id="variationstatusdisplay">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selVariationStatus" name="selVariationStatus" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Contract No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="txtContractNo" name="txtContractNo"
+                                       pattern="^[a-zA-Z0-9\s]+$" class="form-control" maxlength="100" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Service Start Date</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled id="txtServiceStartDate" name="txtServiceStartDate" class="form-control datatimeNoFuture" maxlength="11"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Service Stop Date <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input  type="text" id="txtServiceEndtDate" required name="txtServiceEndtDate" class="form-control datatimeNoFuture" maxlength="11" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Main Supplier Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" name="txtMainSupplierCode"
+                                   disabled    id="txtMainSupplierCode" maxlength="50" pattern="^[a-zA-Z0-9\s]+$" class="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Main Supplier Name</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" name="txtMainSupplierName"
+                                   disabled    id="txtMainSupplierName" maxlength="100" pattern="^[a-zA-Z0-9\s]+$" class="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label"> Warranty Start Date </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input disabled type="text" id="txtWarrantyStartDate" name="txtWarrantyStartDate" class="form-control datatimeNoFuture" maxlength="11"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Warranty Duration </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" name="txtWarrantyDuration"
+                                    disabled   id="txtWarrantyDuration" maxlength="4" pattern="^[0-9]+$" class="form-control text-right"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" id="Warrantystatusdisplay">Warranty Status </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selWarrantyStatus" name="selWarrantyStatus" disabled>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label"> Warranty End Date</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="txtWarrantyEndDate" name="txtWarrantyEndDate" class="form-control datatimeNoFuture" maxlength="11" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Remarks</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <textarea class="form-control wt-resize" pattern="^[a-zA-Z0-9\s]+$" maxlength="500" rows="4" cols="50" name="txaSNFRemarks" id="txaSNFRemarks"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*</div>*@
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 text-right">
+                        @if (ViewBag.Mode == "ADD")
+                        {
+                            <button type="button" class="btn btn-primary customButton" onclick="save()" id="btnSave">Save</button>
+                        }
+                        @if (ViewBag.Mode == "EDIT")
+                        {
+                            <button type="button" class="btn btn-primary customButton" onclick="save()" id="btnEdit">Save</button>
+                        }
+                        @if (ViewBag.Mode == "VERIFY")
+                        {
+                            <button type="button" class="btn btn-primary customButton"  onclick="save()"  id="btnVerify">Verify</button>
+                        }
+                        @if (ViewBag.Mode == "APPROVE")
+                        {
+                            <button type="button" class="btn btn-primary customButton"  onclick="save()"  id="btnApprove">Approve</button>
+                        }
+                        @if (ViewBag.Mode == "REJECT")
+                        {
+                            <button type="button" class="btn btn-primary customButton"  onclick="save()"  id="btnReject">Reject</button>
+                        }
+                        @if (ViewBag.Mode == "ADD")
+                        {
+                            <button type="button" class="btn btn-primary customButton" id="btnAddNew">Add New</button>
+                        }
+                        <button type="button" class="btn btn-default customButton" id="btnCancel">Back</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+@if (ViewBag.Mode == "VIEW")
+{
+    <script type="text/javascript">
+        $("form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/VM/SNF.js")"></script>
+}
+

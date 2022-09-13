@@ -1,0 +1,254 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form id="form">
+
+    <div class="">
+        <div class="">
+
+            @functions{
+                public string GetAntiForgeryToken()
+                {
+                    string cookieToken, formToken;
+                    AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                    return cookieToken + ":" + formToken;
+                }
+            }
+
+            <input id="antiForgeryToken" type="hidden" />
+            <input type="hidden" id="LicenseId" name="LicenseId" value="@ViewBag.Id" />
+            <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.Mode" />
+            <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+            <!-- Content Header Starts -->
+            <div class="content_header">
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="Dashboard.html"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li><a href="#">Master</a></li>
+                    <li class="active">Verification Of Variations</li>
+                    <!--<li class="active">General</li>-->
+                </ol>
+                <h4>License and Certificate Details</h4>
+            </div>
+            <!-- Content Header Ends -->
+            <!-- Contents goes here -->
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+
+                    <li role="presentation" class="active"><a href="#VerificationOfVariations" aria-controls="home" role="tab" data-toggle="tab">Verification Of Variations</a></li>
+                    
+
+                </ul>
+
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="VerificationOfVariations">
+                        <div class="content_body">
+                            <div class="form-horizontal">
+
+                               
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Service<span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <div ng-class="{ 'has-error' : form.ServiceId.$invalid && (form.ServiceId.$dirty || submitted)}">
+                                                    <select class="form-control" id="ddlService"
+                                                            ng-disabled="FetchMode"
+                                                            ng-model="VerificationofVariations.ServiceId"
+                                                            ng-change="onChangeService()"
+                                                            ng-options="c.ServiceId as c.ServiceKey for c in ServiceList" name="ServiceId" autofocus required>
+                                                        <option value="">Select</option>
+
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Table</label>
+                                            <div class="col-sm-6">
+                                                <div ng-class="{ 'has-error' : form.VMTableId.$invalid && (form.VMTableId.$dirty || submitted)}">
+                                                    <select class="form-control" id="ddlVMTableId" @*ng-disabled="VmVariationDetailsTxnList.length >0"*@
+                                                            ng-disabled="FetchMode"
+                                                            ng-model="VerificationofVariations.VMTableId" @*ng-change="onClassificationChange()"*@ ng-options="c.LovId as c.FieldValue for c in TableList" name="VMTableId" required></select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Year & Month<span class="red">*</span></label>
+                                            <div class="col-sm-3">
+                                                <div ng-class="{ 'has-error' : form.Year.$invalid && (form.VariationYear.$dirty || submitted)}">
+                                                    <select class="form-control" id="ddlVariationYear" ng-disabled="FetchMode"
+                                                            ng-model="VerificationofVariations.VariationYear" ng-options="c.LovId as c.FieldValue for c in YearList"
+                                                            ng-change="onYearChange()"
+                                                            name="VariationYear" required></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div ng-class="{ 'has-error' : form.VariationMonth.$invalid && (form.VariationMonth.$dirty || submitted)}">
+                                                    <select class="form-control" id="ddlVariationMonth" @*ng-disabled="VmVariationDetailsTxnList.length >0"*@
+                                                            ng-disabled="FetchMode"
+                                                            ng-model="VerificationofVariations.VariationMonths" ng-options="c.FieldCode as c.FieldValue for c in MonthList" name="VariationMonth" required></select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Variation Status </label>
+                                            <div class="col-sm-6">
+                                                <div ng-class="{ 'has-error' : form.VariationStatus.$invalid && (form.VariationStatus.$dirty || submitted)}">
+                                                    <select class="form-control" id="ddlVariationStatus" @*ng-disabled="VmVariationDetailsTxnList.length >0"*@
+                                                            ng-disabled="FetchMode"
+                                                            ng-model="VerificationofVariations.VariationStatus" ng-options="c.LovId as c.FieldValue for c in VariationStatusList" name="VariationStatus"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Work Flow Status </label>
+                                            <div class="col-sm-6">
+                                                <div ng-class="{ 'has-error' : form.VariationWFStatus.$invalid && (form.ddlVariationWFStatus.$dirty || submitted)}">
+                                                    <select class="form-control" id="ddlVariationWFStatus" @*ng-disabled="VmVariationDetailsTxnList.length >0"*@
+                                                            ng-disabled="FetchMode" ng-change="onVariationWorkFlowStatusChange()"
+                                                            ng-model="VerificationofVariations.VariationWFStatus" ng-options="c.LovId as c.FieldValue for c in VariationWFStatusList" name="VariationWFStatus"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="divEngAssetList">
+
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table id="dataTableCheckList" class="table table-fixedheader table-bordered">
+
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        @*<th width="6%"><span class="glyphicon glyphicon-trash"></span></th>*@
+                                                        <th width="33%">Asset No<span class="red "> *</span></th>
+                                                        <th width="36%">Type Code Description <span class="red "> *</span></th>
+                                                        <th width="31%">Remarks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+                                                        @*<td width="6%" id="del_{{$index}}">
+
+                                                                <div class="checkbox text-center">
+                                                                    <label>
+                                                                        <input type="checkbox" name="checkboxes" value="{{Employee.IsDeleted}}" ng-model="Employee.IsDeleted" ng-change="MultipleDeleteForAssetList(this)">
+                                                                    </label>
+                                                                </div>
+                                                            </td>*@
+
+                                                        <td width="33%">
+                                                            <input type="text" id="txtAssetNo" name="AssetNo" onkeyup="Fetchdata(event)" onpaste="Fetchdata(event)" change="Fetchdata(event)" oninput="Fetchdata(event)"
+                                                                   class="form-control " placeholder="Please Select  " maxlength="25" autocomplete="off" pattern="(^[_A-z0-9]*((-|\s)*[_A-z0-9])*$)$" />
+                                                            <div class="col-sm-12" id="divFetch"></div>
+                                                            <input type="hidden" id="txtAssetRegisterId" ng-model="License.AssetRegisterId" /><input type="hidden" id="LicenseDetId" />
+                                                        </td>
+                                                        <td width="36%">
+                                                            <input type="text" class="form-control" id="txtAssetDescription" name="AssetDescription" disabled />
+                                                        </td>
+                                                        <td width="31%">
+                                                            <input id="txtRemarks" name="Remarks" class="form-control" type="text" maxlength="500" pattern="(^[_A-z0-9]*((-|\s)*[_A-z0-9])*$)$">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+
+                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+
+                                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                                    <div class="errormsgcenter">
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right">
+                                        <input type="button" id="savebtn" class="btn btn-primary  " onclick="Save()" value="Save" />
+
+                                        <button type="button" id="addnewbtn" class="btn btn-primary customButton ">Add New</button>
+                                        <button type="button" class="btn btn-default customButton " onclick="goBack();">Back</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+               
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal fade" data-backdrop="static" id="divContactPersonSearchPopup" role="dialog">
+
+    </div>
+
+</form>

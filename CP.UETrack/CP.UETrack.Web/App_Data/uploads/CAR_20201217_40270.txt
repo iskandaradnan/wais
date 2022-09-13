@@ -1,0 +1,9 @@
+ [CreatedBy], [CreatedDate], [CreatedDateUTC], [ModifiedBy], [ModifiedDate], [ModifiedDateUTC]
+
+ALTER TABLE HWMS_ConsumablesReceptaclesFields
+ADD isDeleted int NULL
+
+SELECT * FROM HWMS_ConsumablesReceptaclesFields
+
+update HWMS_ConsumablesReceptaclesFields set isDeleted=0 where ItemType='10370'
+

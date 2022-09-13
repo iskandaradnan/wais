@@ -1,0 +1,451 @@
+﻿
+@{
+    ViewBag.Title = "FEMS-Level";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .specialDate {
+        background-color: red !important;
+    }
+
+    .specialTextDate {
+        color: white !important;
+    }
+</style>
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnFacilityId" name="hdnFacilityId" />
+    <input type="hidden" id="hdnBookingStatus" name="hdnBookingStatus" />
+    <input type="hidden" id="hdnTypeOfAsset" name="hdnTypeOfAsset" />
+    <input type="hidden" id="IsPorteringDone" name="IsPorteringDone" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="CurrentDate" name="CurrentDate" />
+    <input type="hidden" id="AssetFacilityId" name="AssetFacilityId" />
+    <input type="hidden" id="LocationInchargeId" name="LocationInchargeId" />
+    <input type="hidden" id="CurrentLoginId" name="CurrentLoginId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>FEMS</li>
+            <li class="active">Loaner / Test Equipment Booking</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Loaner / Test Equipment Booking</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" class="pull-right label status"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <ul class="nav nav-tabs" role="tablist">
+
+        <li role="presentation" class="active"><a href="#bookingId" aria-controls="home" role="tab" data-toggle="tab">Loaner / Test Equipment Booking</a></li>
+        <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+
+    </ul>
+    <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane active" id="bookingId">
+            <form name="formFemsLevel" id="bookingFormId" class="form-horizontal" novalidate autocomplete="off">
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelFacility" class="col-sm-6 control-label">Loaner / Test Equipment No. <span class="red"> *</span></label>
+                            <div>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="hdnCompRepEmail" />
+                                    <input type="hidden" id="hdnCompRepId" />
+                                    <input type="hidden" id="hdnAssetId" />
+                                    <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$" id="txtAssetNo" name="AssetNo" title="AssetNo" placeholder="Please Select" maxlength="100" required />
+                                    <div class="col-sm-12" id="divFetch">
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="AssetNoDiv">
+                                    <a data-toggle="modal" id="spnPopup-asset" class="btn btn-sm  btn-primary" title="Search">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelBlock" class="col-sm-6 control-label">Work Order No.</label>
+                            <div>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="hdnWorkOrderId" />
+                                    <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$" id="txtMaintenanceWorkNo" name="WorkOrderNo" title="WorkOrderNo" placeholder="Please Select" maxlength="100" />
+                                    <div class="col-sm-12" id="divFetch2">
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="WonDiv">
+                                    <a data-toggle="modal" id="spnPopup-won" class="btn btn-sm  btn-primary" title="Search">
+
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelCode" class="col-sm-6 control-label">Booking Starts From <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" autocomplete="off" required class="form-control bookingDate" maxlength="15" id="BookingStartFromDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelName" class="col-sm-6 control-label">Booking End <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" autocomplete="off" required class="form-control bookingDate" maxlength="15" id="BookingEndDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Movement Category</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="MovementCategory" disabled>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">To Facility <span class="red location"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control " id="ToLocation_1" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaCode" class="col-sm-6 control-label"> To Location Code<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="ToLocation_5" name="ToLocation_5" />
+                                    <input type="text" class="form-control" id="txtUserLocationCode" title="txtUserLocationCode" name="txtUserLocationCode" placeholder="Please Select" maxlength="25" />
+                                    <div class="col-sm-12" id="divFetch7">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="LocPopid">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Location">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaName" class="col-sm-6 control-label">Location Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtUserLocationName" title="txtUserLocationName" name="txtUserLocationName" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaCode" class="col-sm-6 control-label">Department Code</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="hidden" id="ToLocation_4" name="ToLocation_4" />
+                                    <input type="text" class="form-control" id="txtUserAreaCode" title="txtUserAreaCode" name="txtUserAreaCode" disabled />
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaName" class="col-sm-6 control-label"> Department Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtUserAreaName" title="txtUserAreaName" name="txtUserAreaName" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaCode" class="col-sm-6 control-label"> Level Code</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="hidden" id="ToLocation_3" name="ToLocation_3" />
+                                    <input type="text" class="form-control" id="txtUserLevelCode" title="txtUserLevelCode" name="txtUserLevelCode" disabled />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaName" class="col-sm-6 control-label">Level Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtUserLevelName" title="txtUserLevelName" name="txtUserLevelName" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaCode" class="col-sm-6 control-label">  Block Code</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="hidden" id="ToLocation_2" name="ToLocation_2" />
+                                    <input type="text" class="form-control" id="txtBlockCode" title="txtBlockCode" name="txtBlockCode" disabled />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaName" class="col-sm-6 control-label"> Block Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtBlockName" title="txtBlockName" name="txtBlockName" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                @*<div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">To Block <span class="red location"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control " id="ToLocation_2" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">To Level <span class="red location"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control " id="ToLocation_3" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">To  Area <span class="red location"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control " id="ToLocation_4" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">To Location <span class="red location"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control " id="ToLocation_5" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Requestor Name <span class="red"> *</span></label>
+                            <div>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="hdnCompanyStaffId" />
+                                    <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\.\/\(\)\s]+$" id="txtCompanyStaffName" placeholder="Please Select" autocomplete="off" name="CompanyStaffName" maxlength="150" required />
+                                    <div class="col-sm-12" id="divFetch3">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="companypopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-compStaff">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Designation</label>
+
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtDesignation" class="form-control" name="Designation" title="Designation" readonly autocomplete="off" tabindex="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"> Request Type <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="RequestTypeLovId" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Booking Status</label>
+                            <iv class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="BookingStatus" disabled>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+
+                <div class="row mt30">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnSave" class="btn btn-primary customButton bookButton " title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnEdit" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnVerify" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-check-square-o" aria-hidden="true"></i>Submit</button>
+                            <button type="button" id="btnApprove" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                            <button type="button" id="btnReject" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                            <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton bookButton " title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New</button>
+                            <button type="button" id="btnEditPortering" class="btn btn-primary customButton hider" title="Convet to Portering"><i class="fa fa-link" aria-hidden="true"></i>Convert To Asset Tracker</button>
+                            <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton " title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 2nd Tab -->
+        <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+            <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                @Html.Partial("~/Areas/FEMS/Views/AttachmentPartialView/AttachmentPartialView.cshtml")
+            </form>
+        </div>
+        @Html.Partial("~/Areas/FEMS/Views/Booking/List.cshtml")
+
+    </div>
+
+
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/Portering/Booking.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}

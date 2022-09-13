@@ -1,0 +1,471 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="ServiceId" name="ServiceId" value="2" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="dashboard.html"><i class="fa fa-home"></i></a>
+            </li>
+            <li><a href="#">Master</a></li>
+            <li><a href="#">Standard Task</a></li>
+            <li class="active">Standard Task Details</li>
+            <!--<li class="active">General</li>-->
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>@ViewBag.ActionType Standard Task Details</h4>
+    </div>
+
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+
+            <li role="presentation" class="active"><a href="#tab-1" aria-controls="home" role="tab" data-toggle="tab">Standard Task Details</a></li>
+            <li role="presentation"><a href="#History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+
+        </ul>
+    </div>
+    <div class="tab-content">
+        <!-- 1st Tab -->
+        <div role="tabpanel" class="tab-pane active" id="tab-1">
+            <div class="content_body">
+                <form name="StandardTaskform" id="StandardTaskform" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="Manufacturer" class="col-sm-6 control-label">Service</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="Service" name="Service" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="Model" class="col-sm-6 control-label">Work Group Code</label>
+                                <div class="col-sm-6">
+                                    <div>
+
+                                        <select class="form-control" id="WorkGroupId" name="WorkGroupId" tabindex="2" disabled>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="Manufacturer" class="col-sm-6 control-label">Work Group Name</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="WorkGroupName" name="WorkGroupName" title="WorkGroupName" readonly />
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Asset Type Code<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="txtAssetTypeCode" title="txtAssetTypeCode" name="txtAssetTypeCode" maxlength="25" tabindex="2" required />
+                                        <input type="hidden" id="hdnAssetTypeCodeId" />
+
+                                        <div class="col-sm-12" id="divFetch">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="popupsearch">
+                                            <span id="spnPopup-staff" class="glyphicon glyphicon-modal-window"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="col-sm-6 control-label">
+                                <label>Asset Type Description</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtAssetTypeDesc" title="txtAssetTypeDesc" name="txtAssetTypeDesc" maxlength="75" readonly tabindex="3" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row" id="showgrid">
+                        <div class="col-sm-12">
+                            <hr style="margin: 2em 0;">
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="dataTable1212" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="5%" class="text-center">
+                                                <a><span style="text-align: center;" class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                                                <!--<div class="checkbox text-center">
+                                                    <label for="checkboxes-0">
+                                                        <input type="checkbox" name="StandardTaskDetails" id="chk_StandardTaskDetails" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                    </label>
+                                                </div>-->
+                                            </th>
+                                            <th style="text-align: center;" width="15%">Task Code</th>
+                                            <th style="text-align: center;" width="20%">Task Description<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="12%">Model </th>
+                                            <th style="text-align: center;" width="15%">PPM Checklist</th>
+                                            <th style="text-align: center;" width="9%">OG/WI</th>
+                                            <th style="text-align: center;" width="12%">Status <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="12%">Effective From <span class="red">*</span> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detgrid">
+
+                                        @*  <tr>
+                                                <td width="3%" id="standardTaskDetailsDel">
+                                                    <div class="checkbox text-center">
+                                                        <label for="checkboxes-0">
+                                                            <input type="checkbox"  name="standardTaskDetailsCheckboxes" id="chk_standardTaskDetails" tabindex="0">
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td width="14%" style="text-align: center;">
+                                                    <div>
+                                                        <input type="text" id="TaskCode_maxindexval" name="TaskCode" class="form-control" readonly="readonly">
+                                                    </div>
+
+                                                </td>
+                                                <td width="20%" style="text-align: center;">
+                                                    <div>
+                                                        <input id="TaskDescription_maxindexval" type="text" class="form-control" name="TaskDescription" maxlength="500">
+                                                    </div>
+                                                </td>
+
+                                                <td width="10%" style="text-align: center;">
+                                                    <div>
+                                                        <input type="hidden" id="ModelId_maxindexval" name="ModelId" />
+                                                        <input id="Model_maxindexval" type="text" class="form-control" name="Model" readonly="readonly" maxlength="25">
+                                                    </div>
+                                                </td>
+                                                <td width="12%" style="text-align: center;">
+                                                    <div>
+                                                        <input id="PPMChecklistNo_maxindexval" type="text" class="form-control" name="PPMChecklistNo">
+                                                    </div>
+                                                </td>
+                                                <td width="5%" style="text-align: center;">
+                                                    <div>
+
+                                                        <a data-toggle="modal" class="btn btn-sm  btn-primary btn-info btn-lg" data-target="#myModal">
+                                                            <span class="glyphicon glyphicon-modal-window btn-info" role="button" tabindex="0"></span>
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+                                                <td width="18%" style="text-align: center;">
+                                                    <div>
+                                                        <select id="Active_maxindexval" class="form-control" name="Active">
+                                                            <option selected>Active</option>
+                                                            <option>Inactive</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+
+                                                <td width="18%" style="text-align: center;">
+                                                    <div>
+                                                        <input type="text" id="EffectiveFrom_maxindexval" class="form-control" name="EffectiveFrom" />
+                                                    </div>
+                                                </td>
+                                            </tr>*@
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 text-right">
+                            @if (ViewBag.ActionType == "Add")
+                            {
+                                <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                            }
+                            @if (ViewBag.ActionType == "Edit")
+                            {
+                                <button type="button" id="btnEdit" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                            }
+                            @if (ViewBag.ActionType == "Add")
+                            {
+                                <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary" tabindex="6">Add New</button>
+                            }
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="History">
+            <div class="content_body">
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Type Code</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="histAssetTypeCode" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Type Code Description</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="histAssetTypeCodeDesc" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="typeCodeDetailsdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th style="text-align: center;" width="20%">TaskCode</th>
+                                        <th style="text-align: center;" width="40%">TaskCode Description</th>
+                                        <th style="text-align: center;" width="20%">Status Name</th>
+                                        <th style="text-align: center;" width="20%">Effective From</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="historygridId">
+
+                                    @*<tr class="ng-scope" style="">
+                                            <td width="20%" style="text-align:left;">
+                                                <div>
+                                                    <input type="text" id="TaskCode_maxindexval" class="form-control" readonly>
+                                                </div>
+                                            </td>
+                                            <td width="20%" style="text-align:left;">
+                                                <div>
+                                                    <input type="text" id="TaskDescription_maxindexval" class="form-control" readonly>
+                                                </div>
+                                            </td>
+                                            <td width="20%" style="text-align:left;">
+                                                <div>
+                                                    <input type="text" id="StatusName_maxindexval" class="form-control" readonly>
+                                                </div>
+                                            </td>
+                                            <td width="20%" style="text-align:left;">
+                                                <div>
+                                                    <input type="text" id="EffectiveFrom_maxindexval" class="form-control" readonly>
+                                                </div>
+                                            </td>
+                                        </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg1">
+                        <div class="errormsgcenter1">
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 text-right">
+
+                        <button type="button" id="btnCancelHist" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- start Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5>Standard Task-OGWI Details</h5>
+                    </div>
+
+                    <!-- Modal body-->
+                    <div class="modal-body">
+
+                        <div class="form-group row">
+                            <label for="Service" class="col-sm-4 col-form-label">Service</label>
+                            <div class="col-sm-4">
+                                <input type="hidden" id="indexvalue" />
+                                <input type="text" disabled class="form-control" id="Service" value="BEMS">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="WorkGroupCode" class="col-sm-4 col-form-label">Work Group Code</label>
+                            <div class="col-sm-4">
+                                <input type="text" disabled class="form-control" id="WorkGroupCode" value="W2">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Classificationydescription" class="col-sm-4 col-form-label">OG/WI</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="OGWI" name="OGWI" style="width:350px; height:100px" maxlength="1000" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer mt20">
+                        <button type="button" class="btn btn-primary" onclick="updateOG()" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--End Modal-->
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("#StandardTaskform :input:not(:button)").prop("disabled", true);
+    </script>
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/AssetTypeCodeStandardTasks.js")"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

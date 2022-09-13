@@ -1,0 +1,1406 @@
+﻿
+@{
+    ViewBag.Title = "AssetRegisterDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}
+<div>
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="hdnARPrimaryID" name="hdnARPrimaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="hdnARActionType" name="hdnARActionType" value="@ViewBag.ARActionType" />    
+    <input type="hidden" id="hdnARTimestamp" name="hdnARTimestamp" value="null" />
+    <input type="hidden" id="hdnAssetClassification" name="hdnAssetClassification" value="@ViewBag.AssetClassification" />
+    <input type="hidden" id="hdnTandCDate" name="hdnTandCDate" />
+    <input type="hidden" id="hdnARServiceStartDate" name="hdnARServiceStartDate" />
+    <input type="hidden" id="hdnARPurchaseDate" name="hdnARPurchaseDate" />
+    <input type="hidden" id="hdnARWarrantyStartDate" name="hdnARWarrantyStartDate" />
+    <input type="hidden" id="hdnARWarrantyEndDate" name="hdnARWarrantyEndDate" />
+    <input type="hidden" id="hdnARScreenName" name="hdnARScreenName" value="AssetRegister"/>
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/index"><i class="fa fa-home"></i></a></li>
+            <li>BEMS</li>
+            <li>Asset Register</li>
+            <li class="active">@ViewBag.ClassificationCode">@ViewBag.ClassificationName</li>
+        </ol>
+        <h4>@ViewBag.ARActionType Asset Register</h4>
+    </div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#assetRegister" aria-controls="home" role="tab" data-toggle="tab">Asset Register</a></li>
+        <li role="presentation" onclick="loadAccessoriesTab()"><a href="#accessories" aria-controls="profile" role="tab" data-toggle="tab">Accessories</a></li>
+        <li role="presentation" onclick="loadWarrantyProviderTab()"><a href="#warrantyProvider" aria-controls="messages" role="tab" data-toggle="tab">Warranty Provider</a></li>       
+        <li role="presentation" onclick="loadchildAssetGrid()"><a href="#childasset" aria-controls="profile" role="tab" data-toggle="tab">Child Asset</a></li>
+        <li role="presentation" onclick="loadContractorVendorTab()"><a href="#contractorVendor" aria-controls="settings" role="tab" data-toggle="tab">Contractor &amp; Vendor List</a></li>
+        <li role="presentation" onclick="loadLicenseCertificateTab()"><a href="#licenseCertificate" aria-controls="profile" role="tab" data-toggle="tab">License &amp; Certificate</a></li>
+        <li role="presentation" onclick="loadSNFdetails()"><a href="#variationDetails" aria-controls="settings" role="tab" data-toggle="tab">Variation Details</a></li>
+        <li role="presentation" onclick="assetprocessstatusgridDetails()"><a href="#assetProcessStatus" aria-controls="messages" role="tab" data-toggle="tab">Asset Process Status</a></li>
+        <li role="presentation" onclick="loadMaintenancedetails()"><a href="#maintenanceHistory" aria-controls="profile" role="tab" data-toggle="tab">Maintenance History</a></li>
+        <li role="presentation"><a href="#assetattachment" id="AssetAttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachment</a></li>
+        <li role="presentation"><a href="#imagevideoupload" id="ImageVideoTab" aria-controls="profile" role="tab" data-toggle="tab">Image/Video Upload</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- 1st Tab -->
+        <div role="tabpanel" class="tab-pane active" id="assetRegister">
+            <form class="form-horizontal" id="frmAssetRegister" novalidate>
+                <div class="content_body">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="assetRegisterEquipmentAssetNo" class="col-sm-6 control-label">Asset No. <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtARAssetNo" pattern="^[a-zA-Z0-9\-\/]+$" name="txtARAssetNo" required maxlength="25">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="imgARQRCode" class="col-sm-6 control-label">QR Code</label>
+                                <div class="col-sm-6">
+                                    <div class="pull-left">
+                                        <div style="width:85px; height:85px; border:solid 1px #ccc; visibility:hidden" id="divARQRCode"></div>
+                                        <div id="divImgARQRCode" style="width:85px; height:85px; border:solid 1px #ccc; display:none">
+                                            <img src="" width="80" height="80" id="imgARQRCode" style="display:none;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="txtARAssetPreRegistrationNo" class="col-sm-6 control-label">Asset Pre Registration No. <span class="red">*</span></label>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\s\/]+$" placeholder="Please Select" id="txtARAssetPreRegistrationNo" name="txtARAssetPreRegistrationNo" maxlength="50" required />
+                                        <input type="hidden" id="hdnARAssetPreRegistrationNoId" name="hdnARAssetPreRegistrationNoId" required />
+                                        <div class="col-sm-12" id="divARAssetPreRegistrationNoFetch">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-assetPreRegistration">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="txtARTypeCode" class="col-sm-6 control-label">Type Code <span class="red">*</span></label>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <input type="text" name="txtARTypeCode" pattern="^[a-zA-Z0-9\-\/]+$" class="form-control" id="txtARTypeCode" placeholder="Please Select" required maxlength="100">
+                                        <input type="hidden" id="hdnARTypeCodeId" name="hdnARTypeCodeId" required />
+                                        <div class="col-sm-12" id="divARTypeCodeFetch">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-typeCode">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="txtARTypeDescription" class="col-sm-6 control-label">Type Description</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtARTypeDescription" name="txtARTypeDescription" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="selARAssetClassification" class="col-sm-6 control-label">Asset Classification</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="selARAssetClassification" name="selARAssetClassification" class="form-control" disabled required>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="txtARAssetDescription" class="col-sm-6 control-label">Asset Description <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" pattern="^[a-zA-Z0-9\s]+$" id="txtARAssetDescription" name="txtARAssetDescription" maxlength="500" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="selARServiceId" class="col-sm-6 control-label">Service</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="selARServiceId" name="selARServiceId" class="form-control" disabled>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <!-- Purchase Details -->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading6">
+                            <h4 class="panel-title text_align_left">
+                                <a id="aCollapse6" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                    Purchase Details<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicator6"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4" aria-expanded="false">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Purchase Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARPurchaseCost" name="txtARPurchaseCost" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Purchase Category</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selARPurchaseCategory" name="selARPurchaseCategory">
+                                                    <option value="null">Select</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Purchase Date </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARPurchaseDate" name="txtARPurchaseDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Warranty Duration (Month)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARWarrantyDuration" name="txtARWarrantyDuration" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Warranty Start Date </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARWarrantyStartDate" name="txtARWarrantyStartDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Warranty End Date</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARWarrantyEndDate" name="txtARWarrantyEndDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Cumulative Parts Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARCumulativePartsCost" name="txtARCumulativePartsCost" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Cumulative Labour Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARCumulativeLabourCost" name="txtARCumulativeLabourCost" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Cumilative Contract Cost (<span class="spnCurrencyName"></span>)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARCumulativeContractCost" name="txtARCumulativeContractCost" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Asset Details -->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title text_align_left"> <a id="aCollapse1" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false" aria-controls="collapseOne" class="collapsed display_block"> Asset Info<i class="indicator glyphicon  pull-right glyphicon-plus" id="iIndicator1"></i> </a> </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6" style="display:none">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Work Group Code </label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="selARWorkGroup" name="selARWorkGroup" disabled="disabled">
+                                                    <option value="1">Biomedical Engineering</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Commissioning Date <span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARCommissioningDate" name="txtARCommissioningDate" class="form-control datatimeNoFuture" maxlength="11" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="txtARTypeCode" class="col-sm-6 control-label">Parent Asset</label>
+                                            <div class="col-sm-4">
+                                                <div>
+                                                    <input type="text" name="txtARParentAsset" pattern="^[a-zA-Z0-9\-\/]+$" class="form-control" id="txtARParentAsset" placeholder="Please Select" maxlength="100">
+                                                    <input type="hidden" id="hdnARParentAssetId" name="hdnARParentAssetId" />
+                                                    <div class="col-sm-12" id="divARParentAssetFetch">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-parentAsset">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Service Start Date <span class="red"> *</span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARServiceStartDate" name="txtARServiceStartDate" class="form-control datatimeNoFuture" maxlength="11" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Effective Date</label>
+
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtAREffectiveDate" name="txtAREffectiveDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="Lifespan" class="col-sm-6 control-label">Expected Lifespan(Years)</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control text-right" id="txtExpectedLifespan" name="txtExpectedLifespan" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="Assetstatus" class="col-sm-6 control-label">Asset Status</label>
+                                            <div class="col-sm-4">
+                                                <select id="selARAssetStatus" name="selARAssetStatus" class="form-control"></select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Asset Status History" id="anchorARAssetStatus">
+                                                    <span class="glyphicon glyphicon-modal-window"></span>
+                                                </a>
+                                                <!-- start Modal -->
+                                                <div class="modal fade" id="divARModalAssetStatus" role="dialog">
+                                                    <div class="modal-dialog" style="width:1000px">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" id="btnARModalAssetStatusCancel">&times;</button>
+                                                                <h5>Asset Status History</h5>
+                                                            </div>
+
+                                                            <!-- Modal body-->
+                                                            <div class="modal-body">
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARAssetStatusHistoryAssetNo" class="form-control" disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetTypeDes" class="col-sm-6 control-label">Asset Description</label>
+
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARAssetStatusHistoryAssetDescription" class="form-control " disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Grid Details -->
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <hr style="margin: 2em 0;">
+                                                                    </div>
+                                                                    <div class="col-sm-12" id="divARAssetStatusPopupTable">
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" id="btnARModalAssetStatusCancel1">Close</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!--End Modal-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset Age (Year / Month)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARAssetAge" class="form-control text-right" name="txtARAssetAge" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Year in Service (Year / Month)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARYearInService" name="txtARYearInService" class="form-control text-right" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Real Time Status</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" id="selARRealTimeStatus" name="selARRealTimeStatus" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Real Time Status History" id="anchorARRealTimeStatus">
+                                                    <span class="glyphicon glyphicon-modal-window"></span>
+                                                </a>
+                                                <!-- start Modal -->
+                                                <div class="modal fade" id="divARModalAssetRealTimeStatus" role="dialog">
+                                                    <div class="modal-dialog" style="width:1000px">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" id="btnARRealTimeStatusPopupCancel">&times;</button>
+                                                                <h5>Real Time Status History</h5>
+                                                            </div>
+
+                                                            <!-- Modal body-->
+                                                            <div class="modal-body">
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARAssetRealTimeStatusHistoryAssetNo" class="form-control" disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetTypeDes" class="col-sm-6 control-label">Asset Description</label>
+
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARAssetRealTimeStatusHistoryAssetDescription" class="form-control " disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Grid Details -->
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <hr style="margin: 2em 0;">
+                                                                    </div>
+                                                                    <div class="col-sm-12" id="divARAssetRealTimeStatusPopupTable">
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" id="btnARRealTimeStatusPopupCancel1">Close</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!--End Modal-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Operating Hours</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtAROperatingHours" name="txtAROperatingHours" pattern="^[0-9]+(\.[0-9]{1,2})?$" class="form-control text-right" maxlength="5" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Details -->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            <h4 class="panel-title text_align_left">
+                                <a id="aCollapseThree" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Location Details<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicator3"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">User Location Code <span class="red">*</span></label>
+                                            <div class="col-sm-4">
+                                                <input type="text" id="txtARUserLocationCode" pattern="^[a-zA-Z0-9\s]+$" placeholder="Please Select" name="txtARUserLocationCode" maxlength="50" class="form-control" required />
+                                                <input type="hidden" id="hdnARLocationId" name="hdnARLocationId" required />
+                                                <div class="col-sm-12" id="divARLocationCodeFetch">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-userLocation">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">User Location Name</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARUserLocationName" name="txtARUserLocationName" class="form-control" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">User Area Code</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARUserAreacode" name="txtARUserAreacode" class="form-control" disabled />
+                                                <input type="hidden" id="hdnARUserAreaId" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">User Area Name</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARUserAreaName" name="txtARUserAreaName" class="form-control" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Asset Specifications / Equipment Details  -->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading4">
+                            <h4 class="panel-title text_align_left">
+                                <a id="aCollapse4" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                    Asset Technical Specification<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicator4"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4" aria-expanded="false">
+                            <div class="panel-body">
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Manufacturer <span class="red">*</span></label>
+                                            <div class="col-sm-4">
+                                                <div>
+                                                    <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\s\(\)]+$" placeholder="Please Select" id="txtARManufacturer" name="txtARManufacturer" maxlength="100" required />
+                                                    <input type="hidden" id="hdnARManufacturerId" name="hdnARManufacturerId" required />
+                                                    <div class="col-sm-12" id="divARManufacturerFetch">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-manufacturer">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Name Plate Manufacturer</label>
+
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" pattern="^[a-zA-Z0-9\s\-\/]+$" id="txtARNamePlateManufacturer" name="txtARNamePlateManufacturer" maxlength="100" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Model <span class="red">*</span></label>
+                                            <div class="col-sm-4">
+                                                <div>
+                                                    <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\s\(\)]+$" id="txtARModel" name="txtARModel" placeholder="Please Select" maxlength="100" required />
+                                                    <input type="hidden" id="hdnARModelId" name="hdnARModelId" required />
+                                                    <div class="col-sm-12" id="divARModelFetch">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-model">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Applied Part Type <span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selARAppliedPartType" name="selARAppliedPartType" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Equipment Class</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selAREquipmentClass" name="selAREquipmentClass">
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Specification</label>
+                                            <div class="col-sm-6">
+                                                @*<input type="text" id="txtARSpecification" name="txtARSpecification" class="form-control" maxlength="100" />*@
+                                                <select class="form-control" id="selARSpecification" name="selARSpecification">
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Serial No.</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARSerialNo" pattern="^[a-zA-Z0-9\-\/]+$" name="txtARSerialNo" class="form-control" maxlength="100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Risk Rating</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARRiskRating" name="txtARRiskRating" class="form-control" maxlength="50" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Main Supplier</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARMainSupplier" name="txtARMainSupplier" class="form-control" maxlength="50" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Manufacturing Date <span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARManufacturingDate" name="txtARManufacturingDate" class="form-control datatimeNoFuture" required maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Software Version / Key </label>
+                                            <div class="col-sm-6">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Software Version Details" id="anchorARSoftwareVersion">
+                                                    <span class="glyphicon glyphicon-modal-window"></span>
+                                                </a>
+                                                <!-- start Modal -->
+                                                <div class="modal fade" id="divARModalSoftwareVersion" role="dialog">
+                                                    <div class="modal-dialog" style="width:1000px">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" id="btnARSoftwareCloseCancel">&times;</button>
+                                                                <h5>Software Version Details</h5>
+                                                            </div>
+
+                                                            <!-- Modal body-->
+                                                            <div class="modal-body">
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARSoftwareVersionHistoryAssetNo" class="form-control" disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetTypeDes" class="col-sm-6 control-label">Asset Description</label>
+
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARSoftwareVersionHistoryAssetDescription" class="form-control " disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Grid Details -->
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <hr style="margin: 2em 0;">
+                                                                    </div>
+                                                                    <div class="col-sm-12" id="divARSoftwareVersionPopupTable">
+                                                                        <div class="table-responsive">
+                                                                            <table id="tblARSoftwarePopup" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                                                                <thead class="tableHeading">
+                                                                                    <tr>
+                                                                                        <th width="5%" class="text-center">
+                                                                                            <span style="text-align: center;" class="glyphicon glyphicon-trash" title="Remove"></span>
+                                                                                            <br /><input type="checkbox" id="chkARSoftwareDeleteAll" />
+                                                                                        </th>
+                                                                                        <th style="text-align: center;" width="47%">Software Key</th>
+                                                                                        <th style="text-align: center;" width="48%">Software Version</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td width="5%" style="text-align:center"><input type="checkbox" id="chkARSoftwareDelete_0" /></td>
+                                                                                        <td width="47%"><div><input type="hidden" id="hdnARSoftwareId_0" value="" /><input type="text" pattern="^[a-zA-Z0-9\s]+$" class="form-control" style="max-width:100%" id="txtARSoftwareKey_0" /></div></td>
+                                                                                        <td width="48%"><div><input type="text" pattern="^[a-zA-Z0-9\s\.]+$" class="form-control" style="max-width:100%" id="txtARSoftwareVersion_0" /></div></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row mt20">
+                                                                    <div class="col-sm-2">
+                                                                        <div class="form-group">
+                                                                            <div class="col-sm-2">
+                                                                                <div>
+                                                                                    <a id="anchorARSoftwareAddNew" class="btn btn-primary">+</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-sm-10" style="color:red; visibility:hidden" id="divErrorMsgSoftwarePopup">
+                                                                        <div class="errorMsgCenterPopup">
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            @*<div class="row">
+                                                                    <div class="col-sm-12" style="color:red; visibility:hidden" id="divErrorMsgSoftwarePopup">
+                                                                        <div class="errorMsgCenterPopup">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <br />*@
+                                                            <div class="modal-footer">
+                                                                <button type="button" id="btnARAddEditSoftware" class="btn btn-primary" title="Save">Save</button>
+                                                                <button type="button" class="btn btn-default customButton" id="btnARSoftwareCloseCancel1">Close</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!--End Modal-->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Power Specification / Specification Unit Type</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selARSpecificationUnitType" name="selARSpecificationUnitType">
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Power Specification / Specification Unit (Watt) <span class="red removeRequired" style="visibility:hidden">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$" maxlength="11" name="txtARSpecificationUnitWatt" id="txtARSpecificationUnitWatt" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Power Specification / Specification Unit (Ampere) </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$" maxlength="7" name="txtARSpecificationUnitAmpere" id="txtARSpecificationUnitAmpere" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Volt </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$" maxlength="7" id="txtARVolt" name="txtARVolt" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="dynamicRow">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Asset Maintenance-->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading5">
+                            <h4 class="panel-title text_align_left">
+                                <a id="aCollapse5" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                    Asset Maintenance<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicator5"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4" aria-expanded="false">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">PPM </label>
+                                            <div class="col-sm-3">
+                                                <select id="selARPPM" name="selARPPM" class="form-control" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <a href="#" id="anchorARPPM">Create PPM Planner</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Calibration</label>
+                                            <div class="col-sm-3">
+                                                <select id="selAROther" name="selAROther" class="form-control" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <a href="#" id="anchorARCalibration">Create Calibration Planner</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Routine Inspection (RI) Flag</label>
+                                            <div class="col-sm-3">
+                                                <select id="selARRI" name="selARRI" class="form-control" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <a href="#" id="anchorARRI">Create RI Planner</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Last Scheduled Work Order No.</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARLastWorkOrderNo" name="txtARLastWorkOrderNo" class="form-control" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Last Brakdown/Emergency Work Order No.</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARLastServiceWorkNo" name="txtARLastServiceWorkNo" class="form-control" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Last Scheduled Work Order Date</label>
+
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARLasetWorkOrderDate" name="txtARLasetWorkOrderDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Last Brakdown/Emergency Work Date</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARLastServiceWorkDate" name="txtARLastServiceWorkDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Scheduled Downtime (YTD)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARScheduledDownTime" name="txtARScheduledDownTime" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Unscheduled Downtime (YTD)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARUnScheduledDownTime" name="txtARUnScheduledDownTime" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Total Downtime (YTD) </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARTotalDownTime" name="txtARTotalDownTime" class="form-control text-right" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Defect List</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" id="txtARDefectList" name="txtARDefectList" class="form-control text-right" disabled />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Defect List" id="anchorARDefectList">
+                                                    <span class="glyphicon glyphicon-modal-window"></span>
+                                                </a>
+                                                <!-- start Modal -->
+                                                <div class="modal fade" id="divARModalDefectList" role="dialog">
+                                                    <div class="modal-dialog" style="width:1000px">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" id="btnARDefectListPopupCancel">&times;</button>
+                                                                <h5>Defect List</h5>
+                                                            </div>
+
+                                                            <!-- Modal body-->
+                                                            <div class="modal-body">
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARDefectListAssetNo" class="form-control" disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <label for="AssetTypeDes" class="col-sm-6 control-label">Asset Description</label>
+
+                                                                            <div class="col-sm-6">
+                                                                                <input type="text" id="txtARDefectListAssetDescription" class="form-control " disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Grid Details -->
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <hr style="margin: 2em 0;">
+                                                                    </div>
+                                                                    <div class="col-sm-12" id="divARDefectListPopupTable">
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" id="btnARDefectListPopupCancel1">Close</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!--End Modal-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <!-- Asset Transfer -->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title text_align_left">
+                                <a id="aCollapseTwo" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Asset Transfer<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicator2"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset Transfer Mode</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selARAssetTransferMode" name="selARAssetTransferMode" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <h4 style="font-weight:600; padding-left:40px;">
+                                        Transfer within Facility
+                                    </h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Transfer To User Location Name </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARTransferToUserLocation" name="txtARTransferToUserLocation" class="form-control" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Transfer Date </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARTransferDate" class="form-control datatimeNoFuture" name="txtARTransferDate" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <h4 style="font-weight:600; padding-left:40px;">
+                                        Transfer (Other Facilities)
+                                    </h4>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Transfer Type</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selARTransferType" name="selARTransferType" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">SNF No. </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="selARSnfNo" class="form-control" name="selARSnfNo" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Transfer Date </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARTransferDate2" class="form-control datatimeNoFuture" name="txtARTransferDate2" disabled maxlength="11" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">State</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selARState" name="selARState" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Facility Name</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="selARFacilityId" name="selARFacilityId" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">If Others Specify </label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" id="txtARIfOthers" name="txtARIfOthers" class="form-control" disabled>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Previous Asset No. </label>
+
+                                            <div class="col-sm-6">
+                                                <input type="text" id="txtARPreviousAssetNo" name="txtARPreviousAssetNo" class="form-control" disabled />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Disposal Status -->
+                    @*<div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading8">
+                                <h4 class="panel-title text_align_left">
+                                    <a class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                        Disposal Status<i class="indicator glyphicon glyphicon-plus  pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse8" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading8" aria-expanded="false">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Disposal Approval Date </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtARDisposalApprovalDate" name="txtARDisposalApprovalDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Disposed Date</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtARDisposedDate" name="txtARDisposedDate" class="form-control datatimeNoFuture" disabled maxlength="11" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Disposed By</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtARDisposedBy" name="txtARDisposedBy" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Dispose Method</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtARDisposeMethod" name="txtARDisposeMethod" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            @if (ViewBag.ARActionType == "Add")
+                            {
+                                <button type="button" class="btn btn-primary customButton" id="btnARSave">Save</button>
+                            }
+                            @if (ViewBag.ARActionType == "Edit")
+                            {
+                                <button type="button" id="btnAREdit" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                            }
+                            @if (ViewBag.ARActionType == "Add")
+                            {
+                                <button type="button" class="btn btn-primary customButton" id="btnARAddNew">Add New</button>
+                            }
+                            <button type="button" class="btn btn-default customButton" id="btnARCancel">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 2nd Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_Accessories_PartialView.cshtml")
+        <!-- 3rd Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_WarrantyProvider_Tab.cshtml")        
+        <!-- 4th Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_ContractorVendor_PartialView.cshtml")
+        <!-- 5th Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_LicenseandCertificate_tab_partialview.cshtml")
+        <!-- 6th Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_assetProcessStatus_PartialView.cshtml")
+        <!-- 7th Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_ChildAsset_PartialView.cshtml")
+        <!-- 8th Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_VariationDetals_Partialview.cshtml")
+        <!-- 9th Tab -->
+        @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/MaintenanceHistory_tab_PartialView.cshtml")
+
+        <!-- 10th Tab -->
+        <div role="tabpanel" class="tab-pane" id="assetattachment">
+            <div class="content_body">
+                <form class="form-horizontal" id="AssetRegisterAttachmentForm" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="AssetNo" class="col-sm-6 control-label">Asset No</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" disabled class="form-control txtARAssetNo" id="txtARAssetNo">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="Description" class="col-sm-6 control-label">Asset Description</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" disabled class="form-control txtARAssetDescription">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="TypeCode" class="col-sm-6 control-label">Type Code</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" disabled class="form-control txtARTypeCode">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+        </div>
+        <!-- 11th Tab -->
+        <div role="tabpanel" class="tab-pane" id="imagevideoupload">
+            @Html.Partial("~/Areas/BEMS/Views/AssetRegister/Partial views for Asset reg tabs/_ImageVideoAttachment_PartialView.cshtml")
+        </div>
+    </div>
+
+    <div class="modal fade" data-backdrop="static" id="divARSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+@if (ViewBag.ARActionType == "View")
+{
+    <script type="text/javascript">
+        $("form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/AssetRegister.js")"></script>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegisterFileUpload.js"></script>
+<script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+}
+

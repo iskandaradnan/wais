@@ -1,0 +1,833 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .errormsgcenter1, .errormsgcenter3, .errormsgcenter4 {
+        color: red;
+        border: 1px solid #b02f41;
+        border-radius: 3px;
+        padding: 5px 25px;
+        width: 50%;
+        margin: 0 auto;
+        line-height: 25px;
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="FromCustomerId" name="CustomerId" />
+    <input type="hidden" id="hdnLoanerTestEquipmentBookingId" name="hdnLoanerTestEquipmentBookingId" value="@ViewBag.LoanerTestEquipmentBookingId" />
+    <input type="hidden" id="hdnPorteringStatusId" name="hdnPorteringStatusId" />
+    <input type="hidden" id="WFStatusApprovedDate" name="WFStatusApprovedDate" />
+    <input type="hidden" id="IsLoaner" name="IsLoaner" />    
+    <input type="hidden" id="CurrentFacilityId" name="CurrentFacilityId" />  
+    <input type="hidden" id="LocationInchargeId" name="LocationInchargeId" />  
+    <input type="hidden" id="LocationInchargeName" name="LocationInchargeName" />   
+    <!-- Content Header Starts -->
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>FEMS</li>
+            <li class="active">Asset Tracker</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+       
+        <div>
+            <h4 class="pull-left">Asset Tracker</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" class="pull-right label status"> </div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#PorteringRequest" aria-controls="home" role="tab" data-toggle="tab">Asset Tracker</a></li>
+            <li role="presentation"><a href="#Movement" id="movementTab" aria-controls="profile" role="tab" data-toggle="tab">Movement</a></li>
+            <li role="presentation"><a href="#Receipt" id="ReceiptTab" aria-controls="profile" role="tab" data-toggle="tab">Receipt</a></li>
+            <li role="presentation"><a href="#history" id="Histab" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+        </ul>
+    </div>
+    <div>
+
+        <!-- Tab panes -->
+
+        <div class="tab-content">
+
+            <!-- 1st Tab -->
+
+            <div role="tabpanel" class="tab-pane active" id="PorteringRequest">
+                <div class="content_body">
+                    <form class="form-horizontal" id="PorteringFormId" autocomplete="off">
+                        <div class="col-sm-12">
+                            <fieldset>
+                                <div class="row">
+                                    @*<label class="pull-right label status" @*service-Work-Status-Color*@@*><b></b></label><br />*@
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset No. / Loaner / Test Equipment <span class="red">&nbsp;*</span></label>
+                                            <div>
+                                                <div class="col-sm-4">
+                                                    <input type="hidden" id="hdnAssetId" />
+                                                    <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$" id="txtAssetNo" name="AssetNo" title="AssetNo" placeholder="Please Select" maxlength="100" required />
+                                                    <div class="col-sm-12" id="divFetch1">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-2" id="AssetNoDiv">
+                                                    <a data-toggle="modal" id="spnPopup-asset" class="btn btn-sm  btn-primary" title="Search">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Work Order No.</label>
+                                            <div>
+                                                <div class="col-sm-4">
+                                                    <input type="hidden" id="hdnWorkOrderId" />
+                                                    <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$" id="txtMaintenanceWorkNo" name="WorkOrderNo" title="WorkOrderNo" placeholder="Please Select" maxlength="100" />
+                                                    <div class="col-sm-12" id="divFetch2">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-2" id="WonDiv">
+                                                    <a data-toggle="modal" id="spnPopup-won" class="btn btn-sm  btn-primary" title="Search">
+
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset Tracker No.</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" title="PorteringNo" id="PorteringNo" name="PorteringNo" class="form-control" autocomplete="off" tabindex="0" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Proposed Date</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" title="PorteringDate" autocomplete="off" id="PorteringDate" name="PorteringDate" class="form-control" tabindex="0" disabled>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">From Facility</label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="FromFacilityId" name="FromFacilityId" />
+                                                <input type="text" id="FromFacilityName" name="FromFacilityName" class="form-control" readonly />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">From Block</label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="FromBlockId" name="FromFacilityId" />
+                                                <input type="text" id="FromBlockName" name="FromBlockName" class="form-control" readonly />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">From Level</label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="FromLevelId" name="FromLevelId" />
+                                                <input type="text" id="FromLevelName" name="FromLevelName" class="form-control" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">From  Department</label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="FromUserAreaId" name="FromLevelId" />
+                                                <input type="text" id="FromUserAreaName" name="FromLevelName" class="form-control" readonly />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">From  Location</label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="FromUserLocationId" name="FromUserLocationId" />
+                                                <input type="text" id="FromUserLocationName" name="FromUserLocationName" class="form-control" readonly />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <hr style="margin: 2em 0;">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label id="movementlavelid"class="col-sm-6 control-label">Movement Category <span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="MovementCategory" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">To Facility <span class="red location">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="ToLocation_1" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaCode" class="col-sm-6 control-label"> To Location Code<span class="red location">&nbsp;*</span></label>
+                                            <div>
+                                                <div class="col-sm-4">
+                                                    <input type="hidden" id="ToLocation_5" name="ToLocation_5" />
+                                                    <input type="text" class="form-control" id="txtUserLocationCode" title="txtUserLocationCode" name="txtUserLocationCode" placeholder="Please Select" maxlength="25" />
+                                                    <div class="col-sm-12" id="divFetch7">
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-2" id="LocPopid">
+                                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Location">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaName" class="col-sm-6 control-label">Location Name</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="txtUserLocationName" title="txtUserLocationName" name="txtUserLocationName" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaCode" class="col-sm-6 control-label">Department Code</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="hidden" id="ToLocation_4" name="ToLocation_4" />
+                                                    <input type="text" class="form-control" id="txtUserAreaCode" title="txtUserAreaCode" name="txtUserAreaCode" disabled />
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaName" class="col-sm-6 control-label"> Department Name</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="txtUserAreaName" title="txtUserAreaName" name="txtUserAreaName" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaCode" class="col-sm-6 control-label"> Level Code</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="hidden" id="ToLocation_3" name="ToLocation_3" />
+                                                    <input type="text" class="form-control" id="txtUserLevelCode" title="txtUserLevelCode" name="txtUserLevelCode" disabled />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaName" class="col-sm-6 control-label">Level Name</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="txtUserLevelName" title="txtUserLevelName" name="txtUserLevelName" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaCode" class="col-sm-6 control-label">  Block Code</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="hidden" id="ToLocation_2" name="ToLocation_2" />
+                                                    <input type="text" class="form-control" id="txtBlockCode" title="txtBlockCode" name="txtBlockCode" disabled />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="AreaName" class="col-sm-6 control-label"> Block Name</label>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" class="form-control" id="txtBlockName" title="txtBlockName" name="txtBlockName" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                @*<div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">To Block <span class="red location">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="ToLocation_2" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">To Level <span class="red location">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="ToLocation_3" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">To Area <span class="red location">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="ToLocation_4" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">To Location <span class="red location">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="ToLocation_5" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Vendor Category <span class="red supplier">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="VendorTypeId" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Vendor Name <span class="red supplier">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="VendorNameId" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <hr style="margin: 2em 0;">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Requestor Name <span class="red">*</span></label>
+                                            <div>
+                                                <div class="col-sm-4">
+                                                    <input type="hidden" id="hdnCompanyStaffId" />
+                                                    <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\.\/\(\)\s]+$" id="txtCompanyStaffName" placeholder="Please Select" autocomplete="off" name="CompanyStaffName" maxlength="150" required />
+                                                    <div class="col-sm-12" id="divFetch3">
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-2" id="companypopup">
+                                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-compStaff">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Position</label>
+
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <input type="text" id="txtDesignation" class="form-control" name="Designation" title="Designation" readonly autocomplete="off" tabindex="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Request Type <span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="RequestTypeLovId" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Asset Tracker Approval Status</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control" id="CurrentWorkFlowId" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Mode of Transport <span class="red">*</span></label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control " id="ModeOfTransport" required>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-sm-12 errMsg" style="color:red; visibility:hidden" id="errorMsg">
+                            <div class="errormsgcenter">
+                            </div>
+                        </div>
+                        <div class="row mt30">  
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="btnSave" class="btn btn-primary customButton bookButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnEdit" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton bookButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" id="btnVerify" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-check-square-o" aria-hidden="true"></i>Submit</button>
+                                <button type="button" id="btnApprove" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                                <button type="button" id="btnReject" class="btn btn-primary customButton bookButton hider" title="Save" tabindex="5"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                                <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton hider" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 2nd Tab -->
+
+            <div role="tabpanel" class="tab-pane" id="Movement">
+
+                <div class="content_body">
+                    <form class="form-horizontal" id="MovementFormId" autocomplete="off">
+                        <div class="row">
+                            <label class=" porterStatus"><b></b></label><br />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Mode of Transport <span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control " id="MvmtModeOfTransport" disabled>
+                                            <option value="null">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Asset Tracker Status (Future Action)</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select class="form-control" id="PorteringStatusId" disabled>
+                                                <option value="null">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-offset-1 col-sm-5">
+                                <p class="text-center"><b>Person</b></p>
+                                <div style="border:1px solid #b5d9f8">
+                                    <div class="form-group mt20">
+                                        <label for="AssignPorter" class="col-sm-3 col-form-label">Assignee<span class="red person">*</span></label>
+                                        <div>
+                                            <div class="col-sm-4">
+                                                <input type="hidden" id="hdnAssignPorterId" />
+                                                <input type="text" class="form-control" autocomplete="off" id="txtAssignPorter" name="AssignPorter" title="AssignPorter" placeholder="Please Select" maxlength="100" required />
+                                                <div class="col-sm-12" id="divFetch4">
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-2" id="AssignPorterDiv">
+                                                <a data-toggle="modal" id="spnPopup-assignporter" class="btn btn-sm  btn-primary" title="Search">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PorteringStatus" class="col-sm-3 col-form-label">Asset Tracker Status</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <select class="form-control " id="AssignPorteringStatusId" disabled>
+                                                    <option value="null">Select</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ScanAsset" class="col-sm-3 col-form-label">Scan Asset</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="ScanAsset" maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="text-center"><b>Courier</b></p>
+                                <div style="border:1px solid #b5d9f8">
+                                    <div class="form-group mt20">
+                                        <label for="ConsignmentNumber" class="col-sm-4 col-form-label">Consignment Number <span class="red">*</span></label>
+
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]{3,100}$" id="ConsignmentNo" name="ConsignmentNo" title="ConsignmentNo" maxlength="50" required />
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ConsignmentNumber" class="col-sm-4 col-form-label">Consignment Date <span class="red courier">*</span></label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" autocomplete="off" class="form-control datatimeFuture " id="ConsignmentDate" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="CouroerNmae" class="col-sm-4 col-form-label">Courier Name <span class="red courier">*</span></label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" autocomplete="off" class="form-control" id="CourierName" maxlength="50" required >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="errormsgcenter1" style="color:red; visibility:hidden" id="errorMsg1">
+                        </div>
+
+                        <div class="row mt30">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="btnEditMvmt" class="btn btn-primary customButton bookButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnCancelMvmt" name="btnCancelMvmt" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- 3rdnd Tab -->
+
+            <div role="tabpanel" class="tab-pane" id="Receipt">
+
+                <form class="form-horizontal" id="ReceiptFormId" autocomplete="off">
+
+                    <div class="col-sm-12">
+                        <fieldset>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Received By <span class="red">*</span></label>
+                                        <div>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" id="hdnReceivedById" />
+                                                <input type="text" class="form-control" autocomplete="off" id="txtReceivedBy" name="ReceivedBy" title="ReceivedBy" @*placeholder="Please Select"*@ maxlength="100" required disabled />
+                                                @*<div class="col-sm-12" id="divFetch5">
+                                                </div>*@
+
+                                            </div>
+                                            @*<div class="col-sm-2" id="ReceivedByDiv">
+                                                <a data-toggle="modal" id="spnPopup-received" class="btn btn-sm  btn-primary" title="Search">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </a>
+                                            </div>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Position</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" autocomplete="off" id="ReceivedPosition" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Remarks</label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <textarea class="form-control wt-resize" id="Remarks" disabled style="min-width: 92%;height:70px" pattern="^[a-zA-Z0-9+'.'&quot;,:;=/\(\),\-\s]+$" maxlength="500"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-12 errMsg" style="color:red; visibility:hidden" id="errorMsg3">
+                        <div class="errormsgcenter3">
+                        </div>
+                    </div>
+                    <div class="row mt30"> 
+                        <div class="col-sm-12 text-center">
+                            @*<button type="button" id="btnEditreceipt" class="btn btn-primary customButton bookButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                            <button type="button" id="btnCancelreceipt" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+            @*History tab*@
+
+            <div role="tabpanel" class="tab-pane" id="history">
+
+                <div class="content_body">
+                    <form class="form-horizontal" autocomplete="off">
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Asset Tracker No. </label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="HistPorteringNo" name="HistPorteringNo" class="form-control" disabled title="HistoryBerNo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="typeCodeDetailsdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+
+                                                <th style="text-align: center;" width="20%">Work Flow Status</th>
+                                                <th style="text-align: center;" width="10%">Work Flow Date </th>
+                                                <th style="text-align: center;" width="15%">Last Updated By</th>
+                                                <th style="text-align: center;" width="15%">Asset Tracker Status</th>
+                                                <th style="text-align: center;" width="10%">Asset Tracker Date</th>
+                                                <th style="text-align: center;" width="15%">Last Updated By</th>
+                                                <th style="text-align: center;" width="15%">Last Updated on</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="HistoryId">                                            
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="errormsgcenter4" style="color:red; visibility:hidden" id="errorMsg4">
+                        </div>
+                        <div class="row mt30">       
+                            <div class="col-sm-12 text-center">                                
+                                @*<button type="button" id="btnCancelHist" name="btnHistCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>*@
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @*Attachment Tab*@
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/FEMS/Views/AttachmentPartialView/AttachmentPartialView.cshtml")
+                </form>
+            </div>
+        </div>
+        <br />
+
+
+        @Html.Partial("~/Areas/FEMS/Views/Assettracker/List.cshtml")
+
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/Portering/PorteringTransaction.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}

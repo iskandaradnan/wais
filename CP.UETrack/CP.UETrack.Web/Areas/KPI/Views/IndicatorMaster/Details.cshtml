@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "Indicator Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>KPI</li>            
+            <li class="active">Indicator Master</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>@ViewBag.ActionType Indicator Master</h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+           
+        </ul>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="KPIIndicatorMasterForm" autocomplete="off">
+
+            <div class="row" hidden>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Service<span class="red"></span></label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="indicatorservice" disabled>
+                                @*<option value="0">Select</option>*@
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div  id="groupdisp" class="col-sm-6">
+                    <div class="form-group">
+                        <label  class="col-sm-6 control-label">Group</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="indicatorgroup" disabled>
+                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                @*<div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>*@
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="IndicatordataTable" class="table table-fixedheader table-bordered table-textarea" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center;" width="10%">Indicator No.</th>
+                                    <th style="text-align: center;" width="25%">Indicator Name</th>
+                                    <th style="text-align: center;" width="50%">Indicator Description</th>
+                                    <th style="text-align: center;" width="15%">Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody style="height: 240px;" id="IndicatorMstTbl">
+
+                                @*Content of HTML Body Element style="height:auto;overflow:visible;"*@
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>           
+
+       
+            <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+            <div class="row mt20"></div>
+            <div class="form-group text-center">
+                <div class="col-sm-12">
+                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>                   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section scripts
+    {
+    
+<script src="~/Scripts/ng/Controllers/KPI/IndicatorMaster.js"></script>
+}
+
+
+
+
+

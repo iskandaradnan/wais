@@ -1,0 +1,159 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+	@functions{
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		}
+	}
+
+	<input id="antiForgeryToken" type="hidden" />
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+	<input type="hidden" id="hdnStatus" name="hdnStatus" />
+	<input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+	<!-- Content Header Starts -->
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>CLS</li>
+			<li>Facilities,Equipment,Tools & Consumable</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+
+	</div>
+	<br /><br />
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#divBlock" aria-controls="home" role="tab" data-toggle="tab">Facilities,Equipment,Tools & Consumable</a></li>
+		<li role="presentation">
+			<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+		</li>
+	</ul>
+	<!-- Content Header Ends -->
+	<!-- Contents goes here -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="divBlock">
+			<form name="formFETC" id="formFETC" class="form-horizontal" novalidate>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Item Code<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtItemCode" name="ItemCode" readonly autocomplete="off" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Item Description<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-9" id="description">
+									<input type="text" required class="form-control" id="txtItemDescription" name="ItemDescription" autocomplete="off" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Item Type<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="type">
+										<select required class="form-control" id="ddlItemType" name="ItemType"></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Status<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="status">
+									<select required class="form-control" id="ddlStatus"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Effective From<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="effect">
+									<input type="text" required class="form-control datetime" id="txtEffectiveFrom" autocomplete="off" name="EffectiveFrom" maxlength="25" />
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Effective To</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control datetime" disabled="disabled" id="txtEffectiveTo" autocomplete="off" name="EffectiveTo" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Quantity</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control"  id="txtQuantity" name="Quantity"  autocomplete="off" maxlength="25" tabindex="3" />
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"> </div>
+				<!-- ngIf: RescheduleErrorList.length > 0 -->
+				<br />
+				<div class="form-group">
+					<div class="col-sm-12 text-center">
+						<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+						<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & Add New" />
+						<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+						@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+				 <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+				 <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+				<button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+				<button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+					</div>
+				</div>
+				<label id="InsertStatus" style="font-size:14px"></label>
+			</form>
+		</div>
+		@Html.Partial("~/Areas/CLS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/CLS/Views/FETC/List.cshtml")
+
+
+</div>
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/FETC.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}
+

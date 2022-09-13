@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "approvedchemicallistDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+        <input type="hidden" id="hdnStatus" name="hdnStatus" />
+        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+        <!-- Content Header Starts -->
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>CLS</li>
+                <li>Master</li>
+                <li class="active">Approved Chemical List</a></li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <div>
+                <h4 class="pull-left">Add Approved Chemical List</h4>
+                <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+                <div style="clear:both;display:table;"></div>
+            </div>
+        </div>
+        <!-- Content Header Ends -->
+        <!-- Contents goes here -->
+
+
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#divCLSChemical" aria-controls="home" role="tab" data-toggle="tab">Approved Chemical List</a></li>
+
+            </ul>
+        </div>
+
+        <div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- 1st Tab -->
+                <div role="tabpanel" class="tab-pane active" id="divCLSChemical">
+                    <form class="form-horizontal" id="FrmClsChemical" novalidate>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Category<span class="red">*</span></label>
+                                    <div class="col-sm-6"> 
+                                        <select class="form-control" id="txtCategory" name="Category" autocomplete="off" maxlength="100" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Area of Application<span class="red">*</span> </label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="txtAreaofApplication" name="AreaofApplication" autocomplete="off" maxlength="100" ></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Chemical Name <span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtChemicalName " name="ChemicalName " autocomplete="off" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">KKM Number<span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtKKMNumber" name="KKMNumber" autocomplete="off" maxlength="100" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Properties</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtProperties" name="Properties" autocomplete="off" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Status</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="txtStatus" name="Status" autocomplete="off"></select>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Effective From<span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtEffectiveFrom" name="EffectiveFrom" autocomplete="off" maxlength="100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Effective To</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtEffectiveTo" name="EffectiveTo" autocomplete="off" maxlength="100" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Green Certified Chemical</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="txtGreenCertifiedChemical" name="GreenCertifiedChemical" autocomplete="off" maxlength="100"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <button type="button" id="btnSave" class="btn btn-primary customButton " title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </form>
+                    <br />
+                </div>
+
+            </div>
+        </div>
+        @Html.Partial("~/Areas/CLS/Views/approvedchemicallist/approvedchemicalList.cshtml")
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+        </div>
+    </div>

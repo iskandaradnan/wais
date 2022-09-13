@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "weighingscaleDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Master</li>
+            <li class="active">Weighing Scale & Equipment Calibration</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Weighing Scale & Equipment Calibration</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divWeig" aria-controls="home" role="tab" data-toggle="tab">Weighing Scale & Equipment Calibration</a></li>
+            <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+        </ul>
+    </div>
+
+    <div>
+
+        <div class="tab-content">
+
+            <div role="tabpanel" class="tab-pane active" id="divWeig">
+                <form class="form-horizontal" id="FrmWeigh" novalidate>
+                    <hr style="margin: 2em 0;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="ContractorVendorList" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="5%" class="text-center">
+                                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center;" width="15%">Issued By<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="20%">Item Description <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">Serial No. <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">Issued Date<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">Expiry Date<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">Status<span class="red">*</span></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ContactGrid">
+                                        <tr>
+                                            <td width="5%" style="text-align:center"> <input type="checkbox" onchange="DeleteContact(maxindexval)" id="chkContactDelete_maxindexval" /></td>
+                                            <td width="15%"><input type="hidden" id="hdnAttachId"><input type="hidden" id="WeighingScaleId_"><select id="txtIssuedBy_" name="txtIssuedBy" maxlength="50" class="form-control" required><option value="null" class="Active">Select</option></select></td>
+                                            <td width="20%"><input type="text" id="txtItemDescription_" name="txtItemDescription" maxlength="50" class="form-control" autocomplete="off" tabindex="0" required></td>
+                                            <td width="15%"><input type="text" id="txtSerialNo_" name="LinenDescription" maxlength="50" class="form-control" autocomplete="off" tabindex="0" required></td>
+                                            <td width="15%"><input type="text" id="txtIssuedDate_" name="IssuedDate" maxlength="50" class="form-control datatimeNoFuture" autocomplete="off" tabindex="0" required></td>
+                                            <td width="15%"><input type="text" id="txtExpiryDate_" name="ExpiryDate" maxlength="50" class="form-control datatimeFuture" autocomplete="off" tabindex="0"></td>
+                                            <td width="15%"><select id="SelStatus_" class="form-control"><option value="1">Active</option><option value="2">Inactive</option></select></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row mt20">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnWeiSave" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnEdit" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" class="btn btn-primary btnDelete" title="btnDelete"><i class="fa fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" id="btnCancel" name="btnDepCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat"></i> Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @*Attachment Tab*@
+            @*<div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                    <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align:right">
+                                <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus" class="divWOStatus"></div>
+                            </div>
+                        </div>
+                        @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                    </form>
+                </div>*@
+            @*<div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                    <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                        @Html.Partial("~/Areas/LLS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                    </form>
+                </div>*@
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+        </div>
+        @Html.Partial("~/Areas/LLS/Views/weighingscale/weighingscaleList.cshtml")
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/weighingscale.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}

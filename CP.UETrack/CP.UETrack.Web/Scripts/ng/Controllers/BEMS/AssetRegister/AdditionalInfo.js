@@ -1,0 +1,239 @@
+﻿$('#liAFAdditionalInfo').click(function () {
+
+    var primaryId = $('#hdnARPrimaryID').val();
+    if (primaryId == 0) {
+       return false;
+    }
+
+    $("div.errormsgcenter").text("");
+    $('#errorMsgAdditionalInfoTab').css('visibility', 'hidden');
+
+    //formInputValidation("frmAdditionalInfo");
+    $.get("/api/additionalFields/LoadAdditionalInfo/" + 314)
+     .done(function (result) {
+         var loadResult = JSON.parse(result);
+         CreateAdditionalControls(loadResult.additionalFields);
+
+         var primaryId = $('#hdnARPrimaryID').val();
+         if (primaryId != null && primaryId != "0") {
+             $.get("/api/additionalFields/GetAdditionalInfoForAsset/" + primaryId)
+               .done(function (result1) {
+                   var result = JSON.parse(result1);
+                   if (result.Field1 != null)
+                       $('#Field1').val(result.Field1);
+                   if (result.Field2 != null)
+                       $('#Field2').val(result.Field2);
+                   if (result.Field3 != null)
+                       $('#Field3').val(result.Field3);
+                   if (result.Field4 != null)
+                       $('#Field4').val(result.Field4);
+                   if (result.Field5 != null)
+                       $('#Field5').val(result.Field5);
+                   if (result.Field6 != null)
+                       $('#Field6').val(result.Field6);
+                   if (result.Field7 != null)
+                       $('#Field7').val(result.Field7);
+                   if (result.Field8 != null)
+                       $('#Field8').val(result.Field8);
+                   if (result.Field9 != null)
+                       $('#Field9').val(result.Field9);
+                   if (result.Field10 != null)
+                   $('#Field10').val(result.Field10);
+
+                   $('#myPleaseWait').modal('hide');
+               })
+              .fail(function (response) {
+                  $('#myPleaseWait').modal('hide');
+                  $("div.errormsgcenter").text(Messages.COMMON_FAILURE_MESSAGE(response));
+                  $('#errorMsgAdditionalInfoTab').css('visibility', 'visible');
+              });
+         }
+         else {
+             $('#myPleaseWait').modal('hide');
+         }
+     })
+   .fail(function (response) {
+       $('#myPleaseWait').modal('hide');
+       $("div.errormsgcenter").text(Messages.COMMON_FAILURE_MESSAGE(response));
+       $('#errorMsgAdditionalInfoTab').css('visibility', 'visible');
+   });
+});
+
+function CreateAdditionalControls(result)
+{
+    var textboxString = '<input type="text" id="FieldName" class="form-control textRight" pattern="patternString" maxlength="maxLen" required/>';
+    //var textboxNumericString = '<input type="text" id="FieldName" class="form-control text-right" pattern="patternString" maxlength="maxLen" required/>';
+    var selectString = '<select class="form-control" id="FieldName" required><option value="null">Select</option>DropdownValues</select>';
+    var str = '';
+    $.each(result, function (index, value) {
+        var controlString = '';
+        var requierdString = '';
+        if (value.FieldTypeLovId == 325) {//Textbox
+            controlString = textboxString;
+        }
+        //else if (value.FieldTypeLovId == 325) {//Numeric Textbox
+        //    controlString = textboxNumericString;
+        //}
+        else if (value.FieldTypeLovId == 324) {//Dropdown
+            controlString = selectString;
+        }
+
+        if (index % 2 == 0) {
+            str += '<div class="row">';
+        }
+        var textRight = '';
+        if(value.FieldTypeLovId != 324)
+        {
+            if (value.PatternLovId == 328) {
+                textRight = 'text-right';
+            }
+            controlString = controlString.replace('textRight', textRight);
+        }
+        if (value.FieldTypeLovId != 324 && value.PatternValue != null && value.PatternValue != '') {
+            controlString = controlString.replace('patternString', value.PatternValue);
+        }
+        controlString = controlString.replace('FieldName', value.FieldName);
+        if (value.RequiredLovId == 100) {
+            controlString = controlString.replace('required', '');
+        }
+        else {
+            requierdString = '<span class="red"> *</span>';
+        }
+        if (value.FieldTypeLovId != 324) {
+            controlString = controlString.replace('maxLen', value.MaxLength);
+        }
+        if (value.FieldTypeLovId == 324) {
+            var dropdownValues = value.DropDownValues.split(',');
+            var dropdownString = '';
+            $.each(dropdownValues, function (index, value) {
+                dropdownString += '<option value="'+value+'">'+value+'</option>'
+            });
+            controlString = controlString.replace('DropdownValues', dropdownString);
+        }
+        var labelName = value.Name;
+
+        str += '<div class="col-sm-6">' +
+                        '<div class="form-group">' +
+                            '<label class="col-sm-6 control-label">' + labelName + '' + requierdString + '</label>' +
+                            '<div class="col-sm-6">' +
+                                '<div>' +
+                                    controlString +
+                                '</div>' +
+                            '</div>' +
+                   '</div>' +
+               '</div>';
+        
+        if (index % 2 == 1) {
+            str += '</div>';
+        }
+    });
+    //if (result.length % 2 == 1) {
+    //    str += '</div>';
+    //}
+    //var test = str;
+    //debugger;
+    $('#divAdditionalFieldsContainer').html(str);
+    formInputValidation("frmAdditionalInfo");
+}
+
+$('#btnAdditionalInfoEdit').click(function () { 
+
+    $("div.errormsgcenter").text("");
+    $('#errorMsgAdditionalInfoTab').css('visibility', 'hidden');
+    $('#btnAdditionalInfoEdit').attr('disabled', true);
+    
+    var isFormValid = formInputValidation("frmAdditionalInfo", 'save');
+    if (!isFormValid ) {
+        $("div.errormsgcenter").text(Messages.INVALID_INPUT_MESSAGE);
+        $('#errorMsgAdditionalInfoTab').css('visibility', 'visible');
+
+        $('#btnAdditionalInfoEdit').attr('disabled', false);
+        return false;
+    }
+
+    $('#myPleaseWait').modal('show');
+
+    var saveObj = {
+        AssetId: $('#hdnARPrimaryID').val(),
+        Field1: $('#Field1').val(),
+        Field2: $('#Field2').val(),
+        Field3: $('#Field3').val(),
+        Field4: $('#Field4').val(),
+        Field5: $('#Field5').val(),
+        Field6: $('#Field6').val(),
+        Field7: $('#Field7').val(),
+        Field8: $('#Field8').val(),
+        Field9: $('#Field9').val(),
+        Field10: $('#Field10').val()
+    };
+    
+    var jqxhr = $.post("/api/additionalFields/SaveAdditionalInfoForAsset", saveObj, function (response) {
+        var result = JSON.parse(response);
+         $(".content").scrollTop(0);
+        $('#btnAdditionalInfoEdit').attr('disabled', false);
+        showMessage('Additional Info', CURD_MESSAGE_STATUS.SS);
+        $('#myPleaseWait').modal('hide');
+    },
+"json")
+.fail(function (response) {
+    var errorMessage = "";
+    if (response.status == 400) {
+        errorMessage = response.responseJSON;
+    }
+    else {
+        errorMessage = Messages.COMMON_FAILURE_MESSAGE;
+    }
+    $("div.errormsgcenter").text(errorMessage);
+    $('#errorMsgAdditionalInfoTab').css('visibility', 'visible');
+    $('#btnAdditionalInfoEdit').attr('disabled', false);
+    $('#myPleaseWait').modal('hide');
+});
+});
+
+$("#btnAdditionalInfoCancel").click(function ()
+{
+    //window.location.replace("/bems/assetregister");
+    var message = Messages.Reset_TabAlert_CONFIRMATION;
+    bootbox.confirm(message, function (result) {
+        if (result) {
+            EmptyFieldsAdditionalInfo();
+        }
+        else {
+            $('#myPleaseWait').modal('hide');
+        }
+    });
+    
+});
+    function EmptyFieldsAdditionalInfo() {
+        $(".content").scrollTop(0);
+        $('input[type="text"], textarea').val('');
+        $('#selARAssetClassification').val("null");
+        $('#selARServiceId,.selARServiceId').val(2);
+        $('#selARAssetStatus').val(1);
+        $('#selARRiskRating').val(113);
+        $('#selARPurchaseCategory').val("null");
+        $('#selARAppliedPartType').val("null");
+        $('#selAREquipmentClass').val("null");
+        $('#selARPPM').val("null");
+        $('#selAROther').val("null");
+        $('#selARRI').val("null");
+        $('#selARAssetTransferMode').val("null");
+
+        $('#txtARAssetNo').attr('disabled', false);
+
+        $('#txtARTypeCode').attr('disabled', false);
+        $('#txtARAssetPreRegistrationNo').attr('disabled', false);
+        $('#spnPopup-assetPreRegistration').unbind("click").attr('disabled', false).css('cursor', 'default');
+        $('#spnPopup-typeCode').unbind("click").attr('disabled', false).css('cursor', 'default');
+        $('#btnAREdit').hide();
+        $('#btnARSave').show();
+        $('#btnDelete').hide();
+        $('#btnNextScreenSave').hide();
+        $('#spnActionType').text('Add');
+        $("#hdnARPrimaryID").val('');
+        $("#grid").trigger('reloadGrid');
+        $("#assetRegister :input:not(:button)").parent().removeClass('has-error');
+        $("div.errormsgcenter").text("");
+        $('#errorMsg').css('visibility', 'hidden');
+        $('.nav-tabs a:first').tab('show')
+    }

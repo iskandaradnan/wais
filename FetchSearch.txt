@@ -1,0 +1,11 @@
+Folder:QAP
+Class:FilureSymptomCodeFetch
+Field-QualityCauseId:int
+Field-FailureSymptomCode:string
+Field-Description:string
+FetchSPName:uspFM_MstQAPQualityCause_Fetch
+SearchSPName:uspFM_MstQAPQualityCause_Search
+FetchParameters:@pCauseCode-FailureSymptomCode
+SearchParameters:@pCauseCode-FailureSymptomCode
+FetchOutputValues:QualityCauseId-int,FailureSymptomCode-string
+SearchOutputValues:QualityCauseId-int,FailureSymptomCode-string

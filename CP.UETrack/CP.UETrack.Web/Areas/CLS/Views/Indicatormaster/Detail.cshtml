@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        /**/
+
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        } }
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>CLS</li>
+            <li>QAP</li>
+            <li>Indicator Master</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+    </div>
+    <br />
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#formppmplanner" data-toggle="tab">Indicator Master</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+            <form id="formIndicatorMaster" name="formIndicatorMaster" class="form-horizontal" novalidate>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Indicator No.<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text"  required class="form-control" disabled="disabled" id="txtIndicatorNo" autocomplete="off" name="IndicatorNo" maxlength="25" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Indicator Name</label>
+
+                            <div class="col-sm-9">
+                                <div>
+                                    <textarea id="txtIndicatorName"   class="form-control"  disabled="disabled" rows="2" cols="50" name="IndicatorName" maxlength="400"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Indicator Standard(%)<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" disabled="disabled" id="txtIndicatorStandard" autocomplete="off" name="IndicatorStandard" maxlength="25" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+                        @*<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & Add New" />*@
+                        <input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+                        @*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                             <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                             <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/CLS/Views/Indicatormaster/List.cshtml")
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/Indicatormaster.js")"></script>
+}
+

@@ -1,0 +1,94 @@
+﻿
+
+   <form id="formDeptAreaDetailsReceptacles" name="formDeptAreaDetailsReceptacles" class="form-horizontal" autocomplete="off">
+          
+            <div>
+                <table class="table table-bordered">
+                    <thead class="tableHeading">
+                        <tr>
+                            <th style="text-align: center;" width="10%"><label for="Receptacles">Receptacles</label></th>
+                            <th style="text-align: center;" width="10%">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;" width="10%">Bin 660L</td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="receptacles form-control" placeholder="0" id="txtBin660L" autocomplete="off" name="Bin660L" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left" width="10%">Bin 240L</td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="receptacles form-control" placeholder="0" id="txtBin240L" autocomplete="off" name="Bin240L" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;" width="10%">Waste Paper Basket</td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="receptacles form-control" placeholder="0" id="txtWastePaperBucket" autocomplete="off" name="WastePaperBucket" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;" width="10%">Pedal Bin</td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="receptacles form-control" placeholder="0" id="txtPedalBin" autocomplete="off" name="PedalBin" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;" width="10%">Bedside Bin</td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="receptacles form-control" placeholder="0" id="txtBedsideBin" autocomplete="off" name="BedsideBin" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;" width="10%">Flip-Flop/Swing Top Bin</td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="receptacles form-control" placeholder="0" id="txtFlipFlopSwingTopBin" autocomplete="off" name="FlipFlopSwingTopBin" maxlength="25"  min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left;" width="10%">Food Bin</td>
+                            <td align="left">
+                                <input type="number" style="text-align:right" class="receptacles form-control" placeholder="0" id="txtFoodBin" autocomplete="off" name="FoodBin" maxlength="25" min="0" onkeypress="return event.charCode >= 48"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="errorMsgRece" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+            <div class="row mt20">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+
+                        <input type="button" id="btnSaveRece" value="Save" class="btn btn-primary customButton" />
+                        <input type="button" id="btnCancelRece" class="btn btn-primary" value="Reset" />
+                        @*<button type="button" id="btnSaveRece" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+
+                    </div>
+                </div>
+            </div>
+            <label id="Rece" style="font-size:14px"></label>
+           
+            
+        </form>
+   
+
+
+
+
+

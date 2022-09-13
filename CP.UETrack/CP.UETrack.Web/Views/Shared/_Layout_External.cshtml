@@ -1,0 +1,154 @@
+﻿@using Microsoft.AspNet.Identity
+@using CP.UETrack.Application.Web.Helper
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>UETrack™</title>
+
+    <!-- Bootstrap -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/Asis.css" rel="stylesheet" />*@
+    <link href="~/css/developper.css" rel="stylesheet" />
+
+    <!-- Custom Style-->
+    <link href="~/css/style.css" rel="stylesheet" />
+
+    <!-- Custom Style-->
+    <link href="~/fonts/font-awesome.css" rel="stylesheet" />
+
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="~/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @Styles.Render("~/Content/css")
+    <link href="~/css/custom-theme/jquery-ui-1.10.0.custom-UETrack.css" rel="stylesheet" />
+    <link href="~/css/developer.css" rel="stylesheet" />
+    @Scripts.Render("~/all/jstop")
+</head>
+
+<body>
+    @*<input type="hidden" id="hdnFacilityId" name="hdnFacilityId"/>*@
+    <!-- Header Starts -->
+    <header>
+
+        <!-- Please Loading Start-->
+        <div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+             role="dialog" aria-hidden="true" data-backdrop="false" hidden>
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span class="glyphicon glyphicon-time">
+                            </span>&#160;Please Wait
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info
+                                progress-bar-striped active"
+                                 style="width: 100%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Please Loading End-->
+
+        <!-- Top Notifications -->
+        <div class="modal fade bs-example-modal-sm alertBox" id="top-notifications" tabindex="-1"
+             role="dialog" aria-hidden="true" data-backdrop="false" hidden>
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="notify mt20">
+                        <span class="icon"><i id="msg"></i></span>
+                        <h4 id="hdr1"></h4>
+                        <p id="data1"></p>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    
+        <!-- Top Notifications -->
+
+        <nav class="navbar" style="height: 80px;">
+            <div class="navbar-header">
+                <a href="#"><img src="~/images/header_logo.png" alt="logo" /></a>
+            </div>
+
+
+
+            @*<div class="nav navbar-nav navbar-right">
+                <ul class="list-unstyled user-belongs">
+                    <li style="padding:0px 10px 13px 10px;">
+                        <select class="select-control dpdown"  id="selCustomerLayout">
+                        </select>
+                    </li>
+                    <li style="padding:0px 10px 13px 10px;">
+                        <select class="select-control dpdown" id="selFacilityLayout">
+                        </select>
+                    </li>
+                    <li>
+                        <a href="#" class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="user_icon"><i class="fa fa-user"></i></span>@Html.StaffName()<span><i class="fa fa-angle-down"></i></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Content("~/um/changepassword")">Change Password</a></li>
+                            <li><a href="@Url.Content("~/account/Logoff")">Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>*@
+            <input type="hidden" id="hdnDevelopmentMode" value="null"/>
+        </nav>
+    </header>
+
+    <input type="hidden" id="hdnDateFormat" value=""/>
+    <input type="hidden" id="hdnCurrency" value=""/>
+    <!-- Header Ends -->
+    <section>
+        <!-- Side Menu Bar Starts -->
+        @*<div class="side_bar" id="divSidebarMenu">
+
+    </div>*@
+        <!-- Side Menu Bar Ends -->
+        <!-- content_area Starts -->
+        <div class="">
+            <div class="content">
+        
+                <div class="content_body">
+                    @RenderBody()
+                </div>
+                <!-- Contents Ends here -->
+            </div>
+            
+        </div>
+        @*<div class="common_footer" style="margin-top:375px;">
+            <span>© 2018 UEM Edgenta. All Rights Reserved.</span>
+        </div>*@
+        <!-- Content Area Ends -->
+    </section>
+    
+    @Scripts.Render("~/all/jsbottom")
+
+    <script src="~/js/jquery.scrolling-tabs.js"></script>
+    <script src="~/Scripts/ng/common/common.js"></script>
+    @*<script src="~/js/Layout/Layout.js"></script>*@
+    <script src="~/Scripts/ng/Controllers/Dashboard/CommonChart.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

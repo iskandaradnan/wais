@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "CRM  Work Order Assign";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>BEMS</li>
+            <li>CRM</li>
+            <li class="active">Work Order Assign</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Work Order Assign</h4>
+    </div>
+    @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-1" data-toggle="tab">Reschedule</a></li>
+            </ul>
+        </div>*@
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="content_body">
+        <form name="formCrmWrkOrdAss" id="formCrmWrkOrdAss" class="form-horizontal" novalidate>
+
+            @*<div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AreaName" class="col-sm-6 control-label">Area Name</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="RescheduleAreaName" autocomplete="off" placeholder="Please Select" onkeyup="FetchArea(event)" onpaste="FetchArea(event)" change="FetchArea(event)" oninput="FetchArea(event)" class="form-control name">
+                                <div class="col-sm-6" id="Areaetch"></div>
+
+                            </div>
+                            <input type="hidden" id="HdnRescheduleAreaId">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="LocationName" class="col-sm-6 control-label">Location Name</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="RescheduleLocationName" autocomplete="off" placeholder="Please Select" onkeyup="FetchLocation(event)" onpaste="FetchLocation(event)" change="FetchLocation(event)" oninput="FetchLocation(event)" class="form-control name">
+                                <div class="col-sm-6" id="LocFetch"></div>
+                            </div>
+                            <input type="hidden" id="HdnRescheduleLocId">
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="TypeofPlanner" class="col-sm-6 control-label">Request Type <span class="red"> *</span></label>
+                        <div class="col-sm-6">
+                            <select id="CrmworkOrdAssReqTyp" class="form-control">
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label id="NewAssignee" for="Assignee" class="col-sm-6 control-label">Assignee</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="CrmworkOrdAss" disabled autocomplete="off" placeholder="Please Select" onkeyup="FetchNewAssignee(event)" onpaste="FetchNewAssignee(event)" change="FetchNewAssignee(event)" oninput="FetchNewAssignee(event)" class="form-control name">
+                                <div class="col-sm-6" id="NewAssigneFetch"></div>
+                            </div>
+                            <input type="hidden" id="HdnCrmworkOrdAssAssigneId">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label"></label>
+                        <div class="col-sm-2 mt20">
+                            <div>
+                                <input type="button" id="CrmworkOrdAssFetchSave" class="btn btn-primary customButton pull-right" value="Fetch">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" id="fetchgrid" style="display:none;">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="crmWrkOrdAsstbl" class="table table-fixedheader table-bordered" style="visibility:hidden; border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="5%" class="text-center">
+                                        @*<a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>*@
+                                        <a><span style="text-align:center; color:#36d80d; " class="glyphicon glyphicon-ok" title="Select"></span></a><br>
+                                        <input type="checkbox" name="" id="chk_crmWrkOrdAss" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                    </th>
+                                    <th style="text-align: center;" width="35%">Work Order No.</th>
+                                    <th style="text-align: center;" width="30%">Work Order Date / Time</th>
+                                    <th style="text-align: center;" width="30%">New Assignee</th>
+                                </tr>
+                            </thead>
+                            <tbody id="crmWrkOrdAsstblGrid">                    
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divPagination" style="margin-top:15px;">
+
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+            </div>
+           
+            <div class="row mt30">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @Html.Partial("~/Areas/BEMS/Views/CRMWorkorderAssign/List.cshtml")
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/CRMWorkorderAssign.js")"></script>
+
+}

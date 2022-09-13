@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "CentralLinenStoreHousekeepingDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Master</li>
+            <li class="active">Central Linen Store Housekeeping</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Central Linen Store Housekeeping</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divHouse" aria-controls="home" role="tab" data-toggle="tab">Central Linen Store Housekeeping</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divHouse">
+                <form class="form-horizontal" id="FrmHouse" novalidate>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Store Type<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="txtStoreType" required @*onchange="HKeepingData()"*@ name="StoreType" class="form-control" tabindex="0">
+                                        <option class="active" value="null">Select</option>
+                                        @*<option value="0">Central Clean Linen Store </option>
+                            <option value="1">Central Soiled Linen Store</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Year<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="txtYear" required @*onchange="HKeepingData()"*@ name="Year" class="form-control" tabindex="0">
+                                        <option class="active" value="null">Select</option>
+                                        @*<option class="active" value=2019 >2019</option>
+                                        <option class="active" value=2020 >2020</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Month<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="txtMonth" required @*onchange="HKeepingData()"*@ name="Month" class="form-control" tabindex="0" @*value="Click!"*@>
+                                        <option class="active" value="null">Select</option>
+                                        @*<option class="active" value=01>January</option>
+                                        <option class="active" value=02>Februray</option>
+                                        <option class="active" value=03>March</option>
+                                        <option class="active" value=04>April</option>
+                                        <option class="active" value=05>May</option>
+                                        <option class="active" value=06>June</option>
+                                        <option class="active" value=07>July</option>
+                                        <option class="active" value=08>August</option>
+                                        <option class="active" value=09>September</option>
+                                        <option class="active" value=10>October</option>
+                                        <option class="active" value=11>November</option>
+                                        <option class="active" value=12>December</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    @*<div class="row">
+            <div class="col-sm-12 ">
+                <div class="form-group">
+                    <label class="col-sm-11 control-label"></label>
+                    <div class="col-sm-1 mt20">
+                        <div>
+                            <input type="button" id="monthstkFetch" class="btn btn-primary customButton pull-right" value="Fetch">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+                    <hr style="margin: 2em 0;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="ContractorVendorList" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="10%" class="text-center">
+                                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center;" width="30%">Date<span class="red">*</span></th>
+                                            <th style="text-align: center;"  width="30%">Housekeeping Done?</th>
+                                            <th style="text-align: center;" width="30%">Date Time Stamp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="HKeepingResultId">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary btnSave" name="btnSave" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            @*<button type="button" class="btn btn-primary btnEdit" value="1"><i class="fa fa fa-upload" aria-hidden="true"></i>+ Save&AddNew</button>*@
+                            <button type="button" class="btn btn-primary btnEdit" value="1"><i class="fa fa fa-plus" aria-hidden="true"></i> Save & Add New</button>
+                            <button type="button" class="btn btn-primary customButton btnDelete" title="btnDelete"><i class="fa fa-trash"></i>Delete </button>
+                            <button type="button" name="btnCancel" class="btn btn-grey btnCancel" title="Reset"><i class="fa fa-repeat"></i> Reset</button>
+                        </div>
+                    </div>
+                </form>
+                <br />
+            </div>
+        </div>
+    </div>
+    <br />
+    @Html.Partial("~/Areas/LLS/Views/CentralLinenStoreHousekeeping/centrallinenstorehousekeepingList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/centrallinenstorehousekeeping.js")"></script>
+}

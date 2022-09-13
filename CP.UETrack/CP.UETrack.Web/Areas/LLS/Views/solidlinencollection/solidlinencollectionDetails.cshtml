@@ -1,0 +1,241 @@
+﻿@{
+    ViewBag.Title = "solidlinencollectionDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Transaction</li>
+            <li class="active">Soiled Linen Collection </a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Soiled Linen Collection  </h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divSoiled" aria-controls="home" role="tab" data-toggle="tab">Soiled Linen Collection </a></li>
+            <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divSoiled">
+                <form class="form-horizontal" id="FrmSoiled" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Document No.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtDocumentNo" name="DocumentNo" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Collection Date<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtCollectionDate" name="CollectionDate" class="form-control datetimepicker" tabindex="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">  Total Soiled Weight(Kg)</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalSoiledWeight" name="TotalSoiledWeight" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Laundry Plant/Facility<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select autocomplete="off" id="txtLaundryPlantFacilit" name="LaundryPlantFacility" class="form-control" tabindex="0">
+                                        <option value="null">select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Despatch Date/Time  <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control datatimepicker" id="txtDespatchDateTime" name="DespatchDateTime" autocomplete="off" maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Ownership </label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control " id="txtOwnership" name="DespatchDateTime" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total White Bag </label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalWhiteBag" name="TotalWhiteBag" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Red Bag</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtTotalRedBag" name="TotalRedBag" class="form-control " tabindex="0" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Green Bag</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalGreenBag" name="TotalGreenBag" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Brown Bag</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalBrownBag" name="TotalGreenBag" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="margin: 2em 0;">
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="SolidLinenProvider" class="table table-fixedheader table-bordered er_parameter" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading noScrollGrid">
+                                        <tr>
+                                            <th width="3%" style="height:85px;" class="text-center">
+                                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center; height:85px;" width="8%" id="">User Area Code <span class="red">*</span></th>
+                                            <th style="text-align: center; height:85px;" width="8%" id="">Location Code <span class="red">*</span></th>
+                                            <th style="text-align: center; height:85px;" width="8%">Verified By <span class="red">*</span></th>
+                                            <th style="text-align: center; height:85px;" width="7%">Verified Date/Time </th>
+                                            <th style="text-align: center; height:85px;" width="4%">Weight</th>
+                                            <th style="text-align: center; height:85px;" width="4%">Total White Bag (Qty)</th>
+                                            <th style="text-align: center; height:85px;" width="4%">Total Red Bag (Qty) </th>
+                                            <th style="text-align: center; height:85px;" width="4%">Total Green Bag (Qty)</th>
+                                            <th style="text-align: center; height:85px;" width="4%">Total Brown Bag (Qty)</th>
+                                            <th style="text-align: center; height:85px;" width="4%">Total Quantity</th>
+                                            <th style="text-align: center; height:85px;" width="6%">Collection Schedule  <span class="red">*</span></th>
+                                            <th style="text-align: center; height:85px;" width="8%">Collection Start Time </th>
+                                            <th style="text-align: center; height:85px;" width="8%">Collection End Time </th>
+                                            <th style="text-align: center; height:85px;" width="8%">Collection Time   <span class="red">*</span></th>
+                                            <th style="text-align: center; height:85px;" width="6%">On Time </th>
+                                            <th style="text-align: center;  height:85px;" width="6%">Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ContactGrid">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+
+                            <button type="button" class="btn btn-primary btnSave"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary btnEdit" value="1"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" class="btn btn-primary btnDelete "><i class="fa fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" id="btnDelete" class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" class="btn btn-grey btnCancel"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                        </div>
+                    </div>
+
+                </form>
+
+
+            </div>
+
+            @*Attachment Tab*@
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/LLS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/solidlinencollection/solidlinencollectionList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/SoiledLinenCollection.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+
+}

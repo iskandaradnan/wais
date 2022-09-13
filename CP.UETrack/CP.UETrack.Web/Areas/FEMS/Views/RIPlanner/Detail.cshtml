@@ -1,0 +1,576 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .green {
+        background-color: #dff0d8;
+    }
+
+    .pink {
+        background-color: #f2dede;
+    }
+
+    .buttonDisabled {
+        background-color: #E0E0E0;
+    }
+    
+    .table > thead:first-child > tr:first-child > th{
+    min-width: 30px;
+    white-space: nowrap;
+    }
+
+    .table > thead:first-child > tr:first-child > th:first-child,
+    .table > thead:first-child > tr:first-child > th:nth-child(2){
+     min-width: 120px;
+    }
+</style>
+
+<div>
+    @*<div class="row">*@
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+        <input type="hidden" id="PlannerType" name="PlannerType" value="RI" />
+
+
+
+        <input type="hidden" id="ServiceId" name="ServiceId" value="2" />
+        <input type="hidden" id="hdnStandardTaskDetId" name="hdnStandardTaskDetId" >
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+                </li>
+                <li>FEMS</li>              
+                <li>Planner</li>
+                <li class="active">RI</li>             
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+          
+            <h4>RI Planner</h4>
+        </div>
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#formriplanner" data-toggle="tab">RI Planner</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-2" onclick="SummaryData()">Summary</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="formriplanner">
+                <form id="formriplanner" name="formriplanner" class="form-horizontal" novalidate>
+                    <div class="row">
+                        @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerService" class="col-sm-6 control-label">Service</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Service" class="form-control" disabled>
+                                            <option value="null">Select </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerYear" class="col-sm-6 control-label">Year @*<span class="red">*</span>*@</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Year" required class="form-control">
+                                         
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Department Code <span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtUserAreaCode" name="UserAreaCode" maxlength="25" tabindex="2" />
+                                        <input type="hidden" required id="hdnUserAreaId" />
+
+                                        <div class="col-sm-12" id="divUserAreaFetch">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Department Name </label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtUserAreaName" name="txtUserAreaName" readonly maxlength="25" tabindex="2" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total No Of Assets</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtTotalAsset" name="txtTotalAsset" readonly maxlength="25" tabindex="2" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">No. of Equipments</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <a data-toggle="modal" id="Popup" title="Add" data-target="#preview" class="btn btn-sm  btn-primary text-center" ng-click="getAssetDetails($index)"><span class="glyphicon glyphicon-modal-window"></span> </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Assignee <span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtAssignee" name="Assignee" maxlength="25" tabindex="2" />
+                                        <input type="hidden" required id="hdnAssigneeId" />
+
+                                        <div class="col-sm-12" id="divtAssigneeFetch">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Facility Representative <span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" required class="form-control" placeholder="Please Select" id="txtHospitalRepresentative" name="HospitalRepresentative" maxlength="25" tabindex="2" />
+                                        <input type="hidden" required id="hdnHospitalRepresentativeId" />
+
+                                        <div class="col-sm-12" id="divHospitalRepresentativeFetch">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" hidden>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerEngineer" class="col-sm-6 control-label">Engineer</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="Please Select" id="txtEngineer" name="Engineer" autocomplete="off" maxlength="25" tabindex="2" />
+                                    <input type="hidden" id="hdnEngineerId" />
+
+                                    <div class="col-sm-12" id="divEngineerFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerContactNumber" class="col-sm-6 control-label">Contact Number</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" id="txtContactNumber" name="ContactNumber" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerSchedule" class="col-sm-6 control-label">Schedule Type @*<span class="red">*</span>*@</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Schedule" required onchange="ScheduleChange()" class="form-control">
+                                            @*<option value="null">Select </option>*@
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerStatus" class="col-sm-6 control-label">Status @*<span class="red">*</span>*@</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="Status" required class="form-control">
+                                            @*<option value="null">Select </option>*@
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Month <span class="red">*</span></label>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckJan" onclick="LoadMonth('Jan' , 'String')" name="month" value="Jan"> Jan<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckFeb" onclick="LoadMonth('Feb' , 'String')" name="month" value="Feb"> Feb<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckMar" onclick="LoadMonth('Mar' ,'String')" name="month" value="Mar"> Mar<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckApr" onclick="LoadMonth('Apr' , 'String')" name="month" value="April"> Apr<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckMay" onclick="LoadMonth('May', 'String')" name="month" value="May"> May<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckJun" onclick="LoadMonth('Jun', 'String')" name="month" value="Jun"> Jun<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckJul" onclick="LoadMonth('Jul', 'String')" name="month" value="Jul"> Jul<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckAug" onclick="LoadMonth('Aug', 'String')" name="month" value="Aug"> Aug<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckSep" onclick="LoadMonth('Sep', 'String')" name="month" value="Sep"> Sep<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckOct" onclick="LoadMonth('Oct', 'String')" name="month" value="Oct"> Oct<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckNov" onclick="LoadMonth('Nov', 'String')" name="month" value="Nov"> Nov<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckDec" onclick="LoadMonth('Dec', 'String')" name="month" value="Dec"> Dec<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    @*<div class="row" id="HideWeek">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Week <span class="red">*</span></label>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckWeek1" onclick="LoadWeek('Week1' , 'String')" name="month" value="Week1"> Week 1<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckWeek2" onclick="LoadWeek('Week2' , 'String')" name="month" value="Week2"> Week 2<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckWeek3" onclick="LoadWeek('Week3' , 'String')" name="month" value="Week3"> Week 3<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckWeek4" onclick="LoadWeek('Week4' , 'String')" name="month" value="Week4"> Week 4<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckWeek5" onclick="LoadWeek('Week5' , 'String')" name="month" value="Week5"> Week 5<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row" id="HideDay">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Day <span class="red">*</span></label>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckSun" onclick="LoadDay('Sun' , 'String')" name="month" value="Sunday"> Sunday<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckMon" onclick="LoadDay('Mon' , 'String')" name="month" value="Monday"> Monday<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckTue" onclick="LoadDay('Tue' , 'String')" name="month" value="Tuesday"> Tuesday<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckWed" onclick="LoadDay('Wed' , 'String')" name="month" value="Wednesday"> Wednesday<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckThu" onclick="LoadDay('Thu' , 'String')" name="month" value="Thursday"> Thursday<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckFri" onclick="LoadDay('Fri' , 'String')" name="month" value="Friday"> Friday<br>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" id="CheckSat" onclick="LoadDay('Sat' , 'String')" name="month" value="Saturday"> Saturday<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />*@
+                    <div class="row" id="HideDate">
+                        @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="PPMPlannerDate" class="col-sm-6 control-label">Date <span class="red">*</span> </label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select multiple id="Date" onclick="CheckDays()" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Date <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="Date" multiple="multiple" name="Flag" onclick="CheckDays()" class="form-control multiSelectDDLwithoutSearch multi-check"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        </div>
+                        <br />
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab-2">
+                <div class="content_body">
+                    <form class="form-horizontal">
+                        @*<div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="PPMPlannerService" class="col-sm-6 control-label">Service</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select id="SummaryService" class="form-control" disabled>
+                                                <option value="null">Select </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="PPMPlannerWorkGroup" class="col-sm-6 control-label">Work Group</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select id="SummaryWorkGroup" class="form-control" disabled>
+                                                <option value="null">Select </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>*@
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label for="PPMPlannerYear" class="col-sm-6 control-label">Year @*<span class="red">*</span>*@</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select id="SummaryYear" onchange="SummaryData()" required class="form-control">
+                                                @*<option value="null">Select </option>*@
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                        </div>
+                        <div class="content-area">
+                            <div class="">
+                                <div class="table-responsive tableFixedHeight">
+                                    <table id="dataTableCheckList" class="table table-bordered">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th class="text-center">Area Code</th>
+                                                <th class="text-center">Area Name</th>
+                                                <th class="text-center">1</th>
+                                                <th class="text-center">2</th>
+                                                <th class="text-center">3</th>
+                                                <th class="text-center">4</th>
+                                                <th class="text-center">5</th>
+                                                <th class="text-center">6</th>
+                                                <th class="text-center">7</th>
+                                                <th class="text-center">8</th>
+                                                <th class="text-center">9</th>
+                                                <th class="text-center">10</th>
+                                                <th class="text-center">11</th>
+                                                <th class="text-center">12</th>
+                                                <th class="text-center">13</th>
+                                                <th class="text-center">14</th>
+                                                <th class="text-center">15</th>
+                                                <th class="text-center">16</th>
+                                                <th class="text-center">17</th>
+                                                <th class="text-center">18</th>
+                                                <th class="text-center">19</th>
+                                                <th class="text-center">20</th>
+                                                <th class="text-center">21</th>
+                                                <th class="text-center">22</th>
+                                                <th class="text-center">23</th>
+                                                <th class="text-center">24</th>
+                                                <th class="text-center">25</th>
+                                                <th class="text-center">26</th>
+                                                <th class="text-center">27</th>
+                                                <th class="text-center">28</th>
+                                                <th class="text-center">29</th>
+                                                <th class="text-center">30</th>
+                                                <th class="text-center">31</th>
+                                                <th class="text-center">32</th>
+                                                <th class="text-center">33</th>
+                                                <th class="text-center">34</th>
+                                                <th class="text-center">35</th>
+                                                <th class="text-center">36</th>
+                                                <th class="text-center">37</th>
+                                                <th class="text-center">38</th>
+                                                <th class="text-center">39</th>
+                                                <th class="text-center">40</th>
+                                                <th class="text-center">41</th>
+                                                <th class="text-center">42</th>
+                                                <th class="text-center">43</th>
+                                                <th class="text-center">44</th>
+                                                <th class="text-center">45</th>
+                                                <th class="text-center">46</th>
+                                                <th class="text-center">47</th>
+                                                <th class="text-center">48</th>
+                                                <th class="text-center">49</th>
+                                                <th class="text-center">50</th>
+                                                <th class="text-center">51</th>
+                                                <th class="text-center">52</th>
+                                                <th class="text-center">53</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="SummaryResultId"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="paginationfooter"></div>
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="SummarybtnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @Html.Partial("~/Areas/FEMS/Views/RIPlanner/List.cshtml")
+
+        <div class="modal fade" id="preview" role="dialog" data-backdrop="static">
+            <div class="modal-dialog">
+                <ng-form name="FormPenalty" id="FormPenalty" class="ng-pristine ng-valid">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><b>Asset Details</b></h4>
+                        </div>
+                        <div class="modal-body">      
+                                <div class="content-area">
+                                    <div>
+                                        <div class="table-responsive tableFixedHeight">
+                                            <table id="dataTableCheckList" class="table table-bordered">
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        <th width="10%" class="text-center">S.No</th>
+                                                        <th width="30%" class="text-center">Asset No.</th>
+                                                        <th width="30%" class="text-center">Asset Type Code</th>
+                                                        <th width="30%" class="text-center">Asset Type Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="PopupId"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            <br />
+                            @*</div>*@    
+                            @*<div id="paginationfooter"></div>*@     
+                            <br />                                        
+                            <div class="text-center paddingTop">
+                                <span class="hidden"></span><button type="submit" id="CancelPenalty" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-form>
+            </div>
+        </div>
+    @*</div>*@
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+    </div>
+</div>
+@*@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}*@
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/RIPlanner.js")"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

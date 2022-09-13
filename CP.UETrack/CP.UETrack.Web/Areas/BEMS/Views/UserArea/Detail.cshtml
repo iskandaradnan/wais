@@ -1,0 +1,463 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="LevelId" name="LevelId" value="@ViewBag.LevelId" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    @*<input type="hidden" id="BlockId" name="BlockId" />*@
+
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Locations</li>
+            <li class="active">Department</li>
+            <!--<li class="active">General</li>-->
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4> Department </h4>
+        @*<h4><span id="spnActionType">Add</span> User Area Master</h4>*@
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#divArea" aria-controls="home" role="tab" data-toggle="tab">Department</a></li>
+        <li role="presentation"><a href="#divCommonHistory" id="History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="divArea">
+            <form class="form-horizontal" id="UAform">
+
+
+                <div class="row">
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelCode" class="col-sm-6 control-label"> Block Code<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="hdnBlockId" />
+                                    <input type="text" class="form-control" id="txtBlockCode" name="BlockCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch1">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" id="Blockcodepopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Block">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelName" class="col-sm-6 control-label"> Block Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtBlockName" name="BlockName" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelCode" class="col-sm-6 control-label"> Level Code<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+
+                                    <input type="hidden" id="hdnLevelId" />
+                                    <input type="text" class="form-control" id="txtUserLevelCode" name="UserLevelCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch2">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="levlcodepopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Level">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelName" class="col-sm-6 control-label"> Level Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control nameVal" id="txtUserLevelName" name="UserLevelName" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaCode" class="col-sm-6 control-label"> Department Code<span class="red">&nbsp;*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" pattern="^[a-zA-Z0-9\-\/]{3,25}$" class="form-control" id="UserAreaCode" name="UserAreaCode" maxlength="25" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaName" class="col-sm-6 control-label">Department Name<span class="red">&nbsp;*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="UserAreaName" class="form-control" required pattern="^[a-zA-Z0-9\-\(\)\/\s]{3,100}$" maxlength="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="inputstatus" class="col-sm-6 control-label">Status</label>
+
+                            <div class="col-sm-6">
+
+                                <select class="form-control" id="Active">
+                                    <option selected="selected" value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+
+
+                                @*<input type="checkbox" id="Active" checked="checked" onclick="enableStopServiceDate()" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="StartServiceDate" class="col-sm-6 control-label">Start Service Date<span class="red">&nbsp;*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" name="ActiveFromDate" id="ActiveFromDate" class="form-control datetimepicker" maxlength="11" autocomplete="off" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="StopServiceDate" id="stopdatelabelid" class="col-sm-6 control-label">Stop Service Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" name="ActiveToDate" id="ActiveToDate" class="form-control datetimepicker" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="HospitalRepresentative" class="col-sm-6 control-label">Department Incharge<span class="red">&nbsp;*</span></label>
+
+
+                            <div>
+                                <div class="col-sm-4">
+
+                                    <input type="hidden" id="hdnHospitalStaffId" />
+                                    <input type="text" class="form-control" id="txtHospitalStaffName" placeholder="Please Select" name="HospitalStaffName" maxlength="100" required />
+                                    <div class="col-sm-12" id="divFetch3">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" id="hospStaffpopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-hospStaff">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="HospitalRepresentative" class="col-sm-6 control-label">Company Representative<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+
+                                    <input type="hidden" id="hdnCompanyStaffId" />
+                                    <input type="text" class="form-control" id="txtCompanyStaffName" placeholder="Please Select" name="CompanyStaffName" maxlength="100" required />
+                                    <div class="col-sm-12" id="divFetch4">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="companypopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-compStaff">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Remarks" class="col-sm-6 control-label">Remarks</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" class="form-control wt-resize" id="Remarks" name="Remarks" style="width:312px;height:70px"
+                                              maxlength="500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-12 errMsg" style="color:red; visibility:hidden" id="errorMsg">
+                        <div class="errormsgcenter">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 text-center  mt20">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton " title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnNextScreenSave" class="btn btn-primary customButton hider" title="Add User Location"><i class="fa fa-plus" aria-hidden="true"></i>Add Location</button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="divCommonHistory">
+            <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+                @Html.Partial("~/Views/History/_History_PartialView.cshtml")
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/BEMS/Views/UserArea/List.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@*@if (ViewBag.ActionType == "View")
+    {
+        <script type="text/javascript">
+
+            $('#levlcodepopup,#hospStaffpopup,#companypopup').hide();
+            $("#UAform :input:not(:button)").prop("disabled", true);
+        </script>
+    }*@
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/UserAreaController.js")"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@*<h2></h2>
+    <div>
+        <div class="row">
+
+
+
+
+
+            <div class="standard-tabs" id="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-1" data-toggle="tab">User Area Master</a></li>
+                </ul>
+            </div>
+
+
+            <div class="tab-content">
+                <form name="form" id="form" class="form-horizontal" novalidate>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="pull-right">User Area Code <span style="color:red;"> *</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="UserAreaCode" name="UserAreaCode" maxlength="25" tabindex="1" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-2">
+                            <label class="pull-right">User Area Name <span style="color:red;"> *</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="UserAreaName" name="UserAreaName" maxlength="100" tabindex="1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+
+                            <label class="pull-right">User Level Code <span style="color:red;"> *</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <input type="hidden" id="LevelId" value="2" />
+                                <input type="text" class="form-control" id="UserLevelCode" name="UserLevelCode" maxlength="25" tabindex="1" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-2">
+                            <label class="pull-right">User Level Name <span style="color:red;"> *</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="UserLevelName" name="UserLevelName" readonly tabindex="1" />
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="pull-right">Staus</label>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <input type="checkbox" checked="checked" id="Active" />
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="pull-right">Hospital Representative <span style="color:red;"> *</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <input type="hidden" id="HospitalStaffId" value="2" />
+                                <input type="text" class="form-control" id="HospitalStaffName" name="HospitalStaffName" maxlength="25" tabindex="1" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-2">
+                            <label class="pull-right">Company  Representative <span style="color:red;"> *</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <input type="hidden" id="CompanyStaffId" value="2" />
+                                <input type="text" class="form-control" id="CompanyStaffName" name="CompanyStaffName" maxlength="100" tabindex="1" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="pull-right">Remarks</label>
+                        </div>
+                        <div class="col-xs-6 col-sm-8">
+                            <div class="form-group">
+                                <textarea class="form-control" id="Remarks" name="Remarks" rows="3" cols="50"
+                                          maxlength="500" tabindex="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="row">
+
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 text-right">
+
+
+                            @if (ViewBag.ActionType == "ADD")
+                            {
+                                <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                            }
+                            @if (ViewBag.ActionType == "EDIT")
+                            {
+                                <button type="button" id="btnEdit" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                            }
+                            @if (ViewBag.ActionType == "ADD")
+                            {
+                                <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary" tabindex="6">Add New</button>
+                            }
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.ActionType == "VIEW")
+    {
+        <script type="text/javascript">
+            $("#form :input:not(:button)").prop("disabled", true);
+        </script>
+    }
+
+    @section scripts{
+        <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/UserAreaController.js")"></script>
+    }*@
+
+

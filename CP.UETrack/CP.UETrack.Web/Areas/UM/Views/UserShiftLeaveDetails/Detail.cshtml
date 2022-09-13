@@ -1,0 +1,416 @@
+﻿
+@{
+    ViewBag.Title = "User Shift & Leave Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>User Management</li>
+            <li class="active">User Shift & Leave Details</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+            <h4>User Shift & Leave Details </h4>
+    </div>
+    @*<div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">User Shift & Leave Details </a></li>
+        </ul>
+    </div>*@
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="UserShiftLeave" autocomplete="off">         
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Staff Name<span class="red"> *</span></label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="hdnRegistrationId" />
+                            <input type="text" name="UserShiftStaffName" id="UserShiftStaffName" placeholder="Please Select" onkeyup="FetchRegisteration(event)" onpaste= "FetchRegisteration(event)" change="FetchRegisteration(event)" oninput="FetchRegisteration(event)"  class="form-control"required maxlength="100">
+                            <div class="col-sm-12" id="divFetch">
+                            </div>
+                        </div>
+                        <div class="col-sm-2" id="Popup-UserShift">
+                            <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-UserShift">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Mobile No.</label>
+                        <div class="col-sm-6">
+
+                            <input type="text"  id="UserShiftMobileNo" maxlength="25" name="MobileNo" class="form-control"disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">User Type </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text"  id="UserShiftUserType" maxlength="25" name="UserType" class="form-control"disabled>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6"style="display:none">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Access Level</label>
+                        <div class="col-sm-6">
+
+                            <input type="text"  id="UserShiftAccessLevel" maxlength="25" name="AccessLevel" class="form-control"disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">              
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Designation</label>
+                        <div class="col-sm-6">
+
+                            <input type="text" id="UserShiftDesignation" maxlength="25" name="Designation" class="form-control"disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Shift Time <span class="red">* </span> </label>
+                        <div class="col-sm-1">
+                           
+                                <select id="ShiftStartTime" class="userselect" name="UserShiftStartTime" tabindex="4" required>
+                                    <option value="">HH</option>
+                                    <option value="1">00</option>
+                                    <option value="2">01</option>
+                                    <option value="3">02</option>
+                                    <option value="4">03</option>
+                                    <option value="5">04</option>
+                                    <option value="6">05</option>
+                                    <option value="7">06</option>
+                                    <option value="8">07</option>
+                                    <option value="9">08</option>
+                                    <option value="10">09</option>
+                                    <option value="11">10</option>
+                                    <option value="12">11</option>
+                                    <option value="13">12</option>
+                                    <option value="14">13</option>
+                                    <option value="15">14</option>
+                                    <option value="16">15</option>
+                                    <option value="17">16</option>
+                                    <option value="18">17</option>
+                                    <option value="19">18</option>
+                                    <option value="20">19</option>
+                                    <option value="21">20</option>
+                                    <option value="22">21</option>
+                                    <option value="23">22</option>
+                                    <option value="24">23</option>
+                                </select>
+                                                
+                            </div>
+                        <div class="col-sm-1">
+                            <div>
+                                <select id="ShiftStartTimeMin" class="userselect" name="UserShiftStartMin" tabindex="4" required>
+                                    <option value="">MM</option>
+                                    <option value="1">00</option>
+                                    <option value="2">15</option>
+                                    <option value="3">30</option>
+                                    <option value="4">45</option>
+                                </select>
+                            </div>
+                        </div>   
+                        <div class="col-sm-1">
+                            <label class="col-sm-6 control-label">To  </label>
+                            </div>
+                        <div class="col-sm-1">
+                            <select id="ShiftEndTime" class="userselect" name="UserShiftEndTime" tabindex="4" required>
+                                <option value="">HH</option>
+                                <option value="1">00</option>
+                                <option value="2">01</option>
+                                <option value="3">02</option>
+                                <option value="4">03</option>
+                                <option value="5">04</option>
+                                <option value="6">05</option>
+                                <option value="7">06</option>
+                                <option value="8">07</option>
+                                <option value="9">08</option>
+                                <option value="10">09</option>
+                                <option value="11">10</option>
+                                <option value="12">11</option>
+                                <option value="13">12</option>
+                                <option value="14">13</option>
+                                <option value="15">14</option>
+                                <option value="16">15</option>
+                                <option value="17">16</option>
+                                <option value="18">17</option>
+                                <option value="19">18</option>
+                                <option value="20">19</option>
+                                <option value="21">20</option>
+                                <option value="22">21</option>
+                                <option value="23">22</option>
+                                <option value="24">23</option>
+                            </select>
+                            </div>
+                        <div class="col-sm-1">
+                            <div>
+                                <select id="ShiftEndTimeMin" class="userselect" name="UserShiftEndTimeMin" tabindex="4" required>
+                                    <option value="">MM</option>
+                                    <option value="1">00</option>
+                                    <option value="2">15</option>
+                                    <option value="3">30</option>
+                                    <option value="4">45</option>
+                                </select>
+                            </div>
+                        </div> 
+                        </div>
+                </div>
+                             
+              
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Shift Break  Time <span class="red">* </span> </label>
+                            <div class="col-sm-1">
+                                <div>
+                                    <select id="ShiftBreakStartTime" class="userselect" name="UserbreakStartTime" tabindex="4" required>
+                                        <option value="">HH</option>
+                                        <option value="1">00</option>
+                                        <option value="2">01</option>
+                                        <option value="3">02</option>
+                                        <option value="4">03</option>
+                                        <option value="5">04</option>
+                                        <option value="6">05</option>
+                                        <option value="7">06</option>
+                                        <option value="8">07</option>
+                                        <option value="9">08</option>
+                                        <option value="10">09</option>
+                                        <option value="11">10</option>
+                                        <option value="12">11</option>
+                                        <option value="13">12</option>
+                                        <option value="14">13</option>
+                                        <option value="15">14</option>
+                                        <option value="16">15</option>
+                                        <option value="17">16</option>
+                                        <option value="18">17</option>
+                                        <option value="19">18</option>
+                                        <option value="20">19</option>
+                                        <option value="21">20</option>
+                                        <option value="22">21</option>
+                                        <option value="23">22</option>
+                                        <option value="24">23</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div>
+                                    <select id="ShiftBreakStartTimeMin" class="userselect" name="UserbreakStartMin" tabindex="4" required>
+                                        <option value="">MM</option>
+                                        <option value="1">00</option>
+                                        <option value="2">15</option>
+                                        <option value="3">30</option>
+                                        <option value="4">45</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="col-sm-6 control-label">To</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <select id="ShiftBreakEndTime" class="userselect" name="UsersbreakEndTime" tabindex="4" required>
+                                    <option value="">HH</option>
+                                    <option value="1">00</option>
+                                    <option value="2">01</option>
+                                    <option value="3">02</option>
+                                    <option value="4">03</option>
+                                    <option value="5">04</option>
+                                    <option value="6">05</option>
+                                    <option value="7">06</option>
+                                    <option value="8">07</option>
+                                    <option value="9">08</option>
+                                    <option value="10">09</option>
+                                    <option value="11">10</option>
+                                    <option value="12">11</option>
+                                    <option value="13">12</option>
+                                    <option value="14">13</option>
+                                    <option value="15">14</option>
+                                    <option value="16">15</option>
+                                    <option value="17">16</option>
+                                    <option value="18">17</option>
+                                    <option value="19">18</option>
+                                    <option value="20">19</option>
+                                    <option value="21">20</option>
+                                    <option value="22">21</option>
+                                    <option value="23">22</option>
+                                    <option value="24">23</option>
+                                </select>
+                                </div>
+                            <div class="col-sm-1">
+                                <select id="ShiftBreakEndTimeMin" class="userselect" name="UsersbreakEndMin" tabindex="4" required>
+                                    <option value="">MM</option>
+                                    <option value="1">00</option>
+                                    <option value="2">15</option>
+                                    <option value="3">30</option>
+                                    <option value="4">45</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+                    
+
+          
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Leave Details</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label id="ShiftLeaveFrom" class="col-sm-6 control-label">Leave From </label>
+                            <div class="col-sm-4">
+                                <div>
+                                    <input type="text" id="UserShiftLeaveFrom" maxlength="25" name="LeaveFrom" class="form-control datatimeFuture" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label id="ShiftLeaveTo" class="col-sm-6 control-label">Leave To </label>
+                            <div class="col-sm-4">
+                                <div>
+                                    <input type="text" id="UserShiftLeaveTo" maxlength="25" name="LeaveTo"  class="form-control datatimeFuture">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div>
+                                    <a href="#" onclick ="AddNewRow()" id="Userplus" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="UserShiftLeaveDetailsdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="5%" class="text-center">
+                                            <div class="checkbox text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" name="UserShiftdet" id="chk_UserShiftdet" value="false" autocomplete="off" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                </label>
+                                            </div>
+                                        </th>
+
+                                        <th style="text-align: center;" width="35%">Leave From</th>
+                                        <th style="text-align: center;" width="35%">Leave To</th>
+                                        <th style="text-align: center;" width="25%">No Of Days</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="UserShiftLeaveDetailstable">
+
+                                    @* Content of body HTML *@
+                                    @*<tr class="ng-scope" style="">
+                                                                <td width="30%">
+                                                                    <div>
+                                                                    <input type="hidden" id="hdnUserShiftId" />
+                                                                        <input type="text" id="LeaveFromGrid" name="LeaveFromGrid" class="form-control" autocomplete="off" required>
+                                                                    </div>
+                                                                </td>
+                                                                    <td width="40%">
+                                                                        <div>
+                                                                            <input type="text"id="LeaveToGrid"name="LeaveToGrid"class="form-control" autocomplete="off" required>
+                                                                        </div>
+                                                                    </td>
+                                                                <td width="30%">
+                                                                    <div>
+                                                                        <input type="text" id="NoOfDays" name="NoOfDays" class="form-control" autocomplete="off" required>
+                                                                    </div>
+                                                                </td>
+
+                                </tr>*@
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+
+                <div class="form-group mt20">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        @* <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>*@
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+
+                <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+                </div>
+</form>
+ @Html.Partial("~/Areas/UM/Views/UserShiftLeaveDetails/List.cshtml")
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/UM/UserShiftLeaveDetails.js")"></script>
+}
+
+
+
+
+
+    

@@ -1,0 +1,164 @@
+
+@{
+    ViewBag.Title="ChangePasswordDetail";
+    Layout="~/Views/Shared/_Layout.cshtml";
+        }
+
+<div>
+
+@functions{
+    public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+<input id="antiForgeryToken" type="hidden" />
+<input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.CurrentID" />
+<input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType" />
+<input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+
+<div class="content_header">
+        @*<ol class="breadcrumb">
+            <li><a href = "/home/DashBoard" ><i class="fa fa-home"></i></a></li>
+            <li>UM</li>
+            <li class="active"><a href="/um/changepassword">Change Password</a></li>*@
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+            @*</ol>*@
+        <h4>Change Password</h4>
+    </div>
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href = "#tab-1" data-toggle="tab">Change Password</a></li>
+        </ul>
+    </div>
+
+    <div class="content_body">
+            <form class="form-horizontal" id="frmChangePassword" novalidate>
+                <div class="content_body">
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="col-sm-12 control-label">Username<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <div>
+                                    <input id="txtUserName" tabindex="1" 
+                                           name="txtUserName" class="form-control" maxlength="25" alphanumeric-Nospace type="text" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="col-sm-12 control-label">Old Password <span class="red">*</span></label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <div>
+                                    <input id="txtOldPassword" name="txtOldPassword" autocomplete="off" tabindex="2" maxlength="14" class="form-control" type="password" required/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="col-sm-12 control-label">New Password <span class="red">*</span> </label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <div>
+                                    <input autocomplete="off" id="txtNewPassword" name="txtNewPassword" tabindex="3" maxlength="14" class="form-control" type="password" required/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="col-sm-12 control-label">Confirm New Password <span class="red">*</span> </label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <di>
+                                    <input autocomplete="off" id="txtConfirmPassword" name="txtConfirmPassword" tabindex="4" maxlength="14" class="form-control" type="password" required/>
+                                </di>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="row">
+                        <div class="col-xs-6 col-sm-3">
+                            <label class="col-sm-12 control-label">Security Code<span class="red">*</span> </label>
+                        </div>
+                        <div class="col-xs-6 col-sm-3">
+                            <div class="form-group">
+                                <div>
+                                    <input autocomplete="off" id="txtSecurityCode" tabindex="5"
+                                           maxlength="6" Only-Alphanumeric
+                                           name="txtSecurityCode" class="form-control " type="password"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+
+
+                    <div class="row" style="font-size:11px; margin-left:30px;">
+                        <div class="col-sm-12">
+                            <ol>
+                                <li>
+                                    Password should be a mix of alphabets with min one uppercase, numerals and special characters (&#36;&#35;&#94;&#64;&#92;&#38;&#37;&#95;&#46;&#126;&#33;&#42;&#43;&#45;&#47;) without any space in between.
+                                </li>
+                                <li>
+                                    The password length should be between 8 to 14 characters.
+                                </li>
+                                <li>
+                                    New password cannot be the same as the previous password.
+                                </li>
+                            </ol>
+
+                        </div>
+                    </div>
+                    @* Content*@
+
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                    </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            @if (ViewBag.ActionType == "Add")
+                            {
+                                <button type = "button" class="btn btn-primary customButton" id="btnSave">Change</button>
+                            }
+                            <button type="button" class="btn btn-grey customButton" id="btnCancel"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/UM/ChangePassword/ChangePassword.js")"></script>
+}

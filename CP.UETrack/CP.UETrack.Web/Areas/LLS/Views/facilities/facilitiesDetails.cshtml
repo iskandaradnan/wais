@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "facilitiesDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>LLS</li>
+            <li>Master</li>
+            <li class="active">Facilities, Equipment, Tools & Consumable </li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Facilities, Equipment, Tools & Consumable </h4>
+        @*<h4><span id="spnActionType">Add</span> Block</h4>*@
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#divfacilities" aria-controls="home" role="tab" data-toggle="tab">Facilities, Equipment, Tools & Consumable </a></li>
+        @*<li role="presentation"><a href="#divCommonHistory" id="History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>*@
+
+    </ul>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="divfacilities">
+            <form name="formfacilities" id="formFacilities" class="form-horizontal" novalidate>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Facilities" class="col-sm-6 control-label">Item Code<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\/]{3,25}$" maxlength="25" required id="txtItemCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="ItemDescription " class="col-sm-6 control-label">Item Description <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\.\/\(\)\s]+$" required id="txtItemDescription">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="ItemType" class="col-sm-6 control-label">Item Type<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="txtItemType" name="ItemType" tabindex="19" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="plantStatus" class="col-sm-6 control-label">Status <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <select id="SelStatus" class="form-control">
+                                    <option value="1">Active</option>
+                                    <option value="2">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Effective From  <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" id="txtEffectiveFrom" name="txtEffectiveFrom" class="form-control datatimeNoFuture" maxlength="11" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Effective To </label>
+                            <div class="col-sm-6">
+                                <input type="text" id="txtEffectiveTo" name="txtEffectiveTo" class="form-control datatimeFuture"  maxlength="11" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button"  name="btnDelete" class="btn btn-primary customButton btnDelete" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="divCommonHistory">
+            <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/facilities/facilitiesList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/Facilities.js")"></script>
+}

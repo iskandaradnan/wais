@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>General Master</li>
+            <li>Asset Meta Data</li>
+            <li class="active">Asset Information</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>@ViewBag.ActionType Asset Information</h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">Asset Information</a></li>
+        </ul>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="content_body">
+        <form name="formBemsAssetInfo" id="formBemsAssetInfo" class="form-horizontal" novalidate>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="sparePartItemCode" class="col-sm-6 control-label">Type <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select required id="assetInfoTypeId" autofocus class="form-control">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group" id="AssetTextboxId" style="display:none;">
+                        <label id="assetTypeLabelId" class="col-sm-6 control-label"></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input required id="assetTypeValue" pattern="^[a-zA-Z0-9\-\s\(\)\/]+$" type="text" maxlength="100" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-sm-12 text-right mt20">
+
+                    @if (ViewBag.ActionType == "Add")
+                    {
+                        <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                    }
+                    @if (ViewBag.ActionType == "Edit")
+                    {
+                        <button type="button" id="btnEdit" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                    }
+                    @if (ViewBag.ActionType == "Add")
+                    {
+                        <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary" tabindex="6">Add New</button>
+                    }
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/AssetInformation.js")"></script>
+}
+
+

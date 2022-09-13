@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "laundryplantdetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>LLS</li>
+            <li>Master</li>
+            <li class="active">Laundry Plant</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Laundry Plant </h4>
+        @*<h4><span id="spnActionType">Add</span> Block</h4>*@
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#divLaundry" aria-controls="home" role="tab" data-toggle="tab">Laundry Plant</a></li>
+        @*<li role="presentation"><a href="#divCommonHistory" id="History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>*@
+
+    </ul>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="divLaundry">
+            <form name="formfacilities" id="formplant" class="form-horizontal" novalidate>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="laundry" class="col-sm-6 control-label">Laundry Plant Code<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" maxlength="25" required id="txtLaundryPlantCode" name="LaundryPlantCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LaundryPlantName " class="col-sm-6 control-label">Laundry Plant Name<span class="red">*</span></label>
+                            <div class="col-sm-6 ">
+                                <div>
+                                    <input type="text" class="form-control" name="LaundryPlantName" required id="txtLaundryPlantName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Ownership" class="col-sm-6 control-label">Ownership<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="txtOwnership" name="Ownership" tabindex="19" required>
+                                   <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="Capacity" class="col-sm-6 control-label">
+                                Capacity(Tonne /Day)<span class="red">*</span>
+                            </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" maxlength="25" required pattern="^[0-9]+(\.[0-9]{1,2})?$" id="txtCapacityTonneDay" name="CapacityTonneDay">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contact Person<span class="red">*</span> </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txtContactPerson" name="ContactPerson" pattern="^[a-zA-Z0-9+'.'&quot;,:;=/\(\),\-\s]+$"  required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Status" class="col-sm-6 control-label">Status<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <select id="SelStatus" class="form-control">
+                                    @*<option value="1">Active</option>
+                                    <option value="2">Inactive</option>*@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSave" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="BtnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" name="btnDelete" class="btn btn-primary customButton btnDelete" title="Reset"><i class="fa fa-floppy-o" aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="BtnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/laundryplant/laundryplantList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/LaundryPlant.js")"></script>
+}
+

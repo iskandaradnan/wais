@@ -1,0 +1,490 @@
+﻿
+@{
+    ViewBag.Title = "periodicworkrecordDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>CLS</li>
+            <li>Transactions</li>
+            <li class="active">Periodic WorRecord Details</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left"> Periodic Work Record Details</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divDetails" aria-controls="home" role="tab" data-toggle="tab">Periodic WorkRecord</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divDetails">
+                <form class="form-horizontal" id="FrmDetails" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Document No.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtdocumentno" name="txtdocumentno" autocomplete="off" maxlength="100" disabled />
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Date<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtdate" name="txtdate" class="form-control" tabindex="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Code<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtuserareacode" name="txtuserareacode" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtuserareaname" name="txtuserareaname" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">No.of User Locations</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtnoofuserlocation" name="txtnoofuserlocation" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">RescheduledDate<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtEffectiveToDate" name="EffectiveToDate" class="form-control" tabindex="0" disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Summary Periodic Work-Week</b></label>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Summary Periodic Work-Monthly</b></label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Not Carried Out</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtnotcarriedout" name="txtnotcarriedout" autocomplete="off" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Not Carried Out</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtEffectiveToDate" name="EffectiveToDate" class="form-control" tabindex="0" disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Not To Schedule</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtnototschedule" name="txtnototschedule" autocomplete="off" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Not To Schedule</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtnototschedule" name="txtnototschedule" class="form-control" tabindex="0" disabled required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="standard-tabs" id="tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#divCLSUser" aria-controls="home" role="tab" data-toggle="tab" class="active">Periodic Work Week(By Exception) </a></li>
+                            <li role="presentation"><a href="#" aria-controls="home" role="tab" data-toggle="tab"> Periodic Work Monthly(By Exception)</a></li>
+
+                        </ul>
+                    </div>
+
+
+                    @*<div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="WarrantProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218); border-bottom:none">
+                                        <thead class="tableHeading noScrollGrid">
+                                            <tr>
+                                                <th style="text-align: center;" width="20%"></th>
+                                                <th colspan="2" style="text-align: center;" width="25%">Start Time&emsp;&emsp;&emsp;End Time</th>
+                                                <th style="text-align: center;" width="35%"></th>
+                                                <th style="text-align: center;" width="20%">Day</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ARWarrantProviderMainTableBody" class="noScrollGrid">
+
+                                            <tr class="ng-scope" style="">
+                                                <td width="20%" data-original-title="" title="">
+                                                    <p>Linen Arrangement After Delivery<span class="red">*</span></p>
+                                                </td>
+
+                                                <td width="13%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="startTime" type="text" class="form-control fetchField " name="startTime">
+                                                </td>
+                                                <td width="12%">
+                                                    <input id="EndTime" type="text" class="form-control fetchField " name="EndTime" readonly="readonly">
+                                                </td>
+                                                <td width="35%">
+                                                    <p> Cleaning & Sanitizing of Soiled Linen Bag Holder/Rack<span class="red">*</span></p>
+                                                </td>
+                                                <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="selectDay" class="form-control fetchField " name="selectDay" value="select">
+                                                        <option value="0" class="active">select</option>
+                                                    </select>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <style>
+                            table.PrintTable {
+                                border: 1px solid #ddd;
+                                border-collapse: collapse;
+                            }
+
+                                table.PrintTable th {
+                                    border: 1px solid #ddd;
+                                    padding: 6px;
+                                    border-collapse: collapse;
+                                }
+
+                                table.PrintTable td {
+                                    border: 1px solid #ddd;
+                                    padding: 6px;
+                                    border-collapse: collapse;
+                                }
+
+                            .tableHeading th {
+                                background-color: #477BAA;
+                            }
+
+                            #clr {
+                                background-color: #EEEEEE;
+                            }
+                        </style>
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="PrintTable" id="WarranProvider">
+                                        <thead class="tableHeading noScrollGrid" style="">
+
+                                            <tr>
+                                                <th style="display:none;" width=""></th>
+                                                <th rowspan="2" width="5%" class="text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                </th>
+                                                <th rowspan="2" style="text-align: center;" width="10%">Location Code<span class="red">*</span></th>
+                                                <th rowspan="2" style="text-align: center;" width="20%"> Location Name</th>
+                                                <th rowspan="2" style="text-align: center;" width="20%"> Linen schudule<br />(delivery Time/ collection Time)</th>
+                                                <th colspan="2" style="text-align: center;" width="15%">Schedule 1<span class="red">*</span></th>
+                                                <th colspan="2" style="text-align: center;" width="15%">Schedule 2</th>
+                                                <th colspan="2" style="text-align: center;" width="15%">Schedule 3</th>
+                                            </tr>
+                                            <tr>
+                                                <td id="clr" style="text-align: center;">Start Time</td>
+                                                <td id="clr" style="text-align: center;">End Time</td>
+                                                <td id="clr" style="text-align: center;">Start Time</td>
+                                                <td id="clr" style="text-align: center;">End Time</td>
+                                                <td id="clr" style="text-align: center;">Start Time</td>
+                                                <td id="clr" style="text-align: center;">End Time</td>
+
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="ARWarranProviderMainTableBody" class="noScrollGrid">
+
+                                            <tr class="ng-scope" style="">
+
+                                                <td width="5%" style="text-align: center;" data-original-title="" title="">
+                                                    <input type="checkbox" name="" />
+                                                </td>
+
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtLocationCode" type="text" class="form-control fetchField " name="LocationCode">
+
+                                                <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtLocationName" type="text" class="form-control fetchField " name="LocationName">
+                                                </td>
+                                                <td width="20%">
+                                                    <input id="txtLinenschudule" type="text" class="form-control fetchField " name="Linenschudule" readonly="readonly">
+                                                </td>
+                                                <td width="7%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtSchedule1" type="text" class="form-control fetchField " name="Schedule1">
+                                                </td>
+                                                <td width="8%">
+                                                    <input id="txtSchedule11" type="text" class="form-control fetchField " name="Schedule11" readonly="readonly">
+
+                                                </td>
+                                                <td width="7%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtSchedule2" type="text" class="form-control fetchField " name="Schedule2" autocomplete="off">
+                                                </td>
+                                                <td width="8%">
+                                                    <input id="txtSchedule21" type="text" class="form-control fetchField " name="Schedule21" readonly="readonly">
+
+                                                </td>
+                                                <td width="7%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtSchedule3" type="text" class="form-control fetchField " name="Schedule3" autocomplete="off">
+                                                </td>
+                                                <td width="8%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtSchedule31" type="text" class="form-control fetchField " name="Schedule31" autocomplete="off">
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt20">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a onclick="AddNewDep()" id="addMoreLinen" class="btn btn-primary addMore">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <h4>Cleansing Not Carried Out</h4>
+                    <hr style="margin: 2em 0;">
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="WarProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading noScrollGrid">
+                                        <tr>
+                                            <th style="display:none;" width=""></th>
+                                            <th width="4%" class="text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+
+                                            </th>
+                                            <th style="text-align: center;" width="16%" id="">User Location code</th>
+                                            <th style="text-align: center;" width="16%" id="">User Location Name</th>
+                                            <th style="text-align: center;" width="16%">Activity Descrption</th>
+                                            <th style="text-align: center;" width="16%">Not Carried Out</th>
+                                            <th style="text-align: center;" width="16%">Not To Schedule</th>
+                                            <th style="text-align: center;" width="16%">Remarks</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ARWarProviderTableBody" class="noScrollGrid">
+                                        <tr>
+                                            <td width="4%" style="text-align: center;" data-original-title="" title="">
+                                                <input type="checkbox" name="" />
+                                            </td>
+                                            <td width="16%" style="text-align: center;" data-original-title="" title="">
+                                                <input id="txtuserLocationcode" type="text" class="form-control fetchField " name="txtuserLocationcode" placeholder="please select">
+                                            </td>
+                                            <td width="16%" style="text-align: center;" data-original-title="" title="">
+                                                <input id="txtuserlocationname" type="text" class="form-control fetchField " name="txtuserlocationname" disabled>
+                                            </td>
+                                            <td width="16%" style="text-align: center;" data-original-title="" title="">
+                                                <select id="textactivity" class="form-control">
+                                                    <option>select</option>
+                                                </select>
+                                            </td>
+                                            <td width="16%" style="text-align: center;" data-original-title="" title="">
+                                                <input id="txtnotcarriedout" type="text" class="form-control fetchField " name="txtnotcarriedout">
+                                            </td>
+                                            <td width="16%" style="text-align: center;" data-original-title="" title="">
+                                                <input id="txtnotoschedule" type="text" class="form-control fetchField " name="txtnotoschedule">
+                                            </td>
+                                            <td width="16%" style="text-align: center;" data-original-title="" title="">
+                                                <input id="txtremarks" type="text" class="form-control fetchField " name="txtremarks">
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a onclick="AddNewLInenDep()" id="addMoreLinen" class="btn btn-primary addMore">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    @*<h4>Cleansing Not Schedule</h4>
+                        <hr style="margin: 2em 0;">
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="WarProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading noScrollGrid">
+                                            <tr>
+                                                <th style="display:none;" width=""></th>
+                                                <th width="10%" class="text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+
+                                                </th>
+                                                <th style="text-align: center;" width="18%" id="">User Location code</th>
+                                                <th style="text-align: center;" width="18%" id="">User Location Name</th>
+                                                <th style="text-align: center;" width="18%">Activity</th>
+                                                <th style="text-align: center;" width="18%">Total Exeption</th>
+                                                <th style="text-align: center;" width="18%">Remarks</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ARWarProviderTableBody" class="noScrollGrid">
+                                            <tr>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input type="checkbox" name="" />
+                                                </td>
+                                                <td width="18%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtuserLocationcode" type="text" class="form-control fetchField " name="txtuserLocationcode" placeholder="please select">
+                                                </td>
+                                                <td width="18%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtuserlocationname" type="text" class="form-control fetchField " name="txtuserlocationname" disabled>
+                                                </td>
+                                                <td width="18%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="textactivity" class="form-control">
+                                                        <option>select</option>
+                                                    </select>
+                                                </td>
+                                                <td width="18%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txttotalexeption" type="text" class="form-control fetchField " name="txttotalexeption">
+                                                </td>
+                                                <td width="18%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtremarks" type="text" class="form-control fetchField " name="txtremarks">
+                                                </td>
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mt20">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a onclick="AddNewLInenDep()" id="addMoreLinen" class="btn btn-primary addMore">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary customButton" title="Upload"><i class="fa fa fa-upload" aria-hidden="true"></i>+ save&AddNew</button>
+                            <button type="button" class="btn btn-primary customButton" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" name="btnDepCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat"></i> Reset</button>
+                        </div>
+                    </div>
+                </form>
+                <br />
+            </div>
+        </div>
+    </div>
+    <br />
+    @Html.Partial("~/Areas/CLS/Views/dailycleaningcctivity/dailycleaningcctivityList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/Department.js")"></script>
+}

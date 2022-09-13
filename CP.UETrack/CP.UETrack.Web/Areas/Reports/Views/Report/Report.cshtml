@@ -1,0 +1,18 @@
+﻿
+@{
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<iframe id="ReportFrame" frameborder="0" src="~/ReportDashboard/Default.aspx" style="width: 100%;height: 620px;" onload="resizeIframe(this)"></iframe>
+<script type="text/javascript">  
+
+    $(document).ready(function () {
+        $('#myPleaseWait').modal('show');
+    })
+
+    function resizeIframe(obj) {
+        $('#myPleaseWait').modal('hide');
+        $("#ReportFrame").contents().find("body").css("width", "99%");
+    }
+</script>

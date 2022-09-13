@@ -1,0 +1,65 @@
+﻿
+<div class="content_body">
+    <form class="form-horizontal" autocomplete="off">
+       @*<div class="row">
+            <label class="pull-right label status"><b></b></label>
+        </div>*@
+        <div class="row">
+            <div class="col-sm-6 ">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">BER No. </label>
+                    <div class="col-sm-6">
+                        <div>
+                            <input type="text" id="HistoryBerNo" name="HistoryBerNo" class="form-control" disabled title="HistoryBerNo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 ">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Application Date </label>
+                    <div class="col-sm-6">
+                        <div>
+                            <input type="text" id="HistoryApplicationDate" name="HistoryApplicationDate" class="form-control" title="HistoryApplicationDate" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-view="" class="row">
+            <div class="col-sm-12">
+                <hr style="margin: 2em 0;">
+            </div>
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table id="typeCodeDetailsdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                        <thead class="tableHeading">
+                            <tr>
+
+                                <th style="text-align: center;" width="5%">S.No.</th>
+                                <th style="text-align: center;" width="15%">Status</th>
+                                <th style="text-align: center;" width="20%">Updated By</th>
+                                <th style="text-align: center;" width="20%">Designation</th>
+                                <th style="text-align: center;" width="20%">Date</th>
+                                <th style="text-align: center;" width="20%">Rejected BER No.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ApplicationHistoryId"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg1">
+                <div class="errormsgcenter1">
+                </div>
+            </div>
+            <div class="col-sm-12 text-center mt30">
+                <button type="button" id="btnCancelAHistory" name="btnCancelBER2" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+            </div>
+        </div>
+    </form>
+</div>

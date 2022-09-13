@@ -1,0 +1,328 @@
+﻿
+@{
+    ViewBag.Title = "FEMS-Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="UserAreaId" name="UserAreaId" value="@ViewBag.UserAreaId" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="BlockId" name="BlockId" />
+    <input type="hidden" id="LevelId" name="LevelId" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>FEMS</li>
+            <li>Locations</li>
+            <li class="active">@*<a href="bems/userlocation">*@Location</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4> Location</h4>
+        @*<h4><span id="spnActionType">Add</span> User Location Master</h4>*@
+    </div>
+    @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-1" data-toggle="tab">User Location Master</a></li>
+            </ul>
+        </div>*@
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#divLocation" aria-controls="home" role="tab" data-toggle="tab">Location</a></li>
+        <li role="presentation"><a href="#divCommonHistory" id="History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="divLocation">
+            <form class="form-horizontal" id="Ulform">
+
+                <div class="row">
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelCode" class="col-sm-6 control-label"> Block Code<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="hdnBlockId" />
+                                    <input type="text" class="form-control" id="txtBlockCode" name="BlockCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch1">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" id="Blockcodepopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Block">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelName" class="col-sm-6 control-label"> Block Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtBlockName" name="BlockName" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelCode" class="col-sm-6 control-label"> Level Code<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+
+                                    <input type="hidden" id="hdnLevelId" />
+                                    <input type="text" class="form-control" id="txtUserLevelCode" name="UserLevelCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch2">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="levlcodepopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Level">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelName" class="col-sm-6 control-label">Level Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control nameVal" id="txtUserLevelName" name="UserLevelName" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaCode" class="col-sm-6 control-label"> Department Code<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="hdnUserAreaId" name="UserAreaId" />
+                                    <input type="text" class="form-control" id="txtUserAreaCode" title="UserAreaCode" name="UserAreaCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch3">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="UApopupid">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-userarea">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AreaName" class="col-sm-6 control-label"> Department Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtUserAreaName" title="UserAreaName" name="UserAreaName" maxlength="100" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LocationCode" class="col-sm-6 control-label"> Location Code<span class="red">&nbsp;*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" pattern="^[a-zA-Z0-9\-\/]{3,50}$" maxlength="50" class="form-control" id="UserLocationCode" title="UserLocationCode" name="UserLocationCode" @*maxlength="50"*@ required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LocationName" class="col-sm-6 control-label"> Location Name<span class="red">&nbsp;*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" pattern="^[a-zA-Z0-9\-\(\)\/\s]{3,100}$" class="form-control" id="UserLocationName" title="UserLocationName" name="UserLocationName" maxlength="100" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="inputstatus" class="col-sm-6 control-label">Status</label>
+                            <div class="col-sm-6">
+
+                                <select class="form-control" id="Active">
+                                    <option selected="selected" value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                @*<input type="checkbox" id="Active" checked="checked" onclick="enableStopServiceDate()" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="StartServiceDate" class="col-sm-6 control-label">Start Service Date <span class="red">&nbsp;*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" name="ActiveFromDate" id="ActiveFromDate" class="form-control datetimepicker" maxlength="10" autocomplete="off" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="StopServiceDate" id="stopdatelabelid" class="col-sm-6 control-label">Stop Service Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" name="ActiveToDate" id="ActiveToDate" class="form-control datetimepicker" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="AuthorizedPerson" class="col-sm-6 control-label">Location Incharge <span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+
+                                    <input type="hidden" id="hdnHospitalStaffId" />
+                                    <input type="text" class="form-control" id="txtHospitalStaffName" name="HospitalStaffName" maxlength="100" required placeholder="Please Select" />
+                                    <div class="col-sm-12" id="divFetch4">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="AuthorizedId">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-hospStaff">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="HospitalRepresentative" class="col-sm-6 control-label">Company Representative<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-4">
+
+                                    <input type="hidden" id="hdnCompanyStaffId" />
+                                    <input type="text" class="form-control" id="txtCompanyStaffName" placeholder="Please Select" name="CompanyStaffName" maxlength="100" required />
+                                    <div class="col-sm-12" id="divFetch5">
+
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2" id="companypopup">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-compStaff">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Plant Room</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="selAssetCategory" required></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="divCommonHistory">
+            <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+                @Html.Partial("~/Views/History/_History_PartialView.cshtml")
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/FEMS/Views/UserLocation/List.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog"></div>
+
+</div>
+@*@if (ViewBag.ActionType == "View")
+    {
+        <script type="text/javascript">
+            $('#UApopupid,#AuthorizedId').hide();
+            $("#Ulform :input:not(:button)").prop("disabled", true);
+        </script>
+    }*@
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/UserLocationController.js")"></script>
+}
+
+

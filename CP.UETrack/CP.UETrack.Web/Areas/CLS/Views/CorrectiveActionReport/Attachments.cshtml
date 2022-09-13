@@ -1,0 +1,70 @@
+﻿<div role="tabpanel" class="tab-pane" id="divformAttachment">
+    <div class="content_body">
+        <form class="form-horizontal" id="formAttachment" name="formchemical" autocomplete="off">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="CARAttachment" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="3%" class="text-center">                                      
+                                        <span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteAttachment"></span>
+                                    </th>
+                                    <th style="text-align: center;" width="25%">File Type<span style="color:red">*</span></th>
+                                    <th style="text-align: center;" width="25%">File Name<span style="color:red">*</span></th>
+                                    <th style="text-align: center;" width="25%">Attachment<span style="color:red">*</span></th>
+                                    <th style="text-align: center;" width="30%">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyAttachments">
+                                <tr>
+                                    <td style="text-align:center">
+                                        <input type="checkbox" id="isDelete1" name="isDelete">
+										<input type="hidden" id="hdnAttachmentId1" value="0" />
+                                    </td>
+                                    <td id="filetypee">
+                                        <select type="text" required class="form-control" id="ddlFileType1" autocomplete="off" name="FileType" maxlength="25"> </select>
+                                                                                
+                                    </td>
+                                    <td id="fname">
+                                        <input type="text" required class="form-control" id="txtFileName1" autocomplete="off" name="txtFileName" maxlength="25" />
+                                    </td>
+                                    <td id="attachment">
+
+                                        <input type="file" name="fileAttachment" required class="form-control fileAttachment" id="txtAttachment1" />
+
+                                    </td>
+                                    <td style="text-align:center" id="cell1">
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt20" id="AttachRowPlus">
+                <div class="col-sm-3 ">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <div>
+                                <a class="btn btn-primary" id="addAttachment">+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="errorMsg1" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"> </div>
+            <div class="row mt30">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        @*<button type="button" id="btnSave1" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                        <input type="button" id="btnSaveAttachment" class="btn btn-primary" value="Save" />
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br />
+    </div>
+</div>

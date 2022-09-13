@@ -1,0 +1,159 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+	@functions{
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		}
+	}
+	<input id="antiForgeryToken" type="hidden" />
+	<input type="hidden" id="primaryID" name="primaryID" value="0" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+	<input type="hidden" id="hdnStatus" name="hdnStatus" />
+	<input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+	<!-- Content Header Starts -->
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>HWMS</li>
+			<li>Transaction</li>
+			<li class="active">Daily Temperature Log</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<h4></h4>
+	</div>
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#formppmplanner" aria-controls="home" role="tab" data-toggle="tab">Daily Temperature Log</a></li>
+
+		<li role="presentation">
+			<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+		</li>
+
+	</ul>
+	<!-- Content Header Ends -->
+	<!-- Contents goes here -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formDailyTemperatureLog" name="formppmplanner" class="form-horizontal" novalidate>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="row form-group">
+							<div class="col-sm-6" align="right">
+								<label class="control-label">Year <span style="color:red">*</span></label>
+							</div>
+							<div class="col-sm-6">
+								<div id="YearVal">
+									<select class="form-control" required id="ddlYear"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="row">
+							<div class="col-sm-6" align="right">
+								<label class="control-label">Month <span style="color:red">*</span></label>
+							</div>
+							<div class="col-sm-6">
+								<div id="MonthVal">
+									<select class="form-control" required id="ddlMonth"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row form-group">
+
+					<div class="col-sm-12" align="right">
+						<button type="button" id="btnFetch" class="btn btn-primary customButton" title="Fetch">Fetch</button>
+					</div>
+				</div>
+				<br />
+				<hr />
+				<div class="row form-group">
+					<div class="col-sm-12">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="tblTemperature">
+								<thead align="center" class="padding:8px">
+									<tr>
+										<th class="text-center" width="2%">
+											<span style="color:red;text-align:center" class="delete-row glyphicon glyphicon-remove delete-row" id="deletetemperatureRecords"></span>
+										</th>
+										<th width="18%" class="text-center">
+											<label class="col-sm-6 control-label">Date <span style="color:red;text-align:center">*</span></label>
+										</th>
+										<th width="30%" class="text-center">
+											<label class="col-sm-6 control-label">Temperature Reading <span style="color:red">*</span></label>
+										</th>
+									</tr>
+								</thead>
+								<tbody id="dailytemperaturelogtbody" align="center">
+									<tr id="tr_NoRecords empty_records">
+										<td>
+											<input type="hidden" id="hdndailytemperaturelogId1" value="0" />
+											<input type="checkbox" id="isDelete1" name="isDelete">
+										</td>
+										<td id="DateVal">
+											<input type="datetime-local" required class="form-control" id="txtDate1" autocomplete="off" name="Date" maxlength="25" />
+										</td>
+										<td id="TemperatureReadingVal">
+											<input type="number" required class="form-control" id="txtTemperatureReading1" min="-100" max="100" autocomplete="off" step="0.1" name="TemperatureReading" maxlength="25" />
+											@*<select class="form-control" required id="ddlTemperatureReading1" name="TemperatureReading"></select>*@
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row mt20" id="AttachRowPlus">
+					<div class="col-sm-3 ">
+						<div class="form-group">
+							<div class="col-sm-3">
+								<div>
+									<a class="btn btn-primary" id="addTemperatureRecords">+</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+					<!-- ngIf: RescheduleErrorList.length > 0 -->
+				</div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<center>
+								<input type="button" id="btnSave" class="btn btn-primary" value="save" />
+								<input type="button" id="btnSaveandAddNew" class="btn btn-primary hidden" value="Save & AddNew" />
+								<input type="button" id="btnCancel" class="btn btn-primary" value="reset" />
+								@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+									<button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+							</center>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		@Html.Partial("~/Areas/HWMS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/HWMS/Views/DailyTemperatureLog/List.cshtml")
+</div>
+
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/DailyTemperatureLog.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}
+

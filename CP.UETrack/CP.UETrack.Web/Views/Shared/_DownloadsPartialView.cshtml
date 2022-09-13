@@ -1,0 +1,384 @@
+﻿
+<div class="modal fade " id="DownloadPopup" role="dialog" data-backdrop="static" style="overflow:auto;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                <div class="container-fluid" style="padding-left:0px;">
+                    <br />
+                    <div class="content-area">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th width="50%">Detail</th>
+                                                <th width="50%">Downloads</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%">Mobile App</td>
+                                                <td width="50%">
+                                                    Android &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                  <a href="@Url.Action("DownloadManual", "Home",new { FileName= "AndroidMobileApp\\CP.UETracking-Signed.apk" })"  class="glyphicon glyphicon-download-alt"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h4>User Manual</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th width="70%">Modules</th>
+                                                <th width="10%">UETracking</th>
+                                                <th width="10%">BI</th>
+                                                <th width="10%">Mobile</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td width="70%">Facility Engineering Maintenance Services (FEMS)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_FEMS_v 1.1.pdf" })" download class="glyphicon glyphicon-download-alt"  />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName= "UETracking - BI\\UETracking_BI_User_Manual_FEMS_v 1.0.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName= "UETracking - Mobile Apps\\Mobile_Apps_FEMS_BEMS_User_Manual_v 1.1.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Biomedical Engineering Maintenance Services (BEMS)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home", new { FileName = "UETracking\\UETracking_User_Manual_BEMS_v 1.1.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName= "UETracking - BI\\UETracking_BI_User_Manual_BEMS_v 1.0.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName= "UETracking - Mobile Apps\\Mobile_Apps_FEMS_BEMS_User_Manual_v 1.1.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Cleansing Services (CLS)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_CLS_v 1.1.pdf" })"            
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName= "UETracking - BI\\UETracking_BI_User_Manual_CLS_v 1.0.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName= "UETracking - Mobile Apps\\Mobile_Apps_CLS_User_Manual_v 1.1.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Linen & Laundry Service (LLS)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_LLS_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName= "UETracking - BI\\UETracking_BI_User_Manual_LLS_v 1.0.pdf" })"
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>   
+                                                <td width="10%">
+                                                </td>                                       
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Healthcare Waste Management Service (HWMS)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_HWMS_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_HWMS_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>  
+                                                <td width="10%"></td>                                             
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Facility Management Service (FMS)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_FMS_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_FMS_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Beyond Economic Repair (BER)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_BER_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_BER_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Quality Assurance Program (QAP)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_QAP_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_QAP_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - Mobile Apps\\Mobile_Apps_QAP_User_Manual_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Sustainable Program (SP)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_SP_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_SP_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - Mobile Apps\\Mobile_Apps_SP_User_Manual_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Service Request (SR)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_SR_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                   
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - Mobile Apps\\Mobile_Apps_SR_User_Manual_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Variation Management (VM)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_VM_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_VM_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Work Permit (WP)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_WorkPermit_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Finance</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_Finance_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Deductions</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_Deduction_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Work Planning & Monitoring (WPM)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_WPM_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_WPM_HMR_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - Mobile Apps\\Mobile_Apps_WPM_User_Manual_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Engineering Operation Data (EOD)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_EOD_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Hospital Specific Implementation Plan (HSIP)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_HSIP_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">User Management (UM)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_UM_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Help Desk (HD)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_HD_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Virtual Resource Center (VRC)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_VRC_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">Web Portal</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_WebPortal_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">General Master (GM)</td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking\\UETracking_User_Manual_GM_v 1.1.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                                <td width="10%"></td>
+                                            </tr>                                            
+                                            <tr>
+                                                <td width="70%">BI Main User Manual</td>
+                                                <td width="10%"></td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_BEMS_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">BI Forecast</td>
+                                                <td width="10%"></td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_BEMS_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%">BI KPI(DG)</td>
+                                                <td width="10%"></td>
+                                                <td width="10%">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="@Url.Action("DownloadManual", "Home",new { FileName="UETracking - BI\\UETracking_BI_User_Manual_BEMS_v 1.0.pdf" })" 
+                                                       download class="glyphicon glyphicon-download-alt" />
+                                                </td>
+                                                <td width="10%"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-center">
+                                        <button type="submit" @*id="closeDept"*@ class="btn btn-grey" data-dismiss="modal" ng-click="disposePopUP()">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

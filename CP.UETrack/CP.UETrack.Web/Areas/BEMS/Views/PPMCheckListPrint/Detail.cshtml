@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "PPM Check List Print";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.checklistId" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnPPMCheckListID" value="@ViewBag.checklistId" />
+    <input type="hidden" id="hdnPPMWorkOrderID" value="@ViewBag.WOId"/>
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Work Order</li>      
+            <li>Scheduled Work Order</li> 
+            <li class="active">PPM Check List Print</li>
+
+        </ol>
+        <h4>@ViewBag.ActionType PPM Check List Print</h4>
+    </div>
+
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="PPMCheckListPrintForm" autocomplete="off">
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <iframe id="ReportFrame" frameborder="0" src="" style="width:100%;height:550px;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnPPMCheckListRptCancel" name="btnCancel" class="btn btn-grey" title="Cancel" value="Back">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts
+    {
+
+    <script type="text/javascript" src="~/Scripts/ng/Controllers/BEMS/PPMCheckListPrint.js"></script>
+
+}
+

@@ -1,0 +1,25 @@
+ParentFolder:BEMS
+ModelFolder:BEMS\ConfigAdditionalFields
+Class:AdditionalFields
+Field:AddFieldConfigId-int
+Field:CustomerId-int
+Field:ScreenNameLovId-int
+Field:FieldTypeLovId-int
+Field:FieldName-string
+Field:DropDownValues-string 	
+Field:RequiredLovId-int
+Field:PatternLovId-int
+Field:MaxLength-int
+Field:Timestamp-string
+PriamaryKey:AddFieldConfigId
+LOVs:ConfigScreenNameValues,YesNoValues,FieldTypeValues,ConfigPatternValues
+LovLovs:ConfigScreenNameValues,YesNoValues,FieldTypeValues,ConfigPatternValues
+LovLovKeys:ConfigScreenNameValue,YesNoValue,FieldTypeValue,ConfigPatternValue
+SaveSPName:uspFM_Test_Save
+GetAllSPName:uspFM_Test_GetAll
+GetByIdSPName:uspFM_Test_GetById
+DeleteSPName:uspFM_Test_Delete
+ExportSPName:uspFM_Test_Export
+Heading:Corrective Action Report
+ControllerFolderName:QAP\Controllers
+ControllerName:CorrectiveActionReportController

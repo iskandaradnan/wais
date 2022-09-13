@@ -1,0 +1,206 @@
+﻿@{
+    ViewBag.Title = "vehicledetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Transaction</li>
+            <li class="active">Vehicle Details</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Vehicle Details </h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divVec" aria-controls="home" role="tab" data-toggle="tab">Vehicle Details</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divVec">
+                <form class="form-horizontal" id="FrmVec" novalidate>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Vehicle No.<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtVehicleNo" name="VehicleNo" autocomplete="off" maxlength="100" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Model</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtModel" name="Model" autocomplete="off" maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Manufacturer<span class="red">*</span> </label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtManufacturer" name="StoreType" autocomplete="off" maxlength="100" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Laundry Plant<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtLaundryPlant" name="LaundryPlant" autocomplete="off" maxlength="100" required>
+                                        <option value="null" class="active">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Status<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="SelStatus" name="Status" autocomplete="off" maxlength="100" required>
+                                        @*<option value="null" class="active">Select</option>*@
+                                        <option value="1">Active</option>
+                                        <option value="2">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective From<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control datatimeNoFuture" id="txtEffectiveFrom" name="EffectiveFrom" autocomplete="off" maxlength="100" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Effective To</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control datatimeFuture" id="txtEffectiveTo" name="EffectiveTo" autocomplete="off" maxlength="100">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Load Weight BDM (Kg)</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtLoadWeightBDM" name="LoadWeightBDM" pattern="^[0-9]+(\.[0-9]{1,2})?$" autocomplete="off" maxlength="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr style="margin: 2em 0;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="VehicleList" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="5%" class="text-center">
+                                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center;" width="15%" id="">License Code<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">License Description</th>
+                                            <th style="text-align: center;" width="15%">License No.<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">Class / Grade<span class="red">*</span> </th>
+                                            <th style="text-align: center;" width="15%">Issued By<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="10%">Issued Date<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="10%">Expiry Date<span class="red">*</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ContactGrid">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary Save" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary Edit" title="Edit" value="1"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" class="btn btn-primary btnDelete" title="btnDelete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" class="btn btn-grey customButton btnCancel" title="Cancel"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/vehicledetails/vehicleList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/vehicledetails.js")"></script>
+}

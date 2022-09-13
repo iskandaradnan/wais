@@ -1,0 +1,6 @@
+ALTER TABLE [dbo].EngMaintenanceWorkOrderTxn DROP CONSTRAINT FK_EngMaintenanceWorkOrderTxn_EngAssetWorkGroup_WorkGroupId
+GO
+
+ALTER TABLE [dbo].EngScheduleGenerationWeekLog DROP CONSTRAINT FK_EngScheduleGenerationWeekLog_EngAssetWorkGroup_GroupId
+GO
+

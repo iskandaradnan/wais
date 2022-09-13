@@ -1,0 +1,221 @@
+﻿
+@{
+    ViewBag.Title = "Verification of Variations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" >
+    <div class="col-sm-12">
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+                </li>
+                <li>FEMS</li>
+                <li>VM</li>
+                <li class="active">Verification Of Variations </li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <h4>Verification Of Variations</h4>
+            
+        </div>
+        <div id="tab1" class="standard-tabs margin-bottom">
+            <div class="scroller scroller-left" style="display: none;"><i class="glyphicon glyphicon-chevron-left"></i></div>
+            <div class="scroller scroller-right" style="display: none;"><i class="glyphicon glyphicon-chevron-right"></i></div>
+            @*<div class="standard-tabs" id="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#DivDetails">Verification Of Variations</a></li>
+
+                </ul>   
+            </div>*@
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="DivDetails">
+                    <form class="form-horizontal" name="form" id="form" novalidate autocomplete="off">
+                        <div class="row">
+                            <div class="col-sm-12">                            
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Year & Month<span class="red"> *</span></label>
+                                            <div class="col-sm-3">
+                                                <div >
+                                                    <select class="form-control" id="selVariationYear" name="VariationYear" required></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div>
+                                                    <select class="form-control" id="selVariationMonth" onchange="ToRemoveMonthRequired()" name="VariationMonth" required>
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Variation Status </label>
+                                            <div class="col-sm-6">
+                                                <div >
+                                                    <select class="form-control" id="ddlVariationStatus"  name="VariationStatus">
+                                                        <option value="null">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="row">
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Variation Approval Status <span class="red"> *</span></label>
+                                            <div class="col-sm-6">
+                                                <div >
+                                                    <select class="form-control" id="ddlWorkFlowStatus"  name="VariationWFStatus" onchange="ToRemoveApprovalRequired()" required>
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+                                <div class="row" id="showHideTable">
+                                    <div class="col-sm-12">
+                                        <hr style="margin: 2em 0;">
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive ">
+                                            <table id="positionDataTable" class="table table-fixedheader table-bordered table-textarea er_parameter" >
+                                                @*table-fixedheader*@
+                                                <thead class="tableHeading">
+                                                    <tr>
+                                                        <th style="text-align: center;" width="6%" class="VMstyle"> Area Name   </th>                                                      
+                                                        <th style="text-align: center;" width="5%"> Asset No. </th>
+                                                        <th style="text-align: center;" width="7%"> Manufacturer </th>
+                                                        <th style="text-align: center;" width="4%"> Model </th>
+                                                        <th style="text-align: center;" width="5%"> Purchase Cost </th>
+                                                        <th style="text-align: center;" width="5%"> Variation Status </th>
+                                                        <th style="text-align: center;" width="6%"> Start Service Date</th>
+                                                        <th style="text-align: center;" width="6%"> Warranty Expiry Date</th>
+                                                        <th style="text-align: center;" width="6%"> Stop Service Date</th>
+                                                        <th style="text-align: center;" width="8%"> Maintenance Rate (DW) (% pa)</th>
+                                                        <th style="text-align: center;" width="8%"> Maintenance Rate (PW) (% pa)</th>
+                                                        <th style="text-align: center;" width="9%"> Monthly Proposed Fee (DW) </th>
+                                                        <th style="text-align: center;" width="9%"> Monthly Proposed Fee (PW) </th>
+                                                        <th style="text-align: center;" width="5%"> Counting Days </th>
+                                                        <th style="text-align: center;" width="6%">  <select class="form-control" id="Action" style="width:80px" onchange="ChanceAction()"></select>                               </th>
+                                                        <th style="text-align: center;" width="5%"> Remarks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="VVFGrid">
+                                                    
+
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                        <div id="paginationfooter"></div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;text-align:center;" aria-hidden="true" >
+                           
+                        </div>
+                       <div class="row mt30">
+                           <div class="form-group">
+                               <div class="col-sm-12 text-center">
+                                   <input type="button" class="btn btn-primary customButton" value="Fetch" id="fetchbtn" onclick="FetchData()" />                                  
+                                   <button type="button" id="Savebtn" class="btn btn-primary AddButtonAct customButton" title="Save" onclick="save()" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                   <button type="button" id="btnExportToEXCEL" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-file-excel-o" aria-hidden="true"></i>Export To Excel</button>
+                                   <button type="button" class="btn btn-grey customButton" id="saveEditrefreshbtn" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                               </div>
+                           </div>
+                        </div>
+                    </form>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="RemarksModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close"  data-dismiss="modal">&times;</button>
+                                    <h4 id="modalTitle" class="modal-title"><b>@*{{RemarksTitle}}*@</b></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid" style="padding-left: 0px;">
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="new-row new-row-tablet new-row-mobile twelve-columns twelve-columns-tablet">
+                                                    <div class="table">
+                                                        <div class="container-fluid" style="padding-left:0px;">
+                                                            <div class="row">
+                                                                <div class="col-xs-6 col-sm-3">
+                                                                    <label>Remarks </label>
+                                                                </div>
+                                                                <div class="col-xs-9 col-sm-9">
+                                                                    <div class="form-group">
+                                                                        <div>
+                                                                            <textarea id="modalRemarks" rows="5" cols="100" only-Remarks
+                                                                                      maxlength="500"  class="form-control"></textarea>
+
+                                                                            <input type="text" id="Remarksindex"  hidden>
+                                                                            <input type="text" id="RemarksProperty"  hidden>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group mt20">
+                                                            <div class="col-sm-12 text-center">
+                                                                <input type="submit" class="btn btn-primary customButton" id="addPopup"  data-dismiss="modal" value="Save" />
+                                                                <button type="button" class="btn btn-primary customButton" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/ng/Controllers/VM/VVF.js"></script>

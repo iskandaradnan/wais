@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "LovMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li> 
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>General Master</li>          
+            <li class="active">List Of Values</li>            
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>             
+        </ol>      
+        <h4> List Of Values </h4>      
+    </div>
+   
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div id="helppopup">
+
+    </div>
+    <div class="content_body">
+        <form class="form-horizontal" id="LovMasterScreen" autocomplete="off">
+            <input type="hidden" id="hdnLovMasterLovKey" />
+            <input type="hidden" id="hdnLovMasterScreenName" />
+            <input type="hidden" id="hdnLovMasterModuleName" />
+            <input type="hidden" id="hdnbuiltin"/>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="selServices" class="col-sm-6 control-label">Services</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="selServices" name="selServices" tabindex="19" required>
+                                <option value="null">Select</option>
+                                <option value="0">MASTER</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">LOV Key </label>
+                        <div class="col-sm-6">
+
+                            <input type="text" required id="LovKey" maxlength="25" name="LovKey" class="form-control">
+
+                        </div>
+                        <input type="hidden" id="hdnLovMasterLovId" />
+                    </div>
+                    <input type="hidden" id="hdnLovMasterModuleName" />
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">LOV Type </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="LovType" class="form-control" required>
+                                    @*<option value="null">Select</option>*@
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="hdnLovMasterScreenName" />
+            </div>
+
+            <div ng-view="" class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="LovMasterdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+
+                                    <th style="text-align: center;" width="23%">Field Code<span class="red"> *</span></th>
+                                    <th style="text-align: center;" width="30%">Field Value<span class="red"> *</span></th>
+                                    <th style="text-align: center;" width="20%">Remarks</th>
+                                    <th style="text-align: center;" width="20%">Sort No.<span class="red"> *</span></th>
+                                    <th style="text-align: center;" width="7%">Default</th>
+                                    @*<th style="text-align: center;" width="7%">Build In</th>*@
+                                </tr>
+                            </thead>
+                            <tbody id="LovMasterTbl">
+
+                               
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt20">              
+                    <div class="col-sm-2 ">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <div>
+                                    <a onclick="AddNewRow()" id="Lovplus" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+            <div class="row">
+                <div class="form-group mt20">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>       
+    </div>
+    @Html.Partial("~/Areas/FEMS/Views/LovMaster/List.cshtml")
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/GM/LovMaster.js")"></script>
+    <script src="~/js/Layout/Layout.js"></script>
+
+}

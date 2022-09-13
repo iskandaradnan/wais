@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "Ber Summary Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="Dashboard.html"><i class="fa fa-home"></i></a>
+            </li>
+            <li>Reports</li>
+            <li class="active"><a href="/reports/bersummaryreport">BER Summary Report</a></li>
+
+        </ol>
+        <h4>@ViewBag.ActionType BER Summary  Report</h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">BER Summary Report</a></li>
+        </ul>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="BerSummeryId" autocomplete="off">
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">From Date<span style="color:red"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control datetimepicker" id="BerFromdate" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">To Date<span style="color:red"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control datetimepicker" id="BerTodate" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+            </div>
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <input type="button" id="btnBerSummaryRptFetch" name="btnFetch" class="btn btn-primary" onclick="getBerSummaryReport()" title="Fetch" value="Fetch">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <iframe id="ReportFrame" frameborder="0" src="" style="width:100%;height:550px;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-right">
+                    <button type="button" id="btnBerSummaryRptCancel" name="btnCancel" class="btn btn-grey customButton" style="visibility:hidden" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </div>
+            </div>
+           
+        </form>
+    </div>
+</div>
+
+
+@section scripts
+    {
+<script type="text/javascript"  src="~/Scripts/ng/Controllers/Report/BerSummaryReport.js"></script>
+
+    
+
+}
+

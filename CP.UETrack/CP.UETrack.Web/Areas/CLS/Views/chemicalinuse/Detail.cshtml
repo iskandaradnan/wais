@@ -1,0 +1,268 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>CLS</li>
+            <li>Chemical In Use</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+
+    </div>
+    <br />
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#formppmplanner" data-toggle="tab">Chemical In Use</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2" >Attachments</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+            <div class="content_body">
+                <form id="formChemicalInUse" name="formChemicalInUse" class="form-horizontal">
+                    <div class="row">
+                        <input type="hidden" id="txtIdno" />
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Document No.</label>
+                                <div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtDocumentNo" disabled="disabled" autocomplete="off" name="DocumentNo" maxlength="25" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Date<span style="color:red">*</span></label>
+                                <div>
+                                    <div class="col-sm-6" id="datetable">
+                                        <input type="text" required class="form-control datetime" placeholder="" id="txtDate" autocomplete="off" name="Date" maxlength="25" tabindex="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks</label>
+                                <div class="col-sm-9">
+                                    <div>
+                                        <textarea type="text" id="txtRemarks" class="form-control" rows="2" cols="50" name="Remarks" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="tblCategory" class="table table-bordered " style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="3%" class="text-center">
+                                                @*<span style="text-align: center; " class="glyphicon glyphicon-remove" id="delete"></span>*@
+                                                @*<button id="delete" class="delete-row"><i class="glyphicon glyphicon-remove"></i></button>*@
+                                                <span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteCategoryRows"></span>
+                                            </th>
+                                            <th style="text-align: center;" width="10%">Category<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="14%">Area Of Application<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="12%">Chemical Name<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="10%">KKM No.</th>
+                                            <th style="text-align: center;" width="10%">Properties</th>
+                                            <th style="text-align: center;" width="10%">Status</th>
+                                            <th style="text-align: center;" width="10%">Effective Date</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyCategory">
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <input type="hidden" id="hdnCategoryId1" value="0" />
+                                                <input type="checkbox" id="isDelete1" name="isDelete">
+
+                                            </td>
+
+                                            <td id="myTd">
+                                                <select type="text" required class="form-control" id="ddlCategory1" autocomplete="off" name="Category" maxlength="25"></select>
+                                            </td>
+                                            <td id="td1">
+                                                <select type="text" required class="form-control" id="ddlAreaofApplication1" autocomplete="off" name="AreaofApplication" maxlength="25"></select>
+                                            </td>
+                                            <td id="td2">
+                                                <select type="text" required class="form-control ChemicalName" id="ddlChemicalName1" autocomplete="off" name="ChemicalName" maxlength="25"></select>
+                                            </td>
+
+                                            <td>
+                                                <input type="text" class="form-control" id="txtKMMNO1" disabled="disabled" autocomplete="off" name="KMMNO" maxlength="25" />
+                                            </td>
+
+                                            <td>
+                                                <input type="text" class="form-control" id="txtProperties1" disabled="disabled" autocomplete="off" name="Properties" maxlength="25" />
+                                            </td>
+
+                                            <td>
+                                                <select type="text" class="form-control" id="ddlStatus1" disabled="disabled" autocomplete="off" name="Status" maxlength="25"></select>
+                                            </td>
+
+                                            <td>
+                                                <input type="text" class="form-control" id="txtEffectiveDate1" disabled="disabled" autocomplete="off" name="EffectiveDate" maxlength="25" />
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br />
+                                <p class="text-center" id="table_data1" style="display:none"><b><small>No records to display</small></b></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt20" id="AttachRowPlus">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a class="btn btn-primary" id="addCategoryRow">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorMsg" class="errormsgcenter" style="visibility:hidden;" aria-hidden="true"> </div>
+
+                    <div class="row mt30">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                @*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+                                <input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+                                <input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & Add New" />
+                                <input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+                            </div>
+                        </div>
+                    </div>
+                   
+                </form>   
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-2">
+            <div class="content_body">
+                <form class="form-horizontal" id="formAttachments" name="formAttachments" autocomplete="off">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="tblAttachment" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="3%" class="text-center">
+                                                <span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteAttachmentRows"></span>
+                                            </th>
+                                            <th style="text-align: center;" width="25%">File Type<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="25%">File Name<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="25%">Attachment<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="30%">Download</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="tbodyAttachments">
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <input type="checkbox" id="isDelete1" name="isDelete">
+                                                <input type="hidden" id="hdnAttachmentId1" value="0" />
+                                            </td>
+
+                                            <td id="filetypee">
+                                               
+                                                <select type="text" required class="form-control" id="ddlFileType1" autocomplete="off" name="FileType" maxlength="25"></select>
+                                            </td>
+                                            <td id="fname">
+                                                <input type="text" required class="form-control" id="txtFileName1" autocomplete="off" name="txtFileName" maxlength="25" />
+                                            </td>
+                                            <td id="attachment">
+
+                                                <input type="file" required id="txtAttachment1" name="fileAttachment" class="form-control fileAttachment" />
+                                            </td>
+                                            <td style="text-align:center" id="cell1">
+                                                @*<a href="" style="color:cornflowerblue" download="file" id="icon"><span style="text-align:center"><i class="fa fa-download" style="font-size:15px;"></i></span> </a>*@
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <br />
+                                <p class="text-center" id="table_data" style="display:none"><b><small>No records to display</small></b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt20" id="AttachRowPlus">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a class="btn btn-primary" id="addAttachmentRow">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="errorMsg1" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"> </div>
+                    <div class="row mt20">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+
+                                @*<button type="button" id="btnSave1" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                                <input type="button" id="btnSaveAttachment" class="btn btn-primary" value="Save" />
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                   
+                </form>            
+            </div>
+        </div>
+
+    </div>
+    @Html.Partial("~/Areas/CLS/Views/ChemicalInUse/List.cshtml")
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/ChemicalInUse.js")"></script>
+}
+
+
+
+

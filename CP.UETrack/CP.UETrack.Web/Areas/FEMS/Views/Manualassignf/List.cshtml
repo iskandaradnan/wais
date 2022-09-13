@@ -1,0 +1,75 @@
+﻿
+
+
+
+@{
+//ViewBag.Title = "Unscheduled Work Order";
+//Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Scripts/JQGrid/SmartAssign/ManualassignList.js"></script>
+
+@*<div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/DashBoard"><i class="fa fa-home"></i></a>
+            </li>
+            <li><a href="#">BEMS</a></li>
+            <li>Work Order</li>
+            <li class="active"><a href="#">Unscheduled Work Order </a></li>
+            <!--<li class="active">General</li>-->
+        </ol>
+        <h4>Unscheduled Work Order</h4>
+    </div>*@
+
+<!-- Content Header Starts -->
+@*<form class="form-horizontal1">*@
+<div class="content-area">
+    @*<div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-1" data-toggle="tab">User Role</a></li>
+            </ul>
+        </div>*@
+
+    <div class="row mb20">
+        <div id="gridTable">
+            <div class="col-sm-12">
+                @*<div class="table-header">
+                        <div class="row">
+                            <div class="col-xs-12" style="background-color:#477ca9">
+                                <a id="advanceSearch" class="btn btn-primary" title="Toggle search" href="javascript:void(0)"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <div class="panel-heading PanelHeadingSearch"  id="advanceSearch">
+                    <h4 class="panel-title text_align_left">
+                        <a id="jQGridCollapse1" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapse1" aria-expanded="false" aria-controls="collapseOne"
+                           class="collapsed display_block">Manual Assign Search - Work Order<i class="indicator glyphicon pull-right glyphicon-plus" id="iJQGridIndicator1"></i></a>
+                    </h4>
+                </div>
+
+            </div>
+            <div class="col-sm-12">
+
+                <div id="gridContainer"></div>
+            </div>
+            <div class="col-sm-12 jqContainer hide_container">
+                <table id="grid"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</form>*@
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/JQGrid/SmartAssign/ManualassignList.js")"></script>
+}
+
+
+
+
+
+

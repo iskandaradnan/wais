@@ -1,0 +1,297 @@
+﻿
+
+@{
+    ViewBag.Title = "Stock Update Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-view="" class="row">
+    <div class="col-sm-12">
+        <hr style="margin: 2em 0;">
+    </div>
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table id="ppmRegisterdataTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                <thead class="tableHeading">
+                    <tr>
+                        <th width="3%" class="text-center">
+                            <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                            <!--<div class="checkbox text-center">
+                                <label for="checkboxes-0">
+                                    <input type="checkbox" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>
+                            </div>-->
+                        </th>
+                        <th style="text-align: center;" width="10%">Part No.<span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Part Description</th>
+                        <th style="text-align: center;" width="10%">Spare Part Type</th>
+                        <th style="text-align: center;" width="10%">Item Code</th>
+                        <th style="text-align: center;" width="10%">Item Description</th>
+                        <th style="text-align: center;" width="10%">Stock Expiry Date <span class="red">*</span></th>
+                        <th style="text-align: center;" width="5%">Quantity<span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Cost(<span class="spnCurrencyName"></span>)<span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Invoice No. <span class="red">*</span></th>
+                        <th style="text-align: center;" width="10%">Remarks</th>
+
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+
+                    @*<tr class="ng-scope" style="">
+
+                        <td width="3%" data-original-title="" title="">
+                            <div class="checkbox text-center">
+                                <label for="checkboxes-0">
+                                    <input type="checkbox"  autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" data-value="01-1909-0902-010" value="01-1909-0902-010" class="form-control" autocomplete="off" readonly="readonly">
+                            </div>
+
+                        </td>
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" data-value="Battery 6V 1800Ah  Injectomat Agilia" value="Battery 6V 1800Ah  Injectomat Agilia" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <select class="form-control" name="typeCodeDetailsMaintenanceFlag">
+                                    <option selected>Select</option>
+                                    <option>Inventry</option>
+                                    <option>On Demand</option>
+                                </select>
+                            </div>
+                        </td>
+
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" data-value="BP0001" value="BP0001" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" data-value="Batteries/ UPS" value="Batteries/ UPS" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" data-value="15-May-2018" value="15-May-2018" class="form-control fetchField mmmDateCalendar" readonly="readonly">
+                            </div>
+                        </td>
+
+                        <td width="5%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" data-value="10" value="10" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" readonly="readonly">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" data-value="1000" value="1000" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" readonly="readonly">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" autocomplete="off" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" autocomplete="off" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" disabled="disabled">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr class="ng-scope" style="">
+
+                        <td width="3%" data-original-title="" title="">
+                            <div class="checkbox text-center">
+                                <label for="checkboxes-0">
+                                    <input type="checkbox" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="01-1909-0902-010" class="form-control" autocomplete="off" readonly="readonly">
+                            </div>
+
+                        </td>
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="Battery 6V 1800Ah  Injectomat Agilia" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <select class="form-control" name="typeCodeDetailsMaintenanceFlag" disabled="disabled">
+                                    <option selected>Select</option>
+                                    <option>Inventry</option>
+                                    <option>On Demand</option>
+                                </select>
+                            </div>
+                        </td>
+
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="BP0001" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="Batteries/ UPS" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="15-May-2018" class="form-control fetchField mmmDateCalendar" readonly="readonly">
+                            </div>
+                        </td>
+
+                        <td width="5%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="10" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" readonly="readonly">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="1000" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" readonly="readonly">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" autocomplete="off" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" autocomplete="off" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" disabled="disabled">
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr class="ng-scope" style="">
+
+                        <td width="3%" data-original-title="" title="">
+                            <div class="checkbox text-center">
+                                <label for="checkboxes-0">
+                                    <input type="checkbox" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="01-1909-0902-010" class="form-control" autocomplete="off" readonly="readonly">
+                            </div>
+
+                        </td>
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="Battery 6V 1800Ah  Injectomat Agilia" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <select class="form-control" name="typeCodeDetailsMaintenanceFlag">
+                                    <option selected>Select</option>
+                                    <option>Inventry</option>
+                                    <option>On Demand</option>
+                                </select>
+                            </div>
+                        </td>
+
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="BP0001" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="Batteries/ UPS" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="15-May-2018" class="form-control fetchField mmmDateCalendar">
+                            </div>
+                        </td>
+
+                        <td width="5%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="10" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" value="1000" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" autocomplete="off" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" disabled="disabled">
+                            </div>
+                        </td>
+
+                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                            <div>
+                                <input type="text" class="form-control fetchField ng-pristine ng-untouched ng-invalid ng-invalid-required" autocomplete="off" aria-disabled="false" required="required" aria-required="true" aria-invalid="true" disabled="disabled">
+                            </div>
+                        </td>
+
+                    </tr>*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row mt20">
+    <div class="col-sm-2 ">
+        <div class="form-group">
+            <div class="col-sm-2">
+                <div>
+                    <a onclick="AddNewRow()" @*id="AddNewRow"*@ class="btn btn-primary">+</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-12 text-right ">
+        <button @*type="submit"*@ onclick="Save()" class="btn btn-primary customButton ">Save</button>
+       
+        <button type="button" class="btn btn-default customButton ">Back</button>
+
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/ng/Controllers/BEMS/Stock Update Register.js"></script>

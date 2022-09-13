@@ -1,0 +1,181 @@
+
+@{
+    ViewBag.Title = "AssetStandardizationDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+    <input type="hidden" id="hdnScreenName" name="hdnScreenName" value="AssetStandardization" />
+    <input type="hidden" id="hdnManufacturer" name="hdnManufacturer" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>General Master</li>
+            <li>Asset MetaData</li>
+            <li class="active">Asset Standardization</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Asset Standardization</h4>
+    </div>
+
+    <div class="content_body">
+        <form class="form-horizontal" id="frmAssetStandardization" novalidate>
+            <div class="content_body">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="selServices" class="col-sm-6 control-label">Services</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="selServices" name="selServices" tabindex="19" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="txtARTypeCode" class="col-sm-6 control-label">Asset Type Code <span class="red">*</span></label>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <input type="text" name="txtTypeCode" pattern="^[a-zA-Z0-9\-\/]+$" class="form-control" id="txtTypeCode" placeholder="Please Select" required maxlength="100">
+                                        <input type="hidden" id="hdnTypeCodeId" name="hdnTypeCodeId" required />
+                                        <div class="col-sm-12" id="divTypeCodeFetch">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-typeCode">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="selARServiceId" class="col-sm-6 control-label">Type Code Description</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="txtTypeDescription" name="selStatus" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Model <span class="red">*</span></label>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\&\s\(\)\/]+$" id="txtModel" name="txtModel" placeholder="Please Select/Add New Model" maxlength="100" required />
+                                        <input type="hidden" id="hdnModelId" name="hdnModelId" onchange="myFunction()"/>
+                                        <div class="col-sm-12" id="divModelFetch">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-model">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Manufacturer <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\&\s\(\)\/]+$" id="txtManufacturer" placeholder="Please Select/Add New Manufacturer" name="txtManufacturer" maxlength="100" required />
+                                        <input type="hidden" id="hdnManufacturerId" name="hdnManufacturerId" />
+                                        <div class="col-sm-12" id="divAssetNoFetch">
+
+                                </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-sm-1">
+                            <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-manufacturer">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </a>
+                        </div>*@
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label for="selARServiceId" class="col-sm-6 control-label">Status</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select id="selStatus" name="selStatus" class="form-control" required>
+                                            <option selected="selected" value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                            <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+</form>
+        @Html.Partial("~/Areas/BEMS/Views/AssetStandardization/List.cshtml")
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/AssetStandardization/AssetStandardization.js")"></script>
+}

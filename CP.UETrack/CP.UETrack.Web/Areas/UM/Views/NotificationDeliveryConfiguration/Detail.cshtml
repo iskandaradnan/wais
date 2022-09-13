@@ -1,0 +1,302 @@
+﻿
+@{
+    ViewBag.Title = "Notification Delivery Configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>User Management</li>
+            <li class="active">Notification Delivery Configuration</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Notification Delivery Configuration</h4>
+    </div>
+   
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="NotificationDeliveryConfigurationform" autocomplete="off">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Notification Type</label>
+                        <div class="col-sm-6">  
+                                                                            
+                            <input type="text" name="Notification Type" id="Notificationtype" class="form-control" maxlength="50" disabled>                           
+                            </div>
+                        </div>                        
+                    </div>                
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Notification Name</label>
+                        <div class="col-sm-6">
+
+                            <input type="text" id="Notificationname" maxlength="50" name="Notification Name" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                
+             </div>
+           
+
+            <div class="row">                
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Subject</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="Notificationsubject" maxlength="25" name="Subject" class="form-control" disabled>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Disable this Notification</label>
+                        <div class="col-sm-6">
+                            <label for="checkboxes-0">
+                                <input type="checkbox" name="Disable this Notification" id="Notificationdisable" value="false">
+                            </label>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="row">
+               
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Select User Type</label>                        
+                        <div class="col-sm-6">                            
+                            <select class="form-control" name="User Type" id="Notificationusertype">
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Select Role</label>
+                        <div class="col-sm-6">                            
+                            <select class="form-control" name="Role" id="Notificationrole">
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Select Customer</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" name="Company" id="Notificationcompany">
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+
+            <div class="row" hidden>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Service<span class="red"> </span></label>
+                        <div class="col-sm-6">
+                            <select class="form-control" name="Service" id="Notficationservice" disabled></select>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="form-group mt20">
+                    <div class="col-sm-12 text-center">     
+                        <input type="button" id="btnNotificationAddTo" onclick="GetNotifyValues(1)" class="btn btn-primary customButton" value="Add to 'To'" />                  
+                        <input type="button" id="btnNotificationAddCc" onclick="GetNotifyValues(2)" class="btn btn-primary customButton" value="Add to 'Cc'" />                                                               
+                     </div>
+                </div>
+            </div>
+
+                           
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5>To</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="NotificationDeliveryConfigurationTodataTable" class="table table-fixedheader table-bordered  table-checkbox " style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="3%" class="text-center">
+                                            <div class="checkbox text-center">
+                                                @*<a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>*@
+                                                <a><span style="text-align:center; color:#36d80d; " class="glyphicon glyphicon-remove" title="Select"></span></a><br>
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" name="NotificationdeliveryTodet" id="chk_NotificationdeliveryTodet" value="false" autocomplete="off" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                </label>
+                                            </div>
+                                        </th>
+
+                                        <th style="text-align: center;" width="30%">Role</th>
+                                        <th style="text-align: center;" width="30%">User</th>
+                                        <th style="text-align: center;" width="37%">Customer</th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody id="NotificationDeliveryToTbl">
+
+                                    @* Content of body HTML *@                                    
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt20">
+                        <div class="form-group">
+                            <div class="col-sm-12 mt20 text-center">
+                                <input type="button" id="btnNotificationToRemove" class="btn btn-primary customButton pull-left" value="Remove">
+                                @*<button type="button" id="btnNotificationToRemove" class="btn btn-primary customButton pull-left" title="Remove" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Remove</button>*@                                       
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Cc</h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="NotificationDeliveryConfigurationCcdataTable" class="table table-fixedheader table-bordered table-checkbox" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="3%" class="text-center">
+                                        <div class="checkbox text-center">
+                                            @*<a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>*@
+                                            <a><span style="text-align:center; color:#36d80d; " class="glyphicon glyphicon-remove" title="Select"></span></a><br>
+                                            <label for="checkboxes-0">
+                                                <input type="checkbox" name="NotificationdeliveryCcdet" id="chk_NotificationdeliveryCcdet" value="false" autocomplete="off" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                            </label>
+                                        </div>
+                                    </th>
+
+                                    <th style="text-align: center;" width="30%">Role</th>
+                                    <th style="text-align: center;" width="20%">User</th>
+                                    <th style="text-align: center;" width="20%">Customer</th>                                   
+                                    <th style="text-align: center;" width="27%">Email Id</th>
+                                </tr>
+                            </thead>
+                            <tbody id="NotificationDeliveryCcTbl">
+
+                                @* Content of body HTML *@                                     
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mt20">
+                        <div class="col-sm-12 mt20 text-center">
+                            <input type="button" id="btnNotificationCcRemove" class="btn btn-primary customButton pull-left" value="Remove">
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Transaction Creator</label>
+                            <div class="col-sm-6">
+                                <label for="checkboxes-0" class="col-sm-1">
+                                    <input type="checkbox" name="Transaction Creator" id="NotificationCreator" value="false" autocomplete="off" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Allow additional recipients in 'Cc'</label>
+                            <div class="col-sm-6">
+                                <label for="checkboxes-0" class="col-sm-1">
+                                    <input type="checkbox" id="Notificationrecipients" value="false" autocomplete="off" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+
+                    <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+
+                    <div class="form-group mt20">    
+
+                        <div class="col-sm-12 text-center">
+                            @*<button type="button" id="btnNotificationSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                            <button type="button" id="btnNotificationEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>                           
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+
+                    </div>
+            
+</form>
+        @Html.Partial("~/Areas/UM/Views/NotificationDeliveryConfiguration/List.cshtml")
+      
+    </div>
+</div>
+
+@*@if (ViewBag.Mode == "View")
+{
+    <script type="text/javascript">
+
+       $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}*@
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/UM/NotificationDeliveryConfiguration.js"></script>
+}
+
+
+
+

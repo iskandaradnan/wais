@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "jointinspectionscheduleDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+        <input type="hidden" id="hdnStatus" name="hdnStatus" />
+        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+        <!-- Content Header Starts -->
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>CLS</li>
+                <li>Master</li>
+                <li class="active">Joint Inspection (JI) Schedule</a></li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <div>
+                <h4 class="pull-left">Add Joint Inspection (JI) Schedule </h4>
+                <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+                <div style="clear:both;display:table;"></div>
+            </div>
+        </div>
+        <!-- Content Header Ends -->
+        <!-- Contents goes here -->
+
+
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#divInspection" aria-controls="home" role="tab" data-toggle="tab">Joint Inspection (JI) Schedule </a></li>
+
+            </ul>
+        </div>
+
+        <div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- 1st Tab -->
+                <div role="tabpanel" class="tab-pane active" id="divInspection">
+                    <form class="form-horizontal" id="FrmInspection" novalidate>
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> year<span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="txtyear" name="year" autocomplete="off" maxlength="100"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Month<span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <select autocomplete="off" id="txtMonth" name="Month" class="form-control" tabindex="0">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> Schedule to all user area</label>
+                                    <div class="col-sm-6">
+                                        <input type="checkbox" id="txtScheduletoalluserarea" name="Scheduletoalluserarea" autocomplete="off" maxlength="100"></>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-primary">Fetch</button>
+                                <button type="button" class="btn btn-primary ">Copy</button>
+
+                            </div>
+                        </div>
+
+
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="jointInspectionProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218); border-bottom:none">
+                                        <thead class="tableHeading noScrollGrid">
+
+                                            <tr>
+                                                <th style="display:none;" width=""></th>
+                                                <th width="5%" class="text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                </th>
+                                                <th style="text-align: center;" width="5%">User Area Code<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="10%"> User Area Name<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="10%"> Day<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="10%">No. of Inspections</th>
+                                                <th style="text-align: center;" width="10%">Start Time<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="10%">End Time<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="10%">Hospital Representative<span class="red">*</span> </th>
+                                                <th style="text-align: center;" width="10%">Hospital Representative Designation </th>
+                                                <th style="text-align: center;" width="10%">Company Representative<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="10%">Company Representative Designation</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="ARjointInspectionProviderMainTableBody" class="noScrollGrid">
+
+                                            <tr class="ng-scope" style="">
+
+                                                <td width="5%" style="text-align: center;" data-original-title="" title="">
+                                                    <input type="checkbox" name="" />
+                                                </td>
+
+                                                <td width="5%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id=" txtUserAreaCode" type="text" class="form-control fetchField " name="UserAreaCode" placeholder="please select">
+                                                </td>
+
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtUserAreaName" type="text" class="form-control fetchField " name="UserAreaName" readonly="readonly">
+                                                </td>
+                                                <td width="10%">
+                                                    <select id="txtDay" class="form-control fetchField " name="Day"></select>
+                                                </td>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtNoofInspections" type="text" class="form-control fetchField " name="NoofInspections" disabled>
+                                                </td>
+                                                <td width="10%">
+                                                    <input id="txtStartTime" type="text" class="form-control fetchField " name="StartTime">
+
+                                                </td>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtEndTime" type="text" class="form-control fetchField " name="EndTime" autocomplete="off">
+                                                </td>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtHospitalRepresentative" type="text" class="form-control fetchField " name="HospitalRepresentative" placeholder="please select">
+                                                </td>
+                                                <td width="10%">
+                                                    <input id="txtHospitalRepresentativeDesignation" type="text" class="form-control fetchField " name="HospitalRepresentativeDesignation" readonly="readonly">
+
+                                                </td>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtCompanyRepresentative" type="text" class="form-control fetchField " name="CompanyRepresentative" autocomplete="off" placeholder="please select">
+                                                </td>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtCompanyRepresentativeDesignation" type="text" class="form-control fetchField " name="CompanyRepresentativeDesignation" autocomplete="off" readonly="readonly">
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt20">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a onclick="AddNewJointIns()" id="addMorejointIns" class="btn btn-primary addMore">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" class="btn btn-primary "><i class="fa fa fa-upload" aria-hidden="true"></i>+ save&AddNew</button>
+                                <button type="button" name="btnCancel" class="btn btn-grey customButton"><i class="fa fa-repeat"></i> Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                    <br />
+                </div>
+                @*Attachment Tab*@
+
+            </div>
+        </div>
+        @Html.Partial("~/Areas/CLS/Views/jointinspectionschedule/jointinspectionsList.cshtml")
+
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+    </div>
+

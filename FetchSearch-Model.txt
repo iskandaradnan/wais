@@ -1,0 +1,10 @@
+Folder:BEMS
+Class:CRMRequestAssetFetch
+Field-AssetId:int
+Field-Asset:string
+FetchSPName:uspFM_CRMAsset_Fetch
+SearchSPName:uspFM_CRMAsset_Search
+FetchParameters:@pModelId-ModelId,@pManufacturerId-ManufacturerId
+SearchParameters:@pModelId-ModelId,@pManufacturerId-ManufacturerId
+FetchOutputValues:AssetId-int,AssetNo-string,AssetDescription-string,SoftwareVersion-string,SoftwareKey-string,SerialNo-string
+SearchOutputValues:AssetId-int,AssetNo-string,AssetDescription-string,SoftwareVersion-string,SoftwareKey-string,SerialNo-string

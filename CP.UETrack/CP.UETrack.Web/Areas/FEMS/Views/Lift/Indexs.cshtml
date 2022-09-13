@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "UETrack - Location";
+    Layout = "~/Views/Shared/_LayoutCompFacSelection.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+
+        <div class="content_header">
+            @*<ol class="breadcrumb">
+                <li>
+                    <a href="/home/DashBoard"><i class="fa fa-home"></i></a>
+                </li>
+                <li><a href="#">Dashboard</a></li>
+                <li class="active">My Dashboard</li>
+            </ol>*@
+            <h4><span id="spnSelectCommand"></span></h4>
+        </div>
+
+    <div class="content_body">
+        <form class="form-horizontal" >
+            <div class="con_page_bg"><img src="~/images/conpage_bg.jpg" alt="bg" /> </div>
+            @*<div class="row">
+                <div class="col-sm-4">
+
+                    @Html.Partial("~/Views/DashboardCharts/_BreakdownWorkOrder.cshtml")
+                </div>
+                <div class="col-sm-4">
+                    @Html.Partial("~/Views/DashboardCharts/_MaintenenceCost.cshtml")
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Equipment Uptime</div>
+                        <div id="EquipmentUptimeChart" class="panel-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Asset</div>
+                        <div id="AssetChart" class="panel-body">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Asset Age</div>
+                        <div id="PPMRegisterChart" class="panel-body">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Contractor</div>
+                        <div id="ContractorChart" class="panel-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+            </form>
+
+</div>
+    </div>
+    @section scripts{
+        <script type="text/javascript" src="@Url.Content("~/js/Layout/CompFacSelection.js")"></script>
+
+
+    }

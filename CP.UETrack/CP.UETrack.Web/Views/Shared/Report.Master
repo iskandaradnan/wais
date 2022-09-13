@@ -1,0 +1,23 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+	<asp:PlaceHolder runat="server" Visible="false"><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></asp:PlaceHolder>
+
+	<asp:PlaceHolder runat="server" Visible="false"><asp:ContentPlaceHolder ID="MainContent" runat="server"  /></asp:PlaceHolder>
+
+	<%   
+
+	    var buildTitle = new StringBuilder();
+
+	    var buildMain = new StringBuilder();
+
+	    TitleContent.RenderControl(new HtmlTextWriter(new System.IO.StringWriter(buildTitle)));
+
+	    ViewBag.Title = buildTitle.ToString().Trim();
+
+	    MainContent.RenderControl(new HtmlTextWriter(new System.IO.StringWriter(buildMain)));
+
+	    ViewBag.MainContent = buildMain.ToString().Trim();
+
+	 %>
+
+	<%= Html.Partial("_ReportPage", viewData: ViewData)%>

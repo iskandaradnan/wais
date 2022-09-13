@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="Dashboard.html"><i class="fa fa-home"></i></a>
+            </li>
+            <li><a href="#">Transaction</a></li>
+            <li class="active">Summary Report on Variations</li>
+            <!--<li class="active">General</li>-->
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Summary Report on Variations</h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">Summary Report on Variations</a></li>
+        </ul>
+    </div>
+    <div class="content_body">
+        <form class="form-horizontal" id="SparepartsFormId">
+
+            <div class="row">
+
+
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="sparePartItemDescription" class="col-sm-6 control-label">Year & Period <span class="red">*</span></label>
+                        <div class="col-sm-3">
+                            <div>
+                                <select id="Year" class="form-control" required>
+                                    <option value="null">Select</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div>
+                                <select id="Period" class="form-control" required>
+                                    <option value="null">Select</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="sparePartItemDescription" class="col-sm-6 control-label">Variation Status</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="VariationStatus" class="form-control" required>
+                                    <option value="null">Select</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Customer" class="col-sm-6 control-label">Customer</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="Customer" class="form-control">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Facility" class="col-sm-6 control-label">Facility</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="Facility" class="form-control">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="VariationWFStatus" class="col-sm-6 control-label">Work Flow Status</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select id="VariationWFStatus" class="form-control">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+
+        
+
+            <br />
+            <div class="row">
+
+                <div class="col-sm-12 errMsg" style="color:red; visibility:hidden" id="errorMsg">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+                <div class="col-sm-12 text-right  mt20">
+
+
+                    @if (ViewBag.ActionType == "Add")
+                    {
+                        <button type="button" id="btnSave" class="btn btn-primary customButton "
+                                title="Save">
+                            Save
+                        </button>
+                    }
+                    @if (ViewBag.ActionType == "Edit")
+                    {
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton"
+                                title="Save">
+                            Save
+                        </button>
+                    }
+                    @if (ViewBag.ActionType == "Add")
+                    {
+                        <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary customButton">Add New</button>
+                    }
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel">Back</button>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("#SparepartsFormId :input:not(:button)").prop("disabled", true);
+    </script>
+}
+
+@section scripts{
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/SparepartRegister.js")"></script>
+
+}

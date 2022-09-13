@@ -1,0 +1,468 @@
+﻿
+
+@{
+    ViewBag.Title = "cleanlinenrequestDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Transaction</li>
+            <li class="active">Clean Linen Request </a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Clean Linen Request </h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divReq" aria-controls="home" role="tab" data-toggle="tab">Clean Linen Request </a></li>
+            <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divReq">
+                <form class="form-horizontal" id="FrmReq" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> CLR Document No</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtCLRDocumentNo" name="CLRDocumentNo" autocomplete="off" maxlength="100" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Request Date & Time <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtRequestDateTime" name="RequestDateTime" class="form-control datatimepicker" tabindex="0" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Code<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnUserAreaId" name="UserAreaId" required/>
+                                    <input type="text" class="form-control" id="txtUserAreaCode" title="UserAreaCode" name="UserAreaCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtUserAreaName" name="UserAreaName" class="form-control" tabindex="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Location Code<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnLevelId" required />
+                                    <input type="text" class="form-control" id="txtUserLevelCode" name="UserLevelCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Location Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtLocationName" name="LocationName" class="form-control" tabindex="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Requested By<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnBlockId" required/>
+                                    <input type="text" class="form-control" id="txtBlockCode" name="BlockCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Designation</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtDesignation" name="Designation" autocomplete="off" maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Issued on Time</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="txtIssuedonTime" name="IssuedonTime" autocomplete="off" maxlength="100">
+                                        <option value="null" class="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Delivery Schedule<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select autocomplete="off" id="txtDeliveryWindow" name="DeliveryWindow" class="form-control" tabindex="0"  disabled>
+                                        <option value="null" class="active">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Priority<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select type="text" class="form-control" id="txtPriority" name="Priority" autocomplete="off" maxlength="100">
+                                        <option value="null" class="active">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">QCTimeliness</label>
+                                <div class="col-sm-6">
+                                    <select autocomplete="off" id="txtQCTimeliness" name="QCTimeliness" class="form-control" tabindex="0">
+                                        <option value="null" class="active">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Total Linen Items Requested Quantity</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalLinenItemsRequestedQuantity" name="TotalLinenItemsRequestedQuantity" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Total Linen Items Issued Quantity</label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtTotalLinenItemsIssuedQuantity" name="TotalLinenItemsIssuedQuantity" class="form-control" tabindex="0" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Total Linen Items Shortfall</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtTotalLinenItemsShortfall" name="TotalLinenItemsShortfall" autocomplete="off" maxlength="100" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Shortfall QC</label>
+                                <div class="col-sm-6">
+                                    <select autocomplete="off" id="txtShortfallQC" name="ShortfallQC" class="form-control" tabindex="0">
+                                        <option value="null" class="">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Issue Status</label>
+                                <div class="col-sm-6">
+                                    <select autocomplete="off" id="txtIssueStatus" name="IssueStatus" class="form-control" tabindex="0">
+                                        <option value="10103" class="">Pending</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks</label>
+                                <div class="col-sm-9">
+                                    <textarea type="text" class="form-control" id="txtRemarks" name="Remark" autocomplete="off" maxlength="100"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="margin: 2em 0;">
+
+                    <div class="row" style="margin-left:2%;width:98%" id="divVariationRate">
+
+                        <div class="row">
+                            <div class="table table-responsive">
+                                <table id="dataTableTaskDetails" class="table table-bordered">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th style="text-align: center;" width="20%" id="">Laundry Bag </th>
+                                            <th style="text-align: center;" width="20%">Requested Quantity</th>
+                                            <th style="text-align: center;" width="20%">Issued Quantity</th>
+                                            <th style="text-align: center;" width="20%">Shortfall </th>
+                                            <th style="text-align: center;" width="20%">Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="variationgrid"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="CleanReqProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading noScrollGrid">
+                                    <tr>
+                                        <th style="text-align: center;" width="20%" id="">Laundry Bag </th>
+                                        <th style="text-align: center;" width="20%">Requested Quantity</th>
+                                        <th style="text-align: center;" width="20%">Issued Quantity</th>
+                                        <th style="text-align: center;" width="20%">Shortfall </th>
+                                        <th style="text-align: center;" width="20%">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ARCleanReqProviderTableBody" class="noScrollGrid">
+                                    <tr>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtLaundryBag1" type="text" class="form-control fetchField " name="LaundryBag1" value="White Bag (LB01)" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRequestedQuantity1" type="text" class="form-control fetchField " name="RequestedQuantity1" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtIssuedQuantity1" type="text" class="form-control fetchField " name="IssuedQuantity1" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtShortfall1" type="text" class="form-control fetchField " name="Shortfall1" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRemarks1" type="text" class="form-control fetchField " name="Remarks1" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtLaundryBag2" type="text" class="form-control fetchField " name="LaundryBag2" value="Red Bag (LB02)" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRequestedQuantity2" type="text" class="form-control fetchField " name="RequestedQuantity2" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtIssuedQuantity2" type="text" class="form-control fetchField " name="IssuedQuantity2">
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtShortfal2" type="text" class="form-control fetchField " name="Shortfall2" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRemark2" type="text" class="form-control fetchField " name="Remarks2" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtLaundryBag3" type="text" class="form-control fetchField " name="LaundryBag3" value="Green Bag (LB03)" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRequestedQuantity3" type="text" class="form-control fetchField " name="RequestedQuantity3" readonly="readonly">
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtIssuedQuantity3" type="text" class="form-control fetchField " name="IssuedQuantity3">
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtShortfall3" type="text" class="form-control fetchField " name="Shortfall3" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRemarks3" type="text" class="form-control fetchField " name="Remarks3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtLaundryBag4" type="text" class="form-control fetchField " name="LaundryBag4" value="Brown Bag (LB04)" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRequestedQuantity4" type="text" class="form-control fetchField " name="RequestedQuantity4" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtIssuedQuantity4" type="text" class="form-control fetchField " name="IssuedQuantity4">
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtShortfall4" type="text" class="form-control fetchField " name="Shortfall4" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRemarks4" type="text" class="form-control fetchField " name="Remarks4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtLaundryBag5" type="text" class="form-control fetchField " name="LaundryBag5" value="Alginate Bag (AB02)" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRequestedQuantity5" type="text" class="form-control fetchField " name="RequestedQuantity5" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtIssuedQuantity5" type="text" class="form-control fetchField " name="IssuedQuantity5" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtShortfall5" type="text" class="form-control fetchField " name="Shortfall5" />
+                            </td>
+                            <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                <input id="txtRemarks5" type="text" class="form-control fetchField " name="Remarks5" />
+                            </td>
+                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>*@
+                    <br />
+
+                    <hr style="margin: 2em 0;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="ContractorVendorList" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="5%" class="text-center">
+                                                <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center;" width="10%">Linen Code</th>
+                                            <th style="text-align: center;" width="15%"> Linen Description</th>
+                                            <th style="text-align: center;" width="10%"> Agreed Shelf Level</th>
+                                            <th style="text-align: center;" width="10%">Balance On Shelf</th>
+                                            <th style="text-align: center;" width="10%">Requested Quantity<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="10%">1st Delivery Issued Qty </th>
+                                            <th style="text-align: center;" width="10%">2nd Delivery Issued Qty </th>
+                                            <th style="text-align: center;" width="10%">Shortfall </th>
+                                            <th style="text-align: center;" width="10%">Store Balance</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="ContactGrid">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary btnSave" title="Save" tabindex="5"><i class="fa fa-floppy-o"></i>Save</button>
+                            <button type="button" class="btn btn-primary customButton btnSaveandAddNew" title="Save & AddNew" value="1"><i class="fa fa-plus"></i>Save & Add New </button>
+                            <button type="button" class="btn btn-primary customButton btnDelete" title="btnDelete"><i class="fa fa-trash"></i>Delete </button>
+                            <button type="button" class="btn btn-grey  btnCancel" name="btnCancel" title="Reset"><i class="fa fa-repeat"></i>Reset</button>
+                        </div>
+                    </div>
+                </form>
+                <br />
+            </div>
+            @*Attachment Tab*@
+            @*<div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align:right">
+                            <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus" class="divWOStatus"></div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>*@
+           
+          
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/LLS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/cleanlinenrequest/cleanlinenrequestList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/CleanLinenRequest.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}
+

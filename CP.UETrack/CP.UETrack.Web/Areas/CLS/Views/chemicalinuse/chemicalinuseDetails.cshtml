@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "chemicalinuseDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+        <input type="hidden" id="hdnStatus" name="hdnStatus" />
+        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+        <!-- Content Header Starts -->
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>CLS</li>
+                <li>Master</li>
+                <li class="active">Chemical In Use</a></li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <div>
+                <h4 class="pull-left">Add Chemical In Use</h4>
+                <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+                <div style="clear:both;display:table;"></div>
+            </div>
+        </div>
+        <!-- Content Header Ends -->
+        <!-- Contents goes here -->
+
+
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#divCLSChem" aria-controls="home" role="tab" data-toggle="tab">Chemical In Use</a></li>
+                <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- 1st Tab -->
+                <div role="tabpanel" class="tab-pane active" id="divCLSChem">
+                    <form class="form-horizontal" id="FrmClsChem" novalidate>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Document No.</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtDocumentNo" name="DocumentNo" autocomplete="off" maxlength="100" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Date<span class="red">*</span> </label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="txtDate" name="Date" autocomplete="off" maxlength="100"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Remarks</label>
+                                    <div class="col-sm-9">
+                                        <textarea type="text" class="form-control" id="txtRemark" name="Remark" autocomplete="off" maxlength="100"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <hr style="margin: 2em 0;">
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="WarChemProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading noScrollGrid">
+                                            <tr>
+                                                <th style="display:none;" width=""></th>
+                                                <th width="5%" class="text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+
+                                                </th>
+                                                <th style="text-align: center;" width="10%" id="">Category <span class="red">*</span></th>
+                                                <th style="text-align: center;" width="15%" id="">Area of Application<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="15%">Chemical Name<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="15%">KKM No.</th>
+                                                <th style="text-align: center;" width="15%">Properties</th>
+                                                <th style="text-align: center;" width="15%">Status</th>
+                                                <th style="text-align: center;" width="10%">Effective Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ARWarChemProviderTableBody" class="noScrollGrid">
+                                            <tr>
+                                                <td width="5%" style="text-align: center;" data-original-title="" title="">
+                                                    <input type="checkbox" name="" />
+                                                </td>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="txtCategory" class="form-control fetchField " name="Category" placeholder="please select"></select>
+                                                </td>
+                                                <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="txtAreaofApplication" class="form-control fetchField " name="AreaofApplication" placeholder="please select"></select>
+                                                </td>
+                                                <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="txtChemicalName" type="text" class="form-control fetchField " name="ChemicalName" readonly="readonly"></select>
+                                                </td>
+                                                <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtKKMNo" type="text" class="form-control fetchField " name="KKMNo" disabled>
+                                                </td>
+                                                <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtProperties" type="text" class="form-control fetchField " name="Properties" disabled>
+                                                </td>
+                                                <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="txtStatus" type="text" class="form-control fetchField " name="Status" value="Yes" disabled>
+                                                    </select>
+                                                </td>
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtEffectiveDate" type="text" class="form-control fetchField " name="EffectiveDate" readonly="readonly">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mt20">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a onclick="AddNewChem()" id="addMoreChem" class="btn btn-primary addMore">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <button type="button" id="btnSave" class="btn btn-primary customButton " title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </form>
+                    <br />
+                </div>
+
+                @*Attachment Tab*@
+                <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+                    <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align:right">
+                                <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus" class="divWOStatus"></div>
+                            </div>
+                        </div>
+                        @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                    </form>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("~/Areas/CLS/Views/chemicalinuse/chemicalinuseList.cshtml")
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+    </div>

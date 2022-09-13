@@ -1,0 +1,137 @@
+﻿<div role="tabpanel" class="tab-pane" id="variationDetails">
+    <div class="content_body">
+        <form class="form-horizontal" id="frmVariationDetails">
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divAssetAuthorizeStatus" class="AssetAuthorizeStatus"></div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetNo" id="txtARAssetNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Description" class="col-sm-6 control-label">Asset Type Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetDescription" id="txtARvariationAssetDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="TypeCode" class="col-sm-6 control-label">Asset Type Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARTypeCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Service" class="col-sm-6 control-label">Service</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select disabled class="form-control selARServiceId">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="VariationStatus" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    @*<th width="5%" class="text-center">
+                                            <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                                            <div class="checkbox text-center">
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" name="VariationStatusCheckboxes" id="chk_VariationStatus" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                </label>
+                                            </div>
+                                        </th>*@
+
+                                    <th style="text-align:center; height:60px;" width="11%;">SNF Reference No.<span class="red"> *</span></th>
+                                    <th style="text-align:center; height:60px;" width="10%;">Variation Status </th>
+                                    <th style="text-align:center; height:60px;" width="10%;">Purchase / Project Cost (<span class="spnCurrencyName"></span>)</th>
+                                    <th style="text-align:center; height:60px;" width="10%;">Variation Date</th>
+                                    <th style="text-align:center; height:60px;" width="10%;">Service Start Date</th>
+                                    <th style="text-align:center; height:60px;" width="10%;">Service Stop Date</th>
+                                    <th style="text-align:center; height:60px;" width="10%;">Commissioning Date</th>
+                                    <th style="text-align:center; height:60px;" width="10%;">Warranty End Date</th>
+                                    <th style="text-align:center; height:60px;" width="5%;">Variation Month</th>
+                                    <th style="text-align:center; height:60px;" width="5%;">Variation Year</th>
+                                    <th style="text-align:center; height:60px;" width="9%;">Variation Approved Status</th>                                    
+
+                                </tr>
+                            </thead>
+                            <tbody id="tablebody"></tbody>
+
+
+                            </>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt20">
+                <div class="col-sm-2 ">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <div>
+                                <a id="addNewRowVariationDetail" @*onclick="AddNewRow()"*@ @*id="AddNewRow"*@ class="btn btn-primary">+</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="col-sm-12 errMsg ng-hide" style="color:red;" aria-hidden="true">
+
+            </div>*@
+
+            <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgVariationTab">
+                <div class="errormsgcenter">
+
+                </div>
+            </div>
+
+            <div id="id_fetchlist">
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12 text-center mt20">
+                    <button type="button" class="btn btn-primary customButton hider" id="btnARApprove"><i class="fa fa-check-square-o" aria-hidden="true"></i>Authorize</button>                                                                            
+                    <button type="button" class="btn btn-primary customButton" id="btnVariationDetailsEdit" onclick="Save()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>                          
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegisterVariationDetailsTab.js"></script>
+

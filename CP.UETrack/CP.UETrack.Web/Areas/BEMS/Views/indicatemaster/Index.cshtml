@@ -1,0 +1,262 @@
+﻿
+@model  List<CP.UETrack.Model.Home.permissionChart>
+@{
+
+    ViewBag.Title = "UETrack - Location";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input type="hidden" id="StartMonth" name="StartMonth" value="@ViewBag.StartMonth" />
+    <input type="hidden" id="StartYear" name="StartYear" value="@ViewBag.Startyear" />
+    <input type="hidden" id="EndMonth" name="EndMonth" value="@ViewBag.Endmonth" />
+    <input type="hidden" id="EndYear" name="EndYear" value="@ViewBag.EndYear" />
+    <input type="hidden" id="SelLevel" name="SelLevel" value="@ViewBag.SelLevel" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/Home/DashboardYtd"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Deduction</li>
+            <li class="active">Indicator Master</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Indicator Master</h4>
+    </div>
+
+    <div class="content_body">
+        @*<iframe width="933" height="700" src="https://app.powerbi.com/view?r=eyJrIjoiZmU0YjNkOTAtYWMwMi00MjgzLTk5NmUtZWM0NGMzZTY2OTAyIiwidCI6IjI5YTgwM2ViLWU3YjktNGMwZi04NGJmLTBiZGM1Y2UwMjg4OCIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>*@
+        <iframe style="width:100%;" height="700" src="https://deduction.uemedgenta.com/Deduction/Indicator_Master.aspx?Uid=@ViewBag.UserId" frameborder="0" allowFullScreen="true"></iframe>
+
+        @if (0 == 0)
+        {
+        }
+        else
+        {
+            if (Model != null)
+            {
+
+
+                <div class="row">
+
+                    <span><label class="col-sm-6" style="text-align:left" id="ChartLevel"></label></span>
+                    @*<div class="col-sm-6">
+                            <div>
+                                <input type="text" id="ChartLevelValue" autocomplete="off" class="form-control" readonly>
+                            </div>
+                        </div>*@
+                    <input type="button" id="YTDsave" class="btn btn-primary customButton pull-right" style="display:none" title="Save" tabindex="5" value="YTD" />
+                    <input type="button" id="MTDView" class="btn btn-primary customButton pull-right" style="display:none" title="Save" tabindex="5" value="MTD" />
+
+                    @*<div class="col-sm-12">
+                            <hr style="margin: 1em 0;">
+                        </div>*@
+                </div>
+
+
+            }
+
+            <input type="hidden" id="hdnCostFormat" class="spnCurrencyName" />
+
+            <form class="form-horizontal">
+
+                <div class="row">
+
+                    @if (Model != null)
+                    {
+
+
+
+                        foreach (var item in Model)
+                        {
+                            switch (item.ScreenName)
+                            {
+
+                                case "BM Work Order":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_BreakdownWorkOrder.cshtml")
+                                    </div>
+                                    break;
+                                case "PPM Work Order":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_PPMWorkOrder.cshtml")
+                                    </div>
+                                    break;
+
+                                case "Maintenance Cost":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_MaintenenceCost.cshtml")
+                                    </div>
+                                    break;
+
+                                case "KPI":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_KPI.cshtml")
+                                    </div>
+                                    break;
+
+                                case "Equipment Uptime":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_Uptime.cshtml")
+                                    </div>
+                                    break;
+
+                                case "Service Fee":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_Deduction.cshtml")
+                                    </div>
+                                    break;
+
+                                case "Asset Classification":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_AssetCategory.cshtml")
+                                    </div>
+                                    break;
+
+                                case "Asset Category":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_AssetWarranty.cshtml")
+                                    </div>
+                                    break;
+
+                                case "KPI Target":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_KPITarget.cshtml")
+                                    </div>
+                                    break;
+
+                                case "Expiry Alert List":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_ExpiryAlert.cshtml")
+                                    </div>
+                                    break;
+
+                                case "BER Asset":
+                                    <div class="col-sm-4">
+                                        @Html.Partial("~/Views/DashboardCharts/_BERAsset.cshtml")
+                                    </div>
+                                    break;
+
+
+                            }
+
+                        }
+                    }
+
+                    @*@if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+
+                                @Html.Partial("~/Views/DashboardCharts/_BreakdownWorkOrder.cshtml")
+                            </div>
+                        }
+
+
+
+                        @if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+                                @Html.Partial("~/Views/DashboardCharts/_PPMWorkOrder.cshtml")
+                            </div>
+                        }
+
+
+                        @if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+                                @Html.Partial("~/Views/DashboardCharts/_MaintenenceCost.cshtml")
+                            </div>
+                        }
+
+                        @if (ViewData.ContainsKey("Simple"))
+                            {
+                                <div class="col-sm-4">
+
+                                    @Html.Partial("~/Views/DashboardCharts/_KPI.cshtml")
+                                </div>
+                            }
+
+
+                        @if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+
+                                @Html.Partial("~/Views/DashboardCharts/_Uptime.cshtml")
+                            </div>
+                        }
+
+
+                        @if (ViewData.ContainsKey("Advanced"))
+                        {
+                            <div class="col-sm-4">
+
+                                @Html.Partial("~/Views/DashboardCharts/_Deduction.cshtml")
+
+                            </div>
+                        }*@
+
+
+
+                    @*@if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+
+                              @Html.Partial("~/Views/DashboardCharts/_AssetCategory.cshtml")
+
+                            </div>
+                        }
+
+                        @if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+
+                                @Html.Partial("~/Views/DashboardCharts/_KPITarget.cshtml")
+
+                            </div>
+                        }
+
+                        @if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+
+                                @Html.Partial("~/Views/DashboardCharts/_ExpiryAlert.cshtml")
+                            </div>
+                        }
+
+                           @if (ViewData.ContainsKey("Simple"))
+                        {
+                            <div class="col-sm-4">
+
+                                @Html.Partial("~/Views/DashboardCharts/_BERAsset.cshtml")
+                            </div>
+                           }*@
+                </div>
+            </form>
+
+        }
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/Dashboard/DashboardPermission.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/Dashboard/CommonChart.js")"></script>
+
+
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/Dashboard/DashboardChart.js")"></script>*@
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/Dashboard/HomeDashboard.js")"></script>*@
+}

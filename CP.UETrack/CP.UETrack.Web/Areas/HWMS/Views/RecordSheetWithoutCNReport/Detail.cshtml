@@ -1,0 +1,135 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+	@functions{
+		/**/
+
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		} }
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>  <a href="/home/dashboard"><i class="fa fa-home"></i></a>  </li>
+			<li>HWMS</li>
+			<li>Report</li>
+			<li> Record Sheet Without CN </li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<h4>Record Sheet Without CN Report</h4>
+	</div>
+	<div>
+		<form id="formRecordSheetWithoutCN " name="formRecordSheetWithoutCN" class="form-horizontal">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-6 control-label">Month <span style="color:red">*</span></label>
+						<div>
+							<div class="col-sm-6">
+								<div id="MonthVal">
+									<select required class="form-control" id="ddlMonth"> </select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-6 control-label">Year <span style="color:red">*</span></label>
+						<div>
+							<div class="col-sm-6">
+								<div id="YearVal">
+									<select type="text" required class="form-control" id="ddlYear" autocomplete="off" name="FileType" maxlength="25" tabindex="2"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<center>
+						<input type="button" id="btnRecordSheetWithoutCNReportFetch" class="btn btn-primary" value="Fetch" />
+						<input type="button" id="btnPrint" class="btn btn-primary" value="Print" />
+					</center>
+				</div>
+			</div>
+			<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden; text-align:center;" aria-hidden="true">
+			</div>
+			<div class="row">
+
+				@{
+					ViewData["ReportName"] = "Record Sheet Without CN Report";
+				}
+				<hr style="margin:0px;" />
+				<div id="divReportData" style="display:block">
+					@Html.Partial("~/Areas/HWMS/Views/Shared/_reportHeader.cshtml", ViewData["ReportName"])
+
+					<table id="tblReport" class="table table-bordered">
+						<thead>
+							<tr style="height:20px">
+								<th style="text-align: left;background-color:lightgray;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;"><b>Hospital Name & Address :</b></th>
+								<th style="text-align: center;background-color:white;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;">Hospital Tunku Azizah, 23, Jalan pahang, 50586, Kuala Lumpur</th>
+								<th style="text-align: left;background-color:lightgray;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px;">Summary for the month of:</th>
+								<th id="tdMonthYear" style="text-align: left;background-color:white;color:black;border:1px solid black; font-family:OpenSans-SemiBold; padding:5px; font-weight:bolder;   width: 25%;"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="4" style="padding-left:0px; padding-right:0px; border:0px;">
+									<table style="width:100%; margin-top:10px;" class="table">
+										<thead>
+											<tr style="height:20px;">
+												<td style="background: #477baa; color: #fff; padding:5px;">No.</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Date of Consignment Note</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Consignment Note No.</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Total weight(Kg)</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">RM</td>
+											</tr>
+										</thead>
+										<tbody id="tbodyReport"></tbody>
+									</table>
+									<br /><br />
+									<table style="width:100%; margin-top:10px;" >
+										<thead>
+											<tr style="height:20px;">
+												<td style="background: #477baa; color: #fff; padding:5px;"></td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Name & Designation</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Initial</td>
+												<td style="background: #477baa; color: #fff; padding:5px;">Date</td>											
+											</tr>
+										</thead>
+										<tbody>
+											<tr  style="height:40px;"> <td> Prepared By: </td>  <td> </td>  <td> </td>  <td> </td> </tr>
+											<tr  style="height:40px;"> <td> Verified By: </td>  <td> </td>  <td> </td>  <td> </td> </tr>
+										</tbody>
+									</table>
+
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+
+</div>
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/HWMSReports.js")"></script>
+}
+
+

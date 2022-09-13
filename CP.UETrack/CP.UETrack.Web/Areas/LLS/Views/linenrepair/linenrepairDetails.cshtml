@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "linenrepairDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Transaction</li>
+            <li class="active">Linen Repair  </a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Linen Repair  </h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divRepair" aria-controls="home" role="tab" data-toggle="tab">Linen Repair  </a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divRepair">
+                <form class="form-horizontal" id="FrmLinenRepair" novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Document No.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtDocumentNo" name="DocumentNo" autocomplete="off" maxlength="100" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Document Date <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" autocomplete="off" id="txtDocumentDate" name="DocumentDate" class="form-control datetimepicker" tabindex="0" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Repaired By<span class="red">*</span> </label>
+                                <div class="col-sm-6">
+                                    @*<input type="text" class="form-control" id="txtRepairedBy" name="RepairedBy" autocomplete="off" maxlength="100" />*@
+                                    <input type="text" id="txtContactPerson" maxlength="50" placeholder="Please Select" class="form-control" required>
+                                    <input type="hidden" id="txtStaffMasterId" required>
+                                    <div class="col-sm-12" id="divFetchContactPerson">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Checked By<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnLevelId" required/>
+                                    <input type="text" class="form-control" id="txtUserLevelCode" name="UserLevelCode" placeholder="Please Select" maxlength="25" required />
+                                    <div class="col-sm-12" id="divFetch2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks </label>
+                                <div class="col-sm-9">
+                                    <textarea type="text" class="form-control" id="txtRemarks" name="Remarks" autocomplete="off" maxlength="100"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin: 2em 0;">
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="LinenRepairProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading noScrollGrid">
+                                        <tr>
+                                            <th style="display:none;" width=""></th>
+                                            <th width="5%" class="text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a>
+                                                <br/><input type="checkbox" id="chkContactDeleteAll" />
+                                            </th>
+                                            <th style="text-align: center;" width="15%" id="">Linen code<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">Linen Description</th>
+                                            <th style="text-align: center;" width="15%">Repair Quantity <span class="red">*</span></th>
+                                            <th style="text-align: center;" width="15%">Repair Completed Quantity</th>
+                                            <th style="text-align: center;" width="15%">Balance Repair Quantity </th>
+                                            <th style="text-align: center;" width="20%">Description of Problem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ContactGrid">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary btnSave" title="Bts" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary customButton btnEdit" title="Upload" Value="1"><i class="fa fa fa-plus" aria-hidden="true"></i>save & Add New</button>
+                            <button type="button" class="btn btn-primary customButton btnDelete" title="btnDelete"><i class="fa fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" name="btnCancel" class="btn btn-grey btnCancel" title="Reset"><i class="fa fa-repeat"></i> Reset</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/LLS/Views/linenrepair/linenrepairList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/LinenRepair.js")"></script>
+}

@@ -1,0 +1,327 @@
+﻿
+@{
+    ViewBag.Title = "Parameter Mapping BEMS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>Engineering Records</li>
+            <li class="active">Parameter Mapping</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+          <h4>Parameter Mapping</h4> 
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+
+            <li role="presentation" onclick="loadParaMapTab()" class="active"><a href="#EODParaMap" aria-controls="home" role="tab" data-toggle="tab">Parameter Mapping</a></li>
+            <li role="presentation" onclick="loadParaMapHist()"><a href="#EODParaMapHist" aria-controls="profile" role="tab" data-toggle="tab">Inactive History</a></li>
+        </ul>
+    </div>
+
+        <div>
+
+            <div class="tab-content">
+                <!-- 1st Tab -->
+                <div role="tabpanel" class="tab-pane active" id="EODParaMap">
+                    <div class="content_body">
+                        <form class="form-horizontal" id="EODParamMappingScreen" autocomplete="off">
+
+
+                            <div class="row">
+                                @*<div class="col-sm-6 ">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Service </label>
+                                            <div class="col-sm-6">
+                                                <select id="EODParamMapService" class="form-control" disabled="disabled" required></select>
+                                            </div>
+                                            <input type="hidden" id="hdnEODParamMapServiceId" />
+                                        </div>
+                                    </div>*@
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset Classification <span class="red">*</span></label>
+                                        <div class="col-sm-6">
+                                            <select id="EODParamMapClss" class="form-control" required><option value="null">Select</option></select>
+                                            <input type="hidden" id="hdnParamMapClssId">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset Type Code <span class="red">*</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" placeholder="Please Select" autocomplete="off" id="EODParamMapTypeCode" disabled required onkeyup="FetchTypeCode(event)" onpaste="FetchTypeCode(event)" change="FetchTypeCode(event)" oninput="FetchTypeCode(event)">
+                                            <input type="hidden" id="hdnParamMapTypCdeId">
+                                            <div class="col-sm-6" id="TypecodeFetch"></div>
+                                        </div>
+                                        <div class="col-sm-6"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset Type Description</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" autocomplete="off" disabled id="EODParamMapTypCdeDesc">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Model <span class="red">*</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" placeholder="Please Select" autocomplete="off" disabled id="EODParamMapModel" onkeyup="FetchModel(event)" onpaste="FetchModel(event)" change="FetchModel(event)" oninput="FetchModel(event)" required>
+                                            <input type="hidden" id="hdnParamMapModId">
+                                            <input type="hidden" id="hdnScreenName" value="ParameterMap">
+                                            <div class="col-sm-6" id="ModelFetch"></div>
+                                        </div>
+                                        <div class="col-sm-6"></div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Manufacturer </label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" autocomplete="off" id="EODParamMapManu"  onkeyup="FetchManufacturer(event)" onpaste="FetchManufacturer(event)" change="FetchManufacturer(event)" oninput="FetchManufacturer(event)" disabled>
+                                            <input type="hidden" id="hdnParamMapManuId">
+                                            <div class="col-sm-6" id="ManufactFetch"></div>
+                                        </div>
+                                        <div class="col-sm-6"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Frequency <span class="red">*</span></label>
+                                        <div class="col-sm-6">
+                                            <select id="EODParamMapFrequency" class="form-control" required><option value="null">Select</option></select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="hdnParamMapTotPag">
+                            </div>
+
+                           
+
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="EODParameterMappingTable" class="table table-fixedheader table-bordered er_parameter" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th width="5%" class="text-center">
+                                                        <div class="checkbox text-center">
+                                                            <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                            <label for="checkboxes-0">
+                                                                <input type="checkbox" name="typeCodeDetailsCheckboxes" id="chk_ParamMap" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                                            </label>
+                                                        </div>
+                                                    </th>
+                                                    <th style="text-align: center;" width="15%">Parameter <span class="red">*</span></th>
+                                                    @*<th style="text-align: center;" width="7%">Standard Value</th>*@
+                                                    <th style="text-align: center;" width="10%">UOM <span class="red">*</span></th>
+                                                    <th style="text-align: center;" width="11%">Data Type <span class="red">*</span></th>
+                                                    <th style="text-align: center;" width="15%" id="lblParamMapAlphaDrop"> Dropdown Data Values</th>
+                                                    <th style="text-align: center;" width="7%">Min.</th>
+                                                    <th style="text-align: center;" width="7%">Max.</th>
+                                                    @*<th style="text-align: center;" width="11%">Frequency</th>*@
+                                                    <th style="text-align: center;" width="9%">Effective From <span class="red">*</span></th>
+                                                    <th style="text-align: center;" width="9%">Status</th>
+                                                    <th style="text-align: center;" width="12%">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="EODParamMappingBody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="paginationfooter"></div>
+
+                            <div class="row mt20">                                
+                                    <div class="col-sm-2 ">
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                                <div>
+                                                    <a onclick="AddNewRow()" class="btn btn-primary">+</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                
+                            </div>
+
+                            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                                <!-- ngIf: RescheduleErrorList.length > 0 -->
+                            </div>
+                            <div class="row mt30">
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-center">
+                                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 2nd Tab -->
+                <div role="tabpanel" class="tab-pane" id="EODParaMapHist">
+                    <div class="content_body">
+                        <form class="form-horizontal" id="EODParamMappingHistory" autocomplete="off">
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset Classification</label>
+                                        <div class="col-sm-6">
+                                            @*<select id="EODParamMapClssHis" class="form-control"><option value="null" disabled>Select</option></select>*@
+                                            <input type="text" class="form-control" id="EODParamMapClssHis" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset Type Code </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="EODParamMapTypeCodeHis" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Model </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" autocomplete="off" disabled id="EODParamMapModelHis">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Manufacturer</label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="EODParamMapManuHis" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin: 2em 0;">
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="EODParameterMappingTableHistory" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th style="text-align: center;" width="15%">Parameter </th>
+                                                    @*<th style="text-align: center;" width="7%">Standard Value</th>*@
+                                                    <th style="text-align: center;" width="10%">UOM</th>
+                                                    <th style="text-align: center;" width="12%">Data Type </th>
+                                                    <th style="text-align: center;" width="15%" id="lblParamMapAlphaDrop">Dropdown Data Values</th>
+                                                    <th style="text-align: center;" width="8%">Min.</th>
+                                                    <th style="text-align: center;" width="8%">Max.</th>
+                                                    @*<th style="text-align: center;" width="11%">Frequency</th>*@
+                                                    <th style="text-align: center;" width="10%">Effective From </th>
+                                                    <th style="text-align: center;" width="10%">Status</th>
+                                                    <th style="text-align: center;" width="12%">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="EODParamMappingBodyHistory"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="paginationfooter"></div>
+
+                            <div id="errorMsgPrsSTs" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                                <!-- ngIf: RescheduleErrorList.length > 0 -->
+                            </div>
+                            <div class="row mt20">
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-center">
+                                        <button type="button" id="btnCancelback" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                @Html.Partial("~/Areas/FEMS/Views/EODParameterMapping/List.cshtml")
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+@*@if (ViewBag.ActionType == "VIEW")
+{
+    <script type="text/javascript">
+
+        $("#EODParamMappingScreen :input:not(:button)").prop("disabled", true);
+    </script>
+}*@
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/EODParameterMapping.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/EODParameterMappingHis.js")"></script>
+}

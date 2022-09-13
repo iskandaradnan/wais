@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "GM - Company Staff Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li class="active">General Master</li>
+            <li>Master</li>
+            <li class="active">Company Staff Master</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>@ViewBag.ActionType Company Staff Master</h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">Company Staff Master</a></li>
+        </ul>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+    <div class="content_body">
+        <form name="formGMCompanyStaff" id="formGMCompanyStaff" class="form-horizontal" novalidate>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="EmployeeID" class="col-sm-6 control-label">Staff/Employee ID<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" maxlength="50" pattern="^[a-zA-Z0-9]+$" required autofocus id="StaffEmployeeID">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="StaffName" class="col-sm-6 control-label">Staff Name<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" required pattern="^[a-zA-Z0-9\s]+$" maxlength="100" id="StaffName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Role" class="col-sm-6 control-label">Role<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <select required id="Role" class="form-control">
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Competency" class="col-sm-6 control-label">Competency<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <select required id="Competency" multiple class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label id="gradeLabelId" for="Grade" class="col-sm-6 control-label">Grade</label>
+                        <div class="col-sm-6">
+                            <select id="Grade" class="form-control">
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="EmpolyeeType" class="col-sm-6 control-label">Empolyee Type<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <select required id="EmpolyeeType" class="form-control">
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group ">
+                        <label for="SharedEmployee" class="col-sm-6 control-label">Shared Employee</label>
+                        <div width="5%" id="VariationStatusDel" data-original-title="" title="">
+                            <div class="checkbox text-center col-sm-1">
+                                <label for="checkboxes-0">
+                                    <input type="checkbox" name="SharedEmployee" id="chk_SharedEmployee" autocomplete="off" tabindex="0" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Speciality" class="col-sm-6 control-label">Speciality<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <select required id="Speciality" multiple class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group ">
+                        <label for="Gender" class="col-sm-6 control-label">Gender<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <select required id="Gender" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group ">
+                        <label for="Nationality" class="col-sm-6 control-label">Nationality<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <select id="Nationality" class="form-control">
+                                @*<option value="1" selected>malaysian</option>
+                                    <option value="2">Others</option>*@
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Email" class="col-sm-6 control-label">Email<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input required type="text" class="form-control" pattern="^([^<>%$][_0-9a-zA-Z.].*?([0-9a-zA-Z].*\.\w{2,15}))$" maxlength="50" id="Email">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="ContactNo" class="col-sm-6 control-label">Contact No.<span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input required type="text" class="form-control" maxlength="25" id="ContactNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="inputstatus" class="col-sm-6 control-label">Status</label>
+                        <div class="col-sm-6">
+                            <select id="SelStatus" class="form-control">
+                                <option value="1" selected>Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12 text-right">
+                    @if (ViewBag.ActionType == "ADD")
+                    {
+                        <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                    }
+                    @if (ViewBag.ActionType == "EDIT")
+                    {
+                        <button type="button" id="btnEdit" class="btn btn-primary" title="Save" tabindex="5">Save</button>
+                    }
+                    @if (ViewBag.ActionType == "ADD")
+                    {
+                        <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-primary" tabindex="6">Add New</button>
+                    }
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey" title="Cancel" tabindex="7">Back</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/GM/CompanyStaffMst.js")"></script>
+}

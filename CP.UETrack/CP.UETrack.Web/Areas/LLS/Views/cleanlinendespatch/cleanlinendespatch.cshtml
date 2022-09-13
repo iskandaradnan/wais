@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "cleanlinendespatch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+        <input type="hidden" id="hdnStatus" name="hdnStatus" />
+        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+        <!-- Content Header Starts -->
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>LLS</li>
+                <li>Transaction</li>
+                <li class="active">Clean Linen Despatch </a></li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <div>
+                <h4 class="pull-left">Add Clean Linen Despatch </h4>
+                <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+                <div style="clear:both;display:table;"></div>
+            </div>
+        </div>
+        <!-- Content Header Ends -->
+        <!-- Contents goes here -->
+
+
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#divClean" aria-controls="home" role="tab" data-toggle="tab">Clean Linen Despatch </a></li>
+            </ul>
+        </div>
+
+        <div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- 1st Tab -->
+                <div role="tabpanel" class="tab-pane active" id="divLinenClean">
+                    <form class="form-horizontal" id="FrmLinenClean" novalidate>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> Despatch Document No. <span class="red">*</span> </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtDespatchDocumentNo" name="DespatchDocumentNo" autocomplete="off" maxlength="100" placeholder="Please select" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Received Date& Time<span class="red">*</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" autocomplete="off" id="txtReceivedDateTime" name="ReceivedDateTime" class="form-control datetimepicker" tabindex="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">CLO No.</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" autocomplete="off" id="txtCLONo" name="CLONo" class="form-control" tabindex="0" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> Despatched from  </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtDespatchedfrom" name="Despatchedfrom" autocomplete="off" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> Received By <span class="red">*</span>  </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtReceivedBy" name="ReceivedBy" autocomplete="off" maxlength="100" placeholder="please select" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> No. of Trolleys  </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtNoofTrolleys" name="NoofTrolleys" autocomplete="off" maxlength="100" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">No. of Packages</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" autocomplete="off" id="txtNoofPackages" name="NoofPackages" class="form-control" tabindex="0" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> Total Weight (Kg)<span class="red">*</span>  </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtTotalWeight" name="TotalWeight" autocomplete="off" maxlength="100" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Total Received (Pcs)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" autocomplete="off" id="txtTotaReceived " name="TotaReceived" class="form-control" tabindex="0" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Remarks </label>
+                                    <div class="col-sm-9">
+                                        <textarea type="text" class="form-control" id="txtRemarks1" name="Remarks1" autocomplete="off" maxlength="100"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary customButton" title="Upload"><i class="fa fa fa-upload" aria-hidden="true"></i>+ save&AddNew</button>
+                            <button type="button" class="btn btn-primary " title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                            <button type="button" name="btncleanCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat"></i> Reset</button>
+                        </div>
+                        <br />
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("~/Areas/LLS/Views/cleanlinendespatch/cleanlinendespatchList.cshtml")
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+        </div>
+    </div>
+

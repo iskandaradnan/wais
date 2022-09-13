@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Parameter Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>KPI</li>            
+            <li class="active">Parameter Master</li>      
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>      
+        </ol>
+        <h4>@ViewBag.ActionType Parameter Master</h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            @*<li class="active"><a href="#tab-1" data-toggle="tab">Parameter Master</a></li>*@
+        </ul>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="content_body">
+        <form class="form-horizontal" autocomplete="off">
+
+            <div class="row" hidden>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Service<span class="red"></span></label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="parameterservice"  disabled>
+                                                               
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Group</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="parametergroup" disabled>
+                                                              
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Indicator No.</label>
+                        <div class="col-sm-6">                            
+                            <select class="form-control" id="parameterindicatorno">
+                                <option value="0" selected>Select</option>                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Indicator Description</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" class="form-control wt-resize" maxlength="500" name="Description" id="parameterindicatordesc" disabled style="height:70px"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div ng-view="" class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="parameterdataTable" class="table table-fixedheader table-bordered table-textarea" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center;" width="10%">Sl.No.</th>
+                                    <th style="text-align: center;" width="90%">Parameter</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="ParameterMstTbl">
+
+
+                                @*Content of HTML Body Element*@
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+            <div class="row mt30">
+                <div class="form-group text-center">
+                    <div class="col-sm-12">
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@if (ViewBag.Mode == "VIEW")
+{
+    <script type="text/javascript">
+
+       $("#form :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts
+    {    
+        <script src="~/Scripts/ng/Controllers/KPI/ParameterMaster.js"></script>
+}
+
+
+@* ************** Sl.No. Validation **************** *@
+
+<style>
+    #parameterdataTable {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        #parameterdataTable td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+
+
+
+

@@ -1,0 +1,207 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .green {
+        background-color: #dff0d8;
+    }
+
+    .pink {
+        background-color: #f2dede;
+    }
+
+    .buttonDisabled {
+        background-color: #E0E0E0;
+    }
+
+    }
+</style>
+
+<div>
+    @*<div class="row">*@
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="ServiceId" name="ServiceId" value="2" />
+    <input type="hidden" id="hdnStandardTaskDetId" name="hdnStandardTaskDetId">
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Smart Assign</li>
+            <li class="active">Manual Assign - Work Order</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>        
+        <h4>Manual Assign - Work Order</h4>
+    </div>
+   
+    <div class="tab-content">
+            <form id="formmanualassign" name="formmanualassign" class="form-horizontal" novalidate autocomplete="off">
+                
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset No.</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" placeholder="Please Select" id="txtAssetNo" autocomplete="off" name="AssetNo" maxlength="25" tabindex="2" disabled />
+                                    <input type="hidden" required id="hdnAssetId" />                                                                    
+                                    <div class="col-sm-12" id="divAssetNoFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Model</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtModel" class="form-control" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Manufacturer</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtManufacturer" class="form-control" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerEngineer" class="col-sm-6 control-label">Requestor Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" autocomplete="off" placeholder="Please Select" id="txtRequestor" name="Requestor" maxlength="25" tabindex="2" disabled />
+                                <input type="hidden" id="hdnRequestorId" />
+
+                                <div class="col-sm-12" id="divRequestorFetch">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerWarrentyType" class="col-sm-6 control-label">Work Order Priority</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="WorkOrderPriority"  class="form-control" disabled>
+                                        <option value="null">Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="PPMPlannerWarrentyType" class="col-sm-6 control-label">Work Order Category</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="WorkOrderCategory"  class="form-control" disabled>
+                                        <option value="null">Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Breakdown Details</label>
+                            <div class="col-sm-9">
+                                <textarea  class="form-control wt-resize" autocomplete="off" id="txtMaintainanceDetails" style="height:70px" disabled ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Assignee <span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" placeholder="Please Select" id="txtAssignee" autocomplete="off" name="Assignee" maxlength="25" tabindex="2" />
+                                    <input type="hidden" required id="hdnAssingnId" />
+
+                                    <div class="col-sm-12" id="divAssigneeFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                </div>
+                    <div class="row mt30">                      
+                       
+                        <div class="col-sm-12 text-center">
+                            <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton hider" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                        </div>
+                    </div>              
+
+
+                <div class="col-sm-12"  type="hidden" id="WorkOrderId">
+                </div>
+            </form>
+        @Html.Partial("~/Areas/fems/Views/Manualassign/List.cshtml")
+        </div>     
+    </div>
+ 
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+    </div>
+  
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/SmartAssign/Manualassign.js")"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

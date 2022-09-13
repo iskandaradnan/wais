@@ -1,0 +1,626 @@
+﻿
+
+@{
+    ViewBag.Title = "jiDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>CLS</li>
+            <li>Trancations</li>
+            <li class="active">Join Inspection Details</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Join Inspection Details</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divHouse" aria-controls="home" role="tab" data-toggle="tab">Central Linen Store Housekeeping</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divHouse">
+                <form class="form-horizontal" id="FrmHouse" novalidate>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">JI Documents No.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtjidocumentno" name="txtjidocumentno" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">JI Date & Time</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtjidateandtime" name="txtjidateandtime" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Resheduled JI Date & Time</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtresheduledjidataandtime" name="txtresheduledjidataandtime" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Resheduled Reason</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtreshduledreason" name="txtreshduledreason" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area code</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtuserareacode" name="txtuserareacode" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">User Area Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtuserareaname" name="txtuserareaname" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Hospital Representative<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txthospitalrepresentive" name="txthospitalrepresentive" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Hospital Representative Designation</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txthospitalrepresentivedesignation" name="txthospitalrepresentivedesignation" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Company Representative<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtcompanyrepresentive" name="txtcompanyrepresentive" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Company Representative Designation</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtcompanyrepresentivedesignation" name="txtcompanyrepresentivedesignation" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Remarks</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtremarks" name="txtremarks" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Reference No(*If Rating "YS")</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtreference" name="txtreference" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Default Rating</label>
+                                <div>
+                                    <div class="col-sm-4">
+                                        <select id="txtdefaultrating" name="txtdefaultrating" class="form-control" disabled>
+                                            <option value="0">Y</option>
+                                            <option value="1"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2" id="Blockcodepopup">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Block">
+                                            <i class="" aria-hidden="true">Fill</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <!-- Purchase Details -->
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading6">
+                                <h4 class="panel-title text_align_left">
+                                    <a id="aCollapse6" class="collapsed display_block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                        Summary Of Quality Rating<i class="indicator glyphicon glyphicon-plus  pull-right" id="iIndicator6"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4" aria-expanded="false">
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Satisfactory</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtsatisfactory" name="txtsatisfactory" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">No.of User Locations </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtnoofuserlocations" name="txtnoofuserlocations" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Unsatisfactory </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtunsatisfactory" name="txtunsatisfactory" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Grand Total Elements Inspectioncted</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtgrandtotalyinspectioncted" name="txtgrandtotalyinspectioncted" class="form-control" disabled />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Not Applicable </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" id="txtnotapplicable" name="txtnotapplicable" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="CentralCleanProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading noScrollGrid">
+                                    <tr>
+                                        <th style="text-align: center;" width="10%" id="">UserLocation<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="10%">UserLocationName </th>
+                                        <th style="text-align: center;" width="10%">Floor<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="10%">Walls<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="10%">Celling<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="15%">windows&Doors<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="15%">ReceptaclesContainers<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="10%">Furniture,Fixture<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="10%">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ARCentralCleanProviderTableBody" class="noScrollGrid">
+                                    <tr>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinencode" type="text" class="form-control fetchField " name="Linencode">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinenDescription" type="text" class="form-control fetchField " name="LinenDescription">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtRepairQuantity" type="text" class="form-control fetchField " name="RepairQuantity">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinencode" type="text" class="form-control fetchField " name="Linencode">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinenDescription" type="text" class="form-control fetchField " name="LinenDescription">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtRepairQuantity" type="text" class="form-control fetchField " name="RepairQuantity">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinencode" type="text" class="form-control fetchField " name="Linencode">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinenDescription" type="text" class="form-control fetchField " name="LinenDescription">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtRepairQuantity" type="text" class="form-control fetchField " name="RepairQuantity">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinencode" type="text" class="form-control fetchField " name="Linencode">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinenDescription" type="text" class="form-control fetchField " name="LinenDescription">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtRepairQuantity" type="text" class="form-control fetchField " name="RepairQuantity">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinencode" type="text" class="form-control fetchField " name="Linencode">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtLinenDescription" type="text" class="form-control fetchField " name="LinenDescription">
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <input id="txtRepairQuantity" type="text" class="form-control fetchField " name="RepairQuantity">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    @*<div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin: 2em 0;">
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="LicenseProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218); border-bottom:none">
+                                        <thead class="tableHeading noScrollGrid">
+
+                                            <tr>
+                                                <th style="display:none;" width=""></th>
+                                                <th width="10%" class="text-center">
+                                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                </th>
+                                                <th style="text-align: center;" width="30%">Date<span class="red">*</span></th>
+                                                <th style="text-align: center;" width="30%">Housekeeping Done?</th>
+                                                <th style="text-align: center;" width="30%">Date Time Stamp</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="ARLicenseProviderMainTableBody" class="noScrollGrid">
+
+                                            <tr class="ng-scope" style="">
+
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input type="checkbox" name="" />
+                                                </td>
+
+                                                <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtDate" type="text" class="form-control fetchField " name="Date">
+                                                </td>
+
+                                                <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="txtHousekeepingDone" class="form-control fetchField " name="HousekeepingDone">
+                                                    </select>
+                                                </td>
+                                                <td width="30%">
+                                                    <input id="txtDateTimeStamp" class="form-control fetchField " name="DateTimeStamp">
+                                                </td>
+                                            </tr>
+                                            <tr class="ng-scope" style="">
+
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input type="checkbox" name="" />
+                                                </td>
+
+                                                <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtDate1" type="text" class="form-control fetchField " name="Date1">
+                                                </td>
+
+                                                <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="txtHousekeepingDone1" class="form-control fetchField " name="HousekeepingDone1">
+                                                    </select>
+                                                </td>
+                                                <td width="30%">
+                                                    <input id="txtDateTimeStamp1" class="form-control fetchField " name="DateTimeStamp1">
+                                                </td>
+                                            </tr>
+                                            <tr class="ng-scope" style="">
+
+                                                <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                                    <input type="checkbox" name="" />
+                                                </td>
+
+                                                <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                    <input id="txtDate2" type="text" class="form-control fetchField " name="Date2">
+                                                </td>
+
+                                                <td width="30%" style="text-align: center;" data-original-title="" title="">
+                                                    <select id="txtHousekeepingDone2" class="form-control fetchField " name="HousekeepingDone2">
+                                                    </select>
+                                                </td>
+                                                <td width="30%">
+                                                    <input id="txtDateTimeStamp2" class="form-control fetchField " name="DateTimeStamp2">
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a onclick="AddNewHouse()" id="addMoreHouse" class="btn btn-primary addMore">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary customButton" title="Upload"><i class="fa fa fa-upload" aria-hidden="true"></i>+ save&AddNew</button>
+                            <button type="button" name="btnDepCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat"></i> Reset</button>
+                        </div>
+                    </div>
+
+                </form>
+                <br />
+            </div>
+            <div role="tabpanel" class="tab-pane" id="divCommonHistory">
+                <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+
+
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/CLS/Views/jiDetails/jiList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/UserAreaController.js")"></script>
+}

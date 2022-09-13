@@ -1,0 +1,465 @@
+﻿
+@{
+    ViewBag.Title = "Stock Update Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}
+<div>
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>FEMS</li>
+            <li class="active">Out Sourced Service Register</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Out Sourced Service Register</h4>
+    </div>
+    <!-- Content Header Ends -->
+
+
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="hdnContractId" name="hdnContractId" value="@ViewBag.ContractId" />
+
+    <div class="wrapper">
+        <ul class="nav nav-tabs list" id="myTab">
+            <li class="active"><a data-toggle="tab" href="#tab-contractOutRegister" aria-expanded="true">Out Sourced Service Register</a></li>
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+            <li class=""><a data-toggle="tab" id="HistoryTab" href="#tab-history">History</a></li>
+
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div id="tab-contractOutRegister" class="tab-pane fade active in">
+
+            <div class="content_body">
+                <form @*class="form-horizontal"*@ name="CORForm" id="CORForm" autocomplete="off">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Contractor Code <span class="red"> *</span></label>
+
+                                    <div class="col-sm-4">
+                                        <div class="" role="group">
+                                            <input type="text" id="contractCode" name="contractCode" required class="form-control "
+                                                   placeholder="Please Select  "
+                                                   autocomplete="off" maxlength="25" @*pattern="(^[_A-z0-9]*((-|\s)*[_A-z0-9])*$)$"*@ />
+                                            <input type="hidden" id="ContractorId" />
+
+                                            <div class="col-sm-12" id="divFetch">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2" id="spnPopup">
+                                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search">
+                                            <span id="spnPopup-contractCode" class="glyphicon glyphicon-modal-window"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Contractor Name </label>
+
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="ContractorName" class="form-control" name="Name" autocomplete="off" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Contract No. <span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="ContractNo" required class="form-control" maxlength="25" pattern="(^[_A-z0-9]*((-|\s)*[_A-z0-9])*$)$" name="Name" autocomplete="off" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Contract Start Date / End Date <span class="red"> *</span></label>
+                                    <div>
+                                        <div class="col-sm-3">
+                                            <input type="text" id="startDate"
+                                                   class="form-control dateAll"
+                                                   required name="startDate" autocomplete="off" mmm-Date-Formatter />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" id="endDate"
+                                                   class="form-control datatimeFuture" required
+                                                   name="endDate" autocomplete="off" readonly style="background-color:white;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Contractor Type</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select class="form-control" name="ContractorType" id="ContractorType" disabled></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Responsible Person</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="ContactPerson" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Alternate Responsible Person</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="SecResponsiblePerson" class="form-control" maxlength="50" only-Name ng-disabled="IsAlterMode || isViewMode">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Designation</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="Designation" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Alternate Person Designation</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="SecDesignation" class="form-control" maxlength="50">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Contact No.</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="ContactNo" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Fax No.</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="FaxNo" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Email Address</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <input type="text" id="Email" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Contract Sum (<span class="spnCurrencyName"></span>)</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <div>
+                                                <input type="text" id="ContractSum" class="form-control decimalValidation text-right" number int-length="100" decimal-length="2" comma disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Status</label>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <select class="form-control"
+                                                    id="status" disabled></select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> Notification for Renewal<span class="red"> *</span></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="NotificationForInspection" required class="form-control datetime" @*oninput="Datevalidation()" onchange="Datevalidation()"*@>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Scope Of Work <span class="red" ng-show="SelectFetch.ContractorType!=244?false:true"> *</span></label>
+                                    <div class="col-sm-9">
+                                        <div>
+                                            <textarea id="scopeOfWork" required class="form-control" rows="2" cols="50" name="ScopeOfWork" maxlength="500"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Remarks</label>
+                                    <div class="col-sm-9">
+                                        <div>
+                                            <textarea id="remarks" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" class="form-control" rows="2" cols="50" maxlength="500"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <hr style="margin: 2em 0;" />
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <fieldset>
+                                        <table id="dataTableCheckList" class="table table-fixedheader table-bordered">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th width="3%" class="text-center">
+                                                        <a><span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span></a><br />
+                                                        <input type="checkbox" id="chk_ContractoutRegDet" value="false">
+                                                    </th>
+                                                    <th width="24%" class="text-center">Asset No.<span class="red"> *</span></th>
+                                                    <th width="25%" class="text-center">Asset Type Code Description</th>
+                                                    @*<th width="25%" class="text-center">Contract Type<span class="red">*</span></th>*@
+                                                    <th width="24%" class="text-center">Contract Type @*<span class="red"> *</span>*@</th>
+                                                    <th width="24%" class="text-center">Contract Value (<span class="spnCurrencyName"></span>)<span class="red"> *</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="myTable">
+                                            </tbody>
+                                        </table>
+                                    </fieldset>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div id="paginationfooter"></div>
+                        <div class="row mt20">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a @*onclick="AddNewRow()"*@ id="BtnAddPlus" class="btn btn-primary">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+
+
+                        <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <div class="row mt30">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5" onclick="Save(false, 'btnSave')"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5" onclick="Save(false, 'btnEdit')"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                    <button type="button" id="Renewbtn" class="btn btn-primary customButton hider" title="Renew" tabindex="5" onclick="Save(true, 'Renewbtn')"><i class="fa fa-plus-circle" aria-hidden="true"></i>Renew</button>
+                                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew" onclick="Save(false, 'btnSaveandAddNew')"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                    <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset" @*onclick="goBack();"*@><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+            <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+            </form>
+        </div>
+        <div id="tab-history" class="tab-pane fade">
+            <div class="content_body">
+                <form class="form-horizontal" autocomplete="off">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Contractor  Code</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" disabled class="form-control" id="contractCodehst" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Contractor Name</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" disabled class="form-control disable" id="ContractorNamehst" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive  tableFixedHeight">
+                                <table id="dataTable" class="table table-bordered">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th class="text-center">Contract No</th>
+                                            <th class="text-center">Contract Start Date </th>
+                                            <th class="text-center">Contract End Date </th>
+                                            <th class="text-center">Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="Hstory"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt30">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="btnHistoryCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- 3rd Tab -->
+        <!-- 2nd Tab -->
+
+        @Html.Partial("~/Areas/BEMS/Views/OutSourcedServiceRegister/List.cshtml")
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b>Asset Details</b></h4>
+                </div>
+                <!-- Modal body-->
+                <div class="modal-body">
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <hr style="margin: 2em 0;">
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="AssetEquipmentAttachment" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th style="text-align: center;" width="25%">Asset No.</th>
+                                            <th style="text-align: center;" width="25%">Asset Type Code Description</th>
+                                            <th style="text-align: center;" width="25%">Contract Type</th>
+                                            <th style="text-align: center;" width="25%">Contract Value(<span class="spnCurrencyName"></span>)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="HistPopupCategoryId">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer mt20">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+</div>
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/BEMS/Contractoutregister.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}

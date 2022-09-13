@@ -1,0 +1,83 @@
+﻿
+<div role="tabpanel" class="tab-pane" id="childasset">
+    <div class="content_body">
+        <form class="form-horizontal" id="frmChildAsset">
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divAssetAuthorizeStatus" class="AssetAuthorizeStatus"></div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetNo" id="txtARAssetNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Description" class="col-sm-6 control-label">Asset Type Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetDescription" id="txtARchildAssetDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="TypeCode" class="col-sm-6 control-label">Asset Type Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARTypeCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Service" class="col-sm-6 control-label">Service</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select disabled class="form-control selARServiceId">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+            <hr />
+            <div class="row">
+                <div id="gridTable">
+                    <div class="col-sm-12">
+                        <div id="gridContainer"></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <table id="gridCA" class="ChildAssetTableGrid"></table>
+                        <div id="pagerCA" class="ChildAssetTableGrid"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="errorMsgChildTab" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12 text-center mt20">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegisterChildAssetTab.js"></script> 

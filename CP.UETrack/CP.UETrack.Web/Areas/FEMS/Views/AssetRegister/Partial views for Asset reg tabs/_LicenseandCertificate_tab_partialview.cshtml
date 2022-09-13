@@ -1,0 +1,131 @@
+﻿
+<div role="tabpanel" class="tab-pane" id="licenseCertificate">
+    <div class="content_body">
+        <form class="form-horizontal" id="frmLicenseAndCertifiacte">
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divAssetAuthorizeStatus" class="AssetAuthorizeStatus"></div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="AssetNo" class="col-sm-6 control-label">Asset No.</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetNo" id="txtARAssetNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Description" class="col-sm-6 control-label">Asset Type Description</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARAssetDescription" id="txtARlicenseAssetDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="TypeCode" class="col-sm-6 control-label">Asset Type Code</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" disabled class="form-control txtARTypeCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="Service" class="col-sm-6 control-label">Service</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select disabled class="form-control selARServiceId">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+            @*<div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="selLAndCApplicable" class="col-sm-6 control-label">License & Certificate Applicable</label>
+                        <div class="col-sm-6">
+                            <div>
+                               <select id="selLAndCApplicable" name="selLAndCApplicable" class="form-control">
+                               </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="LicenseCertificateTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+
+                                    @*<th style="text-align: center;" width="10%">Facility Name</th>*@
+                                    <th style="text-align: center;" width="20%">License No.</th>
+                                    <th style="text-align: center;" width="10%">Notification for Inspection</th>
+                                    <th style="text-align: center;" width="10%">Inspection Date</th>
+                                    <th style="text-align: center;" width="15%">Next Inspection Date</th>
+                                    <th style="text-align: center;" width="10%">Expiry Date</th>
+                                    <th style="text-align: center;" width="10%">Issuing Body</th>
+                                    <th style="text-align: center;" width="10%">Issue Date</th>
+                                    <th style="text-align: center;" width="15%">Remarks</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="aRLicenseCertGridTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="id_fetchlist">
+
+            </div>
+            @*<div class="form-group">
+                <div class="col-sm-12 text-right mt20">
+                    @*<button type="submit" class="btn btn-primary customButton ">Save</button>*@
+                    @*<button type="button" class="btn btn-default customButton ">Back</button>
+
+                </div>
+            </div>*@
+
+
+            <div class="row">
+                <div class="errormsgcenter" style="color:red; visibility:hidden" id="errorMsgLicetab">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12 text-center mt20">
+                        
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/ng/Controllers/BEMS/AssetRegisterLnCTab.js"></script>

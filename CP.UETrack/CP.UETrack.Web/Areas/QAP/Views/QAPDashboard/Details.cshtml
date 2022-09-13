@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "QAP Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="dashboard.html"><i class="fa fa-home"></i></a>
+            </li>
+            <li>QAP</li>           
+            <li class="active">Dashboard</li>           
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>QAP Dashboard</h4>
+    </div>
+
+    <div class="content_body">
+        <form class="form-horizontal" autocomplete="off">
+            <div class="row">
+                <div class="content-area">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>BEMS QAP Performance</h4>
+                            <div id="QAP_Dashboard_Performance_Chart" style="cursor:pointer !important"></div>
+                        </div>  
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Service</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="QAPDashService" disabled></select>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="content-area">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>BEMS Performance Trend - Past 6 Months</h4>
+                            <div id="QAP_Dashboard_Month_Chart" style="cursor:pointer !important"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </form>
+    </div>
+
+    </div>
+
+<script src="~/Scripts/ng/Controllers/Dashboard/CommonChart.js"></script>
+<script src="~/Scripts/ng/Controllers/QAP/QAPDashboard.js"></script>

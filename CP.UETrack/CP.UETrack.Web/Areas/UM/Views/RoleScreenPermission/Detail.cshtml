@@ -1,0 +1,259 @@
+﻿@{
+    ViewBag.Title = "UETrack - Role Screen Permission Mapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>User Management</li>
+                <li class="active">Role Screen Permission Mapping</li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <h4>Role Screen Permission Mapping</h4>
+        </div>
+
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs">
+                @*<li class="active"><a href="#tab-1" data-toggle="tab">Role Screen Permission Mapping</a></li>*@
+            </ul>
+        </div>
+
+            <div class="content_body">
+                <form class="form-horizontal" name="frmRoleScreenPermission" id="frmRoleScreenPermission">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="col-sm-2">
+                                    <div class="input-group">
+                                        <input type="text" tabindex="1" id="txtSearch" class="form-control" placeholder="Search" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="col-sm-3" id="divlblRow">
+                                        <label class="pull-right control-lable">Role<span style="color:red">&nbsp;*</span></label>
+                                    </div>
+                                    <div class="col-sm-9" id="divSelectRow">
+                                        <div class="form-group">
+                                            <select class="form-control" tabindex="2" id="selUserRole" name="selUserRole" required>
+                                                <option value="null">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="col-sm-5" id="divlblRow">
+                                        <label class="pull-right control-lable">User Type</label>
+                                    </div>
+                                    <div class="col-sm-7" id="divSelectRow">
+                                        <div class="form-group">
+                                            <input type="text" id="txtUserType" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-sm-6" id="divlblRow">
+                                        <label class="pull-right control-lable">Module<span style="color:red">&nbsp;*</span></label>
+                                    </div>
+                                    <div class="col-sm-6" id="divSelectRow">
+                                        <div class="form-group">
+                                            <select class="form-control" tabindex="3" id="selModule" name="selModule" required>
+                                                <option value="null">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="input-group  pull-right">
+                                        <input type="button" id="btnAddFetch" value="Fetch" class="btn btn-primary" disabled />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table table-responsive" id="tblRolePermission">
+                                <table id="tblDataTable" class="table table-fixedheader table-bordered">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th style="width:16%; padding:5px" class="text-center">Screen<span style="color:red">&nbsp;*</span></th>
+                                            <th style="width:84%; padding:5px" colspan="14" class="text-center">Permission<span style="color:red">&nbsp;*</span></th>
+                                        </tr>
+                                        <tr style="font-size: 10px;">
+                                            <th style="padding:1px; width:16%; height:40px;"></th>
+                                            <th style="padding:1px; text-align:center;width:4.4%; height:40px;">
+                                                <span>
+                                                    All<br />
+                                                    <input type="checkbox" title="Check All" id="chkCheckAll" class="selectAll" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:4.4%">
+                                                <span>
+                                                    Add
+                                                    <br />
+                                                    <input type="checkbox" name="chkAddAll" id="chkAddAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:4.25%">
+                                                <span>
+                                                    Edit
+                                                    <br />
+                                                    <input type="checkbox" name="chkEditAll" id="chkEditAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            @*<th style="padding:1px; text-align:center; height:40px; width:4.05%">
+                                                <span>
+                                                    View
+                                                    <br />
+                                                    <input type="checkbox" name="chkViewAll" id="chkViewAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>*@
+                                            <th style="padding:1px; text-align:center; height:40px; width:6.08%">
+                                                <span>
+                                                    Delete
+                                                    <br />
+                                                    <input type="checkbox" name="chkDeleteAll" id="chkDeleteAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:6.06%">
+                                                <span>
+                                                    Print
+                                                    <br />
+                                                    <input type="checkbox" name="chkPrintAll" id="chkPrintAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:6.08%">
+                                                <span>
+                                                    Export
+                                                    <br />
+                                                    <input type="checkbox" name="chkExportAll" id="chkExportAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:7.09%">
+                                                <span>
+                                                    Approve
+                                                    <br />
+                                                    <input type="checkbox" name="chkApproveAll" id="chkApproveAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:6.08%">
+                                                <span>
+                                                    Reject
+                                                    <br />
+                                                    <input type="checkbox" name="chkRejectAll" id="chkRejectAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:6.08%">
+                                                <span>
+                                                    Verify
+                                                    <br />
+                                                    <input type="checkbox" name="chkVerifyAll" id="chkVerifyAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:7.09%">
+                                                <span>
+                                                    Clarify
+                                                    <br />
+                                                    <input type="checkbox" name="chkClarifyAll" id="chkClarifyAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:6.06%">
+                                                <span>
+                                                    Renew
+                                                    <br />
+                                                    <input type="checkbox" name="chkRenewAll" id="chkRenewAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:11.14%">
+                                                <span>
+                                                    Acknowledge
+                                                    <br />
+                                                    <input type="checkbox" name="chkAcknowledgeAll" id="chkAcknowledgeAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                            <th style="padding:1px; text-align:center; height:40px; width:9.1%">
+                                                <span>
+                                                    Recommend
+                                                    <br />
+                                                    <input type="checkbox" name="chkRecommendAll" id="chkRecommendAll" tabindex="3" class="checkAllColum"
+                                                           title="Check All Column Items" />
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                    </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="btnSave" tabindex="6" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" id="btnAddNew" tabindex="7" class="btn btn-primary customButton" title="Save"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New</button>
+                                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                            </div>
+                        </div>
+</form>
+            </div>
+    </div>
+
+<style type="text/css">
+    #txtSearch {
+       height:30.0px !important;
+       margin-bottom:1% !important;
+    }
+    #tblRolePermission {
+        margin-top:2%;
+    }
+    #divlblRow {
+        margin-top:2%;
+    }
+    #divSelectRow {
+        margin-top:1%;
+    }
+</style>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/UM/RoleScreenPermission.js")"></script>
+}

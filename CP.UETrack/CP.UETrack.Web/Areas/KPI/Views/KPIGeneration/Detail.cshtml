@@ -1,0 +1,179 @@
+
+@{
+    ViewBag.Title="KPIGenerationDetail";
+    Layout="~/Views/Shared/_Layout.cshtml";
+        }
+
+<div>
+
+@functions{
+    public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+<style>
+    .JQHeader {
+        font-weight:bold;
+        cursor:default;
+        color:black;
+    }
+</style>
+<input id="antiForgeryToken" type="hidden" />
+<input type="hidden" id="hdnPrimaryID" name="hdnPrimaryID" value="@ViewBag.CurrentID" />
+<input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType " />
+<input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+
+<div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href = "/home/dashboard" ><i class="fa fa-home"></i></a></li>
+            <li>KPI</li>
+            <li class="active">KPI Generation</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+            </ol>
+        <h4>KPI Generation</h4>
+    </div>
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            @*<li class="active"><a href = "#tab-1" data-toggle="tab">KPI Generation</a></li>*@
+        </ul>
+    </div>
+
+    <div class="content_body">
+        <form class="form-horizontal" id="frmkpiGeneration" novalidate autocomplete="off">
+            <div class="content_body">
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="txtYear" class="col-sm-6 control-label">Year &amp; Month<span class="red"> *</span></label>
+                            <div class="col-sm-3">
+                                <div>
+                                    <select id="selYear" name="selYear" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div>
+                                    <select id="selMonth" name="selMonth" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="selService" class="col-sm-6 control-label">Service</label>
+                            <div class="col-sm-6">
+                               <div>
+                                   <select id="selService" name="selService" class="form-control" disabled required>
+                                       <option value="null">Select</option>
+                                   </select>
+                               </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="selGroup" class="col-sm-6 control-label">Monthly Service Fee (<span class="spnCurrencyName"></span>)</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtMonthlyServiceFee" class="form-control text-right commaSeperator" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg1">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt20">
+                <div class="form-group">
+                    <div class="col-sm-12 text-right">
+                        <button type="button" class="btn btn-primary customButton" id="btnAddGenerate"><i class="fa fa-file-o" aria-hidden="true"></i>Generate</button>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row" id="divGenerationResult" style="display:none;">
+                <div id="gridTable">
+
+                    <div class="col-sm-12">
+
+                        <div id="gridContainer"></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <table id="grid"></table>
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="row" id="divKPIGeneration">
+                <hr style="margin: 2em 0;" />
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="tableKPIGeneration" class="table table-fixedheader table-bordered">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center; padding-top:14px;" width="10%">Indicator No.</th>
+                                    <th style="text-align: center; padding-top:14px;" width="60%">Indicator Description</th>
+                                    <th style="text-align: center; padding-top:14px;" width="10%">Demerit Points</th>
+                                    <th style="text-align: center; padding-top:14px;" width="10%">KPI Value (<span class="spnCurrencyName"></span>)</th>
+                                    <th style="text-align: center; padding-top:14px;" width="10%">KPI %</th>
+                                </tr>
+                            </thead>
+                            <tbody style="height:280px;"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="color:red; visibility:hidden" id="errorMsg">
+                <div class="errormsgcenter"></div>
+            </div>
+            <div class="row mt20">
+                <div class="form-group text-center">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-grey customButton" id="btnCancelReset" title="Reset" style="visibility:hidden"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt30" id="divButtons" style="display:none;">
+                <div class="form-group text-center">
+                    <div class="col-sm-12">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Submit" tabindex="5"><i class="fa fa-check-square-o" aria-hidden="true"></i>Submit</button>
+                        <button type="button" id="btnKPIGenExport" class="btn btn-primary customButton hider" title="Export" tabindex="5"><i class="fa fa-file-excel-o" aria-hidden="true"></i>Export</button>
+                        <button type="button" class="btn btn-grey customButton" id="btnCancel" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divPopupResult" role="dialog">
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/KPI/KPIGeneration/KPIGeneration.js")"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/KPI/KPIGeneration/KPIGenerationList.js")"></script>*@
+    <script src="@Url.Content("~/Scripts/ng/Controllers/KPI/KPIGeneration/KPIPopupGrid.js")"></script>
+}

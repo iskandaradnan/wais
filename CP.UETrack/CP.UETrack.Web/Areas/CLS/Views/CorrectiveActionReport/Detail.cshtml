@@ -1,0 +1,378 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+	<div>
+		@functions{
+			public string GetAntiForgeryToken()
+			{
+				string cookieToken, formToken;
+				AntiForgery.GetTokens(null, out cookieToken, out formToken);
+				return cookieToken + ":" + formToken;
+			}
+		}
+
+		<input id="antiForgeryToken" type="hidden" />
+		<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+		<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+		<input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+		<input type="hidden" id="hdnStatus" name="hdnStatus" />
+		<input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+		<div class="content_header">
+			<ol class="breadcrumb">
+				<li>
+					<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+				</li>
+				<li>CLS</li>
+				<li>QAP</li>
+				<li>Corrective Action Report</li>
+				<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+					<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+					<span class="badge" id="helpdescriptionid"></span>
+				</a>
+			</ol>
+
+		</div>
+		<br />
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#formppmplanner" aria-controls="home" role="tab" data-toggle="tab">Corrective Action Report</a></li>
+			<li role="presentation" id="liHistory"><a href="#divHistory" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+			<li role="presentation"><a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+				<div class="content_body">
+					<form id="formCorrectiveAction" name="formCorrectiveAction" class="form-horizontal" novalidate>
+						<div class="row">
+							<input type="hidden" id="txtCARId" />
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">CAR Generation</label>
+									<div>
+										<div class="col-sm-6">
+											<input type="text" class="form-control" value="Manual CAR" disabled="disabled" id="txtCARGeneration" autocomplete="off" name="CARGeneration" maxlength="25" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">CAR No</label>
+									<div>
+										<div class="col-sm-6">
+											<input type="text" class="form-control" value="CAR/WAC/H202009/000021" disabled="disabled" id="txtCNo" autocomplete="off" name="CARNo" maxlength="25" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">Indicator<span style="color:red">*</span></label>
+									<div>
+										<div class="col-sm-6" id="indicator">
+											<select type="text" required class="form-control Indicator" id="txtIndicators" autocomplete="off" name="CARDate" maxlength="25"> </select>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">CAR Date<span style="color:red">*</span></label>
+									<div>
+										<div class="col-sm-6" id="date">
+											<input type="text" required class="form-control datetime" id="txtCDate" autocomplete="off" name="CARDate" maxlength="25" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">CAR Period(From/To)</label>
+									<div>
+										<div class="col-sm-3">
+											<input type="text" class="form-control" disabled="disabled" id="txtCPeriodFrom" autocomplete="off" name="CARPeriodFrom" maxlength="25" tabindex="3" />
+										</div>
+										<div class="col-sm-3">
+											<input type="text" class="form-control" disabled="disabled" id="txtCPeriodTo" autocomplete="off" name="CARPeriodTo" maxlength="25" tabindex="3" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">Follow-Up CAR<span class="red" id="spnFollowUpCAR"> *</span></label>
+									<div class="col-sm-6" id="falup">
+										<input type="text" id="txtFUC" required class="form-control" disabled="disabled" placeholder="Please Select" />
+										<input type="hidden" id="hdnFollowupcarId" style="width:100%" />
+										<div class="col-sm-12" style="width:210px;" id="divFetch8">
+										</div>
+									</div>
+									@*<div class="col-sm-1">
+										<a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-followupCAR">
+											<i class="fa fa-search" aria-hidden="true"></i>
+										</a>
+									</div>*@
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">Assignee<span style="color:red">*</span></label>
+									<div class="col-sm-4">
+										<div class="" role="group" id="assignee">
+											<input type="text" required class="form-control" placeholder="Please Select" id="txtAssignee" autocomplete="off" name="Assignee" maxlength="25" />
+											<input type="hidden" id="hdnCompanyStaffId" />
+											<div class="col-sm-12" id="divFetch7"></div>
+											@*<div class="col-sm-12" id="divFetch">
+
+											</div>*@
+										</div>
+									</div>
+									<div class="col-sm-1">
+										<a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Assignee">
+											<i class="fa fa-search" aria-hidden="true"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">Problem Statement<span style="color:red">*</span></label>
+									<div class="col-sm-9">
+										<div id="problem">
+											<textarea id="txtPS" required class="form-control wt-resize" rows="4" maxlength="1000" name="ProblemStatement"></textarea>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">Root Cause<span style="color:red">*</span></label>
+									<div class="col-sm-9">
+										<div id="cause">
+											<textarea id="txtRC" required class="form-control wt-resize" rows="4" maxlength="1000" name="RootCause"></textarea>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">Solution<span style="color:red">*</span></label>
+									<div class="col-sm-9">
+										<div id="solution">
+											<textarea id="txtSolution" required class="form-control wt-resize" rows="4" maxlength="1000" name="Solution"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">Priority<span style="color:red">*</span></label>
+									<div>
+										<div class="col-sm-6" id="priorit">
+											<select type="text" required class="form-control" id="Priority" autocomplete="off" name="Priority" maxlength="25"></select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">Status<span style="color:red">*</span></label>
+									<div>
+										<div class="col-sm-6" id="status">
+											<select type="text" required class="form-control CARStatus" disabled id="txtStatus" autocomplete="off" name="Status" maxlength="25"></select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">Issuer</label>
+									<div class="col-sm-4" id="issuer">
+										<div class="" role="group">
+											<input type="text" class="form-control" placeholder="Please Select" id="txtIssuer" autocomplete="off" name="Issuer" maxlength="25" />
+											<input type="hidden" id="hdnIssuerId" />
+											<div class="col-sm-12" id="divFetch4"></div>
+										</div>
+									</div>
+									<div class="col-sm-1">
+										<a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-Issuer">
+											<i class="fa fa-search" aria-hidden="true"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">CAR Target Date<span style="color:red">*</span></label>
+									<div>
+										<div class="col-sm-6" id="target">
+
+											<input type="text" required class="form-control datetime" id="txtCTD" autocomplete="off" name="CARTargetDate" maxlength="25" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">Verified Date</label>
+									<div class="col-sm-6">
+
+										<input type="text" class="form-control datetime" disabled="disabled" id="txtVD" autocomplete="off" name="VerifiedDate" maxlength="25" />
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="col-sm-6 control-label"> Verified By</label>
+									<div class="col-sm-6">
+										<div class="" role="group">
+											<input type="text" class="form-control" placeholder="Please Select" disabled="disabled" id="txtVB" autocomplete="off" name=" VerifiedBy" maxlength="25" />
+
+											<input type="hidden" id="hdnVerifiedbyId" />
+											<div class="col-sm-12" id="divFetch2">
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">Remarks<span style="color:red">*</span></label>
+									<div class="col-sm-9">
+										<div id="remarks">
+											<textarea id="txtRemarks" required class="form-control wt-resize" rows="4" maxlength="1000" name="Remarks"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br />
+						<br />
+
+						<div class="content_body">
+
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="table-responsive">
+										<table id="tblCAR" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+											<thead class="tableHeading">
+												<tr>
+													<th width="3%" class="text-center">
+
+														<span style="text-align: center; " class="delete-row glyphicon glyphicon-remove" id="deleteActivity"></span><br />
+
+													</th>
+													<th style="text-align: center;" width="10%">Activity<span style="color:red">*</span></th>
+													<th style="text-align: center;" width="10%">Start Date<span style="color:red">*</span></th>
+													<th style="text-align: center;" width="10%">Target Date<span style="color:red">*</span></th>
+													<th style="text-align: center;" width="15%">Actual Completion Date</th>
+													<th style="text-align: center;" width="10%">Responsibility</th>
+													<th style="text-align: center;" width="10%">Responsible Person</th>
+												</tr>
+											</thead>
+											<tbody id="tbodyActivity">
+												<tr>
+													<td style="text-align:center">
+														<input type="checkbox" id="isDelete1" name="isDelete">
+														<input type="hidden" id="hdnActivityId1" value="0" />
+													</td>
+													<td id="activity">
+														<input type="text" required class="form-control" id="txtActivity1" autocomplete="off" name="Activity1" maxlength="25" />
+													</td>
+													<td id="sd">
+														<input type="text" required class="form-control datetime" id="txtSD1" autocomplete="off" name="StartDate1" maxlength="25" />
+													</td>
+													<td id="td">
+														<input type="text" required class="form-control datetime" id="txtTD1" autocomplete="off" name="TargetDate1" maxlength="25" />
+													</td>
+													<td>
+														<input type="text" class="form-control datetime" disabled="disabled" id="txtACD1" autocomplete="off" name="ActualCompletion" maxlength="25" />
+													</td>
+													<td>
+														<select type="text" class="form-control Response" id="txtResponsibility1" autocomplete="off" name="Responsibility1" maxlength="25" />
+													</td>
+													<td>
+														<input type="text" class="form-control responsiblepersoncode1" placeholder="please select" id="txtResponsible1" autocomplete="off" name="ResposiblePerson" maxlength="25" />
+														<input type="hidden" id="hdnresponsibleId1" /><div class="col-sm-12" id="divFetchId1">
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row mt20">
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<div class="col-sm-3">
+										<div>
+											<a class="btn btn-primary" id="addActivity">+</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div id="errorMsg" class="errormsgcenter" style="visibility:hidden;" aria-hidden="true"> </div>
+
+						<div class="row mt30">
+							<div class="form-group">
+								<div class="col-sm-12 text-center">
+									<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+									<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />
+									<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			@Html.Partial("~/Areas/CLS/Views/CorrectiveActionReport/History.cshtml")
+			@Html.Partial("~/Areas/CLS/Views/CorrectiveActionReport/Attachments.cshtml")
+
+		</div>
+		<div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog"></div>
+		@Html.Partial("~/Areas/CLS/Views/CorrectiveActionReport/List.cshtml")
+
+
+	</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/CorrectiveActionReport.js")"></script>
+}
+
+
+
+

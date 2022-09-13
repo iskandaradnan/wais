@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "GM - Company Staff Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/JQGrid/GM/CompanyStaffMstList.js"></script>
+
+<div class="content-area">
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/DashBoard"><i class="fa fa-home"></i></a></li>
+            <li class="active"><a href="/gm">General Master</a></li>
+            <li>Master</li>
+            <li class="active"><a href="">Company Staff Master</a></li>
+        </ol>
+        <h4>Company Staff Master</h4>
+    </div>
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">Company Staff Master</a></li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div id="gridTable">
+            <div class="col-sm-12">
+                <div class="table-header">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a id="advanceSearch" class="btn btn-primary" title="Toggle search" href="javascript:void(0)"><span class="glyphicon glyphicon-search"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+               
+                <div id="gridContainer"></div>
+            </div>
+            <div class="col-sm-12">
+                <table id="grid"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

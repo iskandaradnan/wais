@@ -1,0 +1,285 @@
+﻿
+@{
+    ViewBag.Title = "Facility & Workshop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Asset</li>
+            <li class="active">Facilities & Workshop</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+            <!--<li class="active">General</li>-->
+        </ol>
+     <h4> Facilities & Workshop </h4> 
+</div>
+            
+                <!-- Content Header Ends -->
+            
+
+                @*<div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">Facilities & Workshop</a></li>
+        </ul>
+    </div>*@
+    <!-- Contents goes here -->
+    <div class="content_body">
+        <form class="form-horizontal" id="FacilityWorkshopForm">
+
+            <div class="row">
+                @*<div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Service</label>
+                        <div class="col-sm-6">
+                            <select id="FacilityworkService" class="form-control" disabled="disabled"></select>
+                        </div>
+                        <input type="hidden" id="hdnFacilityworkServiceId" />
+                    </div>
+                </div>*@
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Year</label>
+                        <div class="col-sm-6">
+                            <select id="FacilityworkYear" class="form-control"></select>
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Type of Facility <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <select id="FacilityworkFacilityType" class="form-control" required>
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="hdnFacilityworkFacilityTypeId" />
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" id="lblFWCategory">Category</label>
+                        <div class="col-sm-6">
+
+                                <select id="FacilityworkCategory" class="form-control" disabled>
+                                    <option value="">Select</option>
+                                </select>
+
+
+                            <input type="hidden" id="hdnFacilityworkCategoryId" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div ng-view="" class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="FacilityWorkshopTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            @*<thead class="tableHeading" id="workshoptablehead">
+                                <tr>
+                                    <th width="5%" class="text-center">
+                                        <a><span style="text-align: center; " class="glyphicon glyphicon-trash" title="Remove"></span></a><br>
+                                        <div class="checkbox text-center">
+                                            <label for="checkboxes-0">
+                                                <input type="checkbox" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th style="text-align: center;" width="15%">Description<span class="red">*</span></th>
+                                    <th style="text-align: center;" width="15%">Manufacturer</th>
+                                    <th style="text-align: center;" width="10%">Model</th>
+                                    <th style="text-align: center;" width="15%">Serial No.</th>
+                                    <th style="text-align: center;" width="10%">Calibration Due Date</th>
+                                    <th style="text-align: center;" width="10%">Location<span class="red">*</span></th>
+                                    <th style="text-align: center;" width="10%">Quantity</th>
+                                    <th style="text-align: center;" width="10%">Size/Area (Sq m)</th>
+
+                                </tr>
+                            </thead>*@
+
+                            <thead class="tableHeading" id="workshoptableheadAsset">
+                                <tr>
+                                    <th width="5%" class="text-center">
+                                        <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                        <div class="checkbox text-center">
+                                            <label for="checkboxes-0">
+                                                <input type="checkbox" id="chk_FacWorkIsDelete" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th id="FWGridAssetNo" style="text-align: center;" width="10%">Asset No.</th>
+                                    <th id="FWGriddesc" style="text-align: center;" width="11%">Description <span class="red">*</span></th>
+                                    <th id="FWGridMAnufacturer" style="text-align: center;" width="12%">Manufacturer</th>
+                                    <th id="FWGridmodel" style="text-align: center;" width="9%">Model</th>
+                                    <th id="FWGridSerialno" style="text-align: center;" width="13%">Serial No.</th>
+                                    <th id="FWGridCalibration" style="text-align: center;" width="10%">Calibration Due Date</th>
+                                    <th id="FWGridLOcation" style="text-align: center;" width="10%">Location</th>
+                                    <th id="FWGridQuantity" style="text-align: center;" width="10%">Quantity</th>
+                                    <th id="FWGridSize" style="text-align: center;" width="10%">Size / Area (Sq m)</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody id="FacilityWorkshopTbl">
+
+                                @*Content of HTML Body Element*@
+
+                                @*<tr class="ng-scope" style="">
+                                        <td width="5%" data-original-title="" title="">
+                                            <div class="checkbox text-center">
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" value="false" id="delchk_maxindexval" autocomplete="off">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWAssetNo_maxindexval" class="form-control" required="required">
+                                            </div>
+                                        </td>
+
+
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWAssetDescription_maxindexval"  class="form-control" required="required" >                                                
+                                            </div>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWManufacturer_maxindexval" class="form-control" required="required">
+                                            </div>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWModel_maxindexval" class="form-control">
+                                            </div>
+                                        </td>
+                                        <td width="15%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWSerialNo_maxindexval" class="form-control">
+                                            </div>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWCalibDueDate_maxindexval" class="form-control datatimeFuture" >
+                                            </div>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>                                          
+                                                <select id="FWLocation_maxindexval" class="form-control"></select>                                                
+                                                <input type="hidden" id="FWLocation_maxindexval" />
+                                            </div>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWQuantity_maxindexval" class="form-control" required="required">
+                                            </div>
+                                        </td>
+                                        <td width="10%" style="text-align: center;" data-original-title="" title="">
+                                            <div>
+                                                <input type="text" id="FWArea_maxindexval" class="form-control">
+                                            </div>
+                                        </td>                                        
+                                    </tr>*@
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="paginationfooterWorkorder"></div>
+
+            <div class="row mt20">
+                @if (ViewBag.ActionType == "ADD" || ViewBag.ActionType == "EDIT")
+            {
+
+                    <div class="col-sm-2 ">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <div>
+                                    <a onclick="AddNewRowFacilityWorkshop()" id="FacilityWorkshopAdd" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-sm-12 errMsg ng-hide" style="color:red;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+
+            <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+
+
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-center">
+                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnEdit" class="btn btn-primary hider customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>                       
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                    <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Cancel" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </div>
+            </div>
+
+        </form>      
+        @Html.Partial("~/Areas/BEMS/Views/FacilityWorkshop/List.cshtml")
+    </div>
+
+</div>
+
+
+@if (ViewBag.ActionType == "VIEW")
+{
+    <script type="text/javascript">
+        $("#FacilityWorkshopForm :input:not(:button)").prop("disabled", true);
+    </script>
+}
+@section scripts
+    {
+        <script src="~/Scripts/ng/Controllers/BEMS/FacilityWorkshop.js"></script>
+}
+
+
+

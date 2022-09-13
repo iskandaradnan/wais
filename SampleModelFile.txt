@@ -1,0 +1,49 @@
+FolderName:BEMS
+ModelFolder:BEMS\TestingAndCommissioning
+Class:TestingAndCommissioning
+Field:pTestingandCommissioningId-int
+Field:CustomerId-int
+Field:FacilityId-int
+Field:ServiceId-int?
+Field:TandCDocumentNo-string
+Field:TandCDate-DateTime
+Field:TandCType-int
+Field:AssetTypeCodeId-int?
+Field:TandCStatus-int
+Field:TestingandCommissioningDetId-int?
+Field:TandCCompletedDate-DateTime?
+Field:HandoverDate-DateTime?
+Field:PurchaseCost-decimal
+Field:PurchaseDate-DateTime?
+Field:PurchaseCategory-int?
+Field:ServiceStartDate-DateTime?
+Field:ContractLPONo-string
+Field:VariationStatus-int
+Field:TandCContractorRepresentative-string
+Field:FmsCustomerRepresentativeId-int
+Field:FmsFacilityRepresentativeId-int
+Field:UserAreaId-int?
+Field:UserLocationId-int?
+Field:Remarks-string
+Field:pUserId-int
+Field:WarrantyDuration-int?
+Field:WarrantyStartDate-DateTime?
+Field:WarrantyEndDate-DateTime?
+Field:Timestamp-string
+PriamaryKey:TestingandCommissioningId
+LOVs:TAndCStatus,TAndCTypes,VariationStatus,AssetWorkGroups,AssetClassifications
+TableLovs:AssetWorkGroups,AssetClassifications
+LovLovs:TAndCStatus,TAndCTypes,VariationStatus
+TableLovKey:EngAsset
+LovLovKeys:TCStatusValue,TCTypeValue,VariationStatusValue
+SaveSPName:uspFM_EngTestingandCommissioningTxn_Save
+GetAllSPName:uspFM_V_EngTestingandCommissioningTxn_GetAll
+GetByIdSPName:uspFM_EngTestingandCommissioningTxn_GetById
+DeleteSPName:uspFM_EngTestingandCommissioningTxn_Delete
+ControllerFolderName:BEMS\Controllers
+ControllerName:TestingAndCommissioningController
+
+Areas to change: DataModule,CommonAPIController for Export, Delete confirmation message parameters
+1LOVsField- variable names(additional s)
+2LovLovField- Items from the above list
+3TableLovField- Items from the above list for table

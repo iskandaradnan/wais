@@ -1,0 +1,234 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="FacilityId" name="FacilityId" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>General Master</li>
+            <li>Customer</li>
+            <li class="active">Working Calendar</li>
+            <!--<li class="active">General</li>-->
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4> Working Calendar</h4>
+    </div>
+
+
+
+    <!-- Content Header Starts -->
+
+    <div class="content_body">
+        <form class="form-horizontal" id="WcformId">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label for="sparePartItemCode" class="col-sm-6 control-label">Year <span class="red">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="YearId" name="YearId" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <h4 align="left">Legend :&nbsp;&nbsp;<input type="checkbox" checked="checked" disabled>&nbsp;-&nbsp;Working Day &nbsp;&nbsp;<input type="checkbox" disabled>&nbsp;-&nbsp;Holiday</h4>
+                    </div>
+                </div>
+            </div>            
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive" id="tblWorkingCalender">
+                        <table id="tblDataTable" class="working_cal table table-bordered table-fixedheader working_days_cal" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center;" width="7%">Month</th>
+                                    <th style="text-align: center;" width="3%">1</th>
+                                    <th style="text-align: center;" width="3%">2</th>
+                                    <th style="text-align: center;" width="3%">3</th>
+                                    <th style="text-align: center;" width="3%">4</th>
+                                    <th style="text-align: center;" width="3%">5</th>
+                                    <th style="text-align: center;" width="3%">6</th>
+                                    <th style="text-align: center;" width="3%">7</th>
+                                    <th style="text-align: center;" width="3%">8</th>
+                                    <th style="text-align: center;" width="3%">9</th>
+                                    <th style="text-align: center;" width="3%">10</th>
+
+                                    <th style="text-align: center;" width="3%">11</th>
+                                    <th style="text-align: center;" width="3%">12</th>
+                                    <th style="text-align: center;" width="3%">13</th>
+                                    <th style="text-align: center;" width="3%">14</th>
+                                    <th style="text-align: center;" width="3%">15</th>
+                                    <th style="text-align: center;" width="3%">16</th>
+                                    <th style="text-align: center;" width="3%">17</th>
+                                    <th style="text-align: center;" width="3%">18</th>
+                                    <th style="text-align: center;" width="3%">19</th>
+                                    <th style="text-align: center;" width="3%">20</th>
+
+                                    <th style="text-align: center;" width="3%">21</th>
+                                    <th style="text-align: center;" width="3%">22</th>
+                                    <th style="text-align: center;" width="3%">23</th>
+                                    <th style="text-align: center;" width="3%">24</th>
+                                    <th style="text-align: center;" width="3%">25</th>
+                                    <th style="text-align: center;" width="3%">26</th>
+                                    <th style="text-align: center;" width="3%">27</th>
+                                    <th style="text-align: center;" width="3%">28</th>
+                                    <th style="text-align: center;" width="3%">29</th>
+                                    <th style="text-align: center;" width="3%">30</th>
+
+                                    <th style="text-align: center;" width="3%">31</th>
+                                </tr>
+                            </thead>
+                            <tbody id="workingcalendarlistid" style="height:265px;"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <br />
+            <div class="row">
+
+                <div class="col-sm-12 errMsg" style="color:red; display:none" id="errorMsg">
+                    <div class="errormsgcenter">
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center  mt20">
+                    @if (ViewBag.ActionType == "Add")
+                    {
+                        <button type="button" id="btnSave" class="btn btn-primary customButton "
+                                title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            Save
+                        </button>
+                    }
+                    @if (ViewBag.ActionType == "EDIT")
+                    {
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    }
+                    @if (ViewBag.ActionType == "Add")
+                    {
+                        <button type="button" id="btnAddNew" name="btnAddNew" class="btn btn-grey customButton"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    }
+                    @*<button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Cancel">Back</button>*@
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="preview" name="preview" data-backdrop="static" novalidate role="dialog">
+    @*<form id="popupformId">*@
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b>Remarks</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid" style="padding-left:0px;">
+
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-3">
+                                <label>Remarks <span class="red">*</span></label>
+                            </div>
+                            <div class="col-xs-9 col-sm-9">
+                                <div class="form-group">
+                                    <input type="hidden" id="remarksmonth" />
+                                    <input type="hidden" id="remarksday" />
+                                    <input type="text" id="Remarks" autofocus maxlength="500" class="form-control" required name="Remarks" />
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="submit" id="btnAddSave" class="btn btn-primary customButton" onclick="SaveRemarks()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-primary customButton" onclick="RemarksCancel()" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+            </div>
+        </div>
+    @*</form>*@
+
+
+ 
+</div>
+
+
+@if (ViewBag.ActionType == "VIEW")
+{
+    <script type="text/javascript">
+        $("#WcformId :input:not(:button)").prop("disabled", true);
+    </script>
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/WorkingCalender.js")"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

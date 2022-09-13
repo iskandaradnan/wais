@@ -1,0 +1,490 @@
+﻿@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/js/Common/bootstrap-multiselect.js"></script>
+<style>
+    .green {
+        background-color: #dff0d8;
+    }
+
+    .pink {
+        background-color: #f2dede;
+    }
+
+    .buttonDisabled {
+        background-color: #E0E0E0;
+    }
+</style>
+
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>User Management</li>
+            <li class="active">User Registration</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>User Registration</h4>
+        @*<h4><span id="spnActionType">Add</span> User Registration</h4>*@
+    </div>
+
+    @*<div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1" data-toggle="tab">User Registration</a></li>
+        </ul>
+    </div>*@
+
+
+    <div class="content_body">
+        <form name="frmUserRegistration" id="frmUserRegistration" class="form-horizontal" novalidate>
+            @*<div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Existing staff</label>
+                    <div class="col-sm-6">
+                        <div>
+                            <input type="checkbox" id="chkExistingStaff" name="chkExistingStaff" class="checkExistingStaff" tabindex="1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Staff Name<span style="color:red"> *</span> </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="txtStaffName" name="txtStaffName" pattern="[a-zA-Z0-9/.& -]+" maxlength="75" tabindex="2" required />
+                                @*<input type="hidden" id="hdnStaffMasterId" />
+                            <div class="col-sm-12" id="divFetch">
+
+                            </div>*@
+                            </div>
+                        </div>
+                        @*<div class="col-sm-1">
+                        <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-staff">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </a>
+                    </div>*@
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Username <span style="color:red;">*</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="txtUserName" name="txtUserName" pattern="^[a-zA-Z0-9\.\-]{4,75}$" maxlength="75" tabindex="3" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Gender<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selGender" name="selGender" tabindex="4" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Phone No.<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="txtPhoneNumber" name="txtPhoneNumber" pattern="^([0-9\+\-\(\)]){1,15}$" maxlength="15" tabindex="5" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Email<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="txtEmail" name="txtEmail" maxlength="75" tabindex="6" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Mobile No.<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="txtMobileNumber" name="txtMobileNumber" pattern="^([0-9\+\-\(\)]){1,15}$" maxlength="15" tabindex="7" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Date Of Joining<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control datatimeNoFuture" id="txtDateOfJoining" name="txtDateOfJoining" maxlength="11" tabindex="8" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Login User Type<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selUserType" name="selUserType" tabindex="9" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Status</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selStatus" name="selStatus" tabindex="10" required></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">EmployeeId<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" class="form-control" id="txtStaffId" name="txtStaffId" pattern="^[a-zA-Z0-9\.\-]{4,75}$" maxlength="15" tabindex="7" required  disabled/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <hr />
+            </div>
+            <div class="row">
+                @*<div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Staff Access Level<span style="color:red;"> *</span></label>
+                    <div class="col-sm-6">
+                        <div>
+                            <select class="form-control" id="selAccessLevel" name="selAccessLevel" tabindex="11" required>
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Designation<span style="color:red;" id="spnDesignation"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selDesignation" name="selDesignation" tabindex="13" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Nationality<span style="color:red;" id="spnNationality"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selNationality" name="selNationality" tabindex="14" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Contractor <span class="red" id="spnContractor">*</span></label>
+                        <div class="col-sm-4">
+                            <div>
+                                <input type="text" class="form-control" pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" placeholder="Please Select"
+                                       id="txtContractor" name="txtContractor" maxlength="50" required />
+                                <input type="hidden" id="hdnContractorId" name="hdnContractorId" required />
+                                <div class="col-sm-12" id="divContractorFetch">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-contractor">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Central Pool</label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="checkbox" id="chkCentralPool" name="chkCentralPool" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Nationality<span style="color:red;" id="spnNationality"> *</span></label>
+                    <div class="col-sm-6">
+                        <div>
+                            <select class="form-control" id="selNationality" name="selNationality" tabindex="14" required>
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>*@
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Grade </label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selGrade" name="selGrade" tabindex="15">
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Competency<span id="spnCompetency" style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control multiSelectDDLwithoutSearch" id="selCompetency" multiple name="Flag" tabindex="16" required></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Department<span id="spnDepartment" class="red"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selDepartment" name="selDepartment" tabindex="17" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Speciality<span id="spnSpeciality" style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control multiSelectDDLwithoutSearch" name="Flag1" id="selSpeciality" multiple tabindex="18" required></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Labour Cost Per Hour<span id="spnLabourCostPerHour" class="red"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="text" id="txtLabourCostPerHour" name="txtLabourCostPerHour" class="form-control text-right decimalCheck" maxlength="9" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*</div>
+                </div>
+            </div>
+        </div>*@
+            @*------------Adding new services Dropdown*@
+            <div class="row">
+                <hr />
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>Services Selection</h5>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Services<span style="color:red;"> *</span></label>
+                        <div class="col-sm-6">
+                            <div>
+                                <select class="form-control" id="selServices" name="selServices" tabindex="19" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <hr />
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>Facility Details</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="col-sm-6 control-label">
+                        <label>Customer<span style="color:red;" id="spnCustomer"> *</span></label>
+                    </div>
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="form-group">
+                            <select class="form-control" id="selCustomer" name="selCustomer" tabindex="11" required>
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="col-sm-6 control-label">
+                        <label>User Role</label>
+                    </div>
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="form-group">
+                            <select class="form-control" id="selUserRole" name="selUserRole" tabindex="12">
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:40px">
+
+                <div class="col-sm-4">
+                    <div class="table-responsive " style="border: 1px solid rgb(222, 218, 218); ">
+                        <table id="tblLocations" class="table table-fixedheader">
+                            <thead>
+                                <tr>
+                                    <th width="100%" style="text-align: center;">All Facilities</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-2 text-center" style="margin-top: 50px;">
+                    <div style="border: 1px solid rgb(222, 218, 218); padding:10px; display: inline-block;">
+                        <button type="button" id="btnAddEditMoveOneRight" class="btn btn-default"><span class="glyphicon glyphicon-triangle-right"></span></button><br /><br />
+                        <button type="button" id="btnAddEditMoveAllRight" class="btn btn-default"><span class="glyphicon glyphicon-forward"></span></button><br /><br />
+                        <button type="button" id="btnAddEditMoveAllLeft" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span></button><br /><br />
+                        <button type="button" id="btnAddEditMoveOneLeft" class="btn btn-default"><span class="glyphicon glyphicon-triangle-left"></span></button>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+
+                    <div class="table-responsive" style="border: 1px solid rgb(222, 218, 218);">
+                        <table id="tblSelectedLocations" class="table  table-fixedheader">
+                            <thead>
+                                <tr>
+                                    <th width="50%" style="text-align: center;">Selected Facilities</th>
+                                    <th width="50%" style="text-align: center;">Select User Role</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnEdit" class="btn btn-primary hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                    <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset" tabindex="7"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                </div>
+            </div>
+            <br />
+        </form>
+        @Html.Partial("~/Areas/UM/Views/UserRegistration/List.cshtml")
+    </div>
+<div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+</div>
+
+</div>
+
+@if (ViewBag.ActionType == "View")
+{
+    <script type="text/javascript">
+        $("#frmUserRegistration :input:not(:button)").prop("disabled", true);
+    </script>
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/UM/UserRegistration.js")"></script>
+}

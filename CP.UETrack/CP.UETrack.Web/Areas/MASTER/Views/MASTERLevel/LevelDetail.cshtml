@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "MASTER-Level";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="LevelantiForgeryToken" type="hidden" />
+    <input type="hidden" id="blockId" name="blockId" value="@ViewBag.BlockId" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>                
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>General Master</li>
+           <li>Locations</li>
+            <li class="active">Level</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Level</h4>       
+    </div>
+   
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#MasterdivLevel" aria-controls="home" role="tab" data-toggle="tab">Level</a></li>
+        <li role="presentation"><a href="#divCommonHistory" id="History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="MasterdivLevel">
+            <form name="formMasterLevel" id="formMasterLevel" class="form-horizontal" novalidate>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelFacility" class="col-sm-6 control-label">Facility</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="LevelFacility" required class="form-control" disabled>
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelBlock" class="col-sm-6 control-label">Block <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="LevelBlock" required class="form-control">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelCode" class="col-sm-6 control-label">Level Code <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" required class="form-control" maxlength="25" id="LevelCode" pattern="^[a-zA-Z0-9\-\/]{3,25}$">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="LevelName" class="col-sm-6 control-label">Level Name <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" required class="form-control" maxlength="25" pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" id="LevelName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="ShortName" class="col-sm-6 control-label">Short Name <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" required class="form-control" maxlength="25" pattern="^[a-zA-Z0-9\s]+$" id="ShortName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="inputstatus" class="col-sm-6 control-label">Status</label>
+                            <div class="col-sm-6">
+                                <select id="SelStatus" class="form-control">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnNextScreenSave" class="btn btn-primary customButton hider" title="Add User Location"><i class="fa fa-plus" aria-hidden="true"></i>Add Area</button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="divCommonHistory">
+                <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+                    @Html.Partial("~/Views/History/_History_PartialView.cshtml")
+
+                    <div class="row">
+                        <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                            <div class="errormsgcenter">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    @Html.Partial("~/Areas/MASTER/Views/MASTERLevel/LevelList.cshtml")
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/MASTER/MasterLevel.js")"></script>
+}

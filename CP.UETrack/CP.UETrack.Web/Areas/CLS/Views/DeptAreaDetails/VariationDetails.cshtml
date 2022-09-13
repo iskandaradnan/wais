@@ -1,0 +1,101 @@
+﻿
+        <form id="formDeptAreaDetailsVariationDetails" name="formDeptAreaDetailsVariationDetails" class="form-horizontal" autocomplete="off">
+           
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="AssetEquipmentAttachmentVar" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+									<th width="1%" class="text-center">
+										<span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteVar"></span>  
+									</th>
+                                    <th style="text-align: center;" width="10%">Area Code <span style="color:red">*</span></th>
+                                    <th style="text-align: center;" width="10%">Area<br /> Name</th>
+                                    <th style="text-align: center;" width="10%">SNF<br /> Reference <br />No.</th>
+                                    <th style="text-align: center;" width="10%">Variation <br />Status</th>
+                                    <th style="text-align: center;" width="5%">(Sq ft)</th>
+                                    <th style="text-align: center;" width="5%">Price<br /> (RM)</th>
+                                    <th style="text-align: center;" width="10%">Commisioning<br /> Date</th>
+                                    <th style="text-align: center;" width="10%">Service <br />Start<br /> Date</th>
+                                    <th style="text-align: center;" width="10%">Warranty<br /> End Date</th>
+                                    <th style="text-align: center;" width="10%">Variation<br /> Date</th>
+                                    <th style="text-align: center;" width="10%">Service <br />Stop <br />Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyVariation">
+                                <tr>
+									<td style="text-align:center">
+										<input type="checkbox" id="isVarDelete1" name="isDelete">
+										<input type="hidden" id="hdnLocationCodeVariationId1" value="0" />
+									</td>
+                                    <td >
+                                        <input type="text" class="form-control cssAreaCodeVariation" disabled  id="txtAreaCodeVariation1" autocomplete="off" name="AreaCode" maxlength="25"  />
+										@*<input type="hidden" id="hdnAreaCodeId1" />
+                                        <div class="col-sm-12" id="divFetchVar1">
+                                        </div>*@
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" disabled id="txtAreaNameVariation1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control cssReferenceNoVariation"  id="txtReference1" autocomplete="off" name="referenceNo" maxlength="25"  />
+                                        @*<input type="hidden" id="hdnReferenceNo1"  />
+                                        <div class="col-sm-12" id="divFetchRef1"></div>*@
+                                    </td>
+                                    <td>
+                                        <select type="text" class="form-control" id="ddlVariation1" autocomplete="off" name="Type" maxlength="0" tabindex="25"> </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="txtSq1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="" id="txtPrice1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                    <td id="datetable">
+                                        <input type="text" class="form-control datetime" placeholder=" " id="txtCommisioning1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control datetime" disabled id="txtService1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control datetime"  id="txtWarranty1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control datetime"  id="txtVD1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control datetime" disabled id="txtSS1" autocomplete="off"  maxlength="25"  />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt20" id="AttachRowPlus">
+                <div class="col-sm-3 ">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <div>
+                                <a class="btn btn-primary" id="addVar">+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="errorMsgVariation" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                <!-- ngIf: RescheduleErrorList.length > 0 -->
+            </div>
+            <div class="row mt30">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <input type="button" id="btnSaveVar" class="btn btn-primary customButton" value="Save" />
+                        @*<input type="button" id="btnCancelVar" class="btn btn-primary" value="Reset" />*@
+                        @*<button type="button" id="btnSaveVar" class="btn btn-primary customButton" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                    </div>
+                </div>               
+            </div>
+        </form>
+
+		

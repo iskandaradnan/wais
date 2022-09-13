@@ -1,0 +1,89 @@
+﻿<div role="tabpanel" class="tab-pane" id="divWorkOrderList">
+    <div class="content_body">
+        <form class="form-horizontal" id="frmCARWorkOrderList" novalidate autocomplete="off">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">CAR No.</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtCARNumber1" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Indicator</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="selQAPIndicatorId2" disabled>
+                                <option value="null">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">CAR Date</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtCARDate1" class="form-control datatimeNoFuture" disabled/>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">Failure Symptom Code</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtFailureSymptomCode1" class="form-control" disabled/>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+            <div class="row" id="divPersonal">
+                <hr style="margin: 2em 0;" />
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="tableWorkOrderList" class="table table-fixedheader table-bordered">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th style="text-align: center;" width="20%">Work Order No.</th>
+                                    <th style="text-align: center;" width="20%">Work Order Date</th>
+                                    <th style="text-align: center;" width="20%">Asset No.</th>
+                                    <th style="text-align: center;" width="20%">Failure Symptom Code<span class="red"> *</span></th>
+                                    <th style="text-align: center;" width="20%">Remarks<span class="red"> *</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>  
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red;" id="errorMsgWorkOrderList">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+                </div>
+          
+            <div class="row mt20">
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary customButton" id="btnWorkOrderListSave"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnWorkOrderListCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+</div>
+<script src="~/Scripts/ng/Controllers/QAP/CorrectiveActionReport/CARWorkOrderList.js"></script>
+
+

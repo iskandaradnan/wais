@@ -1,0 +1,220 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+	@functions{
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		}
+	}
+	<input id="antiForgeryToken" type="hidden" />
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+	<input type="hidden" id="hdnStatus" name="hdnStatus" />
+	<input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+	<!-- Content Header Starts -->
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>HWMS</li>
+			<li>Transaction</li>
+			<li>Clinical Waste (CW)</li>
+			<li>Daily Weighing Record (DWR)</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<br />
+		<br />
+	</div>
+	<div class="standard-tabs" id="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formppmplanner" data-toggle="tab">Daily Weighing Record (DWR)</a></li>
+			<li role="presentation">
+				<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formDailyWeighingRecord" name="formDailyWeighingRecord" class="form-horizontal">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">DWR No.</label>
+							<div>
+								<div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" id="txtDwrNo" autocomplete="off" name="DWRNO" maxlength="25" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Total Weight (Kg)</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled id="txtTWeight" autocomplete="off" name="TotalWeight" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Date<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="date">
+									<input type="text" required class="form-control datetime" id="txtDate" autocomplete="off" name="Date" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Total Bags<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="tbags">
+									<input type="text" required class="form-control" id="txtTotalBags" autocomplete="off" name="TotalBags" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Total No. of Bins</label>
+							<div>
+
+								<div>
+									<div class="col-sm-6">
+										<input type="number" class="form-control" disabled="disabled" id="txtNoofBins" autocomplete="off" name="NoofBins" maxlength="25" />
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Hospital Representative<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="hospital">
+									<input type="search" required class="form-control" placeholder="Please Select" id="txtHRepresentative" autocomplete="off" spellcheck="false" aria-live="polite" name="HRepresentative" maxlength="25" />
+									<input type="hidden" id="hdnHospitalStaffId" />
+									<div class="col-sm-12" id="divFetch4"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Consignment No.</label>
+							<div>
+
+								<div>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" id="txtConsignmentNo" autocomplete="off" name="ConsignmentNo" maxlength="25" />
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Status<span style="color:red"></span></label>
+							<div>
+								<div class="col-sm-6">
+									<select class="form-control" disabled id="ddlStatus"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<table id="tableDwrdetails" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+					<thead class="tableHeading">
+						<tr>
+							<th width="1%" class="text-center">
+								<span style="text-align: center; " class="delete-row glyphicon glyphicon-remove" id="deleteDWRNo"></span>
+							</th>
+							<th style="text-align: center;" width="10%">Bin No.<span style="color:red">*</span></th>
+							<th style="text-align: center;" width="10%">Weight (Kg)<span style="color:red">*</span></th>
+						</tr>
+					</thead>
+					<tbody id="tbodyDWR">
+						<tr>
+							<td style="text-align:center">
+								<input type="hidden" id="hdnBinNumId1" value="0" />
+								<input type="checkbox" id="isDelete1" name="isDelete">
+							</td>
+							<td id="bin">
+								<input type="text" required class="form-control clsBinNo" id="txtBinNo1" placeholder="Please Select" autocomplete="off" name="BinNo" maxlength="25" />
+								<input type="hidden" id="hdnBinNoId1" />
+								<div style="position:relative;" id="divBinNo1"> </div>
+
+							</td>
+							<td id="weight">
+								<input type="text" required class="form-control clsWeight" id="txtWeight1" autocomplete="off" name="Weight" maxlength="25" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row mt20" id="AttachRowPlus">
+					<div class="col-sm-3 ">
+						<div class="form-group">
+							<div class="col-sm-3">
+								<div>
+									<a class="btn btn-primary" id="addDWR">+</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+					<!-- ngIf: RescheduleErrorList.length > 0 -->
+				</div>
+
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+							<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & AddNew" />
+							<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+							@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+								<button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+								 <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<br />
+		</div>
+
+		@Html.Partial("~/Areas/HWMS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/HWMS/Views/DailyWeighingRecord/List.cshtml")
+</div>
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/DailyWeighingRecord.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}
+

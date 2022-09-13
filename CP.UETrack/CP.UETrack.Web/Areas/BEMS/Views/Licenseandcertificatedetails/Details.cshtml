@@ -1,0 +1,475 @@
+﻿@{
+    ViewBag.Title = "License and Certificate Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+            @functions{
+                public string GetAntiForgeryToken()
+                {
+                    string cookieToken, formToken;
+                    AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                    return cookieToken + ":" + formToken;
+                }
+            }
+
+            <input id="antiForgeryToken" type="hidden" />
+            <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+            <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.Mode" />
+            <input type="hidden" id="hdnLicenseId" name="hdnLicenseId" value="@ViewBag.LicenseId"/>
+            <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+            <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+            @*<input type="hidden" id="LicenseDetId" />*@
+            <!-- Content Header Starts -->
+            <div class="content_header">
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li>BEMS  </li>
+                    <li>Asset </li>
+                    <li class="active">License and Certificate Details</li>
+                    <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                        <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                        <span class="badge" id="helpdescriptionid"></span>
+                    </a>
+                    <!--<li class="active">General</li>-->
+                </ol>
+                <h4>License and Certificate Details</h4>
+            </div>
+            <!-- Content Header Ends -->
+            <!-- Contents goes here -->
+            <div>
+    <ul class="nav nav-tabs" role="tablist">
+
+        <li role="presentation" class="active"><a href="#LicenseAndCertificate" aria-controls="home" role="tab" data-toggle="tab">License And Certificate Details</a></li>
+        <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="LicenseAndCertificate">
+            <form id="frmLicenseAndCertificate">
+                @*<div role="tabpanel" class="tab-pane active" id="LicenseAndCertificate">*@
+                    <div class="content_body">
+                        <div class="form-horizontal">
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">License and Certificate Description<span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="txtLicenseDescription" pattern="^[a-zA-Z0-9'.'&quot;,/\(\)\-\s]+$" maxlength="500" class="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">License No. <span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="LicenseNo" pattern="^[a-zA-Z0-9'.'&quot;,/\(\)\-\s]+$" maxlength="25" required class="form-control documentno avoidPaste">
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Service</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" id="ServiceId" disabled>
+
+
+                        </select>
+                    </div>
+                </div>
+            </div>*@
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Category</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="Category"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="col-sm-6 control-label">If Others, Specify</label>
+                                     <div class="col-sm-6">
+                                   <input type="text" id="IfOthersSpecify" maxlength="100" class="form-control">
+                                  </div>
+                                 </div>
+                                </div>*@
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset Type Code<span class="red"> *</span></label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="txtTypeCode" pattern="^[a-zA-Z0-9\-\/\s]+$" class="form-control" id="txtTypeCode" placeholder="Please Select" required maxlength="100" autocomplete="off">
+                                            <input type="hidden" id="hdnTypeCodeId" name="hdnTypeCodeId" required />
+                                            <div class="col-sm-12" id="divTypeCodeFetch">
+
+                                            </div>
+                                        </div>
+
+                                        @*<div class="col-sm-1">
+                                            <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-typeCode">
+                                                <i class="fa fa-search" aria-hidden="true"></i>
+                                            </a>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Asset Type Description </label>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <input type="text" class="form-control" id="txtTypeDescription" name="txtTypeDescription" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                                    @*<div class="col-sm-6">
+                      <div class="form-group">
+                       <label class="col-sm-6 control-label">Type <span id="typereq" class="red "> *</span></label>
+                    <div class="col-sm-6">
+                    <select class="form-control" id="Type">
+                    </select>
+                     </div>
+                  </div>
+                </div>*@
+                                    @*<div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">Class / Grade</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="ClassGrade" maxlength="25" class="form-control documentno">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Status</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="Status">
+                                                @*<option selected>Active</option>
+                            <option>Inactive</option>*@
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Person Incharge</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="txtContactPerson" maxlength="50" placeholder="Please Select ..." class="form-control">
+                                            <input type="hidden" id="txtStaffMasterId">
+                                            <div class="col-sm-12" id="divFetchContactPerson"></div>
+
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search">
+                                                <span id="spnPopup-ContactPerson" class="glyphicon glyphicon-modal-window"></span>
+                                            </a>
+                                        </div>
+                                        <div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Issuing Body<span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="IssuingBody" required>
+                                                <option selected value="null">Select</option>
+                                                @*<option>Alpha Contennial (M) Sdn Bhd.</option>
+                            <option>Asia Lab (M) Sdn Bhd.</option>
+                            <option>Gamedix Sdn Bhd.</option>*@
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Issuing Date <span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="IssuingDate" required class="form-control datatimeNoFuture">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Notification for Inspection</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="NotificationForInspection" class="form-control datetime">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Inspection Conducted On</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="InspectionConductedOn" class="form-control datatimeNoFuture">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Next Inspection Date</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="NextInspectionDate" class="form-control datetime">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Expiry Date <span class="red"> *</span></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="ExpireDate" required class="form-control datetime" @*oninput="Datevalidation(), ChangePreviousExpiryDate()"*@ onchange="ChangePreviousExpiryDate()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Previous Expiry Date</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="PreviousExpiryDate" class="form-control datetime" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">Registration No.</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="RegistrationNo" maxlength="25" pattern="^[a-zA-Z0-9-//s]{3,}$" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="divEngAssetList">
+                                <hr style="margin: 2em 0;" />
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="tableAssetNos" class="table table-fixedheader table-bordered">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th width="3%" class="text-center">
+                                                        <div class="checkbox text-center">
+                                                            <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                            <label for="checkboxes-0">
+                                                                <input type="checkbox" id="chkAssetDeleteAll" value="false" autocomplete="off" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                            </label>
+                                                        </div>
+                                                    </th>
+
+                                                    <th style="text-align:center" width="33%">Asset No.<span class="red "> *</span></th>
+                                                    <th style="text-align:center" width="32%">Asset Description </th>
+                                                    <th style="text-align:center" width="32%">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td width="3%" style="text-align:center">
+                                                        <input type="checkbox" id="chkAssetDelete_0" />
+                                                    </td>
+                                                    <td width="33%">
+                                                        <input type="text" id="txtAssetNo_0"
+                                                               class="form-control " placeholder="Please Select" maxlength="25" autocomplete="off" pattern="^[a-zA-Z0-9\-\/]+$" required />
+                                                        <input type="hidden" id="hdnAssetId_0" required />
+                                                        <div class="col-sm-12" id="divFetch_0">
+
+                                                        </div>
+
+                                                    </td>
+                                                    <td width="32%">
+                                                        <input type="text" class="form-control" id="txtAssetDescription_0" disabled />
+                                                    </td>
+                                                    <td width="32%">
+                                                        <input id="txtRemarks_0" class="form-control" type="text" maxlength="500" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20" id="divAssetAddNew">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div>
+                                                <a id="anchorAssetAddNew" class="btn btn-primary">+</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row" id="divEngHistoryList">
+                                <hr style="margin: 2em 0;" />
+                                <h6 class="pull-left">License No. History</h6><br />
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="tableHistoryList" class="table table-fixedheader table-bordered">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th style="text-align:center" width="24%">License No.</th>
+                                                    <th style="text-align:center" width="24%">Issuing Date </th>
+                                                    <th style="text-align:center" width="24%">Expire Date</th>
+                                                    <th style="text-align:center" width="24%">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td width="33%">
+                                                        <input type="text" id="txtLicenseNo_0"  class="form-control " disabled/>
+                                                    </td>
+                                                    <td width="32%">
+                                                        <input type="text" class="form-control" id="txtIssuingDate_0" disabled />
+                                                    </td>
+                                                    <td width="32%">
+                                                        <input id="txtExpireDate_0" class="form-control" type="text" disabled />
+                                                    </td>
+                                                    <td width="32%">
+                                                        <input id="txtStatus_0" class="form-control" type="text" disabled />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="divPersonal">
+                                <hr style="margin: 2em 0;" />
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table id="tablePersons" class="table table-fixedheader table-bordered">
+                                            <thead class="tableHeading">
+                                                <tr>
+                                                    <th width="3%" class="text-center">
+                                                        <div class="checkbox text-center">
+                                                            <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                            <label for="checkboxes-0">
+                                                                <input type="checkbox" id="chkPersonDeleteAll" value="false" autocomplete="off" aria-disabled="false" aria-checked="false" aria-invalid="false">
+                                                            </label>
+                                                        </div>
+                                                    </th>
+
+                                                    <th style="text-align:center" width="33%">Person Name<span class="red "> *</span></th>
+                                                    <th style="text-align:center" width="32%">Designation<span class="red "> *</span></th>
+                                                    <th style="text-align:center" width="32%">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td width="3%" style="text-align:center">
+                                                        <input type="checkbox" id="chkPersonDelete_0" />
+                                                    </td>
+                                                    <td width="33%">
+                                                        <input type="text" id="txtStaffName_0" class="form-control"
+                                                               placeholder="Please Select" maxlength="75" autocomplete="off" pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" required />
+                                                        <input type="hidden" id="hdnStaffId_0" />
+                                                        <div class="col-sm-12" id="divPersonalFetch_0">
+
+                                                        </div>
+
+                                                    </td>
+                                                    <td width="32%">
+                                                        @*<input type="hidden" id="hdnDesignationId_0" />
+                                    <select id="selDesignation_0" class="form-control" required>
+                                        <option value="null">Select</option>
+                                    </select>*@
+                                                        <input type="text" id="selDesignation_0" class="form-control" pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" maxlength="75" required />
+                                                    </td>
+                                                    <td width="32%">
+                                                        <input id="txtPersonRemarks_0" class="form-control" type="text" maxlength="500" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt20" id="divPersonAddNew">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div>
+                                                <a id="anchorPersonAddNew" class="btn btn-primary">+</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg">
+                                    <div class="errormsgcenter">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-center">
+                                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5" @*onclick="Save()"*@><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                        <button type="button" id="btnLicenseCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" ></i>Reset</button>
+                                        <input type="hidden" id="hdnCheckEquipmentFunctionDescription" name="hdnCheckEquipmentFunctionDescription" value="1" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                @*</div>*@
+            </form>
+        </div>
+            <!-- 2nd Tab -->
+            <div role="tabpanel" class="tab-pane" id="divCommonAttachment">             
+                <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                    @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+                </form>               
+            </div>
+            @Html.Partial("~/Areas/BEMS/Views/Licenseandcertificatedetails/List.cshtml")
+        </div>
+            </div>
+    <div class="modal fade" data-backdrop="static" id="divContactPersonSearchPopup" role="dialog">
+
+    </div>    
+@section scripts{
+<script src="~/Scripts/ng/Controllers/BEMS/Licenseandcertificate.js"></script>
+<script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}

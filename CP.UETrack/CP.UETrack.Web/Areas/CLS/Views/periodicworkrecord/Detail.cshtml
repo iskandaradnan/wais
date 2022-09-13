@@ -1,0 +1,185 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+	@functions{
+		/**/
+
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		} }
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>CLS</li>
+			<li>Transaction</li>
+			<li> Periodic Work Record </li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+	</div>
+	<br />
+	<div class="standard-tabs" id="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formppmplanner" data-toggle="tab">Periodic Work Record</a></li>
+			<li role="presentation">
+				<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formPeriodicWorkRecord" name="formPeriodicWorkRecord" class="form-horizontal">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Document No. </label>
+							<div>
+								<div class="col-sm-6">
+									<div id="DocumentNoVal">
+										<input type="text" class="form-control" disabled="disabled" id="txtDocumentNo" autocomplete="off" name="DocumentNo" maxlength="25" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Year <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="YearVal">
+										<select type="text" required class="form-control" id="ddlYear" autocomplete="off" name="FileType" maxlength="25"></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Month <span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6">
+									<div id="MonthVal">
+										<select required class="form-control" id="ddlMonth"></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6"> <input type="button" class="btn btn-primary" id="btnFetch" value="Fetch" /></label>
+							<div>
+								<div class="col-sm-6">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				@*<div class="row">
+						<div class="col-sm-12">
+							<center>
+								<button type="button" id="btnFetch" class="btn btn-primary customButton" title="Fetch" tabindex="5">Fetch</button>
+
+							</center>
+						</div>
+					</div>*@
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<p style="font-size: 1em"><b>Legend :</b></p>
+						<p style="font-size: 1em"><b>A1:Container/Receptacles-Washing, A2:Ceiling-High Dusting, A3:Lights, Air-Cond Outlet, Fan-Wiping, A4:Floor(Non-Polishable)-Scrubbing, A5:Floor(Polishable)-Polishing, A6:Floor(Polishable)-Buffing, A7:Floor(Carpet)-Bonnet Buffing, A8:Floor(Carpet)-Shampooing, A9:Floor(Carpet)-Heat/Steam Extraction, A10:Wall-Wiping,A11:Window/Door-Wiping, A12:Perimeter Drain-Wash/Scrub, A13:Toilet-Descaling, A14:High Rise Netting-High Dusting, A15:External Facade-Cleaning, A16:External High Level Glass-Cleaning, A17:Internet Glass Above 10 Feet-Squeegee Clean, A18:Flat Roof-Wash/Scrub, A19:Stainless Steel-Polishing, A20:Expose Ceiling Truss-High Dusting Vacuum, A21:Ledges-Damp Wipe, A22:Skylight-High Dusting, A23:Signages-Wiping, A24:Decks-High Dusting</b></p>
+					</div>
+				</div>
+				<br />
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="tablePeriodicWorkRecord">
+
+						<table id="tblPeriodicCleaningDetails" class="table table-bordered">
+							<thead class="tableHeading">
+								<tr>
+									<th style="text-align:center;" width="10%" rowspan="2">User Area Code</th>
+									<th style="text-align:center;" width="10%" rowspan="2">Status <span style="color:red">*</span></th>
+									<th style="text-align:center;" width="80%" colspan="24">Scope of Work/Frequency</th>
+								</tr>
+								<tr>
+									<th style="text-align:center">A1</th>
+									<th style="text-align:center">A2</th>
+									<th style="text-align:center">A3</th>
+									<th style="text-align:center">A4</th>
+
+									<th style="text-align:center">A5</th>
+									<th style="text-align:center">A6</th>
+									<th style="text-align:center">A7</th>
+									<th style="text-align:center">A8</th>
+
+									<th style="text-align:center">A9</th>
+									<th style="text-align:center">A10</th>
+									<th style="text-align:center">A11</th>
+									<th style="text-align:center">A12</th>
+
+									<th style="text-align:center">A13</th>
+									<th style="text-align:center">A14</th>
+									<th style="text-align:center">A15</th>
+									<th style="text-align:center">A16</th>
+
+									<th style="text-align:center">A17</th>
+									<th style="text-align:center">A18</th>
+									<th style="text-align:center">A19</th>
+									<th style="text-align:center">A20</th>
+
+									<th style="text-align:center">A21</th>
+									<th style="text-align:center">A22</th>
+									<th style="text-align:center">A23</th>
+									<th style="text-align:center">A24</th>
+
+								</tr>
+							</thead>
+							<tbody id="tbodyResult" style="text-align:center"></tbody>
+						</table>
+						<p class="text-center" id="table_data"><b><small>No records to display</small></b></p>
+					</div>
+				</div>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"> </div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<center>
+								@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+									<button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save&AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+									<button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+								<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+								<input type="button" id="btnSaveandAddNew" class="btn btn-primary" value="Save & Add New" />
+								<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+							</center>
+						</div>
+					</div>
+					<div>
+						<label id="PeriodicRecordWork_Inserted" style="font-size:14px; font-weight:bolder"></label>
+					</div>
+					<br />
+				</div>
+			</form>
+		</div>
+		@Html.Partial("~/Areas/CLS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/CLS/Views/PeriodicWorkRecord/List.cshtml")
+</div>
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/PeriodicWorkRecord.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}

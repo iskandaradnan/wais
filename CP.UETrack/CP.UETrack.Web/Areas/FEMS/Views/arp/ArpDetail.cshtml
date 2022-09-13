@@ -1,0 +1,802 @@
+
+@{
+    ViewBag.Title = "ARPDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="hdnActionType" name="hdnActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="hdnAssetClassificationId" name="hdnAssetClassificationId" value="" />
+    <input type="hidden" id="hdnTimestamp" name="hdnTimestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="hdnCheckEquipmentFunctionDescription" name="hdnCheckEquipmentFunctionDescription" value="1" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>FEMS</li>
+            <li>Asset</li>
+            <li class="active">@*<a href="/bems/testingandcommissioning">*@ARP</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">ARP</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#divARP" aria-controls="home" role="tab" data-toggle="tab">ARP</a></li>
+        <li role="presentation" id="=lisPROPOSALTab"><a href="#divPROPOSAL" aria-controls="profile" role="tab" data-toggle="tab">Proposal</a></li>
+        <li class=""><a data-toggle="tab" href="#divCommonAttachment" id="AttachmentTab">Attachments</a></li>
+        <li role="presentation"><a href="#divArpHistory1" aria-controls="profile" role="tab" data-toggle="tab">Print</a></li>
+
+    </ul>
+
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="divARP">
+            <form class="form-horizontal" id="frmTestingAndCommissioning" novalidate>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">BER No.<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" name="txtARPBerNo" class="form-control" id="txtARPBerNo" placeholder="Please Select" required maxlength="100" autocomplete="off">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">BER Application Date.</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" name="txtARPBerApplicationDate" class="form-control" id="txtARPBerApplicationDate" placeholder="Please Select" required maxlength="100" autocomplete="off" disabled>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Condition Appraisal Reference No.<span class="red">*</span> </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" name="txtARPConditionAppraisalReferenceNo" id="txtARPConditionAppraisalReferenceNo" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset No. </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" name="txtARPAssetNo" id="txtARPAssetNo" disabled autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="txtARPAssetName" name="txtARPAssetName" class="form-control " disabled autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Type Code</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="txtARPAssetTypeCode" pattern="^[a-zA-Z0-9\-\/\s]+$" class="form-control" id="txtARPAssetTypeCode" placeholder="Please Select" required maxlength="100" autocomplete="off" disabled>
+                                <input type="hidden" id="hdnTypeCodeId" name="hdnTypeCodeId" required />
+                                <div class="col-sm-12" id="divTypeCodeFetch">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Asset Type Description </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPAssetTypeDescription" name="txtARPAssetTypeDescription" readonly disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Area Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPAreaName" name="txtARPAreaName" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Location Name</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPLocationName" name="txtARPLocationName" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Item No.</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPItemNo" name="txtARPItemNo" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Quantity</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPQuantity" name="txtARPQuantity" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Purchase Cost (RM)</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPPurchaseCost" name="txtARPPurchaseCost" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Purchase Date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPPurchaseDate" name="txtARPPurchaseDate" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Batch No</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPBatchNo" name="txtARPBatchNo" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Package Code</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtARPPackageCode" name="txtARPPackageCode" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">BER Remarks</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea class="form-control wt-resize" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" maxlength="500" rows="4" cols="50" name="txaARPBerRemarks" id="txaARPBerRemarks" required disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+
+                        <button type="button" class="btn btn-primary customButton" id="btnSave"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" class="btn btn-primary customButton hider" id="btnEdit"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        <input type="button" value="Print Form" class="btn btn-primary" onclick="printDiv('printableArea')" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="divPROPOSAL">
+            <form class="form-horizontal" id="frmPROPOSAL" novalidate>
+
+                <hr style="margin: 2em 0;">
+                <h5>1st Proposal</h5>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Model <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtmodel" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtmodel" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Brand <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtBrand" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtBrand" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Manufacture <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtManufacture" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtManufacture" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Estimation Price (RM)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtEstimationPrice" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtEstimationPrice" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Supplier Name <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtSupplierName" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtSupplierName" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contact No.<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtContactNo" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtContactNo" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="margin: 2em 0;">
+                <h5>2nd Proposal</h5>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Model <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtmodel" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtmodel" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Brand <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtBrand" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtBrand" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Manufacture <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtManufacture" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtManufacture" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Estimation Price (RM)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtEstimationPrice" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtEstimationPrice" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Supplier Name <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtSupplierName" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtSupplierName" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contact No.<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtContactNo" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtContactNo" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="margin: 2em 0;">
+                <h5>3rd Proposal  </h5>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Model <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtmodel" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtmodel" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Brand <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtBrand" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtBrand" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Manufacture <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtManufacture" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtManufacture" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Estimation Price (RM)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtEstimationPrice" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtEstimationPrice" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Supplier Name <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtSupplierName" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtSupplierName" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contact No.<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtContactNo" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtContactNo" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <hr style="margin: 2em 0;">
+                <h5>Final Proposal </h5>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Selected Proposal</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" id="txtSelectProposal" pattern="^[a-zA-Z0-9\-\/]{3,25}$" name="txtSelectProposal" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Justification</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea class="form-control wt-resize" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" maxlength="500" rows="4" cols="50" name="txtJustification" id="txtJustification" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <hr style="margin: 2em 0;">
+
+                @*<div class="col-sm-12" style="color:red; visibility:hidden"  id="errorMsg">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>*@
+                <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+                <br />
+                <div class="form-group mt20">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    </div>
+                </div>
+
+            </form>
+
+            @*</div>*@
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgSNF">
+                    <div class="errormsgcenter">
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            @*<div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+
+                            <button type="button" class="btn btn-primary customButton" id="btnVerify"><i class="fa fa-check-square-o" aria-hidden="true"></i>Verify</button>
+                            <button type="button" class="btn btn-primary customButton" id="btnApprove"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                            <button type="button" class="btn btn-primary customButton" id="btnSaveEditVerifyRejectApproveConvetToAsset"><i class="fa fa-link" aria-hidden="true"></i>Convert To Asset</button>
+                            <button type="button" class="btn btn-primary customButton" id="btnReject"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                            <button type="button" class="btn btn-grey customButton" id="btnCancelSNF"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>*@
+
+        </div>
+
+        @Html.Partial("~/Areas/BEMS/Views/arp/PartialViews/Additional_Info_PartialView.cshtml")
+
+        @*Attachment Tab*@
+        <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+            <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+                <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+                <div class="row">
+                    <div class="col-sm-12" style="text-align:right">
+                        <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divWOStatus" class="divWOStatus"></div>
+                    </div>
+                </div>
+                @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+            </form>
+        </div>
+
+        @*//---------added by sai-------------*@
+        <div role="tabpanel" class="tab-pane" id="divArpHistory1">
+            <form class="form-horizontal" id="" novalidate="">
+                <div class="tab-pane form-horizontal" id="divCommonHistory11">
+                    <div class="tab-pane">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p>lOGO 1</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="font-size:16px;"><b>ASSET REGISTRATION FORM</b></p>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href="#"><img src="/images/header_logo.png" alt="logo"></a>
+                            </div>
+                        </div><br />
+                              <div class="container-fluid">
+                                  <style>
+                                      table {
+                                          width: 100%;
+                                      }
+
+                                          table.PrintSchdTable {
+                                              border: 1px solid black;
+                                              padding: 6px;
+                                              border-collapse: collapse;
+                                          }
+
+                                              table.PrintSchdTable th {
+                                                  border: 1px solid black;
+                                                  padding: 6px;
+                                                  border-collapse: collapse;
+                                                  width: 160px;
+                                              }
+
+                                              table.PrintSchdTable td {
+                                                  border: 1px solid black;
+                                                  padding: 6px;
+                                                  border-collapse: collapse;
+                                                  height: 23px;
+                                              }
+                                  </style>
+
+                                  <table class="PrintSchdTable">
+                                      <tr style="background-color:#BFBFBF;">
+                                          <th style="text-align:center;" colspan="6"><span>ASSET DETAILS</span></th>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">BER NO.</th>
+                                          <td colspan="2" id="txt_BERNO"></td>
+                                          <th colspan="1">BER APPLICATION DATE</th>
+                                          <td colspan="2" id="txt_BERAPPLICATIONDATE"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">ASSET NO.</th>
+                                          <td colspan="2" id="txt_ASSETNO"></td>
+                                          <th colspan="1">ASSET NAME</th>
+                                          <td colspan="2" id="txt_ASSETNAME"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">DEPARTMENT NAME</th>
+                                          <td colspan="2" id="txt_DEPARTMENTNAME"></td>
+                                          <th colspan="1">LOCATION NAME</th>
+                                          <td colspan="2" id="txt_LOCATIONNAME"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">ASSET TYPE CODE</th>
+                                          <td colspan="2" id="txt_ASSETTYPECODE"></td>
+                                          <th colspan="1">QUANTITY</th>
+                                          <td colspan="2" id="txt_QUANTITY"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">ASSET TYPE DESCRIPTION</th>
+                                          <td colspan="5" id="txt_ASSETTYPEDESCRIPTION"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">ITEM NO.</th>
+                                          <td colspan="2" id="txt_ITEMNO"></td>
+                                          <th colspan="1">BATCH NO.</th>
+                                          <td colspan="2" id="txt_BATCHNO"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">PURCHASE COST (RM)</th>
+                                          <td colspan="2" id="txt_PURCHASECOST"></td>
+                                          <th colspan="1">PURCHASE DATE</th>
+                                          <td colspan="2" id="tx_PURCHASEDATE"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">CONDITION APPRAISAL REFERENCE NO.</th>
+                                          <td colspan="5" id="txt_CONDITIONAPPRAISALREFERENCENO"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">BER REMARKS</th>
+                                          <td colspan="5" id="txt_BERREMARKS"></td>
+                                      </tr>
+                                      <tr style="background-color:#BFBFBF;">
+                                          <th style="text-align:center;" colspan="6"><span>REPLACEMENT PROPOSAL</span></th>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="6">1ST PROPOSAL</th>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">MODEL</th>
+                                          <td colspan="2" id="txt_MODEL"></td>
+                                          <th colspan="1">BRAND</th>
+                                          <td colspan="2" id="txt_BRAND"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">MANUFACTURERE</th>
+                                          <td colspan="2" id="txt_MANUFACTURERE"></td>
+                                          <th colspan="1">ESTIMATION PRICE (RM)</th>
+                                          <td colspan="2" id="txt_ESTIMATIONPRICE"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">SUPPLIER NAME</th>
+                                          <td colspan="2" id="txt_SUPPLIERNAME"></td>
+                                          <th colspan="1">CONTACT NO.</th>
+                                          <td colspan="2" id="txt_CONTACTNO"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="6">2ND PROPOSAL</th>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">MODEL</th>
+                                          <td colspan="2" id="txt_MODEL1"></td>
+                                          <th colspan="1">BRAND</th>
+                                          <td colspan="2" id="txt_BRAND2"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">MANUFACTURERE</th>
+                                          <td colspan="2" id="txt_MANUFACTURERE2"></td>
+                                          <th colspan="1">ESTIMATION PRICE (RM)</th>
+                                          <td colspan="2" id="txt_ESTIMATIONPRICE2"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">SUPPLIER NAME</th>
+                                          <td colspan="2" id="txt_SUPPLIER NAME2"></td>
+                                          <th colspan="1">CONTACT NO.</th>
+                                          <td colspan="2" id="txt_CONTACT NO2"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="6">3ND PROPOSAL</th>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">MODEL</th>
+                                          <td colspan="2" id="txt_MODEL3"></td>
+                                          <th colspan="1">BRAND</th>
+                                          <td colspan="2" id="txt_BRAND3"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">MANUFACTURERE</th>
+                                          <td colspan="2" id="txt_MANUFACTURERE3"></td>
+                                          <th colspan="1">ESTIMATION PRICE (RM)</th>
+                                          <td colspan="2" id="txt_ESTIMATIONPRICE3"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">SUPPLIER NAME</th>
+                                          <td colspan="2" id="txt_SUPPLIERNAME3"></td>
+                                          <th colspan="1">CONTACT NO.</th>
+                                          <td colspan="2" id="txt_CONTACTNO3"></td>
+                                      </tr>
+                                      <tr style="background-color:#BFBFBF;">
+                                          <th style="text-align:center;" colspan="6"><span>FINAL PROPOSAL</span></th>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">SELECTED PROPOSAL</th>
+                                          <td colspan="5" id="txt_SELECTEDPROPOSAL"></td>
+                                      </tr>
+                                      <tr>
+                                          <th colspan="1">SELECTED PROPOSAL</th>
+                                          <td colspan="5" id="txt_SELECTEDPROPOSAL"></td>
+                                      </tr>
+                                      <tr style="background-color:#BFBFBF;">
+                                          <th style="text-align:center;" colspan="6"><span>ACKNOWLEDGEMENT</span></th>
+                                      </tr>
+                                  </table>
+                                  <style>
+                                      table {
+                                          width: 100%;
+                                      }
+
+                                          table.PrintArp {
+                                              border: 1px solid black;
+                                          }
+
+                                              table.PrintArp th {
+                                                  width: 160px;
+                                              }
+
+                                              table.PrintArp td {
+                                                  height: 23px;
+                                              }
+                                  </style>
+                                  <table class="PrintArp">
+                                      <tr>
+                                          <th><b>End User (Hospital)</b></th>
+                                          <td colspan="3"></td>
+                                          <th><b>Asset Management Service </b></th>
+                                          <td colspan="3"></td>
+                                      </tr>
+                                      <tr>
+                                          <th><p style="font-size:xx-small;">Name:</p></th>
+                                          <td colspan="3"></td>
+                                          <th><p style="font-size:xx-small;">Name:</p></th>
+                                          <td colspan="3"></td>
+                                      </tr>
+                                      <tr>
+                                          <th><p style="font-size:xx-small;">Designation:</p></th>
+                                          <td colspan="3"></td>
+                                          <th><p style="font-size:xx-small;">Designation:</p></th>
+                                          <td colspan="3"></td>
+                                      </tr>
+                                      <tr>
+                                          <th><p style="font-size:xx-small;">Date:</p></th>
+                                          <td colspan="3"></td>
+                                          <th><p style="font-size:xx-small;">Date:</p></th>
+                                          <td colspan="3"></td>
+                                      </tr>
+                                  </table>
+                              </div><br />
+                        <input type="button" value="Download PDF" class="btn btn-primary" onclick="printDiv('printableArea')" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        @*//---------end by sai-------------*@
+        @Html.Partial("~/Areas/BEMS/Views/arp/ArpList.cshtml")
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/Arp.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    @*<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>*@
+<script src="~/js/PdfGeneration/html2pdf.bundle.js"></script>
+}
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/BEMS/TestingAndCommissioning/TestingAndCommissioning.js")"></script>*@

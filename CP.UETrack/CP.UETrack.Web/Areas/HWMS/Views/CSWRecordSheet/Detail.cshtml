@@ -1,0 +1,261 @@
+﻿
+@{
+	ViewBag.Title = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+	@functions{
+		public string GetAntiForgeryToken()
+		{
+			string cookieToken, formToken;
+			AntiForgery.GetTokens(null, out cookieToken, out formToken);
+			return cookieToken + ":" + formToken;
+		}
+	}
+	<input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+	<input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+	<div class="content_header">
+		<ol class="breadcrumb">
+			<li>
+				<a href="/home/dashboard"><i class="fa fa-home"></i></a>
+			</li>
+			<li>HWMS</li>
+			<li>Transaction</li>
+			<li>CSW Record Sheet(CSWRS)</li>
+			<a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+				<i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+				<span class="badge" id="helpdescriptionid"></span>
+			</a>
+		</ol>
+		<h4> </h4>
+	</div>
+	<div class="standard-tabs" id="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formppmplanner" data-toggle="tab">CSW Record Sheet(CSWRS)</a></li>
+			<li role="presentation">
+				<a href="#divformAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="formppmplanner">
+			<form id="formCSWRecordSheet" name="formCSWRecordSheet" class="form-horizontal">
+				<div class="row">
+					<input type="hidden" id="txtIdno" />
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Document No.</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtDocumentNo" autocomplete="off" name="Document" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">RRW No.</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" placeholder="" id="txtRRWNo" autocomplete="off" name="RRW" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Waste Type<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="WasteType">
+									<select required class="form-control WasteType" id="ddlWasteType"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Waste Code<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="WasteCode">
+									<select required class="form-control" disabled="disabled" name="WasteCode" id="ddlWasteCode"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">User Area Code<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="UserAreaCode">
+									<input type="text" required class="form-control HwmsUserAreaCode" placeholder="Please Select" id="txtUserAreaCode" autocomplete="off" name="AreaCodeNo" maxlength="25" />
+									<input type="hidden" id="hdnUserAreaId" />
+									<div class="col-sm-12" id="divUserAreaFetch"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">User Area Name</label>
+							<div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" disabled="disabled" id="txtUserAreaName" autocomplete="off" name="AreaCodeNo" maxlength="25" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Month<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="Month">
+									<select required class="form-control" id="ddlMonth"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Year<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="Year">
+									<select required class="form-control" id="ddlYear"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Collection Type<span style="color:red">*</span></label>
+							<div>
+								<div class="col-sm-6" id="CollectionType">
+									<select required class="form-control" id="ddlCollectionType"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-6 control-label">Status</label>
+							<div>
+								<div class="col-sm-6" id="Status">
+									<select required class="form-control" disabled="disabled" id="ddlStatus"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-6 control-label">Total Weight (kg)</label>
+						<div>
+							<div class="col-sm-6" id="TotalWeight">
+								<input type="text" class="form-control" disabled="disabled" placeholder="" id="txtTotalWeight" autocomplete="off" name="Document" maxlength="25" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="table-responsive">
+							<table id="CSWCollection" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+								<thead class="tableHeading">
+									<tr>
+										<th width="1%" class="text-center">
+											<span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteCSWRecordSheetRows"></span>
+										</th>
+										<th style="text-align: center;" width="10%">Date<span style="color:red">*</span></th>
+										<th style="text-align: center;" width="10%">No. of Bin</th>
+										<th style="text-align: center;" width="10%">Weight (Kg)</th>
+										<th style="text-align: center;" width="10%">Collection Frequency<span style="color:red">*</span></th>
+										<th style="text-align: center;" width="10%">Collection Time<span style="color:red">*</span></th>
+										<th style="text-align: center;" width="10%">Collection Status<span style="color:red">*</span></th>
+										<th style="text-align: center;" width="10%">QC</th>
+									</tr>
+								</thead>
+								<tbody id="tbodyCollection">
+									<tr>
+										<td style="text-align:center">
+											<input type="hidden" id="hdnCSWId" value="0" />
+											<input type="checkbox" id="isDelete1" name="isDelete" />
+										</td>
+										<td id="Date">
+											<input type="text" required class="form-control datetime" id="txtDate1" autocomplete="off" name="Date" maxlength="25" />
+										</td>
+										<td id="NoOfBin">
+											<input type="text" class="form-control" id="txtNoOfBin1" autocomplete="off" name="NoOfBin" maxlength="25" />
+										</td>
+										<td id="Weight">
+											<input type="text" class="form-control clsWeight" id="txtWeight1" autocomplete="off" name="Weight" maxlength="25" />
+										</td>
+										<td id="CollectionFrequency">
+											<select type="text" required class="form-control" id="ddlCollectionFrequency1" autocomplete="off" name="CollectionFrequency" maxlength="25"></select>
+										</td>
+										<td id="CollectionTime">
+											<input type="time" required class="form-control" id="txtCollectionTime1" autocomplete="off" name="CollectionTime" maxlength="25" />
+										</td>
+										<td id="CollectionStatus">
+											<select type="text" required class="form-control CollectionStatus" id="ddlCollectionStatus1" autocomplete="off" name="CollectionStatus" maxlength="25">  </select>
+										</td>
+										<td>
+											<select type="text" class="form-control" id="ddlQC1" autocomplete="off" name="QC" maxlength="25"></select>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row mt20" id="AttachRowPlus">
+					<div class="col-sm-3 ">
+						<div class="form-group">
+							<div class="col-sm-3">
+								<div>
+									<a onclick="" class="btn btn-primary" id="addCollection">+</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+					<!-- ngIf: RescheduleErrorList.length > 0 -->
+				</div>
+				<div class="row mt30">
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+							<input type="button" id="btnSaveAddNew" class="btn btn-primary" value="Save & AddNew" />
+							<input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+							@*<button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+								<button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+								<button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+						</div>
+					</div>
+				</div>
+				<div>
+					<label id="InsertStatus" style="font-size:14px;font-weight:bolder"></label>
+				</div>
+			</form>
+		</div>
+
+		@Html.Partial("~/Areas/HWMS/Views/Shared/Attachments.cshtml")
+	</div>
+	@Html.Partial("~/Areas/HWMS/Views/CSWRecordSheet/List.cshtml")
+</div>
+
+@section scripts{
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/HWMS/CSWRecordSheet.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/ng/common/Attachment.js")"></script>
+}
+

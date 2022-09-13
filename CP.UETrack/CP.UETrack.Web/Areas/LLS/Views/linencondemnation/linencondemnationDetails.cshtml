@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "LinenCondemnationDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div>
+        @functions{
+            public string GetAntiForgeryToken()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+        <input id="antiForgeryToken" type="hidden" />
+        <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+        <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+        <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+        <input type="hidden" id="hdnStatus" name="hdnStatus" />
+        <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+        <!-- Content Header Starts -->
+        <div class="content_header">
+            <ol class="breadcrumb">
+                <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+                <li>LLS</li>
+                <li>Transaction</li>
+                <li class="active">Linen Condemnation</a></li>
+                <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                    <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                    <span class="badge" id="helpdescriptionid"></span>
+                </a>
+            </ol>
+            <div>
+                <h4 class="pull-left">Linen Condemnation </h4>
+                <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+                <div style="clear:both;display:table;"></div>
+            </div>
+        </div>
+        <!-- Content Header Ends -->
+        <!-- Contents goes here -->
+        <div class="standard-tabs" id="tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#divCon" aria-controls="home" role="tab" data-toggle="tab">Linen Condemnation</a></li>
+            </ul>
+        </div>
+        <div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- 1st Tab -->
+                <div role="tabpanel" class="tab-pane active" id="divCon">
+                    <form class="form-horizontal" id="FrmCon" novalidate>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"> Document No.</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtDocumentNo" name="DocumentNo" autocomplete="off" maxlength="100" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Document Date<span class="red">*</span> </label>
+                                    <div class="col-sm-6">
+                                        @*<input type="text" autocomplete="off" id="txtDocumentDate" name="DocumentDate" class="form-control datetimepicker" tabindex="0" required />*@
+                                        <input type="text" autocomplete="off" id="txtDocumentDate" name="CollectionDate" class="form-control datetimepicker" tabindex="0" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Inspected By</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="txtContactPerson" maxlength="50" placeholder="Please Select" class="form-control" required>
+                                        <input type="hidden" id="txtStaffMasterId" required>
+                                        <div class="col-sm-12" id="divFetchContactPerson">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Verified By </label>
+                                    <div class="col-sm-6">
+                                        <input type="hidden" id="hdnLevelId" required/>
+                                        <input type="text" class="form-control" id="txtUserLevelCode" name="UserLevelCode" placeholder="Please Select" maxlength="25" required/>
+                                        <div class="col-sm-12" id="divFetch2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 ">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Total Condemns(Pcs) </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" autocomplete="off" id="txtTotalCondemns" name="TotalCondemns" class="form-control" tabindex="0" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Value(RM)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="txtValue" name="Value" autocomplete="off" maxlength="100" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label">Location of Condemnation </label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="txtLocationofCondemnation" name="LocationofCondemnation" autocomplete="off" maxlength="100">
+                                            <option value="null">select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"> Remarks</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" id="txtRemarks" name="Remarks" autocomplete="off" maxlength="100"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin: 2em 0;">
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="LinenConProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading noScrollGrid">
+                                            <tr>
+                                                <th width="5%" class="text-center">
+                                                    <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                                    <br /><input type="checkbox" id="chkContactDeleteAll"/>
+                                                </th>
+                                                <th style="text-align: center;" width="10%" id="">Linen Code <span class="red">*</span></th>
+                                                <th style="text-align: center;" width="10%">Linen Description</th>
+                                                <th style="text-align: center;" width="10%">Batch No. </th>
+                                                <th style="text-align: center;" width="10%">Total (Pcs)  </th>
+                                                <th style="text-align: center;" width="5%">Torn</th>
+                                                <th style="text-align: center;" width="10%">Faded  </th>
+                                                <th style="text-align: center;" width="10%">Stained </th>
+                                                <th style="text-align: center;" width="10%">Vandalism  </th>
+                                                <th style="text-align: center;" width="10%">Wear & Tear (End of Lifespan) </th>
+                                                <th style="text-align: center;" width="10%">Stained by Chemical </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ContactGrid">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt20">
+                            <div class="col-sm-3 ">
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                            <!-- ngIf: RescheduleErrorList.length > 0 -->
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-primary btnSave"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                                <button type="button" class="btn btn-primary btnEdit" value="1"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                                <button type="button" class="btn btn-primary btnDelete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                                <button type="button" name="btnCancel" class="btn btn-grey btnCancel"><i class="fa fa-repeat"></i> Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("~/Areas/LLS/Views/linencondemnation/linencondemnationList.cshtml")
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+        </div>
+    </div>
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/LLS/LinenCondemnation.js"></script>  
+}

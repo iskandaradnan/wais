@@ -1,0 +1,408 @@
+﻿
+@{
+    ViewBag.Title = "CLS-JIDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>CLS</li>
+            <li>Transaction</li>
+            <li>Joint Inspection Details</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+    </div>
+    <br />
+    <div class="standard-tabs" id="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formppmplanner" data-toggle="tab">Joint Inspection Details</a></li>
+			<li class=""><a data-toggle="tab" href="#tab-2">Attachments</a></li>
+			@*<span id="spanStatus" style="float: right;">Status : closed</span>*@
+		</ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="formppmplanner">
+            <form id="formJIDetail" name="formJIDetail" class="form-horizontal">
+                <div class="row">
+                    <input type="hidden" id="txtIdno" />
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">JI Document No.<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" required placeholder="Please Select" id="txtJIDocumentNo" autocomplete="off" name="txtJIDocumentNo" maxlength="25" />
+                                    <input type="hidden" id="hdnDocumentId" />
+                                    <div class="col-sm-12" style="width:100%" id="divFetchId"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">JI Date&Time<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6" id="datetable">
+                                   <input type="datetime-local" required class="form-control" id="txtJIDateTime" autocomplete="off" name="JIDateTime" maxlength="25" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">User Area Code</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="" id="txtUserAreaCode" autocomplete="off" name="AreaName" maxlength="25"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">User Area Name</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="" id="txtUserAreaName" autocomplete="off" name="AreaName" maxlength="25"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Hospital Representative<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6" id="hospital">
+                                    <input type="text" required class="form-control" placeholder="Please Select" id="txtHospitalRepresentative" autocomplete="off" name="AreaCodeNo" maxlength="25" />
+                                    <input type="hidden" id="hdnHospitalStaffId" />
+                                    <div class="col-sm-12" id="divFetch4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Hospital Representative Designation</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="" id="txtHospitalRepresentativeDesignation" autocomplete="off" name="AreaName" maxlength="25"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Company Representative<span style="color:red">*</span></label>
+                            <div>
+                                <div class="col-sm-6" id="company">
+                                    <input type="text" required class="form-control" placeholder="Please Select" id="txtCompanyRepresentative" autocomplete="off" name="AreaCodeNo" maxlength="25" />
+                                    <input type="hidden" id="hdnCompanyStaffId" />
+                                    <div class="col-sm-12" id="divFetch5"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Company Representative Designation</label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="" id="txtCompanyRepresentativeDesignation" autocomplete="off" name="txtCompanyRepresentativeDesignation" maxlength="25"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Remarks</label>
+                            <div class="col-sm-9">
+                                <div>
+                                    <textarea id="txtRemarks" class="form-control" rows="2" cols="50" name="ScopeOfWork" maxlength="500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" id="lblReference">Reference No.(*if Rating is'YS')</label>
+                            <div class="col-sm-9" id="referenceno">
+                                <div>
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="" id="txtReferenceNo" autocomplete="off" name="ReferenceNo" maxlength="25"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <p align="right">
+                    @*<button type="button" id="btnFetch" class="btn btn-primary customButton" title="Fetch">Fetch</button>*@
+                    <input type="button" class="btn btn-primary" id="btnFetch" value="Fetch" />
+                </p>
+                <br />
+
+                <table id="" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218)">
+                    <thead class="tableHeading">
+                        <tr>
+                            <th>
+                                <label class="col-sm-6 control-label" style="text-align:left;height:50%;">Summary Of Quality Rating</label>
+                                <p class="text" data-toggle="collapse" data-target="#JiRating" style="float:right;outline: none;" height="1%" width="1%">
+                                    <span id="" data-toggle="collapse">
+                                        <span class="JiIcon glyphicon glyphicon-chevron-up"></span>
+                                    </span>
+                                </p>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="JiRating" class="">
+                        <tr>
+                            <td>
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Satisfactory</label>
+                                                <div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" disabled="disabled" placeholder="0" id="txtSatisfactory" autocomplete="off" name="txtSatisfactory" maxlength="25"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">No.of User Location</label>
+                                                <div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" disabled="disabled" placeholder="0" id="txtUserLocation" autocomplete="off" name="txtUserLocation" maxlength="25"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Unsatisfactory</label>
+                                                <div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" disabled="disabled" placeholder="0" id="txtUnSatisfactory" autocomplete="off" name="txtUnsatisfactor" maxlength="25"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Grand Total Elements Inspected</label>
+                                                <div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" disabled="disabled" placeholder="0" id="txtInspected" autocomplete="off" name="txtInspected" maxlength="25"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label">Not applicable</label>
+                                                <div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" disabled="disabled" placeholder="0" id="txtNotApplicable" autocomplete="off" name="txtapplicable" maxlength="25"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                </table>
+
+
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <p style="font-size: 1em"><b><small>Legend :</small></b></p>
+                        <p style="font-size: 1em">
+                            <b>
+                                <small>
+                                    Y-Yes, N-No, YS-Stubborn Stain, NA-Not Apllicable, QH1-Surface Stain, QH2-Dust, QH3-Litter, QH4-Bad Odour, QH5-Codweb, QH6-Algae/Fungus, QH7-Blocke Drains, QH8-
+                                    FEMS Related, QH9-Permanent Stain, QH10-Manpower, QH11-Equipment/Tools, QH12-Uncontrolled Environment, QH13-Vendor Related, QH14-Vandalism
+                                </small>
+                            </b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <p style="font-size: 1em"><b><small>Note:</small></b></p>
+                        <p style="font-size: 1em">
+                            <b>
+                                <small>
+                                    Reference No.is Mandatory if rating is 'YS'
+                                </small>
+                            </b>
+                        </p>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive" id="">
+                            <table id="table1" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th style="text-align: center;" width="10%">Location <br /> Code</th>
+                                        <th  style="text-align: center;" width="18%">Location Name</th>
+                                        <th style="text-align: center;" width="12%">Floor<span style="color:red">*</span></th>
+                                        <th style="text-align: center;" width="12%">Walls<span style="color:red">*</span></th>
+                                        <th style="text-align: center;" width="12%">Ceiling<span style="color:red">*</span></th>
+                                        <th style="text-align: center;" width="12%">Windows <br /> & Doors<span style="color:red">*</span></th>
+                                        <th style="text-align: center;" width="12%">Receptacles <br /> & <br /> Containers<span style="color:red">*</span></th>
+                                        <th style="text-align: center;" width="12%">Furniture, Fixture <br /> & Equipment<span style="color:red">*</span></th>
+                                        <th style="text-align: center;" width="10%">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyLocations"></tbody>
+                            </table>
+                            <br />
+                            <p class="text-center" id="table_data"><b><medium>No records to display</medium></b></p>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <label class="col-sm-6 control-label" hidden="hidden">Status</label>
+                <div>
+                    <div class="col-sm-6" hidden="hidden">
+                        <select type="text" class="form-control" id="ddlStatus" disabled="disabled" autocomplete="off" name="Status" maxlength="25">
+                            <option value="Open">Open </option>
+                            <option value="Closed">Closed </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt30">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <input type="button" id="btnSubmit" class="btn btn-primary" value="Submit" />
+                            <input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+                            <input type="button" id="btnCancel" class="btn btn-primary" value="Reset" />
+                            @*<button type="button" id="btnSubmit" class="btn btn-primary customButton" title="Submit" tabindex="5">Submit</button>
+                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>*@
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br />
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="tab-2">            
+                <form class="form-horizontal" id="formJi" name="formji" >
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="table2" class="table table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading">
+                                        <tr>
+                                            <th width="3%" class="text-center">
+                                                <span style="text-align:center" class="delete-row glyphicon glyphicon-remove" id="deleteAttachments"></span>
+                                            </th>
+                                            <th style="text-align: center;" width="25%">File Type<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="25%">File Name<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="25%">Attachment<span style="color:red">*</span></th>
+                                            <th style="text-align: center;" width="30%">Download</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyAttachments">
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <input type="checkbox" id="isDelete1" name="isDelete">
+                                                <input type="hidden" id="hdnAttachmentId1" value="0" />
+                                            </td>
+                                            <td id="filetypee">
+                                                <select type="text" required class="form-control" id="ddlFileType1" autocomplete="off" name="FileType"
+														maxlength="25" >                                                  
+                                                </select>
+                                            </td>
+                                            <td id="fname">
+                                                <input type="text" required class="form-control" id="txtFileName1" autocomplete="off" name="txtFileName" maxlength="25" />
+                                            </td>
+                                            <td id="attachment">
+                                                <input type="file" name="fileAttachment1" id="txtAttachment1" required class="form-control fileAttachment"  />
+                                            </td>
+                                            <td style="text-align:center" id="cell1"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt20">
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div>
+                                        <a class="btn btn-primary" id="addAttachment">+</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorMsg1" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"> </div>
+                    <div class="row mt30">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center">
+
+                                @*<button type="button" id="btnSave1" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                                <input type="button" id="btnSaveAttachment" class="btn btn-primary" value="Save" />
+
+                            </div>
+                        </div>
+                    </div>
+                </form>           
+        </div>
+    </div>
+    @Html.Partial("~/Areas/CLS/Views/JIDetails/List.cshtml")
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/CLS/JIDetails.js")"></script>
+}
+
+

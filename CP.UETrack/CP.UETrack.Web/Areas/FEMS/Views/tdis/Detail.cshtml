@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "FEMS-Level";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="blockId" name="blockId" value="@ViewBag.BlockId" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>TDIS</li>
+            <li class="active">TDIS</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+    </div>
+
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="divLevel">
+            <form name="formBemsLevel" id="formBemsLevel" class="form-horizontal" novalidate>
+                <h1>Hosp Bkt Mertajam</h1>
+
+                <p><a href="http://footfallcounter.com/Account/Login">Hosp Bkt Mertajam</a></p>
+                <br />
+                <br />
+            </form>
+        </div>
+        @*<div role="tabpanel" class="tab-pane" id="divCommonHistory">
+            <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+                @Html.Partial("~/Views/History/_History_PartialView.cshtml")
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>*@
+        @section scripts{
+            <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/FEMS/Tdis.js")"></script>
+        }
+
+
+
+

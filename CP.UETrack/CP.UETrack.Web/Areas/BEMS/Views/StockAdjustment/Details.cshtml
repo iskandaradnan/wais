@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "Stock Adjustment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>BEMS</li>
+            <li>Spare Parts</li>
+            <li class="active">Stock Adjustment</li>          
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div class="row">
+            <div class="col-sm-6 ">
+                <h4>Stock Adjustment</h4>
+            </div>
+            @*<div class="col-sm-6 ">
+                <div class="hover_effect">
+                    <div id="divStatus" hidden>
+                        <div class="text-right">
+                            <div>
+                                <input type="button" class="" id="btnStatusVal" value="" readonly style="margin-bottom:15px; margin-top:17px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="col-sm-6 ">
+                <div>
+                    <div id="divStatus" hidden>
+                        <div class="text-right">
+                            <div>
+                                @*<input type="button" class="" id="btnStatusVal" value="" readonly style="margin-bottom:15px; margin-top:17px;">*@
+                                <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="btnStatusVal"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+                    
+
+     <!-- Content Header Ends -->
+     <!-- Contents goes here -->
+     <div class="content_body">
+         <form class="form-horizontal" id="StockAdjustmentFrom" autocomplete="off">
+
+             @*<div class="hover_effect">
+             <div class="row" id="divStatus" hidden>
+                 <div class="col-sm-12 text-right mb20">
+                     <div>
+                         <input type="button" class="" id="btnStatusVal" value="" readonly>
+                     </div>
+                 </div>
+             </div>
+         </div>*@                            
+
+             <div class="row">
+                 <div class="col-sm-6 ">
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label">Stock Adjustment No.</label>
+                         <div class="col-sm-6">
+                             <div>
+                                 <input type="text" class="form-control" maxlength="25" id="StkadjustNo" disabled>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-sm-6 ">
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label">Adjustment Date</label>
+                         <div class="col-sm-6">
+                             <div>
+                                 <input type="text" class="form-control datatimeNoFuture" id="Adjustdate" disabled>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="row">
+                 <div class="col-sm-6 ">
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label">Approved By</label>
+                         <div class="col-sm-6">
+                             <div>
+                                 <input type="text" class="form-control" maxlength="50" id="Approveby" disabled>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-sm-6 ">
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label">Approved Date</label>
+                         <div class="col-sm-6">
+                             <div>
+                                 <input type="text" class="form-control datatimeNoFuture" id="Approvedate" disabled>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="row">
+                 <div class="col-sm-6 ">
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label">Facility Name</label>
+                         <div class="col-sm-6">
+                             <div>
+                                 <input type="text" class="form-control" id="Ftyname" maxlength="50" disabled>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-sm-6 ">
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label">Facility Code</label>
+                         <div class="col-sm-6">
+                             <div>
+                                 <input type="hidden" id="hdnFtycode" value="0" />
+                                 <input type="text" class="form-control" id="Ftycode" maxlength="25" disabled>
+                                 <div class="col-sm-12" id="FtycodeFetch">
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             @*<div class="row">
+             <div class="col-sm-12 ">
+                 <div class="form-group">
+                     <label class="col-sm-11 control-label"></label>
+                     <div class="col-sm-1 mt20">
+                         <div>
+                             <button type="submit" class="btn btn-primary customButton pull-right">Fetch</button>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>*@
+
+
+             <div ng-view="" class="row">
+                 <div class="col-sm-12">
+                     <hr style="margin: 2em 0;">
+                 </div>
+                 <div class="col-sm-12">
+                     <div class="table-responsive">
+                         <table id="StockadjustmentdataTable" class="table table-fixedheader table-bordered er_parameter" style="border: 1px solid rgb(222, 218, 218);">
+                             <thead class="tableHeading">
+                                 <tr>
+                                     <th width="3%" class="text-center">
+                                         <div class="checkbox text-center">
+                                             <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                             <label for="checkboxes-0">
+                                                 <input type="checkbox" value="false" id="chk_stkadjustmentdet">
+                                             </label>
+                                         </div>
+                                     </th>
+                                     <th style="text-align: center;" width="7%">Part No.<span class="red"> *</span></th>
+                                     <th style="text-align: center;" width="7%">Part Description</th>
+                                     <th style="text-align: center;" width="6%">Item Code</th>
+                                     <th style="text-align: center;" width="7%">Item Description</th>
+                                     <th style="text-align: center;" width="5%">Bin No.</th>
+                                     <th style="text-align: center;" width="9%">Quantity in System</th>
+                                     <th style="text-align: center;" width="8%">Physical Quantity<span class="red"> *</span></th>
+                                     <th style="text-align: center;" width="6%">Variance</th>
+                                     <th style="text-align: center;" width="8%">Adjusted Quantity</th>
+                                     <th style="text-align: center;" width="7%">ERP Purchase Cost / Pcs (<span class="spnCurrencyName"></span>)</th>
+                                     <th style="text-align: center;" width="8%">Cost / Pcs (<span class="spnCurrencyName"></span>)</th>                                     
+                                     <th style="text-align: center;" width="7%">Invoice No.</th>
+                                     <th style="text-align: center;" width="6%">Vendor Name</th>
+                                     <th style="text-align: center;" width="6%">Remarks</th>
+
+                                 </tr>
+                             </thead>
+                             <tbody id="StkAdjustmentTbl">
+
+                                 @*Content of HTML Body Element*@
+
+
+                             </tbody>
+                         </table>
+                     </div>
+                 </div>
+             </div>
+
+             <div id="paginationfooter"></div>
+
+             <div class="row mt20">
+                 @if (ViewBag.ActionType == "Add" || ViewBag.ActionType == "Edit")
+                 {
+                     <div class="col-sm-2" id="addrowplus">
+                         <div class="form-group">
+                             <div class="col-sm-2">
+                                 <div>
+                                     <a onclick="AddNewRow()" class="btn btn-primary">+</a>
+
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 }
+             </div>
+
+
+             <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+
+             </div>
+
+             <div class="row mt30">
+                 <div class="form-group mt20">
+                     <div class="col-sm-12 text-center">
+                         <button type="button" id="btnAdjustmentVerify" class="btn btn-primary customButton hider" title="Submit" tabindex="5"><i class="fa fa-check-square-o" aria-hidden="true"></i>Submit</button>
+                         <button type="button" id="btnAdjustmentSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                         <button type="button" id="btnAdjustmentEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                         <button type="button" id="btnAdjustmentApprove" class="btn btn-primary customButton hider" title="Approve" tabindex="5"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                         <button type="button" id="btnAdjustmentReject" class="btn btn-primary customButton hider" title="Reject" tabindex="5"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                         <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & Add New"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                         <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                         <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                     </div>
+                 </div>
+             </div>
+         </form>
+
+         @Html.Partial("~/Areas/BEMS/Views/StockAdjustment/List.cshtml")
+
+     </div>
+
+ </div>
+
+
+
+ @section scripts
+     {
+     <script src="~/Scripts/ng/Controllers/BEMS/StockAdjustment.js"></script>
+ }
+
+
+

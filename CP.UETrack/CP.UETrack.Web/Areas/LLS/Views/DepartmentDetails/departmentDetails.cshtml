@@ -1,0 +1,491 @@
+﻿@{
+    ViewBag.Title = "DepartmentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="LLSUserAreaId" name="LLSUserAreaId" value="@ViewBag.LLSUserAreaId" />
+    <input type="hidden" id="UserAreaId" name="UserAreaId" value="@ViewBag.UserAreaId" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Master</li>
+            <li class="active">Department/Area</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Department/Area</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divDetails" aria-controls="home" role="tab" data-toggle="tab">Department/Area</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="MasterdivArea">
+            <form class="form-horizontal" id="Departmentform">
+
+
+                <div class="row">
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"> User Area code<span class="red">&nbsp;*</span></label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" placeholder="Please Select" id="txtUserAreaCode" name="UserAreaCode" maxlength="25" />
+                                    <input type="hidden" id="hdnUserAreaId" @*onchange="FunctionUserAreaCodeCheck()"*@ required/>
+                                    <input type="hidden" id="LLSUserAreaId" />
+                                    <div class="col-sm-12" id="divFetch1">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">User Area Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" autocomplete="off" id="txtUserAreaName" name="UserAreaName" class="form-control" tabindex="0" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Hospital Representative<span class="red">*</span></label>
+                            <div>
+                                <div class="col-sm-6">
+                                    <input type="text" required class="form-control" placeholder="Please Select" id="txtHospitalRepresentative" name="HospitalRepresentative" maxlength="25" tabindex="2" />
+                                    <input type="hidden" required id="hdnHospitalRepresentativeId" />
+
+                                    <div class="col-sm-12" id="divHospitalRepresentativeFetch">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Hospital Representative Designation</label>
+                            <div class="col-sm-6">
+                                <input type="text" autocomplete="off" id="txtHospitalRepresentativeDesignation" name="HospitalRepresentativeDesignation" class="form-control" tabindex="0" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Effective From Date<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control datatimeFuture" id="txtEffectiveFormDate" name="EffectiveFormDate" onblur="CalculateRepairHours()" autocomplete="off" maxlength="100" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Effective To Date</label>
+                            <div class="col-sm-6">
+                                <input type="text" autocomplete="off" id="txtEffectiveToDate" name="EffectiveToDate" class="form-control" tabindex="0" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Status<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                @*<select autocomplete="off" id="txtstatus" name="status" class="form-control" tabindex="0" required>
+
+                                <select id="SelStatus" class="form-control">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+
+                            </div>
+                        </select>*@
+
+
+                                <select class="form-control" id="txtstatus" name="Status" required>
+                                </select>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Operating Days<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <Select class="form-control" id="txtOperatingDays" name="OperatingDays" required>
+                                    <option value="null" class="active">select</option>
+                                </Select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">White Bag(pcs)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txtWhiteBag" name="WhiteBag" autocomplete="off" maxlength="100" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Red Bag(pcs)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" autocomplete="off" id="txtRedBag" name="RedBag" class="form-control" tabindex="0" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Green Bag(pcs)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txtGreenBag" name="GreenBag" autocomplete="off" maxlength="100" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Brown Bag(pcs)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" autocomplete="off" id="txtBrownBag" name="BrownBag" class="form-control" tabindex="0" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Alginate Bag(pcs)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txtAlginateBag" name="AlginateBag" autocomplete="off" maxlength="100" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Soiled Linen Bag Holder(Unit)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" autocomplete="off" id="txtSoiledLinenBagHolder" name="SoiledLinenBagHolder" class="form-control" tabindex="0" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Reject Linen Bag Holder(Unit)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txtRejectLinenBagHolder" name="RejectLinenBagHolder" autocomplete="off" maxlength="100" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"> soiled Linen Rack(Unit)<span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" autocomplete="off" id="txtsoiledLinenRack" name="soiledLinenRack" class="form-control" tabindex="0" required>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="WarrantProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218); border-bottom:none">
+                                <thead class="tableHeading noScrollGrid">
+                                    <tr>
+                                        <th style="text-align: center;" width="20%"></th>
+                                        <th colspan="2" style="text-align: center;" width="25%">Start Time&emsp;&emsp;&emsp;End Time</th>
+                                        <th style="text-align: center;" width="35%"></th>
+                                        <th style="text-align: center;" width="20%">Day</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="ARWarrantProviderMainTableBody" class="noScrollGrid">
+
+                                    <tr class="ng-scope" style="">
+                                        <td width="20%" data-original-title="" title="">
+                                            <p>Linen Arrangement After Delivery<span class="red">*</span></p>
+                                        </td>
+
+                                        <td width="13%" style="text-align: center;" data-original-title="" title="">
+                                            <input type="time" min="00:00" max="23:59" id="startTime" class="form-control  " name="startTime" required onblur="myFunction()" />
+                                        </td>
+                                        <td width="12%">
+                                            <input type="time" min="00:00" max="23:59" id="EndTime" class="form-control  " name="EndTime" readonly="readonly">
+                                        </td>
+                                        <td width="35%">
+                                            <p> Cleaning & Sanitizing of Soiled Linen Bag Holder/Rack<span class="red">*</span></p>
+                                        </td>
+                                        <td width="20%" style="text-align: center;" data-original-title="" title="">
+                                            <select id="selectDay" class="form-control fetchField " name="selectDay" value="select" required>
+                                                <option value="null" class="active">select</option>
+                                            </select>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <style>
+                    table.PrintTable {
+                        border: 1px solid #ddd;
+                        border-collapse: collapse;
+                        width: 100%
+                    }
+
+                        table.PrintTable th {
+                            border: 1px solid #ddd;
+                            padding: 6px;
+                            border-collapse: collapse;
+                        }
+
+                        table.PrintTable td {
+                            border: 1px solid #ddd;
+                            padding: 6px;
+                            border-collapse: collapse;
+                        }
+
+                    .tableHeading th {
+                        background-color: #477BAA;
+                    }
+
+                    #clr {
+                        background-color: #EEEEEE;
+                    }
+                </style>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="StockadjustmentdataTable" class="PrintTable" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th rowspan="2" width="5%" class="text-center">
+                                            <div class="checkbox text-center">
+                                                <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                                <label for="checkboxes-0">
+                                                    <input type="checkbox" value="false" id="chk_stkadjustmentdet">
+                                                </label>
+                                            </div>
+                                        </th>
+                                        <th rowspan="2" style="text-align: center;" width="10%">Location Code<span class="red">*</span></th>
+                                        <th rowspan="2" style="text-align: center;" width="20%"> Location Name</th>
+                                        <th rowspan="2" style="text-align: center;" width="20%"> Linen schedule<br />(Delivery Time/ Collection Time)<span class="red">*</span></th>
+                                        <th colspan="2" style="text-align: center;" width="15%">Schedule 1<span class="red">*</span></th>
+                                        <th colspan="2" style="text-align: center;" width="15%">Schedule 2</th>
+                                        <th colspan="2" style="text-align: center;" width="15%">Schedule 3</th>
+                                    </tr>
+                                    <tr>
+                                        <td id="clr" style="text-align: center;">Start Time</td>
+                                        <td id="clr" style="text-align: center;">End Time</td>
+                                        <td id="clr" style="text-align: center;">Start Time</td>
+                                        <td id="clr" style="text-align: center;">End Time</td>
+                                        <td id="clr" style="text-align: center;">Start Time</td>
+                                        <td id="clr" style="text-align: center;">End Time</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="StkAdjustmentTbl">
+
+                                    @*Content of HTML Body Element*@
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="paginationfooter"></div>
+
+                <div class="row mt20">
+                    @if (ViewBag.ActionType == "Add" || ViewBag.ActionType == "Edit")
+                    {
+                        <div class="col-sm-2" id="addrowplus">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div>
+                                        <a onclick="AddNewRow()" class="btn btn-primary">+</a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        @*<button type="button" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                        <button type="button" id="btnSave" class="btn btn-primary customButton " title="Save" style="margin-left:92%;"><i class="fa fa-floppy-o" aria-hidden="true"></i>Add</button>
+                    </div>
+                </div>
+            </form>
+            <br />
+        </div>
+        <div role="tabpanel" class="tab-pane active" id="ChilddivArea" style="display:none">
+            <form class="form-horizontal" id="DepartmentChildform">
+                <div ng-view="" class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="ppmchecklistTable" class="table table-fixedheader table-bordered table-checkbox" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="5%" class="text-center">
+                                            <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                            <br /><input type="checkbox" id="chkCategory1DeleteAll" />
+                                        </th>
+                                        <th style="text-align: center;" width="10%" id="">Location Code<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="15%" id="">Linen Code<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="15%">Linen Description</th>
+                                        <th style="text-align: center;" width="15%">Par 1<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="15%">Par 2<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="15%">Default Issue<span class="red">*</span></th>
+                                        <th style="text-align: center;" width="10%">Agreed Shelf Level</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="FirstGridId"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt20">
+                    <div class="col-sm-2" >
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <div>
+                                   @*<a onclick="AddRow()" class="btn btn-primary">+</a>*@
+                                    <a href="#" id="FirstGrid" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                    <!-- ngIf: RescheduleErrorList.length > 0 -->
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        @*<button type="button" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                        <button type="button" id="btnFirstSave" class="btn btn-primary customButton " title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        @*<button type="button" class="btn btn-primary customButton" title="Upload"><i class="fa fa fa-upload" aria-hidden="true"></i>+ save&AddNew</button>
+                <button type="button" class="btn btn-primary customButton" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                <button type="button" name="btnDepCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat"></i> Reset</button>*@
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton " title="Save & Add New" value="1"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+                        <button type="button" id="btnDelete" class="btn btn-primary customButton"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                        @*<button type="button" id="Delete" name="btnDelete" class="btn btn-primary btnDelete" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>*@
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+
+                    </div>
+                </div>
+            </form>
+            <br />
+        </div>
+        <div role="tabpanel" class="tab-pane" id="divCommonHistory">
+            <form class="form-horizontal" id="CommonHistory" autocomplete="off">
+                @Html.Partial("~/Views/History/_History_PartialView.cshtml")
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgHistory">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+        @Html.Partial("~/Areas/LLS/Views/departmentDetails/departmentList.cshtml")
+        <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+        </div>
+    </div>
+
+
+@*@if (ViewBag.ActionType == "View")
+    {
+        <script type="text/javascript">
+
+            $('#levlcodepopup,#hospStaffpopup,#companypopup').hide();
+            $("#UAform :input:not(:button)").prop("disabled", true);
+        </script>
+    }*@
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/Department.js")"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+}
+<script>
+    
+</script>
+
+
+
+

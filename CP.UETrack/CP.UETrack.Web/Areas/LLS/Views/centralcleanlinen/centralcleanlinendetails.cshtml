@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "centralcleanlinendetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnStatus" name="hdnStatus" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>LLS</li>
+            <li>Master</li>
+            <li class="active">Central Clean Linen Store</a></li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <div>
+            <h4 class="pull-left">Central Clean Linen Store</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divTandCStatus" class="TandCStatusName pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#divCentralClean" aria-controls="home" role="tab" data-toggle="tab">Central Clean Linen Store.</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 1st Tab -->
+            <div role="tabpanel" class="tab-pane active" id="divCentralClean">
+                <form class="form-horizontal" id="FrmCentral" novalidate>
+                    @*<div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"> Store Type<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="txtCentralCleanLinenStore" name="CentralCleanLinenStore" class="form-control" tabindex="0">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="margin: 2em 0;">*@
+                    <div ng-view="" class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table id="CentralCleanProvider" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                    <thead class="tableHeading noScrollGrid">
+                                        <tr>
+                                            <th style="text-align: center;" width="10%" id="">Linen code<span class="red">*</span></th>
+                                            <th style="text-align: center;" width="20%">Linen Description</th>
+                                            <th style="text-align: center;" width="10%">Stock Level</th>
+                                            <th style="text-align: center;" width="10%">Par2</th>
+                                            <th style="text-align: center;" width="10%">Par1</th>
+                                            <th style="text-align: center;" width="20%">Store Balance</th>
+                                            <th style="text-align: center;" width="20%">Reorder Quantity</th>
+
+
+                                            @*<th style="text-align: center;" width="10%">Total Requirement</th>
+                                <th style="text-align: center;" width="10%">Repair Quantity</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody id="SummaryResultId">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                        <!-- ngIf: RescheduleErrorList.length > 0 -->
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            @*<button type="button" class="btn btn-primary btnSave" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>*@
+                            @*<button type="button" name="btnDepCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat"></i> Reset</button>*@
+                        </div>
+                    </div>
+                </form>
+                <br />
+            </div>
+        </div>
+    </div>
+    <br />
+    @Html.Partial("~/Areas/LLS/Views/centralcleanlinen/centralcleanlinenList.cshtml")
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/LLS/CentralCleanLinen.js")"></script>
+}

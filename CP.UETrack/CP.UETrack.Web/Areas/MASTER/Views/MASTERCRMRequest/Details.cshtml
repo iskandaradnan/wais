@@ -1,0 +1,1072 @@
+﻿@{
+    ViewBag.Title = "Customer Relationship Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}
+
+<div>
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.Id" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" value="" />
+    <!-- Content Header Starts -->
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>General Master</li>
+            <li>CRM</li>
+
+            <li class="active">Request</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+
+
+        <div>
+            <h4 class="pull-left">Request</h4>
+            <div style="font-weight:bold; color:black; margin-bottom:15px; margin-top: 17px;" id="divWOStatus" class="divWOStatus pull-right"></div>
+            <div style="clear:both;display:table;"></div>
+        </div>
+    </div>
+    <!-- Content Header Ends -->
+    <!-- Contents goes here -->
+
+    <div class="standard-tabs" id="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+
+            <li role="presentation" class="active"><a href="#crmRequest" aria-controls="home" role="tab" data-toggle="tab">Request</a></li>
+            @*<li role="presentation" onclick="loadCRMReqAttachmentTab()"><a href="#CRMreqAttach" aria-controls="profile" role="tab" data-toggle="tab">Attachement</a></li>*@
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>
+            <li role="presentation"><a href="#divCommonHistory1" id="History1" aria-controls="profile" role="tab" data-toggle="tab">Print</a></li>
+
+    </div>
+    <div class="tab-content">
+        @*<div name="formCRMRequest" id="formCRMRequest" class="form-horizontal" novalidate>*@
+        <!-- 1st Tab -->
+        <div role="tabpanel" class="tab-pane active" id="crmRequest">
+            <form id="Testform" class="form-horizontal">
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Service Type <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" required id="TypeOfServiceRequest" autocomplete="off">
+                                        <option value="0">Select</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 " id="WorkGroupGMCDiv" style="display:none">
+                        <div class="form-group">
+                            <label for="selWorkGroupGM" class="col-sm-6 control-label">WorkGroup  <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="selWorkGroupGM" name="selWorkGroup" required  class="form-control">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 " id="WasteCategoryDiv" style="display:none">
+                        <div class="form-group">
+                            <label for="selWasteCategory" class="col-sm-6 control-label">WasteCategory  <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="selWasteCategory" name="selWasteCategory" required class="form-control">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Request No.</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    @*For print form binding*@
+                                    <input type="hidden" id="servicetype" />
+                                    <input type="hidden" id="prioritystatus" />
+                                    <input type="hidden" id="Designation" />
+                                    <input type="hidden" id="MobileNumber" />
+                                    @*For print form binding*@
+                                    <input type="text" class="form-control" disabled="disabled" id="RequestNo" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Request Date / Time </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RequestDateTime" autocomplete="off" class="form-control datatimepicker" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label id="" class="col-sm-6 control-label">Requester <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="crmReqRequester" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchRequester(event)" onpaste="FetchRequester(event)" change="FetchRequester(event)" oninput="FetchRequester(event)" required>
+                                </div>
+                                <input type="hidden" id="hdncrmReqRequesterId" />
+                                <input type="hidden" id="hdncrmReqRequesterEmail" />
+                                <div class="col-sm-6" id="RequesterFetch"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label" id="lblCrmpriority">Priority <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" placeholder="Please Select" required id="crmReqPriority" autocomplete="off">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Request Type <span class="red">*</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" required id="TypeOfRequest" autocomplete="off">
+                                        <option value="">Select</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Request Status</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" disabled="disabled" id="RequestStatus" autocomplete="off">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ReqTypTCDiv" style="display:none">
+                    <div class="row">
+
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="lblCrmReqTarDat" class="col-sm-6 control-label">Target Date</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="crmReqTarDat" class="form-control datetimeNoFuture" autocomplete="off" readonly>
+                                    </div>
+                                    <input type="hidden" id="hdncrmReqTarDatOver" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 " id="ReqTypTCEngDiv" style="display:none">
+                            <div class="form-group">
+                                <label id="lblCrmreqReqAssi" class="col-sm-6 control-label">Assignee</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="crmReqAssigne" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchAssignee(event)" onpaste="FetchAssignee(event)" change="FetchAssignee(event)" oninput="FetchAssignee(event)">
+                                    </div>
+                                    <input type="hidden" id="hdncrmReqAssigneId" />
+                                    <input type="hidden" id="hdncrmReqAssigneEmail" />
+                                    <div class="col-sm-6" id="AssigneFetch"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="Modelrow" style="display:none">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="lblCrmreqMod" class="col-sm-6 control-label">Model<span class="red">*</span></label>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <input type="text" required id="crmReqModel" name="Model" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchModel(event)" onpaste="FetchModel(event)" change="FetchModel(event)" oninput="FetchModel(event)">
+                                    </div>
+                                    <input type="hidden" id="hdncrmReqModId" />
+                                    <div class="col-sm-6" id="ModelFetch"></div>
+                                </div>
+                                <div class="col-sm-2" id="Popup-RequestMdl">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-RequestMdl">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="lblCrmReqmanu" class="col-sm-6 control-label">Manufacturer<span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" required id="crmReqManu" class="form-control " autocomplete="off" onkeyup="FetchManufacturer(event)" onpaste="FetchManufacturer(event)" change="FetchManufacturer(event)" oninput="FetchManufacturer(event)" placeholder="Please Select" disabled>
+                                    </div>
+                                    <input type="hidden" id="hdncrmReqManuId" />
+                                    <div class="col-sm-6" id="ManuFetch"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-6 ">
+                    <div class="form-group">
+                        <label id="lblAssetNo" class="col-sm-6 control-label">Asset No.</label>
+                        <div>
+                            <div class="col-sm-6">
+                                <input type="text" @*required*@ class="form-control" placeholder="Please Select" id="txtAssetNo" autocomplete="off" name="AssetNo" maxlength="25" tabindex="2" disabled />
+                                <input type="hidden" id="hdnAssetId" />
+                                <div class="col-sm-12" id="divAssetNoFetch">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="AreaLocDiv" style="display:none">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label id="labCrmReqLocCd" class="col-sm-6 control-label">Location Code</label>
+                                <div class="col-sm-4">
+                                    <input type="hidden" id="hdnCrmReqUsrLocCdeId" />
+                                    <input type="text" id="CrmReqUsrLocCde" name="Location code" class="form-control" placeholder="Please Select" autocomplete="off" onkeyup="FetchUserLocation(event)" onpaste="    FetchUserLocation(event)" change="FetchUserLocation(event)" oninput="FetchUserLocation(event)" onclick="FetchUserLocation(event)">
+                                    <div class="col-sm-6" id="UserLocFetch"></div>
+                                </div>
+                                <div class="col-sm-2" id="Popup-ReqUsrLocCde">
+                                    <a data-toggle="modal" class="btn btn-sm  btn-primary" title="Search" id="spnPopup-ReqUsrLocCde">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Location Name</label>
+                                <div class="col-sm-6">
+                                    <a id="redirectUrl"><input type="text" id="CrmReqUsrLocNam" class="form-control" disabled></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label id="labCrmReqAreaCd" class="col-sm-6 control-label">Area Code</label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnCrmReqUsrAreaCdId" />
+                                    <input type="text" id="CrmReqUsrAreaCd" class="form-control" autocomplete="off" onkeyup="FetchUserArea(event)" onpaste="FetchUserArea(event)" change="FetchUserArea(event)" oninput="FetchUserArea(event)" disabled>
+                                    <div class="col-sm-6" id="UserAreaCodeFetch"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Area Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="CrmReqUsrAreaNam" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label id="labCrmReqBlockCd" class="col-sm-6 control-label">Block Code</label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnCrmReqUsrBlockCdId" />
+                                    <input type="text" id="CrmReqUsrBlockCd" class="form-control" autocomplete="off" disabled>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Block Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="CrmReqUsrBlockNam" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label id="labCrmReqBlockCd" class="col-sm-6 control-label">Level Code</label>
+                                <div class="col-sm-6">
+                                    <input type="hidden" id="hdnCrmReqUsrLevelCdId" />
+                                    <input type="text" id="CrmReqUsrLevelCd" class="form-control" autocomplete="off" disabled>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Level Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="CrmReqUsrLevelNam" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="WorkAssiDiv" style="display:none">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label id="lblCrmreqReqWOAss" class="col-sm-6 control-label">Assignee</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="CrmreqReqWOAss" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchWOAssignee(event)" onpaste="FetchWOAssignee(event)" change="FetchWOAssignee(event)" oninput="FetchWOAssignee(event)">
+                                    </div>
+                                    <input type="hidden" id="hdncrmReqWOAssigneId" />
+                                    <input type="hidden" id="hdncrmReqWOAssigneEmail" />
+                                    <div class="col-sm-6" id="WOAssigneFetch"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="RequestDescDiv" style="display:none">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <div class="form-group">
+                                <label id="lblcrmReqDesc" class="col-sm-3 control-label">Request Description <span class="red">*</span></label>
+                                <div class="col-sm-9">
+                                    <div>
+                                        <textarea required class="form-control wt-resize "  autocomplete="off" id="RequestDescription" maxlength="500" style="height:70px" novalidate></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <div class="form-group">
+                                <label id="lblCrmReqRem" class="col-sm-3 control-label">Remarks</label>
+                                <label id="Assessment" class="col-sm-3 control-label">Assessment Details</label>
+                                <div class="col-sm-9">
+                                    <div>
+                                        <textarea class="form-control wt-resize" autocomplete="off" id="Remarks" style="height:70px" maxlength="500"></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="hdnCrmReqChkstsApp" />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks History</label>
+                                <div class="col-sm-1">
+                                    <div>
+                                        <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Real Time History" tabindex="0" data-target="#RemHisModal">
+                                            <span class="glyphicon glyphicon-modal-window"></span>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*//-------26/9/2019------*@
+                <div id="DeductionIndDiv" style="display:none">
+                    <div id="DedIndNCStatus" class="row">
+                        <div class="col-sm-6 " id="divdeduction" style="display:none">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Deduction Indicator <span class="red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select class="form-control" required id="TypeOfDeduction" autocomplete="off">
+                                            <option value="">Select</option>
+                                        </select>
+                                        <div id="Status" style="display:none">
+                                            <input type="text" id="test" placeholder="Please Select" class="form-control" autocomplete="off" style="display:none">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    @*<div class="col-sm-6 ">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Non-Conformance Status</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <select class="form-control" disabled="disabled" id="NonConformanceStatus" autocomplete="off"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="row" id="ServiceInd" style="display:none">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label id="lblCrmSerInd" class="col-sm-3 control-label">Service Indicator</label>
+                            <div class="col-sm-9">
+                                <div>
+                                    @*<input type="text" class="form-control" disabled="disabled" id="ServiceIndicator" autocomplete="off" maxlength="500">*@
+                                    <textarea class="form-control wt-resize remarks" autocomplete="off" id="ServiceIndicator" style="height:10px" maxlength="700" disabled> </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hdnCrmSerInd" />
+                </div>
+                <div class="row" id="NonConformance" style="display:none">
+                    <div class="col-sm-12 ">
+                        <div class="form-group">
+                            <label id="lblcrmNonConReqDesc" class="col-sm-3 control-label">Non-Conformance Description <span class="red">*</span></label>
+                            <div class="col-sm-9">
+                                <div>
+                                    <textarea required class="form-control wt-resize description" autocomplete="off" id="NonConformanceRequestDescription" maxlength="500" style="height:70px" novalidate></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label  id="lblRequestedDateTime" class="col-sm-6 control-label">Required Date / Time </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="RequestedDateTime" autocomplete="off" class="form-control datatimepicker" @*datatimeFuture*@>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        @*</div>*@
+        <div class="row">
+            <div id="ResponceDateTimeAndResponseby">
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <div id="Responsebys">
+                                <label id="lblResponseby" class="col-sm-6 control-label">Response By</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="Responseby" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchResponseby(event)" onpaste="FetchResponseby(event)" change="FetchResponseby(event)" oninput="FetchResponseby(event)" >
+                                    </div>
+                                    <div>
+                                    </div>
+                                    <input type="hidden" id="hdncrmReqResponsebyId" />
+                                    <input type="hidden" id="hdncrmReqResponsebyEmail" />
+                                    <div class="col-sm-6" id="ResponsebyFetch"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label id="lblResponceDateTime" class="col-sm-6 control-label">Response Date / Time </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="ResponceDateTime" class="form-control datatimepicker">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="testAction">
+
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <label id="lblcrmAction" class="col-sm-3 control-label">Action Taken</label>
+                        <div class="col-sm-9">
+                            <div>
+                                @*<textarea class="form-control wt-resize ActionTaken" autocomplete="off" id="RequestAction" maxlength="500" style="height:70px" novalidate></textarea>*@
+                                <textarea class="form-control wt-resize ActionTaken" autocomplete="off" id="RequestAction" style="height:70px" maxlength="500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @*<style>
+                #ResponceDateTimeAndResponseby {
+                    visibility: hidden;
+                }
+            </style>*@
+
+        <div id="DateTimeDiv" style="display:none">
+            <div class="row" id="ActionLLS" style="display:none">
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <label id="lblcrmActionLLS" class="col-sm-3 control-label">Action Taken</label>
+                        <div class="col-sm-9">
+                            <div>
+                                @*<textarea class="form-control wt-resize ActionTaken" autocomplete="off" id="RequestAction" maxlength="500" style="height:70px" novalidate></textarea>*@
+                                <textarea class="form-control wt-resize ActionTaken" autocomplete="off" id="RequestActionLLS" style="height:70px" maxlength="500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 " id="VaidationDiv">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Validation </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="Vaidation" autocomplete="off">
+                                        <option value="">Select</option>
+                                        <option value="99">Yes</option>
+                                        <option value="100">No</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" id="just">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Justification For Reason</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="JustificationForReason"  autocomplete="off">
+                                        <option value="null">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <label id="lblcrmJustificationLLS" class="col-sm-3 control-label">Justification</label>
+                        <div class="col-sm-9">
+                            <div>
+                                @*<textarea class="form-control wt-resize ActionTaken" autocomplete="off" id="RequestAction" maxlength="500" style="height:70px" novalidate></textarea>*@
+                                <textarea class="form-control wt-resize ActionTaken" autocomplete="off" id="JustificationLLS" style="height:70px" maxlength="500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                #LlsRemarks {
+                    visibility: hidden;
+                }
+                #just {
+                    visibility: hidden;
+                }
+            </style>
+            <div class="row">
+                <div id="LlsRemarks" style="display:none">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <div class="form-group">
+                                <label id="lblCrmReqLLS" class="col-sm-3 control-label">Remarks</label>
+                                @*<label id="Assessment" class="col-sm-3 control-label">Assessment Details</label>*@
+                                <div class="col-sm-9">
+                                    <div>
+                                        <textarea class="form-control wt-resize remarks" autocomplete="off" id="RemarkLls" style="height:70px" maxlength="500"></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Remarks History</label>
+                                <div class="col-sm-1">
+                                    <div>
+                                        <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Real Time History" tabindex="0" data-target="#RemHisModal">
+                                            <span class="glyphicon glyphicon-modal-window"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div id="CompleteDateTimeLLS">
+
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label id="LabCompletedby" class="col-sm-6 control-label">Completed By</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="Completedby" placeholder="Please Select" class="form-control" autocomplete="off" onkeyup="FetchCompletedby(event)" onpaste="FetchCompletedby(event)" change="FetchCompletedby(event)" oninput="FetchCompletedby(event)">
+                                </div>
+                                <div>
+                                </div>
+                                <input type="hidden" id="hdncrmReqCompletedbyId" />
+                                <input type="hidden" id="hdncrmReqCompletedbyEmail" />
+                                <div class="col-sm-6" id="CompletedbyFetch"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label id="LabCompleteDateTime" class="col-sm-6 control-label">Completed Date / Time </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="CompleteDateTime" autocomplete="off" class="form-control datatimepicker">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+            @*</div>*@
+        </div>
+
+        @*//--------26/9/2019-------*@
+
+        <div id="crmObsoleteSec" style="display:none">
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label"></label>
+                        <div class="col-sm-2 mt20">
+                            <div>
+                                <input type="button" id="CrmObsoleteFetchSave" @*onclick="FetchObsoleteAsset()"*@ class="btn btn-primary customButton pull-right" value="Fetch">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="RemHisModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><b>Remarks History</b></h4>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <div ng-view="" class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table id="CrmRequestRemarksTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                        <thead class="tableHeading">
+                                            <tr>
+                                                <th style="text-align: center; " width="5%">No.</th>
+                                                <th style="text-align: center;" width="35%">Remarks</th>
+                                                <th style="text-align: center;" width="20%">Entered By</th>
+                                                <th style="text-align: center;" width="20%">Date / Time</th>
+                                                <th style="text-align: center;" width="20%">Request Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CrmReqRemarksGrid"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer mt20">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div ng-view="" class="row" id="CrmAssetGrid" style="display:none">
+            <div class="col-sm-12">
+                <hr style="margin: 2em 0;">
+            </div>
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table id="CRMRequestTable" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                        <thead class="tableHeading">
+                            <tr>
+                                <th width="5%" class="text-center">
+                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                    <input type="checkbox" name="" id="chk_CrmReq" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                </th>
+                                <th id="lblCrmObsolete" style="text-align: center;" width="45%">Asset No. <span class="red">*</span></th>
+                                <th style="text-align: center;" width="25%">Serial Number</th>
+                                <th style="text-align: center;" width="25%">Software Version</th>
+                            </tr>
+                        </thead>
+                        <tbody id="CRMRequestGrid"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ng-view="" class="row" id="CrmIndicatorGrid" style="display:none">
+            <div class="col-sm-12">
+                <hr style="margin: 2em 0;">
+            </div>
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table id="CRMRequestTableIndicatior" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                        <thead class="tableHeading">
+                            <tr>
+                                <th width="5%" class="text-center">
+                                    <a><span style="text-align: center; " class="glyphicon glyphicon-remove" title="Remove"></span></a><br>
+                                    <input type="checkbox" name="" id="chk_CrmReqIndicatior" value="false" autocomplete="off" class="ng-pristine ng-untouched ng-valid">
+                                </th>
+                                <th id="lblCrmObsoleteIndicatior" style="text-align: center;" width="45%">Indicator No. <span class="red">*</span></th>
+                                <th style="text-align: center;" width="25%">Indicator Name</th>
+                                <th style="text-align: center;" width="25%">Indicator Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="IndicatiorCRMRequestGrid"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="paginationfooter"></div>
+
+        @* Adding Indicatores *@
+        <div id="indicatorDiv" style="display:none">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="ContractorVendorList" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+                                    <th width="10%" class="text-center">
+                                        <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                        <br><input type="checkbox" id="chkContactDeleteAll">
+                                    </th>
+                                    <th style="text-align: center;" width="45%">Indicator No<span class="red">*</span></th>
+                                    <th style="text-align: center;" width="45%">Indacator Name<span class="red">*</span></th>
+
+                                </tr>
+
+                            </thead>
+                            <tbody id="SummaryResultId">
+                                @*<tr><td width="10%" style="text-align:center">
+                                        <input type="checkbox" onchange="DeleteContact(0)" id="chkContactDeleteAll_0"></td>
+                                    <td style=" text-align: center; width:45%;" title="">
+                                        <div>
+                                        <select class="form-control"  id="LicenseCode_0" autocomplete="off" onchange="getindicatorsinfo(0)"> <option value="">Select</option></select>
+                                            </div>
+                                        </td>
+                                    <td style=" text-align: center; width:45%;" title=""><div><input id="LicenseDescription_0" type="text" class="form-control" name="LicenseDescription" autocomplete="off">
+                                               </div>
+                                        </td>
+                                    </tr>*@
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt20">
+                <div class="col-sm-3 ">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <div>
+                                <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        @* END Indicator *@
+        <div id="errorMsg" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true">
+        </div>
+        <div class="row mt30">
+            <div class="form-group">
+                <div class="col-sm-12 text-center">
+
+                    <button type="button" id="btnSaveConverttoWO" class="btn btn-primary customButton" onclick="ConvertWorkorder()" style="visibility:hidden"><i class="fa fa-link" aria-hidden="true"></i>Convert to WO</button>
+
+                    <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnEdit" class="btn btn-primary customButton hider" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                    <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true"></i>Save & Add New </button>
+
+                    <button type="button" id="btnApprove" class="btn btn-primary customButton hider"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approve</button>
+                    <button type="button" id="btnReject" class="btn btn-primary customButton hider"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>Reject</button>
+                    <button type="button" id="btnClarify" class="btn btn-primary customButton hider"><i class="fa fa-check" aria-hidden="true"></i>Clarify</button>
+
+                    <button type="button" id="btnVerify" class="btn btn-primary customButton hider"><i class="fa fa-check-square-o" aria-hidden="true"></i>Verify</button>
+
+
+                    <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Cancel"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</button>
+                    <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                    <input type="button" id="printfm" value="Print Form" class="btn btn-primary" onclick="printDiv('printableArea')" />
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        </form>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="divSearchPopup" role="dialog">
+    </div>
+    <!--2nd Tab -->
+    <div role="tabpanel" class="tab-pane" id="divCommonAttachment">
+        <form class="form-horizontal" id="CommonAttachment" autocomplete="off">
+            <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+            @Html.Partial("~/Areas/BEMS/Views/AttachmentPartialView/_Attachment_PartialView.cshtml")
+        </form>
+    </div>
+    <style>
+        #uesrreqprint th {
+            height: 35px;
+        }
+
+        #border1 {
+            border: 1px solid black;
+            margin-left: 17px;
+        }
+
+        table.PrintSchdTable {
+            width: 100%;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table.PrintSchdTable {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+            table.PrintSchdTable th {
+                border: 1px solid black;
+                padding: 3px;
+                border-collapse: collapse;
+                height: 23px;
+            }
+
+            table.PrintSchdTable td {
+                border: 1px solid black;
+                padding: 3px;
+                border-collapse: collapse;
+                height: 23px;
+            }
+    </style>
+
+    <div role="tabpanel" class="tab-pane" id="divCommonHistory1">
+        <form class="form-horizontal" id="CommonHistory1" autocomplete="off">
+            @*//---------Added by sai-------------*@
+            <div class="tab-pane form-horizontal" id="divCommonHistory11">
+                <div class="tab-pane">
+                    <div class="">
+
+                        <p><a href="#"><img src="~/images/CRMREQPrint3.png" alt="logo" style="width:100px;"><img src="~/images/CRMREQPrint2.png" style="width:100px;" /></a></p>
+
+                        <p style="font-size:13px; text-align:center; margin-top:-70px"><b style="font-size: 14px;">&emsp;&emsp;CADANGAN MENAIKTARAF HOSPITAL UMUM SARAWAK SECARA </br>&emsp;&emsp;&emsp;&emsp;PUBLIC PRIVATE PARTNERSHIP<br />&emsp;-BLMT MELALUI PEROLEHAN SECARA SWISS CHALLENGE</b></p>
+                        @*<p style="font-size:16px; "><b style="font-size: 16px;">&emsp;&emsp;Edgenta HealthCare Mangement Sdn Bhd</br>&emsp;&emsp;____________________________________________</b></p>
+            <p style="font-size:16px;"><b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(&emsp;&emsp;<span id="txt_storetype"></span>&emsp;&emsp;)</b></p>*@
+
+                        <p style="text-align:right; margin-top:-60px;">&emsp;&emsp;<a href="#" style="text-align:left"><img src="~/images/prohowkImages.png" style="width:80px; height:10%; margin-top:-20px;" /><img src="~/images/wifm logo.bmp" style="width:80px; margin-top:-20px;" /></a></p>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h5 id="border1" style="padding-top:5px; padding-bottom:5px;"><b>Hospital:&emsp;Hospital Umum Sarawak</b></h5>
+                        </div>
+                        <div class="col-sm-1">
+
+
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 id="border1" style="padding:3px 3px;"><b>Request Date/Time:&nbsp;<span id="txt_RequestDT"></span></br></h5>
+                            <h5><b>&emsp;SRNO :&emsp;<span id="txt_SRNO1"></span></br></h5>
+                            <h5><b>&emsp;Priority :&emsp;<span id="txt_Priority1"></span></br></h5>
+                        </div>
+                    </div>
+                    <h5><b>A.Service Request</b></h5>
+                    <table class="PrintSchdTable">
+                        <tr>
+                            <th colspan="1">&emsp;Request By :&emsp;<span id="txt_RequestBys"></span></th>
+                            <th colspan="6">&emsp;Job Title :&emsp;<span id="txt_JobTitle"></span></th>
+                            <th colspan="5">&emsp;Ref :&emsp;<span id="txt_Ref"></span></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">&emsp;Contact No :&emsp;<span id="txt_ContactNo"></span></th>
+                            <th colspan="9">&emsp;Dept :&emsp;<span id="txt_Dep"></span></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">&emsp;Location Code :&emsp;<span id="txt_LocationCode1"></span></th>
+                            <th colspan="9">&emsp;Location Name :&emsp;<span id="txt_LocationName1"></span></th>
+                        </tr>
+                        <tr>
+                            <th colspan="12" style="padding-bottom:40px;">&emsp;<b>Request Details :</b>&emsp;<span id="txt_RequestDetails1"></span></th>
+                        </tr>
+                    </table><br />
+                    <h5><b>B.Assesment</b></h5>
+                    <table class="PrintSchdTable">
+                        <tr>
+                            <th>&emsp;ID/Name :&emsp;<span id="txt_IDName"></span></th>
+                            <th colspan="4">&emsp;Date/Time :&emsp;<span id="txt_DateTime1"></span></th>
+                        </tr>
+                        <tr>
+                            <th>&emsp;Requestor Signature :&emsp;<span id="txt_Requestor"></span></th>
+                            <th colspan="4">&emsp;Date/Time :&emsp;<span id="txt_DateTime2"></span></th>
+                        </tr>
+                        <tr>
+                            <th colspan="12" style="padding-bottom:40px;">&emsp;<b>Assesment Details :</b>&emsp;<span id="txt_AssesmentDetails"></span></th>
+                        </tr>
+                    </table><br />
+                    <h5><b>C.Completion</b></h5>
+                    <table class="PrintSchdTable" id="uesrreqprint">
+                        <tr>
+                            <th colspan="12">
+                                <p>&emsp;Action Taken:<span id="txt_ActionTaken" style="padding-bottom: 20px;"></span></p><br /><br />
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:center">Completed by (PROHAWK)</th>
+                            <th colspan="9" style="text-align:center">Verified by (MOH)</th>
+                        </tr>
+                        <tr>
+                            <th>&emsp;Name:</th>
+                            <th colspan="2">&emsp;Signature:</th>
+                            <th>&nbsp;Name:</th>
+                            <th colspan="3">&emsp;Signature:</th>
+                        </tr>
+                        <tr>
+                            <th>&emsp;Date:</th>
+                            <th colspan="2">&emsp;Time:</th>
+                            <th>&nbsp;Date:</th>
+                            <th colspan="3">&emsp;Time:</th>
+                        </tr>
+                    </table><br />
+                    <h5><b>D.Validation (For Internal Use Only)</b></h5>
+                    <table class="PrintSchdTable" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th><b>&emsp;Validation</b></th>
+                            <th colspan="1" style="text-align:center"><b>1</b></th>
+                            <th colspan="1" style="text-align:center"><b>2</b></th>
+                            <th colspan="1" style="text-align:center"><b>3</b></th>
+                            <th colspan="1" style="text-align:center"><b>4</b></th>
+                            <th colspan="1" style="text-align:center"><b>5</b></th>
+                            <th colspan="1" style="text-align:center"><b>6</b></th>
+                            <th colspan="1" style="text-align:center"><b>7</b></th>
+                            <th colspan="1" style="text-align:center"><b>8</b></th>
+                            <th colspan="1" style="text-align:center"><b>9</b></th>
+                            <th colspan="1" style="text-align:center"><b>10</b></th>
+                            <th colspan="1" style="text-align:center"><b>11</b></th>
+                        </tr>
+                        <tr>
+                            <td><b>&emsp;YES/NO</b></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                            <td colspan="1"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="12">
+                                <p style="padding-bottom: 10%;">&emsp;<b>If No, Please Justify:</b><span id=""></span></p><br /><br />
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <input type="button" value="Download PDF" class="btn btn-primary" onclick="printDiv('printableArea')" />
+        </form>
+    </div>
+</div>
+@Html.Partial("~/Areas/BEMS/Views/CRMRequest/List.cshtml")
+</div>
+@section scripts{
+    <script src="~/Scripts/ng/Controllers/BEMS/CRM.js"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+    @*<script src="~/Scripts/ng/Controllers/BEMS/CRMRequestAttachment.js"></script>*@
+    <script src="~/Scripts/ng/common/CommonFileUpload.js"></script>
+    @*<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>*@
+<script src="~/js/PdfGeneration/html2pdf.bundle.js"></script>
+}
+
+

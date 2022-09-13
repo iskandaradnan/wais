@@ -1,0 +1,747 @@
+﻿
+@{
+    ViewBag.Title = "BEMS-Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+    .errormsgcenter1 {
+        color: red;
+        border: 1px solid #b02f41;
+        border-radius: 3px;
+        padding: 5px 25px;
+        width: 50%;
+        margin: 0 auto;
+        line-height: 25px;
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+    <input type="hidden" id="hdnAttachId" name="HdnAttachId" />
+    <input type="hidden" id="hdn_ContactNo" name="hdn_ContactNo" />
+
+    @*<input type="hidden" id="PreviousActiveFromDate" name="PreviousActiveFromDate" />*@
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/home/dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>Bems</li>
+            <li>Customer</li>
+            <li class="active">Customer Registration</li>
+            <a id="HelpDescriptionLink" data-toggle="modal" title="" tabindex="0" data-target="#Description" aria-disabled="false">
+                <i class="fa fa-question-circle" aria-hidden="true" style="float:right;margin-right:20px;"></i>
+                <span class="badge" id="helpdescriptionid"></span>
+            </a>
+        </ol>
+        <h4>Customer Registration</h4>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#divCustomer" aria-controls="home" role="tab" data-toggle="tab">Customer Registration</a></li>
+        <li role="presentation"><a href="#facHistory" id="facHistoryId" aria-controls="profile" role="tab" data-toggle="tab">Facility Details</a></li>
+        <li role="presentation" id="liConfigurationTab"><a href="#divConfiguration" aria-controls="profile" role="tab" data-toggle="tab">Configuration</a></li>
+        <li role="presentation" id="liConfigAdditionalFields"><a href="#divConfigAdditionalFields" aria-controls="profile" role="tab" data-toggle="tab">Configuration-Additional Fields</a></li>
+        @*<li role="presentation" id="liReportsAndRecords"><a href="#divReportsAndRecords" aria-controls="profile" role="tab" data-toggle="tab">Reports And Records</a></li>
+            <li role="presentation"><a href="#divCommonHistory" id="History" aria-controls="profile" role="tab" data-toggle="tab">History</a></li>
+
+            <li role="presentation"><a href="#divCommonAttachment" id="AttachmentTab" aria-controls="profile" role="tab" data-toggle="tab">Attachments</a></li>*@
+
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="divCustomer">
+            <form class="form-horizontal" id="Custform">
+                <div class="row" hidden>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="CustomerType" class="col-sm-6 control-label">Customer Type<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="customertype" name="customertype" tabindex="19" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="sparePartItemCode" class="col-sm-6 control-label">Customer <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="hidden" id="CustomerId" name="CustomerId" disabled />
+                                    <input type="text" rel="tooltip" autofocus="autofocus" id="CustomerName" name="CustomerName" class="form-control nav-search" maxlength="50" required pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" autocomplete="off" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Customer Code </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" rel="tooltip" disabled id="CustomerCode" @*pattern="^[a-zA-Z0-9\-\/]{3,25}$"*@ name="CustomerCode" class="form-control" maxlength="25" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Address 1<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea maxlength="500" required pattern="^[a-zA-Z0-9\-\:\/\,\&\#\s]+$" class="form-control wt-resize" style="height:70px;" id="Address" form="usrform" name="Address" disabled></textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Address 2</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <textarea maxlength="500" pattern="^[a-zA-Z0-9\-\:\/\,\&\#\s]+$" class="form-control wt-resize" style="height:70px;" id="Address2" form="usrform" name="Address" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Post Code <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="Postcode" maxlength="10" class="form-control" pattern="^[a-zA-Z0-9\s]+$" autocomplete="off" required disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">State <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="State" class="form-control" pattern="^[a-zA-Z0-9\-.,\s]+$" autocomplete="off" maxlength="100" required disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Country <span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="Country" class="form-control" pattern="^[a-zA-Z0-9\-.,\s]+$" autocomplete="off" maxlength="100" required disabled>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label for="inputstatus" class="col-sm-6 control-label">Status</label>
+
+                            <div class="col-sm-6">
+
+                                <select class="form-control" id="Active" disabled>
+                                    <option selected="selected" value="1" >Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Latitude<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" pattern="^-?[0-9]{1,3}(?:\.[0-9]{1,8})?$" class="form-control" style="text-align:right" autocomplete="off" id="Latitude" name="Latitude" @*maxlength="7"*@ required disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Longitude<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" id="Longitude" pattern="^-?[0-9]{1,3}(?:\.[0-9]{1,8})?$" name="Longitude" style="text-align:right" class="form-control" autocomplete="off" required disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Phone No.<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    @*<input type="text"  class="form-control commaSeperator" style="text-align:right" autocomplete="off" id="ContactNo" name="ContactNo" required maxlength="11" />*@
+                                    <input type="text" pattern="^[0-9\\(\\)\\-\\+]+$" class="form-control" style="text-align:right" autocomplete="off" id="ContactNo" name="ContactNo" required maxlength="11" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Fax No.</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" maxlength="15" pattern="^[0-9\-\(\)\+]+$" class="form-control" id="FaxNo" name="FaxNo" style="text-align:right" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Contract Period In Years<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="text" name="ContractPeriodInYears" id="ContractPeriodInYears" pattern="^\d{0,3}(?:\\d{0,2})?$" class="form-control text-right" maxlength="2" autocomplete="off" required disabled />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input type="hidden" id="hdnimagevalue" value="" />
+                            <label for="sparePartImageUploadlabel" class="col-sm-6 control-label">Logo<br /><span class="red">(PNG Format in Max Size of 200 x 200 Pixels)</span></label>
+                            <div class="col-sm-5">
+                                <div>
+                                    <input type="file" class="form-control" accept="image/*" id="sparePartImageUpload" max="4" onchange="getLogoImageDetails(this);" disabled>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div id="showModalImg" hidden>
+                                    <a data-toggle="modal" class="btn btn-sm btn-primary btn-info btn-lg" title="Image" tabindex="0" data-target="#myModalImage"> <span class="glyphicon glyphicon-modal-window"></span> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label id="Reemarkslabel" class="col-sm-3 control-label">Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea name="Remarks" id="Remarks" class="form-control  wt-resize" rows="4" maxlength="500" pattern="^[a-zA-Z0-9'.'&quot;,:;/\(\),\-\s\!&#64;\#\$\%\&\*]+$" disabled></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table id="ContractorVendorList" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="5%" class="text-center">
+                                            <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                            <br /><input type="checkbox" id="chkContactDeleteAll" />
+                                        </th>
+                                        <th style="text-align: center;" width="25%">Contact Person <span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="20%">Designation </th>
+                                        <th style="text-align: center;" width="20%">Contact No.</th>
+                                        <th style="text-align: center;" width="30%">Email </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ContactGrid" disabled>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt20">
+                    <div class="col-sm-3 ">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div>
+                                    <a href="#" id="contactBtn" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorMsg" class="errormsgcenter" style="color:red;visibility:hidden;text-align:center;" aria-hidden="true">
+                </div>
+                <div class="row mt30">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btnSave" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true" disabled></i>Save</button>
+                        <button type="button" id="btnEdit" class="btn btn-primary customButton" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true" disabled></i>Save</button>
+                        <button type="button" id="btnSaveandAddNew" class="btn btn-primary customButton" title="Save & AddNew"><i class="fa fa-plus" aria-hidden="true" disabled></i> Save & Add New </button>
+                        <button type="button" id="btnDelete" name="btnDelete" class="btn btn-primary customButton hider" title="Delete"><i class="fa fa-trash" aria-hidden="true" disabled></i> Delete</button>
+                        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-grey customButton" title="Reset"><i class="fa fa-repeat" aria-hidden="true" disabled></i> Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="facHistory">
+
+            <div class="col-sm-12">
+                <hr style="margin: 2em 0;">
+            </div>
+            <div class="row">
+                @*<div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="AssetNo" class="col-sm-6 control-label">Customer Code<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" id="txtCustomerCode" class="form-control nav-search" disabled />
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="AssetNo" class="col-sm-6 control-label">Customer Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtCustomerName" class="form-control nav-search" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Details -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr style="margin: 2em 0;">
+                </div>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table id="tblAdditionalFields121" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                            <thead class="tableHeading">
+                                <tr>
+
+                                    <th style="text-align: center;" width="20%">Facility Code </th>
+                                    <th style="text-align: center;" width="30%">Facility Name </th>
+                                    <th style="text-align: center;" width="25%">Active From </th>
+                                    <th style="text-align: center;" width="25%">Active To </th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="facilityGridId"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsg1">
+                    <div class="errormsgcenter1">
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-sm-12">
+                <hr style="margin: 2em 0;">
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="divConfiguration">
+            <form class="form-horizontal" id="frmCustomerConfig" novalidate>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Date Format</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="selDateFormat" name="selDateFormat" required></select>
+                                    <input type="hidden" id="hdnDateFormat" value="" />
+                                    <input type="hidden" id="hdnDateFormatConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Currency Format</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select class="form-control" id="selCurrencyFormat" name="selCurrencyFormat" required></select>
+                                    <input type="hidden" id="hdnCurrencyFormat" value="" />
+                                    <input type="hidden" id="hdnCurrencyFormatConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">Select Theme</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="hidden" id="hdnLayoutThemeId" value="" />
+                                    <input type="hidden" id="hdnLayoutThemeConfigValueId" value="0" />
+
+                                    <select class="form-control" id="selChangeLayoutTheme"></select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <hr />
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>QAP Indicators</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">QAP Reset Month</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <select id="selCustqapMonth" class="form-control" name="selCustqapMonth" tabindex="4" required></select>
+                                    <input type="hidden" id="hdnCustqapMonth" value="" />
+                                    <input type="hidden" id="hdnCustqapMonthConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">QAP Indicator - B1 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkQAPIndicatorB1" />
+                                    <input type="hidden" id="hdnQAPIndicatorB1" value="" />
+                                    <input type="hidden" id="hdnQAPIndicatorB1ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">QAP Indicator - B2 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkQAPIndicatorB2" />
+                                    <input type="hidden" id="hdnQAPIndicatorB2" value="" />
+                                    <input type="hidden" id="hdnQAPIndicatorB2ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <hr />
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>KPI Indicators</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">KPI Indicator - B.1 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkKPIIndicatorB1" />
+                                    <input type="hidden" id="hdnKPIIndicatorB1" value="" />
+                                    <input type="hidden" id="hdnKPIIndicatorB1ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">KPI Indicator - B.2 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkKPIIndicatorB2" />
+                                    <input type="hidden" id="hdnKPIIndicatorB2" value="" />
+                                    <input type="hidden" id="hdnKPIIndicatorB2ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">KPI Indicator - B.3 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkKPIIndicatorB3" />
+                                    <input type="hidden" id="hdnKPIIndicatorB3" value="" />
+                                    <input type="hidden" id="hdnKPIIndicatorB3ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">KPI Indicator - B.4 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkKPIIndicatorB4" />
+                                    <input type="hidden" id="hdnKPIIndicatorB4" value="" />
+                                    <input type="hidden" id="hdnKPIIndicatorB4ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">KPI Indicator - B.5 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkKPIIndicatorB5" />
+                                    <input type="hidden" id="hdnKPIIndicatorB5" value="" />
+                                    <input type="hidden" id="hdnKPIIndicatorB5ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">KPI Indicator - B.6 </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="checkbox" id="chkKPIIndicatorB6" />
+                                    <input type="hidden" id="hdnKPIIndicatorB6" value="" />
+                                    <input type="hidden" id="hdnKPIIndicatorB6ConfigValueId" value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgCustomer">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt30">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary customButton" id="btnAddEditConfigurationSave" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-grey customButton" id="btnConfigurationCancel" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="divConfigAdditionalFields">
+            <form class="form-horizontal" id="frmConfigAdditionalTabs" novalidate>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="AssetNo" class="col-sm-6 control-label">Screen Name<span class="red"> *</span></label>
+                            <div class="col-sm-6">
+                                <select id="selScreenName" name="selScreenName" class="form-control" required>
+                                    <option value="null">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid Details -->
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr style="margin: 2em 0;">
+                    </div>
+                    <div class="col-sm-12" id="divAdditionalFields">
+                        <div class="table-responsive">
+                            <table id="tblAdditionalFields" class="table table-fixedheader table-bordered" style="border: 1px solid rgb(222, 218, 218);">
+                                <thead class="tableHeading">
+                                    <tr>
+                                        <th width="5%" class="text-center">
+                                            <span style="text-align: center;" class="glyphicon glyphicon-remove" title="Remove"></span>
+                                            <br /><input type="checkbox" id="chkAdditionalFieldsDeleteAll" />
+                                        </th>
+                                        <th style="text-align: center;" width="16%">Field Type <span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="15%">Name<span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="25%">Dropdown Values (Comma Separated)<span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="12%">Required<span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="19%">Pattern For<span class="red"> *</span></th>
+                                        <th style="text-align: center;" width="8%">Max Length<span class="red"> *</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td width="5%" style="text-align:center">
+                                            <input type="checkbox" id="chkAdditionalFieldsDelete_0" />
+                                        </td>
+                                        <td width="16%">
+                                            <div>
+                                                <input type="hidden" id="hdnAddFieldConfigId_0" value="" />
+                                                <input type="hidden" id="hdnAddFieldFieldName_0" value="" />
+                                                <select id="selAddFieldFieldType_0" class="form-control" required><option value="null" disabled>Select</option></select>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <div>
+                                                <input type="text" pattern="^[a-zA-Z0-9\-\(\)\/\s]+$" maxlength="100" class="form-control" style="max-width:100%" id="txtAddFieldName_0" required />
+                                            </div>
+                                        </td>
+
+                                        <td width="25%">
+                                            <div>
+                                                <input type="text" pattern="[a-zA-Z0-9'.'&quot;,:;/\(\),\+\-\s\!&#64;\#\$\%\&\*]+$" maxlength="1000" class="form-control" style="max-width:100%" id="txtAddFieldDropdownValues_0" required />
+                                            </div>
+                                        </td>
+                                        <td width="12%">
+                                            <div>
+                                                <select id="selAddFieldRequired_0" class="form-control" required><option value="null">Select</option></select>
+                                            </div>
+                                        </td>
+                                        <td width="19%">
+                                            <div>
+                                                <select id="selAddFieldPattern_0" class="form-control" required><option value="null">Select</option></select>
+                                            </div>
+                                        </td>
+                                        <td width="8%">
+                                            <div>
+                                                <input type="text" pattern="^[0-9]+$" class="form-control text-right" style="max-width:100%" id="txtAddFieldMaxLength_0" maxlength="3" required />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt20">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <div>
+                                    <a id="anchorAddFieldAddNew" class="btn btn-primary">+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="color:red; visibility:hidden" id="errorMsgConfigAdditionalFields">
+                        <div class="errormsgcenter">
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary customButton" id="btnAddEditConfigAdditionalFieldsSave" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                            <button type="button" class="btn btn-grey customButton" id="btnConfigAdditionalFieldsCancel" title="Reset"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    @Html.Partial("~/Areas/BEMS/Views/CustomerRegistration/List.cshtml")
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/Customer.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/CustomerConfig/CustomerConfig.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/controllers/BEMS/AdditionalFields/AdditionalFields.js")"></script>
+    <script src="~/Scripts/ng/common/CommonAttachment.js"></script>
+}
+
+
+@*@if (ViewBag.ActionType == "View")
+    {
+        <script type="text/javascript">
+            $("#Custform :input:not(:button)").prop("disabled", true);
+        </script>
+    }*@
+
+
+<!-- start image Modal -->
+
+<div class="modal fade customer_logo facility" id="myModalImage" role="dialog">
+    <div class="modal-dialog modal-sm modal_small_cus">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Image Preview</b></h4>
+            </div>
+            <div class="modal-body">
+                <div class="logo_container">
+
+                    <div class="logo_div logo_img text-center">
+                        <img class="logo-img" id="imgvid1" src="" alt="" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--End Modal-->

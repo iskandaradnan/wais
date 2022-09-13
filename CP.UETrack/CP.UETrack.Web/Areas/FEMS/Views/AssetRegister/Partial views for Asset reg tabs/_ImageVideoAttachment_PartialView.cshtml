@@ -1,0 +1,156 @@
+﻿<script src="~/Scripts/ng/Controllers/BEMS/ImageVideoAttachment.js"></script>
+
+<div role="tabpanel" class="tab-pane" id="videoupload">
+    <div class="content_body slider_size">
+        <form class="form-horizontal">
+
+            @*<div class="row">
+                <div class="col-sm-12" style="text-align:right">
+                    <div style="font-weight:bold; color:black; margin-bottom:15px;" id="divAssetAuthorizeStatus" class="AssetAuthorizeStatus"></div>
+                </div>
+            </div>*@
+
+            @*<div>
+                    <input type='file' onchange="getFileDetails(this, 1, 'i');" />
+                    <img id="blah1" src="" alt="your image" />
+                    <input type='file' onchange="getFileDetails(this, 2, 'i');" />
+                    <img id="blah2" src="" alt="your image" />
+                    <input type='file' onchange="getFileDetails(this, 3, 'i');" />
+                    <img id="blah3" src="" alt="your image" />
+                    <input type='file' onchange="getFileDetails(this, 4, 'i');" />
+                    <img id="blah4" src="" alt="your image" />
+                    <input type='file' onchange="getFileDetails(this,5,'i');" />
+                    <img id="blah5" src="" alt="your image" />
+                    <input type='file' onchange="getFileDetails(this,6,'i');" />
+                    <img id="blah6" src="" alt="your image" />
+                </div>*@
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators carousel_control">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#myCarousel" data-slide-to="1"></li>
+                            <li data-target="#myCarousel" data-slide-to="2"></li>
+                            <li data-target="#myCarousel" data-slide-to="3"></li>
+                            <li data-target="#myCarousel" data-slide-to="4"></li>
+                            <li data-target="#myCarousel" data-slide-to="5"></li>
+                        </ol>
+
+                        <!--Images Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active item-border">
+                                <span>Image Upload</span> 
+                                <input type="hidden" id="hdnARdocumentId1" value="" />
+                                <div class="slider_content content1 slider_contents">
+                                    <input type='file' id="ARimg1" accept="image/*" onchange="getARImageVideoDetails(this, 1, 'i');" />
+                                    <button type="button" id="btnARImg1Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>                                    
+                                </div>
+                                <img class="slider_image" id="ARblah1" src="" alt="" />
+                            </div>
+
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnARdocumentId2" value="" />
+                                <div class="slider_content content2 slider_contents">
+                                    <input type='file' id="ARimg2" accept="image/*" onchange="getARImageVideoDetails(this, 2, 'i');" />
+                                    <button type="button" id="btnARImg2Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+                                    
+                                </div>
+                                <img class="slider_image" id="ARblah2" src="" alt="" />
+                            </div>
+
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnARdocumentId3" value="" />
+                                <div class="slider_content content3 slider_contents">
+                                    <input type='file' id="ARimg3" accept="image/*" onchange="getARImageVideoDetails(this, 3, 'i');" />
+                                    <button type="button" id="btnARImg3Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+                                    
+                                </div>
+                                <img class="slider_image" id="ARblah3" src="" alt="" />
+                            </div>
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnARdocumentId4" value="" />
+                                <div class="slider_content content4  slider_contents">
+                                    <input type='file' id="ARimg4" accept="image/*" onchange="getARImageVideoDetails(this, 4, 'i');" />
+                                    <button type="button" id="btnARImg4Delete" class="btn btn-primary  pull-right" title="Delete" tabindex="8">Delete</button>
+                                    
+                                </div>
+                                <img class="slider_image" id="ARblah4" src="" alt="" />
+                            </div>
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnARdocumentId5" value="" />
+                                <div class="slider_content content5 slider_contents">
+                                    <input type='file' id="ARimg5" accept="image/*" onchange="getARImageVideoDetails(this, 5, 'i');" />
+                                    <button type="button" id="btnARImg5Delete" class="btn btn-primary  pull-right" title="Delete" tabindex="8">Delete</button>
+                                    
+                                </div>
+                                <img class="slider_image" id="ARblah5" src="" alt="" />
+                            </div>
+                            <div class="item item-border">
+                                <span>Image Upload</span>
+                                <input type="hidden" id="hdnARdocumentId6" value="" />
+                                <div class="slider_content content6 slider_contents">
+                                    <input type='file' id="ARimg6" accept="image/*" onchange="getARImageVideoDetails(this, 6, 'i');" />
+                                    <button type="button" id="btnARImg6Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+                                    
+                                </div>
+                                <img class="slider_image" id="ARblah6" src="" alt="" />
+                            </div> 
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <a class="left carousel-control  slider_control" href="#myCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control  slider_control" href="#myCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!--Video Wrapper for slides -->
+            <div class="video-border">
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <span class="video_title">Video Upload</span>
+                        <div class="slider_content content1 slider_contents video_slider">
+                            <input type='file' id="ARvid7" accept="video/*" onchange="getARImageVideoDetails(this, 7, 'v');" />
+                            <button type="button" id="btnARVid7Delete" class="btn btn-primary pull-right" title="Delete" tabindex="8">Delete</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 mt30">
+                        <div class="video_fw" id="divVideo">
+                            <input type="hidden" id="hdnARdocumentId7" value="" />
+                            <video width="100%" controls>
+                                <source id="ARblah7" src="" type="video/mp4">
+                            </video>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMsg1" class="errormsgcenter" style="color:red; visibility:hidden;" aria-hidden="true"></div>
+
+            <div class="form-group mt20">
+                <div class="col-sm-12 text-center">
+                    <button type="button" id="btnARImageEdit" class="btn btn-primary" title="Save" tabindex="5"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>                                   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+

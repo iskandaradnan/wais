@@ -1,0 +1,613 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7EB442B9-A03E-4BE7-9DF0-67B0836FAD4C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UETrack.Application.Web.API</RootNamespace>
+    <AssemblyName>UETrack.Application.Web.API</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PublishDatabases>false</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\..\..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.ASIS.ReportHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\CP.Binaries\Release\CP.ASIS.ReportHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Audit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.Audit.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Common">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Email">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.ExceptionHandler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.ExceptionHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Logging">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.SmartAssign">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.SmartAssign.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.Sms">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.Sms.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.StateManagement">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.StateManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.TransactionManagement, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.TransactionManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Common.XSSManagement">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Common.XSSManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.CryptoProvider">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.CryptoProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Data">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CP.Framework.Security.Authentication">
+      <HintPath>..\..\..\CP.Binaries\CP.Framework.Security.Authentication.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelPackage">
+      <HintPath>..\..\..\CP.Binaries\Release\ExcelPackage.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidationNA">
+      <HintPath>..\..\..\packages\FluentValidationNA.1.2.16\lib\net40\FluentValidationNA.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPdf, Version=2022.8.0.8818, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\IronPdf.Slim.2022.8.8818\lib\net40\IronPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e44a2bc38ed2c13c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Unity.2.1.505.0\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebHelpers.3.2.3\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.WebApi.DependencyResolver, Version=0.1.4758.24814, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Ninject.WebApi.DependencyResolver.dll</HintPath>
+    </Reference>
+    <Reference Include="OfficeOpenXml.Core.ExcelPackage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\OfficeOpenXml.Core.ExcelPackage.1.0.0\lib\net46\OfficeOpenXml.Core.ExcelPackage.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivator, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WebActivator.1.5\lib\net40\WebActivator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.Data.3.2.3\lib\net45\WebMatrix.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.WebData.3.2.3\lib\net45\WebMatrix.WebData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\BEMS\AdditionalFields\AdditionalFieldsAPIController.cs" />
+    <Compile Include="API\BEMS\ArpApiApplicationController.cs" />
+    <Compile Include="API\BEMS\AssertregisterAssetProcessingStatusController.cs" />
+    <Compile Include="API\BEMS\AssertregisterVariationDetailsTabApiController.cs" />
+    <Compile Include="API\BEMS\AssertregisterWarrantyProviderTabApiController.cs" />
+    <Compile Include="API\BEMS\AssetClassificationAPIController.cs" />
+    <Compile Include="API\BEMS\AssetQRCodePrintAPIController.cs" />
+    <Compile Include="API\BEMS\CRMWorkorderAssignApiController.cs" />
+    <Compile Include="API\BEMS\CurrentMaintenanceAPIController.cs" />
+    <Compile Include="API\BEMS\AssetRegisterAttachmentAPIController.cs" />
+    <Compile Include="API\BEMS\AssetRegisterLicenseCertificateTabApiController.cs" />
+    <Compile Include="API\BEMS\AssetStandardization\AssetStandardizationAPIController.cs" />
+    <Compile Include="API\BEMS\ContractOutRegisterApiController.cs" />
+    <Compile Include="API\BEMS\CRMRequestApiController.cs" />
+    <Compile Include="API\BEMS\CRMWorkorderApiController.cs" />
+    <Compile Include="API\BEMS\CustomerConfig\CustomerConfigAPIController.cs" />
+    <Compile Include="API\BEMS\DepartmentQRCodePrintingAPIController.cs" />
+    <Compile Include="API\BEMS\ImageVideoUploadAPIController.cs" />
+    <Compile Include="API\BEMS\PPMPlannerAPIController.cs" />
+    <Compile Include="API\BEMS\ScheduleGenerationAPIController.cs" />
+    <Compile Include="API\BEMS\UserLocationQRCodePrintingAPIController.cs" />
+    <Compile Include="API\BEMS\UserTrainingAPIController.cs" />
+    <Compile Include="API\CLS\ApprovedChemicalListApiController.cs" />
+    <Compile Include="API\CLS\ChemicalInUseApiController.cs" />
+    <Compile Include="API\CLS\CLSFetchAPIController.cs" />
+    <Compile Include="API\CLS\CLSReportsApiController.cs" />
+    <Compile Include="API\CLS\CorrectiveActionReportApiController.cs" />
+    <Compile Include="API\CLS\DailyCleaningActivityApiController.cs" />
+    <Compile Include="API\CLS\DeptAreaDetailsApiController.cs" />
+    <Compile Include="API\CLS\FETCApiController.cs" />
+    <Compile Include="API\CLS\IndicatorApiController.cs" />
+    <Compile Include="API\CLS\JIDetailsApiController.cs" />
+    <Compile Include="API\CLS\JIScheduleGenerationApiController.cs" />
+    <Compile Include="API\CLS\PeriodicWorkRecordApiController.cs" />
+    <Compile Include="API\CLS\QualityCauseMasterApiController.cs" />
+    <Compile Include="API\CLS\ToiletInspectionApiController.cs" />
+    <Compile Include="API\CLS\WeekCalendarApiController.cs" />
+    <Compile Include="API\BER\BER1ApplicationAPIController.cs" />
+    <Compile Include="API\BER\BERDashboardAPIController.cs" />
+    <Compile Include="API\Common\AsisReportAPIController.cs" />
+    <Compile Include="API\Common\ReportLoadLovAPIController.cs" />
+    <Compile Include="API\FEMS\FemsContractOutRegisterApiController.cs" />
+    <Compile Include="API\FEMS\FemsBlockApiController.cs" />
+    <Compile Include="API\FEMS\FemsEncryptApiController.cs" />
+    <Compile Include="API\FEMS\FemsStockUpdateRegisterApiController.cs" />
+    <Compile Include="API\GM\LovMasterApiController.cs" />
+    <Compile Include="API\Home\DashboardApiController.cs" />
+    <Compile Include="API\Home\HomeDashboardApiController.cs" />
+    <Compile Include="API\KPI\KPIDashboardAPIController.cs" />
+    <Compile Include="API\KPI\KPIGenerationAPIController\KPIGenerationAPIController.cs" />
+    <Compile Include="API\BEMS\EODCaptureAPIController.cs" />
+    <Compile Include="API\BEMS\EODParameterMappingAPIController.cs" />
+    <Compile Include="API\BEMS\EODTypeCodeMappingAPIController.cs" />
+    <Compile Include="API\BEMS\EODCategorySystemAPIController.cs" />
+    <Compile Include="API\BEMS\ContractorandVendorAPIController.cs" />
+    <Compile Include="API\BEMS\CustomerAPIController.cs" />
+    <Compile Include="API\BEMS\FacilityWorkshopAPIController.cs" />
+    <Compile Include="API\BEMS\LicenseAndCertificateApiController.cs" />
+    <Compile Include="API\BEMS\MonthlyStockRegisterAPIController.cs" />
+    <Compile Include="API\BEMS\PPMLoadBalancing\PPMLoadBalancingAPIController.cs" />
+    <Compile Include="API\BEMS\ScheduledWorkOrderAPIController.cs" />
+    <Compile Include="API\BEMS\RescheduleWOAPIController.cs" />
+    <Compile Include="API\BEMS\FacilityAPIController.cs" />
+    <Compile Include="API\BEMS\BlockApiController.cs" />
+    <Compile Include="API\BEMS\LevelApiController.cs" />
+    <Compile Include="API\BEMS\MaintananceHistoryTabAssetregisterController.cs" />
+    <Compile Include="API\BEMS\PPMChecklistAPIController.cs" />
+    <Compile Include="API\BEMS\SparepartRegisterAPIController.cs" />
+    <Compile Include="API\BEMS\StockAdjustmentAPIController.cs" />
+    <Compile Include="API\BEMS\StockUpdateRegisterApiController.cs" />
+    <Compile Include="API\BEMS\TestingAndCommissioning\TestingAndCommissioningAPIController.cs" />
+    <Compile Include="API\BEMS\TypeCodeDetailsAPIController.cs" />
+    <Compile Include="API\BEMS\UserAreaAPIController.cs" />
+    <Compile Include="API\BEMS\UserLocationAPIController.cs" />
+    <Compile Include="API\BEMS\AssetRegisterAPIController.cs" />
+    <Compile Include="API\BEMS\WarrantyManagementAPIController.cs" />
+    <Compile Include="API\BEMS\WorkingCalenderAPIController.cs" />
+    <Compile Include="API\Common\CommonAPIController.cs" />
+    <Compile Include="API\EOD\EODDashboardAPIController.cs" />
+    <Compile Include="API\Fetch\FetchAPIController.cs" />
+    <Compile Include="API\BEMS\AssetInformationApiController.cs" />
+    <Compile Include="API\HWMS\ApprovedChemicalListsApiController.cs" />
+    <Compile Include="API\HWMS\BinMasterApiController.cs" />
+    <Compile Include="API\HWMS\CollectionCategoryApiController.cs" />
+    <Compile Include="API\HWMS\ConsignmentNoteCWCNApiController.cs" />
+    <Compile Include="API\HWMS\ConsignmentNoteOSWCNApiController.cs" />
+    <Compile Include="API\HWMS\ConsumablesReceptaclesApiController.cs" />
+    <Compile Include="API\HWMS\CorrectiveActionReportsApiController.cs" />
+    <Compile Include="API\HWMS\CSWRecordSheetApiController.cs" />
+    <Compile Include="API\HWMS\CWRecordSheetApiController.cs" />
+    <Compile Include="API\HWMS\DailyTemperatureLogApiController.cs" />
+    <Compile Include="API\HWMS\DailyWeighingRecordApiController.cs" />
+    <Compile Include="API\HWMS\DeptAreaDetailApiController.cs" />
+    <Compile Include="API\HWMS\DriverDetailsApiController.cs" />
+    <Compile Include="API\HWMS\FacilitiesEquipmentApiController.cs" />
+    <Compile Include="API\HWMS\HWMSQualityCauseMasterApiController.cs" />
+    <Compile Include="API\HWMS\HWMSReportsApiController.cs" />
+    <Compile Include="API\HWMS\IndicatorMastersApiController.cs" />
+    <Compile Include="API\HWMS\LicenseTypeApiController.cs" />
+    <Compile Include="API\HWMS\OSWRecordSheetApiController.cs" />
+    <Compile Include="API\HWMS\RecordsofRecyclableWasteApiController.cs" />
+    <Compile Include="API\HWMS\TransportationCategoryApiController.cs" />
+    <Compile Include="API\HWMS\TreatmentPlantApiController.cs" />
+    <Compile Include="API\HWMS\VehicleDetailsApiController.cs" />
+    <Compile Include="API\HWMS\WasteTypeApiController.cs" />
+    <Compile Include="API\KPI\KPITransactionMapping\KPITransactionMappingAPIController.cs" />
+    <Compile Include="API\KPI\MonthlyKPIAdjustments\MonthlyKPIAdjustmentsAPIController.cs" />
+    <Compile Include="API\KPI\ReportsAndRecords\ReportsAndRecordsAPIController.cs" />
+    <Compile Include="API\LLS\Master\DepartmentAPIController.cs" />
+    <Compile Include="API\LLS\Master\CentralCleanLinenApiController.cs" />
+    <Compile Include="API\LLS\Master\DriverDetailsApiController.cs" />
+    <Compile Include="API\LLS\Master\VehicleDetailsApiController.cs" />
+    <Compile Include="API\LLS\Master\WeighingScaleAPiController.cs" />
+    <Compile Include="API\LLS\Master\FacilitiesAPiController.cs" />
+    <Compile Include="API\LLS\Master\LaundryPlantAPIController.cs" />
+    <Compile Include="API\LLS\Master\LicenseTypeApiController.cs" />
+    <Compile Include="API\LLS\Transaction\CentralLinenStoreHKeepingApiController.cs" />
+    <Compile Include="API\LLS\Transaction\CleanLinenRequest.cs" />
+    <Compile Include="API\LLS\Transaction\CleanLinenRequestApiController.cs" />
+    <Compile Include="API\LLS\Transaction\LinenAdjustmentsApiController.cs" />
+    <Compile Include="API\LLS\Transaction\LinenInventoryAPIController.cs" />
+    <Compile Include="API\LLS\Transaction\LinenRejectReplacementApiController.cs" />
+    <Compile Include="API\LLS\Transaction\LinenRepairApiController.cs" />
+    <Compile Include="API\LLS\Master\LinenItemDetailsApiController.cs" />
+    <Compile Include="API\LLS\Transaction\LinenInjectionApiController.cs" />
+    <Compile Include="API\LLS\Transaction\LinenCondemnationApiController.cs" />
+    <Compile Include="API\LLS\Transaction\CleanLinenIssueApiController.cs" />
+    <Compile Include="API\LLS\Transaction\CleanlinenDespatchApiController.cs" />
+    <Compile Include="API\LLS\Transaction\SoiledLinenCollectionApiController.cs" />
+    <Compile Include="API\MASTER\MasterLevelApiController.cs" />
+    <Compile Include="API\MASTER\MasterBlockApiController.cs" />
+    <Compile Include="API\MASTER\MasterUserAreaAPIController.cs" />
+    <Compile Include="API\MASTER\MasterUserLocationAPIController.cs" />
+    <Compile Include="API\MASTER\MasterUserTrainingAPIController.cs" />
+    <Compile Include="API\Portering\LoanerBookingAPIController.cs" />
+    <Compile Include="API\Portering\PorteringAPIController.cs" />
+    <Compile Include="API\QAP\CorrectiveActionReport\CorrectiveActionReportAPIController.cs" />
+    <Compile Include="API\QAP\QAPDashboardAPIController.cs" />
+    <Compile Include="API\QAP\QAPIndicatorMasterAPIController.cs" />
+    <Compile Include="API\KPI\IndicatorMasterAPIController.cs" />
+    <Compile Include="API\KPI\MonthlyServiceFeeAPIController.cs" />
+    <Compile Include="API\KPI\ParameterMasterAPIController.cs" />
+    <Compile Include="API\KPI\PenaltyMasterAPIController.cs" />
+    <Compile Include="API\Layout\LayoutApiController.cs" />
+    <Compile Include="API\QAP\QualityCauseMasterAPIController.cs" />
+    <Compile Include="API\Search\SearchAPIController.cs" />
+    <Compile Include="API\Core\AccountApiController.cs" />
+    <Compile Include="API\Core\AuthorizationServiceApiController.cs" />
+    <Compile Include="API\Core\BaseApiController.cs" />
+    <Compile Include="API\Core\NavigationHelperApiController.cs" />
+    <Compile Include="API\Core\HomeAPIController.cs" />
+    <Compile Include="API\GM\FacilityStaffMstApiController.cs" />
+    <Compile Include="API\GM\CompanyStaffMstApiController.cs" />
+    <Compile Include="API\SmartAssign\PorteringSmartAssignApiController.cs" />
+    <Compile Include="API\SmartAssign\ManualAssignPorteringApiController.cs" />
+    <Compile Include="API\UM\ChangePassword\ChangePasswordAPIController.cs" />
+    <Compile Include="API\UM\ForgotPassword\ForgotPasswordAPIController.cs" />
+    <Compile Include="API\SmartAssign\ManualassignApiController.cs" />
+    <Compile Include="API\UM\NotificationDeliveryConfigurationApiController.cs" />
+    <Compile Include="API\UM\RoleScreenPermissionApiController.cs" />
+    <Compile Include="API\UM\SmartAssignApiController.cs" />
+    <Compile Include="API\UM\TrackingTechnicianApiController.cs" />
+    <Compile Include="API\UM\UnblockUserApiController.cs" />
+    <Compile Include="API\UM\UserRegistrationApiController.cs" />
+    <Compile Include="API\UM\UserRoleApiController.cs" />
+    <Compile Include="API\UM\UserShiftLeaveDetailsApiController.cs" />
+    <Compile Include="API\VM\BulkAuthorizationAPIController.cs" />
+    <Compile Include="API\VM\SNFAPIController.cs" />
+    <Compile Include="API\VM\SummaryofFeeReportAPIController.cs" />
+    <Compile Include="API\VM\SummaryReportonVariationsAPIController.cs" />
+    <Compile Include="API\VM\VMDashboardAPIController.cs" />
+    <Compile Include="API\VM\VMMonthClosingAPIController.cs" />
+    <Compile Include="API\VM\VVFApiController.cs" />
+    <Compile Include="App_Start\ApiLogHandler.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NInjectWebCommon.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Content Include="Global.asax" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ErrorHelper.cs" />
+    <Compile Include="Helpers\ExportHelper.cs" />
+    <Compile Include="Helpers\GridHelper.cs" />
+    <Compile Include="Helpers\LinqDynamicConditionHelper.cs" />
+    <Compile Include="Models\GridFilterModel.cs" />
+    <Compile Include="Models\GridParamModel.cs" />
+    <Compile Include="Models\GridRuleModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="App_Data\Temp\FileUploads\CliUpdate.csv" />
+    <None Include="Properties\PublishProfiles\ASIS_Layering_App.pubxml" />
+    <Content Include="RdlPrint\PPMASIS_Rpt.rdl" />
+    <Content Include="RdlPrint\EngHeppmCheckList.rdl" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\CentralLinenStoreHKeeping\" />
+    <Folder Include="Views\CentralLinenStoreHouseKeepingApi\" />
+    <Folder Include="Views\CleanLinenRequestApi\" />
+    <Folder Include="Views\EODCategorySystemAPI\" />
+    <Folder Include="Views\FacilitiesAPi\" />
+    <Folder Include="Views\FemsEncryptApi\" />
+    <Folder Include="Views\LandryPlantAPI\" />
+    <Folder Include="Views\LicenseTypeApi\" />
+    <Folder Include="Views\LinenAdjustmentsApi\" />
+    <Folder Include="Views\LinenInventoryApi\" />
+    <Folder Include="Views\LinenRejectReplacementApi\" />
+    <Folder Include="Views\SMSTrackingAPI\" />
+    <Folder Include="Views\VehicleDetailsApi\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\..\packages\codecracker.CSharp.1.0.0-rc4\analyzers\dotnet\cs\CodeCracker.Common.dll" />
+    <Analyzer Include="..\..\..\packages\codecracker.CSharp.1.0.0-rc4\analyzers\dotnet\cs\CodeCracker.CSharp.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CP.UETrack.BLL\CP.UETrack.BLL.csproj">
+      <Project>{4d95feeb-a1db-40ae-a6a6-8f5dd103b802}</Project>
+      <Name>CP.UETrack.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CP.UETrack.CodeLib\CP.UETrack.CodeLib.csproj">
+      <Project>{3A3FF9E8-1FCB-4C26-BBB8-48ECB2CCF240}</Project>
+      <Name>CP.UETrack.CodeLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CP.UETrack.DAL\CP.UETrack.DAL.csproj">
+      <Project>{bd080424-0857-4ab1-a864-5be7be75dd29}</Project>
+      <Name>CP.UETrack.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CP.UETrack.Models\CP.UETrack.Model.csproj">
+      <Project>{7fc8bbf2-a919-4a07-ba95-1d8fa14be1d4}</Project>
+      <Name>CP.UETrack.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TranslationManager\CP.UETrack.TranslationManager.csproj">
+      <Project>{e3634e46-9d12-4e7c-b5e9-a2dacac0af53}</Project>
+      <Name>CP.UETrack.TranslationManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51099</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1111/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>http://localhost/asis</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets" Condition="Exists('..\..\..\packages\IronPdf.Native.Chrome.Windows.2022.9.8626\build\net452\IronPdf.Native.Chrome.Windows.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

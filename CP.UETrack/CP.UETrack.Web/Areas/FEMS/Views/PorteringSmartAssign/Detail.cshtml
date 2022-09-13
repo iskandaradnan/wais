@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .green {
+        background-color: #dff0d8;
+    }
+
+    .pink {
+        background-color: #f2dede;
+    }
+
+    .buttonDisabled {
+        background-color: #E0E0E0;
+    }
+</style>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkqCkh3sb4lVPt4U-DHmnHej5AWYKbtIo&libraries=places"></script>
+
+<div>
+
+    @functions{
+        public string GetAntiForgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+
+    <input id="antiForgeryToken" type="hidden" />
+    <input type="hidden" id="primaryID" name="primaryID" value="@ViewBag.CurrentID" />
+    <input type="hidden" id="ActionType" name="ActionType" value="@ViewBag.ActionType" />
+    <input type="hidden" id="Timestamp" name="Timestamp" value="null" />
+
+    <div class="content_header">
+        <ol class="breadcrumb">
+            <li><a href="/home/dashboard"><i class="fa fa-home"></i></a></li>
+            <li>Smart Assign</li>
+            <li class="active">Smart Assign Asset Tracker</li>
+        </ol>
+        <h4>Smart Assign Asset Tracker</h4>        
+    </div>   
+
+
+    <div class="content_body">
+    
+        @Html.Partial("~/Areas/FEMS/Views/PorteringSmartAssign/List.cshtml")
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ng/Controllers/UM/SmartAssign.js")"></script>
+}
+
+
+
+
+
+
+

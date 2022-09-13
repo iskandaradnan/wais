@@ -1,0 +1,75 @@
+/****** Object:  Table [dbo].[CLS_QualityCauseMaster]    Script Date: 03-12-2020 10:02:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CLS_QualityCauseMaster](
+	[QualityCauseMasterId] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerId] [int] NULL,
+	[FacilityId] [int] NULL,
+	[FailureSymptomCode] [varchar](500) NULL,
+	[Description] [varchar](max) NULL,
+	[FailureType] [varchar](50) NULL,
+	[FailureRootCauseCode] [varchar](500) NULL,
+	[Details] [varchar](50) NULL,
+	[Status] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[QualityCauseMasterId] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+
+
+
+[FailureType] [varchar](50) NULL,
+	[FailureRootCauseCode] [varchar](500) NULL,
+	[Details] [varchar](50) NULL,
+	[Status] [int] NULL,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE [dbo].[CLS_QualityCauseMasterFailureDetail](
+    QualityId int IDENTITY(1,1) NOT NULL,
+	FailureType varchar(50) NULL,
+	FailureRootCauseCode varchar(500) NULL,
+	Details varchar(50) NULL,
+	Status int NULL,
+	CreatedBy int NOT NULL,
+	CreatedDate datetime NOT NULL,
+	CreatedDateUTC datetime NOT NULL,
+	ModifiedBy int NULL,
+	ModifiedDate datetime NULL,
+	ModifiedDateUTC datetime NULL,
+	isDeleted int NULL,
+	QualityCauseMasterId int NULL FOREIGN KEY REFERENCES CLS_QualityCauseMaster(QualityCauseMasterId));
+
+
+

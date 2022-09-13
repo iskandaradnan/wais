@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "SNF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Header Starts -->
+<div class="content_header">
+    <ol class="breadcrumb">
+        <li><a href="/home/index"><i class="fa fa-home"></i></a></li>
+        <li>BEMS</li>
+        <li>Transaction</li>
+        <li class="active"><a href="/bems/SNF">SNF</a></li>
+    </ol>
+    @*<h4>Stock Update Register</h4>*@
+</div>
+<!-- Content Header Ends -->
+
+
+
+<script src="~/Scripts/JQGrid/VM/SNFList.js"></script>
+<form class="form-horizontal1">
+
+    <div class="content-area">
+
+        @*<div class="standard-tabs" id="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-1" data-toggle="tab">SNF</a></li>
+                </ul>
+            </div>*@
+        <div class="panel-heading" style="background-color:#477ca9; color:white; margin-bottom:20px;" id="advanceSearch">
+            <h4 class="panel-title text_align_left">
+                <a id="jQGridCollapse1" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapse1" aria-expanded="false" aria-controls="collapseOne"
+                   class="collapsed display_block">SNF<i class="indicator glyphicon pull-right glyphicon-plus" id="iJQGridIndicator1"></i></a>
+            </h4>
+        </div>
+
+        <div class="row">
+            <div id="gridTable">
+                @*<div class="col-sm-12">
+                    <div class="table-header">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a id="advanceSearch" class="btn btn-primary" title="Toggle search" href="javascript:void(0)"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="col-sm-12">
+
+                    <div id="gridContainer"></div>
+                </div>
+                <div class="col-sm-12">
+                    <table id="grid"></table>
+                    <div id="pager"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
